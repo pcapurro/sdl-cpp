@@ -2,6 +2,7 @@
 # define YESNO_HPP
 
 # include "Window.hpp"
+# include "Text.hpp"
 
 # define YES 1
 # define NO 2
@@ -9,8 +10,9 @@
 class YesNo final : public Window
 {
 	public:
+		YesNo(void) = delete;
 		YesNo(const string& name, const int width = 400, const int height = 200, \
-				const string& text = "", const string& fontPath = "");
+				const string& text = "", const string& title = "", const string& fontPath = "");
 		~YesNo(void) = default;
 
 		int		routine(void);
@@ -24,14 +26,9 @@ class YesNo final : public Window
 		void	reactEvent(SDL_Event* event);
 		void	generateElements(void);
 
-		void	loadFont(void);
-
 	private:
-		string				_fontPath;
-		TTF_Font*			_font;
-
-		string				_text;
-		vector<Element>		_elements;
+		Text				_title;
+		Text				_text;
 
 		int					_state;
 

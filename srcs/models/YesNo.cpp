@@ -1,10 +1,13 @@
 #include "YesNo.hpp"
 
 YesNo::YesNo(const string& name, const int width, const int height, 
-	const string& text, const string& fontPath) : Window(name, width, height)
+	const string& text, const string& title, const string& fontPath) : Window(name, width, height)
 {
-	_text = text;
-	_fontPath = fontPath;
+	_text.setText(text, 24, fontPath, 0, 0, 50, 20);
+	_title.setText(title, 24, fontPath, 0, 0, 50, 20);
+
+	_text.loadFont();
+	_title.loadFont();
 
 	setX(0);
 	setY(0);
@@ -12,8 +15,6 @@ YesNo::YesNo(const string& name, const int width, const int height,
 	_state = 0;
 
 	SDL_SetRenderDrawBlendMode(getRenderer(), SDL_BLENDMODE_BLEND);
-
-	loadFont();
 }
 
 void	YesNo::generateElements(void)
@@ -23,22 +24,13 @@ void	YesNo::generateElements(void)
 
 void	YesNo::setText(const string& newText)
 {
-	_text = newText;
+	_text.setMainText(newText);
 }
 
 void	YesNo::setFontPath(const string& newFontPath)
 {
-	_fontPath = newFontPath;
-
-	loadFont();
-}
-
-void	YesNo::loadFont(void)
-{
-	_font = TTF_OpenFont(_fontPath.c_str(), 24);
-
-	if (_font == NULL)
-		throw std::runtime_error("SDL failed to load a font.");
+	_text.setFontPath(newFontPath);
+	_text.loadFont();
 }
 
 void	YesNo::draw(void)
@@ -46,7 +38,12 @@ void	YesNo::draw(void)
 	SDL_Renderer*	renderer = getRenderer();
 
 	drawBackground({42, 42, 42, 255});
-	drawElements(_elements);
+
+	vector<Element>	elements;
+	elements.push_back(_title);
+	elements.push_back(_text);
+
+	drawElements(elements);
 
 	(void) renderer;
 }
@@ -59,7 +56,7 @@ int	YesNo::routine(void)
 	{
 		value = waitForEvent();
 
-		if (value == 2)
+		if (value != 0)
 			break;
 	}
 
@@ -68,6 +65,10 @@ int	YesNo::routine(void)
 
 void	YesNo::reactEvent(SDL_Event* event)
 {
+	(void) event;
+
+	/*
+
 	int			x = getX(), y = getY();
 	Element*	element = NULL;
 
@@ -91,6 +92,8 @@ void	YesNo::reactEvent(SDL_Event* event)
 				_state = 1;
 		}
 	}
+
+	*/
 }
 
 int	YesNo::waitForEvent(void)
@@ -119,7 +122,7 @@ int	YesNo::waitForEvent(void)
 		// cout << event.button.x << " ; " << event.button.y << endl;
 		// cout << x << " ; " << y << endl;
 
-		reactEvent(&event);
+		// reactEvent(&event);
 
 		clear();
 		draw();

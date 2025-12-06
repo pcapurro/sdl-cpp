@@ -1,8 +1,8 @@
 #include "Element.hpp"
 
-Element::Element(const int x, const int y, const int w, const int h, \
-	SDL_Texture* texture, Color& color, const int type, const bool highlight, \
-	const int highlightCursor, const int normalCursor, const bool visibility)
+void	Element::setElement(const int x, const int y, const int w, const int h, Color* color, \
+	SDL_Texture* texture, const int type, const bool highlight, const int highlightCursor, \
+	const int normalCursor, const bool visibility)
 {
 	_x = x;
 	_y = y;
@@ -23,7 +23,15 @@ Element::Element(const int x, const int y, const int w, const int h, \
 	_visibility = visibility;
 
 	_texture = texture;
-	_color = color;
+
+	if (color != NULL)
+		_color = *color;
+
+	_type = type;
+	_highlight = highlight;
+	_highlightCursor = highlightCursor;
+	_normalCursor = normalCursor;
+	_visibility = visibility;
 }
 
 void	Element::draw(SDL_Renderer* renderer)

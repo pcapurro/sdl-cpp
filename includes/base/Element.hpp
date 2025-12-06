@@ -4,13 +4,16 @@
 # include "Global.hpp"
 # include "Color.hpp"
 
-class Element
+class Element final
 {
 	public:
-		Element(const int x, const int y, const int w, const int h, \
-				SDL_Texture* texture, Color& color, const int type = 0, const bool highlight = false, \
-				const int highlightCursor = 1, const int normalCursor = 1, const bool visibility = true);
+		Element(void) = default;
 		~Element(void) = default;
+
+		void			setElement(const int x, const int y, const int w, const int h, \
+							Color* color = NULL, SDL_Texture* texture = NULL, const int type = 0, \
+							const bool highlight = false, const int highlightCursor = 1, \
+							const int normalCursor = 1, const bool visibility = true);
 
 		int				getX(void) const { return (_x); };
 		int				getY(void) const { return (_y); };

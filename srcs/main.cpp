@@ -1,5 +1,3 @@
-#include "Ok.hpp"
-#include "OkCancel.hpp"
 #include "YesNo.hpp"
 
 int main(void)
@@ -13,7 +11,7 @@ int main(void)
 
         TTF_Init();
 
-        Ok  window("test", 400, 200, "test", "materials/fonts/OpenSans.ttf");
+        YesNo   window("yes/no", 400, 200, "réponds", "yes/no", "materials/fonts/OpenSans.ttf");
 
         window.routine();
 
