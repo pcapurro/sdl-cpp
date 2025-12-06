@@ -1,6 +1,6 @@
 #include "Window.hpp"
 
-Window::Window(const std::string name, const int width, const int height)
+Window::Window(const string& name, const int width, const int height)
 {
 	_width = width;
 	_height = height;
@@ -10,12 +10,12 @@ Window::Window(const std::string name, const int width, const int height)
 	_mainWindow = SDL_CreateWindow(_name.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, \
 		_width, _height, 0);
 	if (_mainWindow == NULL)
-		throw std::runtime_error("SDL failed.");
+		throw std::runtime_error("SDL failed to create a window.");
 
 	_mainRenderer = SDL_CreateRenderer(_mainWindow, -1, \
 		SDL_RENDERER_ACCELERATED);
 	if (_mainRenderer == NULL)
-		throw std::runtime_error("SDL failed.");
+		throw std::runtime_error("SDL failed to create a renderer.");
 
 	_normalCursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
 	_interactCursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_HAND);
@@ -24,7 +24,7 @@ Window::Window(const std::string name, const int width, const int height)
 
 	if (_normalCursor == NULL || _interactCursor == NULL \
 		|| _crossHairCursor == NULL || _textCursor == NULL)
-		throw std::runtime_error("SDL failed.");
+		throw std::runtime_error("SDL failed to create a cursor.");
 }
 
 Window::~Window(void)
@@ -114,6 +114,11 @@ SDL_Cursor*		Window::getCursor(const int value) const
 	return (nullptr);
 }
 
+void	Window::setTitle(const std::string& title)
+{
+	SDL_SetWindowTitle(_mainWindow, title.c_str());
+}
+
 void	Window::drawBackground(Color color)
 {
 	SDL_Rect	obj;
@@ -125,8 +130,8 @@ void	Window::drawBackground(Color color)
 	SDL_RenderFillRect(_mainRenderer, &obj);
 }
 
-void	Window::drawElements(std::vector<Element>* elements)
+void	Window::drawElements(vector<Element>& elements)
 {
-	for (unsigned int i = 0; i != elements->size(); i++)
-		elements->at(i).draw(_mainRenderer);
+	for (unsigned int i = 0; i != elements.size(); i++)
+		elements.at(i).draw(_mainRenderer);
 }

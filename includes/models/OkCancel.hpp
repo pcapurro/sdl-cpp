@@ -9,11 +9,15 @@
 class OkCancel final : public Window
 {
 	public:
-		OkCancel(const std::string name, const std::string text);
+		OkCancel(const string& name, const int width = 400, const int height = 200, \
+					const string& text = "", const string& fontPath = "");
 		~OkCancel(void) = default;
 
 		int		routine(void);
 		int		waitForEvent(void);
+
+		void	setText(const string& newText);
+		void	setFontPath(const string& newFontPath);
 
 		void	draw(void);
 		void	loadImages(void) {};
@@ -23,12 +27,13 @@ class OkCancel final : public Window
 		void	loadFont(void);
 
 	private:
-		TTF_Font*				_font;
+		string				_fontPath;
+		TTF_Font*			_font;
 
-		std::string				_text;
-		std::vector<Element>	_elements;
+		string				_text;
+		vector<Element>		_elements;
 
-		int						_state;
+		int					_state;
 
 };
 

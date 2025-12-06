@@ -1,8 +1,10 @@
 #include "Ok.hpp"
 
-Ok::Ok(const std::string name, const std::string text) : Window(name, 400, 200)
+Ok::Ok(const string& name, const int width, const int height, 
+	const string& text, const string& fontPath) : Window(name, width, height)
 {
 	_text = text;
+	_fontPath = fontPath;
 
 	setX(0);
 	setY(0);
@@ -19,11 +21,24 @@ void	Ok::generateElements(void)
 	;
 }
 
+void	Ok::setText(const string& newText)
+{
+	_text = newText;
+}
+
+void	Ok::setFontPath(const string& newFontPath)
+{
+	_fontPath = newFontPath;
+
+	loadFont();
+}
+
 void	Ok::loadFont(void)
 {
-	_font = TTF_OpenFont("materials/font/OpenSans.ttf", 24);
+	_font = TTF_OpenFont(_fontPath.c_str(), 24);
+
 	if (_font == NULL)
-		throw std::runtime_error("SDL failed.");
+		throw std::runtime_error("SDL failed to load a font.");
 }
 
 void	Ok::draw(void)
@@ -31,7 +46,7 @@ void	Ok::draw(void)
 	SDL_Renderer*	renderer = getRenderer();
 
 	drawBackground({0, 0, 0, 255});
-	drawElements(&_elements);
+	drawElements(_elements);
 
 	(void) renderer;
 }

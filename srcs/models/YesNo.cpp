@@ -1,8 +1,10 @@
 #include "YesNo.hpp"
 
-YesNo::YesNo(const std::string name, const std::string text) : Window(name, 400, 200)
+YesNo::YesNo(const string& name, const int width, const int height, 
+	const string& text, const string& fontPath) : Window(name, width, height)
 {
 	_text = text;
+	_fontPath = fontPath;
 
 	setX(0);
 	setY(0);
@@ -19,11 +21,24 @@ void	YesNo::generateElements(void)
 	;
 }
 
+void	YesNo::setText(const string& newText)
+{
+	_text = newText;
+}
+
+void	YesNo::setFontPath(const string& newFontPath)
+{
+	_fontPath = newFontPath;
+
+	loadFont();
+}
+
 void	YesNo::loadFont(void)
 {
-	_font = TTF_OpenFont("materials/font/OpenSans.ttf", 24);
+	_font = TTF_OpenFont(_fontPath.c_str(), 24);
+
 	if (_font == NULL)
-		throw std::runtime_error("SDL failed.");
+		throw std::runtime_error("SDL failed to load a font.");
 }
 
 void	YesNo::draw(void)
@@ -31,14 +46,24 @@ void	YesNo::draw(void)
 	SDL_Renderer*	renderer = getRenderer();
 
 	drawBackground({42, 42, 42, 255});
-	drawElements(&_elements);
+	drawElements(_elements);
 
 	(void) renderer;
 }
 
 int	YesNo::routine(void)
 {
-	return 0;
+	int	value = 0;
+
+	while (true)
+	{
+		value = waitForEvent();
+
+		if (value == 2)
+			break;
+	}
+
+	return value;
 }
 
 void	YesNo::reactEvent(SDL_Event* event)

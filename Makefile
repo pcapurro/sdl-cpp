@@ -6,7 +6,13 @@
 
 NAME = sdl-cpp
 
-SRCS = srcs/main.cpp
+SRCS = srcs/main.cpp \
+	srcs/base/Element.cpp \
+	srcs/base/Texture.cpp \
+	srcs/base/Window.cpp \
+	srcs/models/Ok.cpp \
+	srcs/models/OkCancel.cpp \
+	srcs/models/YesNo.cpp \
 
 CXX = c++
 

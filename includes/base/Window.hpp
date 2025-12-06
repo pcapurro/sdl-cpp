@@ -10,8 +10,8 @@
 class Window
 {
 	public:
-		Window(const std::string name, const int width, const int height);
-		virtual ~Window(void);
+		Window(const string& name, const int width, const int height);
+		virtual			~Window(void);
 
 		virtual int		routine(void) = 0;
 		virtual int		waitForEvent(void) = 0;
@@ -23,9 +23,11 @@ class Window
 		virtual void	reactEvent(SDL_Event* event) = 0;
 
 		virtual void	generateElements(void) = 0;
-		
+
+		void			setTitle(const std::string& title);
+
 		void			drawBackground(Color color);
-		void			drawElements(std::vector<Element>* elements);
+		void			drawElements(vector<Element>& elements);
 	
 		void			blur(void);
 		void			render(void);
@@ -50,7 +52,7 @@ class Window
 		int						_x;
 		int						_y;
 
-		std::string				_name;
+		string					_name;
 
 		SDL_Window*				_mainWindow;
 		SDL_Renderer*			_mainRenderer;

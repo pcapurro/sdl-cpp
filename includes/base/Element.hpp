@@ -8,7 +8,7 @@ class Element
 {
 	public:
 		Element(const int x, const int y, const int w, const int h, \
-				SDL_Texture* texture, Color color, const int type = 0, const bool highlight = false, \
+				SDL_Texture* texture, Color& color, const int type = 0, const bool highlight = false, \
 				const int highlightCursor = 1, const int normalCursor = 1, const bool visibility = true);
 		~Element(void) = default;
 

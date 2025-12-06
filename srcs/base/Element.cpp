@@ -1,7 +1,7 @@
 #include "Element.hpp"
 
 Element::Element(const int x, const int y, const int w, const int h, \
-	SDL_Texture* texture, Color color, const int type, const bool highlight, \
+	SDL_Texture* texture, Color& color, const int type, const bool highlight, \
 	const int highlightCursor, const int normalCursor, const bool visibility)
 {
 	_x = x;
