@@ -4,7 +4,7 @@
 # include "Global.hpp"
 # include "Color.hpp"
 
-class Element final
+class Element
 {
 	public:
 		Element(void) = default;
