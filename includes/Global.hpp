@@ -15,6 +15,8 @@
 # include <cstdio>
 # include <thread>
 
+# include <optional>
+
 # include <time.h>
 # include <sys/time.h>
 # include <unistd.h>

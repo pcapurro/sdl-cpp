@@ -1,13 +1,18 @@
 #ifndef ENGINE_HPP
 # define ENGINE_HPP
 
+# include "Global.hpp"
+
+# include "TTF.hpp"
+
 class Engine
 {
     private:
-        ;
+        std::optional<TTF>      _ttf;
 
     public:
-        Engine(void);
+        Engine(const bool video = true, const bool antialiasing = false, \
+            const bool ttf = false, const bool events = true, const bool audio = false);
 
         ~Engine(void);
 };
