@@ -1,13 +1,14 @@
 #ifndef COLOR_HPP
 # define COLOR_HPP
 
-struct Color
+class Color
 {
-	unsigned char	r = 0;
-	unsigned char	g = 0;
-	unsigned char	b = 0;
+	public:
+		unsigned char	r = 0;
+		unsigned char	g = 0;
+		unsigned char	b = 0;
 
-	unsigned char	a = 0;
+		unsigned char	a = 0;
 };
 
 #endif
