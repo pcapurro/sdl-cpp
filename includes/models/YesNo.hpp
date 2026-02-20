@@ -9,6 +9,12 @@
 
 class YesNo final : public Window
 {
+	private:
+		Text				_title;
+		Text				_text;
+
+		int					_state;
+
 	public:
 		YesNo(void) = delete;
 		YesNo(const string& name, const int width = 400, const int height = 200, \
@@ -25,12 +31,6 @@ class YesNo final : public Window
 		void	loadImages(void) {};
 		void	reactEvent(SDL_Event* event);
 		void	generateElements(void);
-
-	private:
-		Text				_title;
-		Text				_text;
-
-		int					_state;
 
 };
 

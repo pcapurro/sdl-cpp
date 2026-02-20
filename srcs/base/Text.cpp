@@ -1,9 +1,9 @@
 #include "Text.hpp"
 
 void    Text::setText(const string& text, const int size, const string& fontPath, \
-    const int x, const int y, const int w, const int h, \
-	Color* color, SDL_Texture* texture, const int type, const bool highlight, \
-    const int highlightCursor, const int normalCursor, const bool visibility)
+    const int x, const int y, const int w, const int h, Color* color, SDL_Texture* texture, \
+    const int type, const bool highlight, const int highlightCursor, const int normalCursor, \
+    const bool visibility)
 {
     _text = text;
     _size = size;

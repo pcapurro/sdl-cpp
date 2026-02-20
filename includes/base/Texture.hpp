@@ -5,8 +5,10 @@
 
 class Texture
 {
-	public:
+	private:
+		SDL_Texture*	_texture = NULL;
 
+	public:
 		Texture(void) = default;
 
 		~Texture(void);
@@ -18,9 +20,6 @@ class Texture
 
 		void			setTexture(const char* path, const char* text, TTF_Font* font, \
 							SDL_Color color, SDL_Renderer* renderer);
-
-	private:
-		SDL_Texture*	_texture = NULL;
 };
 
 #endif

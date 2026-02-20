@@ -132,6 +132,6 @@ void	Window::drawBackground(Color color)
 
 void	Window::drawElements(vector<Element>& elements)
 {
-	for (unsigned int i = 0; i != elements.size(); i++)
-		elements.at(i).draw(_mainRenderer);
+	for (auto& element : elements)
+		element.draw(_mainRenderer);
 }

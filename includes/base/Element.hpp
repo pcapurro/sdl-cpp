@@ -6,6 +6,27 @@
 
 class Element
 {
+	private:
+		int 			_x;
+		int 			_y;
+
+		int 			_w;
+		int 			_h;
+
+		int				_type;
+
+		int				_highlightCursor;
+		int				_normalCursor;
+
+		bool			_highlighted;
+		bool			_selected;
+
+		bool			_visibility;
+		bool			_highlight;
+
+		SDL_Texture*	_texture;
+		Color			_color;
+
 	public:
 		Element(void) = default;
 		~Element(void) = default;
@@ -48,27 +69,6 @@ class Element
 		bool			isSelected(void) const { return (_selected); };
 
 		void			draw(SDL_Renderer* renderer);
-
-	private:
-		int 			_x;
-		int 			_y;
-
-		int 			_w;
-		int 			_h;
-
-		int				_type;
-
-		int				_highlightCursor;
-		int				_normalCursor;
-
-		bool			_highlighted;
-		bool			_selected;
-
-		bool			_visibility;
-		bool			_highlight;
-
-		SDL_Texture*	_texture;
-		Color			_color;
 };
 
 #endif

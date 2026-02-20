@@ -1,6 +1,6 @@
 #include "YesNo.hpp"
 
-YesNo::YesNo(const string& name, const int width, const int height, 
+YesNo::YesNo(const string& name, const int width, const int height, \
 	const string& text, const string& title, const string& fontPath) : Window(name, width, height)
 {
 	_text.setText(text, 24, fontPath, 0, 0, 50, 20);

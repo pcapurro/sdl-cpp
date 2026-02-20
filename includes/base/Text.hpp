@@ -5,6 +5,13 @@
 
 class Text final : public Element
 {
+    private:
+		string				_fontPath;
+		TTF_Font*			_font;
+
+        int                 _size;
+		string				_text;
+
     public:
         Text(void) = default;
         ~Text(void) = default;
@@ -17,13 +24,6 @@ class Text final : public Element
 		void	setMainText(const string& newText);
 		void	setFontPath(const string& newFontPath);
 		void	loadFont(void);
-
-    private:
-		string				_fontPath;
-		TTF_Font*			_font;
-
-        int                 _size;
-		string				_text;
 };
 
 #endif

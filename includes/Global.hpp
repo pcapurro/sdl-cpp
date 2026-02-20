@@ -29,6 +29,4 @@ using std::endl;
 using std::string;
 using std::vector;
 
-int		main(void);
-
 #endif

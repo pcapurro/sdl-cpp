@@ -3,11 +3,11 @@
 
 struct Color
 {
-	int	r;
-	int	g;
-	int	b;
+	unsigned char	r = 0;
+	unsigned char	g = 0;
+	unsigned char	b = 0;
 
-	int	a;
+	unsigned char	a = 0;
 };
 
 #endif

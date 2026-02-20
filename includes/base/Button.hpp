@@ -5,12 +5,12 @@
 
 class Button final
 {
+    private:
+        ;
+
     public:
         Button(void) = default;
         ~Button(void) = default;
-
-    private:
-        ;
 };
 
 #endif
