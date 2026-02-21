@@ -1,8 +1,28 @@
 #include "Texture.hpp"
 
-Texture::~Texture(void)
+Texture::Texture(Texture&& original) noexcept
 {
-	if (_texture != NULL && _texture != nullptr)
+	_texture = original._texture;
+	original._texture = nullptr;
+}
+
+Texture&	Texture::operator=(Texture&& original) noexcept
+{
+	if (this == &original)
+		return *this;
+
+	if (_texture)
+		SDL_DestroyTexture(_texture);
+
+	_texture = original._texture;
+	original._texture = nullptr;
+
+	return *this;
+}
+
+Texture::~Texture(void) noexcept
+{
+	if (_texture)
 		SDL_DestroyTexture(_texture), _texture = nullptr;
 }
 
@@ -11,53 +31,40 @@ SDL_Texture*	Texture::getTexture(void) const
 	return (_texture);
 }
 
-void	Texture::setTexture(const char* path, const char* text, TTF_Font* font, \
-	SDL_Color color, SDL_Renderer* renderer)
+void	Texture::loadImage(const char* path, SDL_Renderer* renderer)
 {
-	if (path == NULL)
-		loadText(text, font, color, renderer);
-	else
-		loadImage(path, renderer);
-}
-
-int		Texture::loadImage(const char* path, SDL_Renderer* renderer)
-{
-	SDL_Surface*	surface = NULL;
+	SDL_Surface*	surface = nullptr;
 
 	surface = SDL_LoadBMP(path);
-	if (surface == NULL)
-		return (1);
+	if (surface == nullptr)
+		throw std::runtime_error("SDL failed to load a BMP path: " + string(SDL_GetError()));
 	else
 	{
-		if (_texture != NULL)
-			SDL_DestroyTexture(_texture), _texture = NULL;
+		if (_texture)
+			SDL_DestroyTexture(_texture), _texture = nullptr;
 
 		_texture = SDL_CreateTextureFromSurface(renderer, surface);
 		SDL_FreeSurface(surface);
-		if (_texture == NULL)
-			return (1);
+		if (_texture == nullptr)
+			throw std::runtime_error("SDL failed to create a texture from a surface: " + string(SDL_GetError()));
 	}
-
-	return (0);
 }
 
-int		Texture::loadText(const char* text, TTF_Font* font, SDL_Color color, SDL_Renderer* renderer)
+void	Texture::loadText(const char* text, TTF_Font* font, SDL_Color color, SDL_Renderer* renderer)
 {
-	SDL_Surface*	surface = NULL;
+	SDL_Surface*	surface = nullptr;
 
 	surface = TTF_RenderText_Blended(font, text, color);
-	if (surface == NULL)
-		return (1);
+	if (surface == nullptr)
+		throw std::runtime_error("SDL failed to create a text from a surface: " + string(SDL_GetError()));
 	else
 	{
-		if (_texture != NULL)
-			SDL_DestroyTexture(_texture), _texture = NULL;
+		if (_texture)
+			SDL_DestroyTexture(_texture), _texture = nullptr;
 
 		_texture = SDL_CreateTextureFromSurface(renderer, surface);
 		SDL_FreeSurface(surface);
-		if (_texture == NULL)
-			return (1);
+		if (_texture == nullptr)
+			throw std::runtime_error("SDL failed to create a texture from a surface: " + string(SDL_GetError()));
 	}
-
-	return (0);
 }

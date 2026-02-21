@@ -29,20 +29,26 @@ class Element
 
 	public:
 		Element(void) = default;
+		Element(const int x, const int y, const int w, const int h, \
+					Color* color = nullptr, SDL_Texture* texture = nullptr, const int type = 0, \
+					const bool highlight = false, const int highlightCursor = 1, \
+					const int normalCursor = 1, const bool visibility = true);
 		~Element(void) = default;
 
 		void			setElement(const int x, const int y, const int w, const int h, \
-							Color* color = NULL, SDL_Texture* texture = NULL, const int type = 0, \
+							Color* color = nullptr, SDL_Texture* texture = nullptr, const int type = 0, \
 							const bool highlight = false, const int highlightCursor = 1, \
 							const int normalCursor = 1, const bool visibility = true);
 
 		int				getX(void) const { return (_x); };
 		int				getY(void) const { return (_y); };
+
 		int				getW(void) const { return (_w); };
 		int				getH(void) const { return (_h); };
 
 		void			setX(const int x) { _x = x; };
 		void			setY(const int y) { _y = y; };
+
 		void			setW(const int w) { _w = w; };
 		void			setH(const int h) { _h = h; };
 
@@ -65,7 +71,7 @@ class Element
 		void			setColor(Color color) { _color = color; };
 		void			setOpacity(const int opacity) { _color.a = opacity; };
 
-		bool			isAbove(int x, int y) const;
+		bool			isAbove(const int x, const int y) const;
 		bool			isSelected(void) const { return (_selected); };
 
 		void			draw(SDL_Renderer* renderer);

@@ -1,14 +1,11 @@
 #include "Element.hpp"
 
-void	Element::setElement(const int x, const int y, const int w, const int h, Color* color, \
+Element::Element(const int x, const int y, const int w, const int h, Color* color, \
 	SDL_Texture* texture, const int type, const bool highlight, const int highlightCursor, \
 	const int normalCursor, const bool visibility)
 {
-	_x = x;
-	_y = y;
-
-	_w = w;
-	_h = h;
+	_x = x, _y = y;
+	_w = w, _h = h;
 
 	_type = type;
 
@@ -24,7 +21,38 @@ void	Element::setElement(const int x, const int y, const int w, const int h, Col
 
 	_texture = texture;
 
-	if (color != NULL)
+	if (color)
+		_color = *color;
+
+	_type = type;
+	_highlight = highlight;
+	_highlightCursor = highlightCursor;
+	_normalCursor = normalCursor;
+	_visibility = visibility;
+}
+
+void	Element::setElement(const int x, const int y, const int w, const int h, Color* color, \
+	SDL_Texture* texture, const int type, const bool highlight, const int highlightCursor, \
+	const int normalCursor, const bool visibility)
+{
+	_x = x, _y = y;
+	_w = w, _h = h;
+
+	_type = type;
+
+	_selected = false;
+
+	_highlight = highlight;
+	_highlighted = false;
+
+	_highlightCursor = highlightCursor;
+	_normalCursor = normalCursor;
+
+	_visibility = visibility;
+
+	_texture = texture;
+
+	if (color)
 		_color = *color;
 
 	_type = type;
@@ -38,18 +66,15 @@ void	Element::draw(SDL_Renderer* renderer)
 {
 	SDL_Rect	obj;
 
-	obj.x = _x;
-	obj.y = _y;
-	
-	obj.w = _w;
-	obj.h = _h;
+	obj.x = _x, obj.y = _y;
+	obj.w = _w, obj.h = _h;
 
 	if (_visibility == true)
 	{
 		SDL_SetRenderDrawColor(renderer, _color.r, _color.g, _color.b, _color.a);
 
-		if (_texture != NULL && _texture != nullptr)
-			SDL_RenderCopy(renderer, _texture, NULL, &obj);
+		if (_texture)
+			SDL_RenderCopy(renderer, _texture, nullptr, &obj);
 		else
 			SDL_RenderFillRect(renderer, &obj);
 
@@ -67,7 +92,7 @@ void	Element::draw(SDL_Renderer* renderer)
 	}
 }
 
-bool	Element::isAbove(int x, int y) const
+bool	Element::isAbove(const int x, const int y) const
 {
 	if (_highlight == false)
 		return (false);

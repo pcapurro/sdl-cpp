@@ -24,6 +24,8 @@
 # include <SDL2/SDL.h>
 # include <SDL2/SDL_ttf.h>
 
+# include "Macros.hpp"
+
 using std::cout;
 using std::cerr;
 using std::endl;

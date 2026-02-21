@@ -6,25 +6,26 @@
 # include "Element.hpp"
 # include "Color.hpp"
 # include "Texture.hpp"
+# include "Cursor.hpp"
 
 class Window
 {
 	private:
-		int						_width;
-		int						_height;
+		const int				_width;
+		const int				_height;
 
 		int						_x;
 		int						_y;
 
-		string					_name;
+		const string			_name;
 
 		SDL_Window*				_mainWindow;
 		SDL_Renderer*			_mainRenderer;
 
-		SDL_Cursor*				_normalCursor;
-		SDL_Cursor*				_interactCursor;
-		SDL_Cursor*				_crossHairCursor;
-		SDL_Cursor*				_textCursor;
+		std::optional<Cursor>	_normalCursor;
+		std::optional<Cursor>	_interactCursor;
+		std::optional<Cursor>	_crossHairCursor;
+		std::optional<Cursor>	_textCursor;
 
 	public:
 		Window(const string& name, const int width, const int height);
@@ -34,23 +35,20 @@ class Window
 		virtual int				waitForEvent(void) = 0;
 		
 		virtual void			draw(void) = 0;
-
 		virtual void			loadImages(void) = 0;
-
 		virtual void			reactEvent(SDL_Event* event) = 0;
-
 		virtual void			generateElements(void) = 0;
 
-		void					setTitle(const std::string& title);
-
-		void					drawBackground(Color color);
+		void					drawBackground(const Color color);
 		void					drawElements(vector<Element>& elements);
 	
-		void					blur(void);
+		void					blur(const uint8_t blurA = 127);
 		void					render(void);
 		void					clear(void);
 
-		SDL_Cursor*				getCursor(const int value) const;
+		void					setTitle(const std::string& title);
+
+		SDL_Cursor*				getCursor(const uint8_t value) const;
 		SDL_Renderer*			getRenderer(void) const;
 
 		int						getWidth(void) const;

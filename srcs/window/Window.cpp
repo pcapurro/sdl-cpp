@@ -1,57 +1,39 @@
 #include "Window.hpp"
 
-Window::Window(const string& name, const int width, const int height)
+Window::Window(const string& name, const int width, const int height) : _width(width), _height(height), _name(name)
 {
-	_width = width;
-	_height = height;
-
-	_name = name;
-
 	_mainWindow = SDL_CreateWindow(_name.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, \
 		_width, _height, 0);
-	if (_mainWindow == NULL)
-		throw std::runtime_error("SDL failed to create a window.");
+	if (_mainWindow == nullptr)
+		throw std::runtime_error("SDL failed to create a window: " + string(SDL_GetError()));
 
 	_mainRenderer = SDL_CreateRenderer(_mainWindow, -1, \
 		SDL_RENDERER_ACCELERATED);
-	if (_mainRenderer == NULL)
-		throw std::runtime_error("SDL failed to create a renderer.");
+	if (_mainRenderer == nullptr)
+		throw std::runtime_error("SDL failed to create a renderer: " + string(SDL_GetError()));
 
-	_normalCursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
-	_interactCursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_HAND);
-	_crossHairCursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_CROSSHAIR);
-	_textCursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_IBEAM);
-
-	if (_normalCursor == NULL || _interactCursor == NULL \
-		|| _crossHairCursor == NULL || _textCursor == NULL)
-		throw std::runtime_error("SDL failed to create a cursor.");
+	_normalCursor.emplace(Cursor(SDL_SYSTEM_CURSOR_ARROW));
+	_interactCursor.emplace(Cursor(SDL_SYSTEM_CURSOR_HAND));
+	_crossHairCursor.emplace(Cursor(SDL_SYSTEM_CURSOR_CROSSHAIR));
+	_textCursor.emplace(Cursor(SDL_SYSTEM_CURSOR_IBEAM));
 }
 
 Window::~Window(void)
 {
-	if (_normalCursor != nullptr && _normalCursor != NULL)
-		SDL_FreeCursor(_normalCursor);
-	if (_interactCursor != nullptr && _interactCursor != NULL)
-		SDL_FreeCursor(_interactCursor);
-	if (_crossHairCursor != nullptr && _interactCursor != NULL)
-		SDL_FreeCursor(_crossHairCursor);
-	if (_textCursor != nullptr && _textCursor != NULL)
-		SDL_FreeCursor(_crossHairCursor);
-
-	if (_mainRenderer != nullptr && _mainRenderer != NULL)
+	if (_mainRenderer)
 		SDL_DestroyRenderer(_mainRenderer);
-	if (_mainWindow != nullptr && _mainWindow != NULL)
+	if (_mainWindow)
 		SDL_DestroyWindow(_mainWindow);
 }
 
-void	Window::blur(void)
+void	Window::blur(const uint8_t blurA)
 {
 	SDL_Rect	obj;
 
 	obj.w = _width, obj.h = _height;
 	obj.x = 0, obj.y = 0;
 
-	SDL_SetRenderDrawColor(_mainRenderer, 0, 0, 0, 125);
+	SDL_SetRenderDrawColor(_mainRenderer, 0, 0, 0, blurA);
 	SDL_RenderFillRect(_mainRenderer, &obj);
 }
 
@@ -100,16 +82,16 @@ void	Window::setY(const int y)
 	_y = y;
 }
 
-SDL_Cursor*		Window::getCursor(const int value) const
+SDL_Cursor*		Window::getCursor(const uint8_t value) const
 {
-	if (value == 0)
-		return (_normalCursor);
-	if (value == 1)
-		return (_interactCursor);
-	if (value == 2)
-		return (_crossHairCursor);
-	if (value == 3)
-		return (_textCursor);
+	if (value == NM_CURSOR)
+		return (_normalCursor.value().getCursor());
+	else if (value == INT_CURSOR)
+		return (_interactCursor.value().getCursor());
+	else if (value == CROSS_CURSOR)
+		return (_crossHairCursor.value().getCursor());
+	else if (value == TXT_CURSOR)
+		return (_textCursor.value().getCursor());
 
 	return (nullptr);
 }
@@ -119,7 +101,7 @@ void	Window::setTitle(const std::string& title)
 	SDL_SetWindowTitle(_mainWindow, title.c_str());
 }
 
-void	Window::drawBackground(Color color)
+void	Window::drawBackground(const Color color)
 {
 	SDL_Rect	obj;
 

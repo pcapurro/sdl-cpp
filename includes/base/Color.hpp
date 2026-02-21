@@ -8,7 +8,7 @@ class Color
 		unsigned char	g = 0;
 		unsigned char	b = 0;
 
-		unsigned char	a = 0;
+		unsigned char	a = 255;
 };
 
 #endif
