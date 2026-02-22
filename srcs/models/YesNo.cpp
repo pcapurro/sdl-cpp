@@ -9,9 +9,6 @@ YesNo::YesNo(const string& name, const int width, const int height, \
 	globalConfig.x = 21;
 	globalConfig.y = 21;
 
-	globalConfig.w = 100;
-	globalConfig.h = 50;
-
 	Text	titleText(globalConfig, title.c_str(), 42, BLACK, \
 		fontPath, renderer);
 

@@ -7,5 +7,14 @@ Text::Text(const Config& config, const string& text, const int size, \
     _texture(text.c_str(), _font.getFont(), \
         {color.r, color.g, color.b, color.a}, renderer)
 {
+    int width = 0;
+    int height = 0;
+
+    SDL_QueryTexture(_texture.getTexture(), nullptr, \
+        nullptr, &width, &height);
+
+    setW(width);
+    setH(height);
+
     setTexture(_texture.getTexture());
 }
