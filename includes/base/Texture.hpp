@@ -14,7 +14,8 @@ class Texture
 		Texture(Texture&& original) noexcept;
 
 		Texture(const char* path, SDL_Renderer* renderer);
-		Texture(const char* text, TTF_Font* font, SDL_Color color, SDL_Renderer* renderer);
+		Texture(const char* text, TTF_Font* font, SDL_Color color, \
+			SDL_Renderer* renderer, const int maxWidth);
 
 		Texture&		operator=(const Texture& original) = delete;
 		Texture&		operator=(Texture&& original) noexcept;

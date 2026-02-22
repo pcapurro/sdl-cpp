@@ -19,11 +19,11 @@ Texture::Texture(const char* path, SDL_Renderer* renderer)
 	}
 }
 
-Texture::Texture(const char* text, TTF_Font* font, SDL_Color color, SDL_Renderer* renderer)
+Texture::Texture(const char* text, TTF_Font* font, SDL_Color color, SDL_Renderer* renderer, const int maxWidth)
 {
 	SDL_Surface*	surface = nullptr;
 
-	surface = TTF_RenderText_Blended(font, text, color);
+	surface = TTF_RenderText_Blended_Wrapped(font, text, color, maxWidth);
 	if (surface == nullptr)
 		throw std::runtime_error("SDL failed to create a text from a surface: " + string(SDL_GetError()));
 	else

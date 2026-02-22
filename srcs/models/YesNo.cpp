@@ -6,16 +6,18 @@ YesNo::YesNo(const string& name, const int width, const int height, \
 	SDL_Renderer*	renderer = getRenderer();
 	Config			globalConfig;
 
-	globalConfig.x = 21;
-	globalConfig.y = 21;
+	globalConfig.x = width * LIMIT_RATIO;
+	globalConfig.y = height * LIMIT_RATIO;
 
-	Text	titleText(globalConfig, title.c_str(), 42, BLACK, \
-		fontPath, renderer);
+	int		titleSize = height * TITLE_RATIO;
+	Text	titleText(globalConfig, title.c_str(), titleSize, BLACK, \
+		fontPath, renderer, width - (width * LIMIT_RATIO));
 
-	globalConfig.y = 100;
+	globalConfig.y += titleText.getHeight() + (height * LIMIT_RATIO);
 
-	Text	mainText(globalConfig, text.c_str(), 21, BLACK, \
-	 	fontPath, renderer);
+	int		textSize = height * TEXT_RATIO;
+	Text	mainText(globalConfig, text.c_str(), textSize, BLACK, \
+	 	fontPath, renderer, width - (width * LIMIT_RATIO));
 
 	_texts.push_back(std::move(titleText));
 	_texts.push_back(std::move(mainText));

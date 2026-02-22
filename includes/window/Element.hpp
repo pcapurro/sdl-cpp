@@ -21,14 +21,14 @@ class Element
 		int				getX(void) const { return _config.x; };
 		int				getY(void) const { return _config.y; };
 
-		int				getW(void) const { return _config.w; };
-		int				getH(void) const { return _config.h; };
+		int				getWidth(void) const { return _config.w; };
+		int				getHeight(void) const { return _config.h; };
 
 		void			setX(const int x) { _config.x = x; };
 		void			setY(const int y) { _config.y = y; };
 
-		void			setW(const int w) { _config.w = w; };
-		void			setH(const int h) { _config.h = h; };
+		void			setWidth(const int w) { _config.w = w; };
+		void			setHeight(const int h) { _config.h = h; };
 
 		void			select(void) { _selected = true; };
 		void			unSelect(void) { _selected = false; };
