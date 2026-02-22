@@ -1,80 +1,21 @@
 #include "Element.hpp"
 
-Element::Element(const int x, const int y, const int w, const int h, Color* color, \
-	SDL_Texture* texture, const int type, const bool highlight, const int highlightCursor, \
-	const int normalCursor, const bool visibility)
-{
-	_x = x, _y = y;
-	_w = w, _h = h;
-
-	_type = type;
-
-	_selected = false;
-
-	_highlight = highlight;
-	_highlighted = false;
-
-	_highlightCursor = highlightCursor;
-	_normalCursor = normalCursor;
-
-	_visibility = visibility;
-
-	_texture = texture;
-
-	if (color)
-		_color = *color;
-
-	_type = type;
-	_highlight = highlight;
-	_highlightCursor = highlightCursor;
-	_normalCursor = normalCursor;
-	_visibility = visibility;
-}
-
-void	Element::setElement(const int x, const int y, const int w, const int h, Color* color, \
-	SDL_Texture* texture, const int type, const bool highlight, const int highlightCursor, \
-	const int normalCursor, const bool visibility)
-{
-	_x = x, _y = y;
-	_w = w, _h = h;
-
-	_type = type;
-
-	_selected = false;
-
-	_highlight = highlight;
-	_highlighted = false;
-
-	_highlightCursor = highlightCursor;
-	_normalCursor = normalCursor;
-
-	_visibility = visibility;
-
-	_texture = texture;
-
-	if (color)
-		_color = *color;
-
-	_type = type;
-	_highlight = highlight;
-	_highlightCursor = highlightCursor;
-	_normalCursor = normalCursor;
-	_visibility = visibility;
-}
+Element::Element(const Config& config) : _config(config) {}
 
 void	Element::draw(SDL_Renderer* renderer)
 {
 	SDL_Rect	obj;
 
-	obj.x = _x, obj.y = _y;
-	obj.w = _w, obj.h = _h;
+	obj.x = _config.x, obj.y = _config.y;
+	obj.w = _config.w, obj.h = _config.h;
 
-	if (_visibility == true)
+	if (_config.visibility == true)
 	{
-		SDL_SetRenderDrawColor(renderer, _color.r, _color.g, _color.b, _color.a);
+		SDL_SetRenderDrawColor(renderer, _config.color.r, \
+			_config.color.g, _config.color.b, _config.color.a);
 
-		if (_texture)
-			SDL_RenderCopy(renderer, _texture, nullptr, &obj);
+		if (_config.texture)
+			SDL_RenderCopy(renderer, _config.texture, nullptr, &obj);
 		else
 			SDL_RenderFillRect(renderer, &obj);
 
@@ -85,7 +26,7 @@ void	Element::draw(SDL_Renderer* renderer)
 		}
 	}
 	
-	if (_highlight == true && _highlighted == true)
+	if (_config.highlight == true && _highlighted == true)
 	{
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 121);
 		SDL_RenderFillRect(renderer, &obj);
@@ -94,14 +35,14 @@ void	Element::draw(SDL_Renderer* renderer)
 
 bool	Element::isAbove(const int x, const int y) const
 {
-	if (_highlight == false)
-		return (false);
+	if (_config.highlight == false)
+		return false;
 
-	if (x >= _x && x <= _x + _w)
+	if (x >= _config.x && x <= _config.x + _config.w)
 	{
-		if (y >= _y && y <= _y + _h)
-			return (true);
+		if (y >= _config.y && y <= _config.y + _config.h)
+			return true;
 	}
 
-	return (false);
+	return false;
 }

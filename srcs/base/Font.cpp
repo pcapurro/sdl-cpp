@@ -1,8 +1,8 @@
 #include "Font.hpp"
 
-Font::Font(const string& path)
+Font::Font(const string& path, const int size)
 {
-	_font = TTF_OpenFont(path.c_str(), 24);
+	_font = TTF_OpenFont(path.c_str(), size);
 
 	if (_font == nullptr)
 		throw std::runtime_error("SDL failed to load a font: " + string(SDL_GetError()));
@@ -43,4 +43,9 @@ void	Font::setPath(const string& newPath)
 
 	if (_font == nullptr)
 		throw std::runtime_error("SDL failed to load a new font: " + string(SDL_GetError()));
+}
+
+TTF_Font*   Font::getFont(void) const
+{
+    return _font;
 }

@@ -10,7 +10,7 @@ class Font
 
     public:
         Font(void) = delete;
-        Font(const string& path);
+        Font(const string& path, const int size);
         Font(const Font& original) = delete;
         Font(Font&& original) noexcept;
 
@@ -19,7 +19,8 @@ class Font
 
         ~Font(void) noexcept;
 
-        void    setPath(const string& newPath);
+        void        setPath(const string& newPath);
+        TTF_Font*   getFont(void) const;
 };
 
 #endif

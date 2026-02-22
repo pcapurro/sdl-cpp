@@ -3,31 +3,30 @@
 
 # include "Element.hpp"
 # include "Font.hpp"
+# include "Config.hpp"
+# include "Texture.hpp"
 
 class Text final : public Element
 {
     private:
-		Font            _font;
+        string                      _text;
+        int                         _size;
 
-        int             _size;
-		string          _text;
+        Font                        _font;
+        Texture                     _texture;
 
     public:
         Text(void) = default;
-        Text(const string& text, const int size, const string& fontPath, \
-            const int x, const int y, const int w, const int h, Color* color = nullptr, \
-            SDL_Texture* texture = nullptr, const int type = 0, const bool highlight = false, \
-            const int highlightCursor = 1, const int normalCursor = 1, const bool visibility = true);
+        Text(const Config& config, const string& text, const int size, \
+            const Color& color, const string& fontPath, SDL_Renderer* renderer);
+
+        Text(const Text& original) = delete;
+        Text(Text&& original) = default;
+
+        Text&   operator=(const Text& original) = delete;
+        Text&   operator=(Text&& original) = default;
 
         ~Text(void) = default;
-
-        void    setText(const string& text, const int size, const string& fontPath, \
-            const int x, const int y, const int w, const int h, Color* color = nullptr, \
-            SDL_Texture* texture = nullptr, const int type = 0, const bool highlight   = false, \
-            const int highlightCursor = 1, const int normalCursor = 1, const bool visibility = true);
-
-		void            setMainText(const string& newText);
-		void            setFontPath(const string& newFontPath);
 };
 
 #endif

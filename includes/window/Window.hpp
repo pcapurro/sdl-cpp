@@ -33,14 +33,11 @@ class Window
 
 		virtual int				routine(void) = 0;
 		virtual int				waitForEvent(void) = 0;
-		
+
 		virtual void			draw(void) = 0;
-		virtual void			loadImages(void) = 0;
 		virtual void			reactEvent(SDL_Event* event) = 0;
-		virtual void			generateElements(void) = 0;
 
 		void					drawBackground(const Color color);
-		void					drawElements(vector<Element>& elements);
 	
 		void					blur(const uint8_t blurA = 127);
 		void					render(void);

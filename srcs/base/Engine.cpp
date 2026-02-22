@@ -12,7 +12,7 @@ Engine::Engine(const bool video, const bool antialiasing, \
             SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 
         if (ttf == true)
-            _ttf.emplace(TTF());
+            _ttf.emplace();
     }
 
     if (events == true && SDL_Init(SDL_INIT_EVENTS) != 0)

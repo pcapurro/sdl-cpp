@@ -1,6 +1,9 @@
 #include "Window.hpp"
 
-Window::Window(const string& name, const int width, const int height) : _width(width), _height(height), _name(name)
+Window::Window(const string& name, const int width, const int height) : \
+	_width(width), \
+	_height(height), \
+	_name(name)
 {
 	_mainWindow = SDL_CreateWindow(_name.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, \
 		_width, _height, 0);
@@ -49,27 +52,27 @@ void	Window::clear(void)
 
 SDL_Renderer*	Window::getRenderer(void) const
 {
-	return (_mainRenderer);
+	return _mainRenderer;
 }
 
 int	Window::getWidth(void) const
 {
-	return (_width);
+	return _width;
 }
 
 int	Window::getHeight(void) const
 {
-	return (_height);
+	return _height;
 }
 
 int	Window::getX(void) const
 {
-	return (_x);
+	return _x;
 }
 
 int	Window::getY(void) const
 {
-	return (_y);
+	return _y;
 }
 
 void	Window::setX(const int x)
@@ -85,15 +88,15 @@ void	Window::setY(const int y)
 SDL_Cursor*		Window::getCursor(const uint8_t value) const
 {
 	if (value == NM_CURSOR)
-		return (_normalCursor.value().getCursor());
+		return _normalCursor.value().getCursor();
 	else if (value == INT_CURSOR)
-		return (_interactCursor.value().getCursor());
+		return _interactCursor.value().getCursor();
 	else if (value == CROSS_CURSOR)
-		return (_crossHairCursor.value().getCursor());
+		return _crossHairCursor.value().getCursor();
 	else if (value == TXT_CURSOR)
-		return (_textCursor.value().getCursor());
+		return _textCursor.value().getCursor();
 
-	return (nullptr);
+	return nullptr;
 }
 
 void	Window::setTitle(const std::string& title)
@@ -110,10 +113,4 @@ void	Window::drawBackground(const Color color)
 
 	SDL_SetRenderDrawColor(_mainRenderer, color.r, color.g, color.b, color.a);
 	SDL_RenderFillRect(_mainRenderer, &obj);
-}
-
-void	Window::drawElements(vector<Element>& elements)
-{
-	for (auto& element : elements)
-		element.draw(_mainRenderer);
 }
