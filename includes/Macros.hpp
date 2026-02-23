@@ -23,6 +23,7 @@
 # define LIMIT_RATIO 0.05f
 # define TITLE_RATIO 0.13f
 # define TEXT_RATIO 0.08f
+# define LIMIT_HEIGHT 2
 
 # define WHITE {255, 255, 255, 255}
 # define BLACK {0, 0, 0, 255}

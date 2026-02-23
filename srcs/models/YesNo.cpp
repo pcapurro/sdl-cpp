@@ -1,26 +1,53 @@
 #include "YesNo.hpp"
 
 YesNo::YesNo(const string& name, const int width, const int height, \
-    const string& title, const string& text, const string& fontPath) : Window(name, width, height)
+    const string& fontPath, const string& title, const bool titleLimit, \
+	const string& text, const string& logoPath) : Window(name, width, height)
 {
 	SDL_Renderer*	renderer = getRenderer();
 	Config			globalConfig;
 
 	globalConfig.x = width * LIMIT_RATIO;
-	globalConfig.y = height * LIMIT_RATIO;
 
-	int		titleSize = height * TITLE_RATIO;
-	Text	titleText(globalConfig, title.c_str(), titleSize, BLACK, \
-		fontPath, renderer, width - (width * LIMIT_RATIO));
+	if (title.size() > 0)
+	{
+		globalConfig.y = height * LIMIT_RATIO;
 
-	globalConfig.y += titleText.getHeight() + (height * LIMIT_RATIO);
+		int		titleSize = height * TITLE_RATIO;
+		Text	titleText(globalConfig, title.c_str(), titleSize, BLACK, \
+			fontPath, renderer, width - (width * LIMIT_RATIO));
+
+		_texts.push_back(std::move(titleText));
+		globalConfig.y += titleText.getHeight();
+
+		if (titleLimit == true)
+		{
+			Config		limitConfig;
+
+			limitConfig.x = width * LIMIT_RATIO;
+			limitConfig.y = globalConfig.y + ((height * LIMIT_RATIO) / 2);
+
+			limitConfig.w = width - ((width * LIMIT_RATIO) * 2);
+			limitConfig.h = LIMIT_HEIGHT;
+
+			limitConfig.color = BLACK;
+
+			Element		limit(limitConfig);
+
+			_elements.push_back(std::move(limit));
+			globalConfig.y += LIMIT_HEIGHT * 2;
+		}
+	}
+
+	globalConfig.y += height * LIMIT_RATIO;
 
 	int		textSize = height * TEXT_RATIO;
 	Text	mainText(globalConfig, text.c_str(), textSize, BLACK, \
 	 	fontPath, renderer, width - (width * LIMIT_RATIO));
 
-	_texts.push_back(std::move(titleText));
 	_texts.push_back(std::move(mainText));
+
+	(void) logoPath;
 }
 
 int     YesNo::routine(void)
