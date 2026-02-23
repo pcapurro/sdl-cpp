@@ -15,7 +15,9 @@ class Element
 
 	public:
 		Element(void) = default;
-		Element(const Config& config);
+		Element(Config config) noexcept;
+		Element(Element&& original) noexcept;
+
 		~Element(void) = default;
 
 		int				getX(void) const { return _config.x; };
@@ -36,7 +38,7 @@ class Element
 		void			highlight(void) { _highlighted = true; };
 		void			unHighlight(void) { _highlighted = false; };
 
-		SDL_Texture*	getTexture(void) const { return _config.texture; };
+		SDL_Texture*	getTexture(void) const { return _config.texture.getTexture(); };
 		Color			getColor(void) const { return _config.color; };
 
 		int				getType(void) const { return _config.type; };
@@ -44,7 +46,7 @@ class Element
 		int				getHighlightCursor(void) const { return _config.highlightCursor; };
 		int				getNormalCursor(void) const { return _config.normalCursor; };
 
-		void			setTexture(SDL_Texture* texture) { _config.texture = texture; };
+		void			setTexture(SDL_Texture* texture) { _config.texture.setTexture(texture); };
 		void			setVisibility(const bool value) { _config.visibility = value; };
 		void			setColor(const Color color) { _config.color = color; };
 		void			setOpacity(const int opacity) { _config.color.a = opacity; };

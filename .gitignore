@@ -1,5 +1,13 @@
+# Coding
 *.vscode/
 *.o
+
+# Resources
 *.ttf
+*.png
+*.jpg
+*.bmp
+
+# Testing
 main.cpp
 Makefile

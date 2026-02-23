@@ -22,6 +22,7 @@ class Texture
 
 		~Texture(void) noexcept;
 
+		void			setTexture(SDL_Texture* texture, const bool free = false);
 		SDL_Texture*	getTexture(void) const;
 };
 

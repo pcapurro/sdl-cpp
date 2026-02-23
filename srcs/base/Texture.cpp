@@ -64,6 +64,14 @@ Texture::~Texture(void) noexcept
 		SDL_DestroyTexture(_texture), _texture = nullptr;
 }
 
+void	Texture::setTexture(SDL_Texture* texture, const bool free)
+{
+	if (_texture && free == true)
+		SDL_DestroyTexture(_texture);
+
+	_texture = texture;
+}
+
 SDL_Texture*	Texture::getTexture(void) const
 {
 	return _texture;

@@ -4,6 +4,7 @@
 # include "Global.hpp"
 
 # include "Color.hpp"
+# include "Texture.hpp"
 
 class Config
 {
@@ -15,7 +16,7 @@ class Config
         int             h = 0;
 
         Color           color = WHITE;
-        SDL_Texture*    texture = nullptr;
+        Texture         texture;
 
         int             type = 0;
 

@@ -20,9 +20,12 @@
 
 # define TEXT 21
 
-# define LIMIT_RATIO 0.05f
-# define TITLE_RATIO 0.13f
+# define LOGO_WIDTH 75
+# define LOGO_HEIGHT 75
+
+# define TITLE_RATIO 0.10f
 # define TEXT_RATIO 0.08f
+# define LIMIT_RATIO 0.07f
 # define LIMIT_HEIGHT 1
 
 # define WHITE {255, 255, 255, 255}
