@@ -19,6 +19,8 @@ class Window
 
 		const string			_name;
 
+		Color					_color;
+
 		SDL_Window*				_mainWindow;
 		SDL_Renderer*			_mainRenderer;
 
@@ -37,13 +39,17 @@ class Window
 		virtual void			draw(void) = 0;
 		virtual void			reactEvent(SDL_Event* event) = 0;
 
-		void					drawBackground(const Color color);
+		void					drawBackground(void);
 	
 		void					blur(const uint8_t blurA = 127);
 		void					render(void);
 		void					clear(void);
 
 		void					setTitle(const std::string& title);
+
+		void					setBackgroundColor(const Color& color);
+
+		Color					getBackgroundColor(void) const;
 
 		SDL_Cursor*				getCursor(const uint8_t value) const;
 		SDL_Renderer*			getRenderer(void) const;

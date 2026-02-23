@@ -1,11 +1,18 @@
 #include "YesNo.hpp"
 
 YesNo::YesNo(const string& name, const int width, const int height, \
-    const string& fontPath, const string& title, const bool titleLimit, \
-	const string& text, const string& logoPath) : Window(name, width, height)
+    const string& fontPath, const bool darkMode, const string& title, \
+	const bool titleLimit, const string& text, const string& logoPath) : Window(name, width, height)
 {
 	SDL_Renderer*	renderer = getRenderer();
 	Config			globalConfig;
+
+	Color			writeColor = BLACK;
+
+	if (darkMode == true)
+		writeColor = WHITE, setBackgroundColor(BLACK);
+	else
+		setBackgroundColor(WHITE);
 
 	globalConfig.x = width * LIMIT_RATIO;
 
@@ -14,7 +21,7 @@ YesNo::YesNo(const string& name, const int width, const int height, \
 		globalConfig.y = height * LIMIT_RATIO;
 
 		int		titleSize = height * TITLE_RATIO;
-		Text	titleText(globalConfig, title.c_str(), titleSize, BLACK, \
+		Text	titleText(globalConfig, title.c_str(), titleSize, writeColor, \
 			fontPath, renderer, width - (width * LIMIT_RATIO));
 
 		_texts.push_back(std::move(titleText));
@@ -30,7 +37,7 @@ YesNo::YesNo(const string& name, const int width, const int height, \
 			limitConfig.w = width - ((width * LIMIT_RATIO) * 2);
 			limitConfig.h = LIMIT_HEIGHT;
 
-			limitConfig.color = BLACK;
+			limitConfig.color = writeColor;
 
 			Element		limit(limitConfig);
 
@@ -42,7 +49,7 @@ YesNo::YesNo(const string& name, const int width, const int height, \
 	globalConfig.y += height * LIMIT_RATIO;
 
 	int		textSize = height * TEXT_RATIO;
-	Text	mainText(globalConfig, text.c_str(), textSize, BLACK, \
+	Text	mainText(globalConfig, text.c_str(), textSize, writeColor, \
 	 	fontPath, renderer, width - (width * LIMIT_RATIO));
 
 	_texts.push_back(std::move(mainText));
@@ -108,7 +115,7 @@ void     YesNo::draw(void)
 {
 	SDL_Renderer*	renderer = getRenderer();
 
-    drawBackground(WHITE);
+    drawBackground();
 
 	if (renderer)
 	{

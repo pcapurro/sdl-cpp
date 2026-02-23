@@ -85,6 +85,16 @@ void	Window::setY(const int y)
 	_y = y;
 }
 
+void	Window::setBackgroundColor(const Color& color)
+{
+	_color = color;
+}
+
+Color	Window::getBackgroundColor(void) const
+{
+	return _color;
+}
+
 SDL_Cursor*		Window::getCursor(const uint8_t value) const
 {
 	if (value == NM_CURSOR)
@@ -104,13 +114,14 @@ void	Window::setTitle(const std::string& title)
 	SDL_SetWindowTitle(_mainWindow, title.c_str());
 }
 
-void	Window::drawBackground(const Color color)
+void	Window::drawBackground()
 {
 	SDL_Rect	obj;
 
 	obj.x = 0, obj.y = 0;
 	obj.w = _width, obj.h = _height;
 
-	SDL_SetRenderDrawColor(_mainRenderer, color.r, color.g, color.b, color.a);
+	SDL_SetRenderDrawColor(_mainRenderer, _color.r, \
+		_color.g, _color.b, _color.a);
 	SDL_RenderFillRect(_mainRenderer, &obj);
 }
