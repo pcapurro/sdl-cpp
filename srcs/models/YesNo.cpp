@@ -5,73 +5,98 @@ YesNo::YesNo(const string& name, const int width, const int height, \
 	const bool titleLimit, const string& text, const string& logoPath, \
 	const int logoWidth, const int logoHeight) : Window(name, width, height)
 {
-	SDL_Renderer*	renderer = getRenderer();
-	Config			globalConfig;
-	Color			writeColor;
-
-	bool			logo = logoPath.size() > 0 ? true : false;
-	bool			title = titleText.size() > 0 ? true : false;
-
-	if (darkMode == true)
-		writeColor = WHITE, setBackgroundColor(BLACK);
+	if (darkMode)
+		setWriteColor(WHITE), setBackgroundColor(BLACK);
 	else
-		writeColor = BLACK, setBackgroundColor(WHITE);
+		setWriteColor(BLACK), setBackgroundColor(WHITE);
+
+	Config		globalConfig;
 
 	globalConfig.x = width * LIMIT_RATIO;
 	globalConfig.y = height * LIMIT_RATIO;
 
+	if (logoPath.size() > 0)
+		addLogo(globalConfig, logoPath, logoWidth, logoHeight);
+
+	if (titleText.size() > 0)
+	{
+		addTitleText(globalConfig, titleText, fontPath, \
+			!logoPath.empty(), logoWidth);
+
+		if (titleLimit)
+			addTitleLimit(globalConfig, !logoPath.empty(), logoWidth);
+	}
+
+	addText(globalConfig, text, fontPath);
+}
+
+void	YesNo::addLogo(Config& globalConfig, const string& logoPath, \
+	const int logoWidth, const int logoHeight)
+{
+	SDL_Renderer*	renderer = getRenderer();
+	Texture			logoImg(logoPath.c_str(), renderer);
+	Config			logoConfig;
+
+	logoConfig.x = getWidth() * LIMIT_RATIO;
+	logoConfig.y = getHeight() * LIMIT_RATIO;
+
+	logoConfig.w = logoWidth, logoConfig.h = logoHeight;
+
+	_elements.emplace_back(logoConfig);
+	_elements.back().setTexture(logoImg);
+
+	globalConfig.x += (getWidth() * LIMIT_RATIO) + logoWidth;
+}
+
+void	YesNo::addTitleText(Config& globalConfig, const string& text, \
+		const string& fontPath, const bool logo, const int logoWidth)
+{
+	SDL_Renderer*	renderer = getRenderer();
+	int				titleSize = getHeight() * TITLE_RATIO;
+	int				newWidth = getWidth() - (getWidth() * LIMIT_RATIO * 2);
+
 	if (logo)
-	{
-		Texture		logoImg(logoPath.c_str(), renderer);
-		Config		logoConfig;
+		newWidth -= (logoWidth * 2) - (getWidth() * LIMIT_RATIO);
 
-		logoConfig.x = globalConfig.x, logoConfig.y = globalConfig.y;
-		logoConfig.w = logoWidth, logoConfig.h = logoHeight;
+	_texts.emplace_back(globalConfig, text.c_str(), \
+		titleSize, getWriteColor(), fontPath, renderer, newWidth);
 
-		_elements.emplace_back(std::move(logoConfig));
-		_elements.back().setTexture(logoImg.getTexture());
+	globalConfig.y += _texts.back().getHeight();
+}
 
-		logoImg.setTexture(nullptr);
-		globalConfig.x += (width * LIMIT_RATIO) + logoWidth;
-	}
+void	YesNo::addTitleLimit(Config& globalConfig, const bool logo, const int logoWidth)
+{
+	Config		limitConfig;
 
-	if (title)
-	{
-		int		titleSize = height * TITLE_RATIO;
-		int		newWidth = width - (width * LIMIT_RATIO * 2);
+	limitConfig.x = globalConfig.x;
+	limitConfig.y = globalConfig.y + (getHeight() * LIMIT_RATIO) + (LIMIT_HEIGHT * 2);
 
-		if (logo)
-			newWidth -= (logoWidth * 2) - (width * LIMIT_RATIO);
+	limitConfig.w = getWidth();
 
-		_texts.emplace_back(std::move(globalConfig), titleText.c_str(), \
-			titleSize, writeColor, fontPath, renderer, newWidth);
+	if (!logo)
+		limitConfig.w -= (getWidth() * LIMIT_RATIO * 2);
+	else
+		limitConfig.w -= (getWidth() * LIMIT_RATIO + (logoWidth * 2));
 
-		globalConfig.y += _texts.back().getHeight();
+	limitConfig.h = LIMIT_HEIGHT;
 
-		if (titleLimit == true)
-		{
-			Config		limitConfig;
+	limitConfig.color = getWriteColor();
 
-			limitConfig.x = globalConfig.x;
-			limitConfig.y = globalConfig.y + (height * LIMIT_RATIO) + (LIMIT_HEIGHT * 2);
+	_elements.emplace_back(limitConfig);
+	globalConfig.y += (getHeight() * LIMIT_RATIO) + (LIMIT_HEIGHT * 2);
+}
 
-			limitConfig.w = newWidth;
-			limitConfig.h = LIMIT_HEIGHT;
+void	YesNo::addText(Config& globalConfig, const string& text, const string& fontPath)
+{
+	SDL_Renderer*	renderer = getRenderer();
 
-			limitConfig.color = writeColor;
+	globalConfig.x = getWidth() * LIMIT_RATIO;
+	globalConfig.y += getHeight() * LIMIT_RATIO;
 
-			_elements.emplace_back(std::move(limitConfig));
-			globalConfig.y += (height * LIMIT_RATIO) + (LIMIT_HEIGHT * 2);
-		}
-	}
+	int		textSize = getHeight() * TEXT_RATIO;
 
-	globalConfig.x = width * LIMIT_RATIO;
-	globalConfig.y += height * LIMIT_RATIO;
-
-	int		textSize = height * TEXT_RATIO;
-
-	_texts.emplace_back(std::move(globalConfig), text.c_str(), textSize, writeColor, \
-	 	fontPath, renderer, width - (width * LIMIT_RATIO));
+	_texts.emplace_back(globalConfig, text.c_str(), textSize, getWriteColor(), \
+	 	fontPath, renderer, getWidth() - (getWidth() * LIMIT_RATIO));
 }
 
 int     YesNo::routine(void)

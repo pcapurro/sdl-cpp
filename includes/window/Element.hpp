@@ -9,13 +9,14 @@ class Element
 {
 	private:
 		Config			_config;
+		Texture			_texture;
 
 		bool			_selected;
 		bool			_highlighted;
 
 	public:
 		Element(void) = default;
-		Element(Config config) noexcept;
+		Element(const Config& config) noexcept;
 		Element(Element&& original) noexcept;
 
 		~Element(void) = default;
@@ -38,7 +39,7 @@ class Element
 		void			highlight(void) { _highlighted = true; };
 		void			unHighlight(void) { _highlighted = false; };
 
-		SDL_Texture*	getTexture(void) const { return _config.texture.getTexture(); };
+		SDL_Texture*	getTexture(void) const { return _texture.getTexture(); };
 		Color			getColor(void) const { return _config.color; };
 
 		int				getType(void) const { return _config.type; };
@@ -46,7 +47,7 @@ class Element
 		int				getHighlightCursor(void) const { return _config.highlightCursor; };
 		int				getNormalCursor(void) const { return _config.normalCursor; };
 
-		void			setTexture(SDL_Texture* texture) { _config.texture.setTexture(texture); };
+		void			setTexture(Texture& texture) { _texture = texture; };
 		void			setVisibility(const bool value) { _config.visibility = value; };
 		void			setColor(const Color color) { _config.color = color; };
 		void			setOpacity(const int opacity) { _config.color.a = opacity; };

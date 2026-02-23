@@ -13,11 +13,10 @@ class Text final : public Element
         int                         _size;
 
         Font                        _font;
-        Texture                     _texture;
 
     public:
         Text(void) = default;
-        Text(Config config, const string& text, const int size, \
+        Text(const Config& config, const string& text, const int size, \
             const Color& color, const string& fontPath, SDL_Renderer* renderer, const int maxWidth);
 
         Text(const Text& original) = delete;

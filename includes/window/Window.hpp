@@ -19,7 +19,8 @@ class Window
 
 		const string			_name;
 
-		Color					_color;
+		Color					_writeColor;
+		Color					_backgroundColor;
 
 		SDL_Window*				_mainWindow;
 		SDL_Renderer*			_mainRenderer;
@@ -47,8 +48,10 @@ class Window
 
 		void					setTitle(const std::string& title);
 
+		void					setWriteColor(const Color& color);
 		void					setBackgroundColor(const Color& color);
 
+		Color					getWriteColor(void) const;
 		Color					getBackgroundColor(void) const;
 
 		SDL_Cursor*				getCursor(const uint8_t value) const;

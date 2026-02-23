@@ -1,8 +1,11 @@
 #include "Element.hpp"
 
-Element::Element(Config config) noexcept : _config(std::move(config)) {}
+Element::Element(const Config& config) noexcept : _config(config) {}
 
-Element::Element(Element&& original) noexcept : _config(std::move(original._config)) {}
+Element::Element(Element&& original) noexcept : _config(original._config)
+{
+	_texture = original._texture;
+}
 
 void	Element::draw(SDL_Renderer* renderer)
 {
@@ -16,8 +19,8 @@ void	Element::draw(SDL_Renderer* renderer)
 		SDL_SetRenderDrawColor(renderer, _config.color.r, \
 			_config.color.g, _config.color.b, _config.color.a);
 
-		if (_config.texture.getTexture())
-			SDL_RenderCopy(renderer, _config.texture.getTexture(), nullptr, &obj);
+		if (_texture.getTexture())
+			SDL_RenderCopy(renderer, _texture.getTexture(), nullptr, &obj);
 		else
 			SDL_RenderFillRect(renderer, &obj);
 

@@ -10,6 +10,17 @@ class YesNo final : public Window
 		vector<Element>			_elements;
 		vector<Text>			_texts;
 
+		void					addLogo(Config& globalConfig, const string& logoPath, \
+									const int logoWidth, const int logoHeight);
+
+		void					addTitleText(Config& globalConfig, const string& text, \
+									const string& fontPath, const bool logo, const int logoWidth);
+		void					addTitleLimit(Config& globalConfig, const bool logo, \
+									const int logoWidth);
+
+		void					addText(Config& globalConfig, const string& text, \
+									const string& fontPath);
+
 	public:
 		YesNo(void) = delete;
 		YesNo(const string& name, const int width = 400, const int height = 200, \

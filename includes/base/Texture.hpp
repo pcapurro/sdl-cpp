@@ -18,11 +18,11 @@ class Texture
 			SDL_Renderer* renderer, const int maxWidth);
 
 		Texture&		operator=(const Texture& original) = delete;
+		Texture&		operator=(Texture& original) noexcept;
 		Texture&		operator=(Texture&& original) noexcept;
 
 		~Texture(void) noexcept;
 
-		void			setTexture(SDL_Texture* texture, const bool free = false);
 		SDL_Texture*	getTexture(void) const;
 };
 

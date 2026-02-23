@@ -49,8 +49,16 @@ Texture&	Texture::operator=(Texture&& original) noexcept
 	if (this == &original)
 		return *this;
 
-	if (_texture)
-		SDL_DestroyTexture(_texture);
+	_texture = original._texture;
+	original._texture = nullptr;
+
+	return *this;
+}
+
+Texture&	Texture::operator=(Texture& original) noexcept
+{
+	if (this == &original)
+		return *this;
 
 	_texture = original._texture;
 	original._texture = nullptr;
@@ -62,14 +70,6 @@ Texture::~Texture(void) noexcept
 {
 	if (_texture)
 		SDL_DestroyTexture(_texture), _texture = nullptr;
-}
-
-void	Texture::setTexture(SDL_Texture* texture, const bool free)
-{
-	if (_texture && free == true)
-		SDL_DestroyTexture(_texture);
-
-	_texture = texture;
 }
 
 SDL_Texture*	Texture::getTexture(void) const

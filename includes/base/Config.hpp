@@ -16,7 +16,6 @@ class Config
         int             h = 0;
 
         Color           color = WHITE;
-        Texture         texture;
 
         int             type = 0;
 
