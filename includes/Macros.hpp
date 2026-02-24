@@ -18,7 +18,10 @@
 
 # define CANCEL 5
 
+# define ELEMENT 20
 # define TEXT 21
+# define BUTTON 22
+# define IMAGE 23
 
 # define LOGO_WIDTH 75
 # define LOGO_HEIGHT 75

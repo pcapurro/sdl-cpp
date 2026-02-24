@@ -7,8 +7,12 @@
 class YesNo final : public Window
 {
 	private:
-		vector<Element>			_elements;
+		vector<Element*>		_elements;
+
+		std::optional<Element>	_image;
+		std::optional<Element>	_separator;
 		vector<Text>			_texts;
+		vector<Element>			_buttons;
 
 		void					addLogo(Config& globalConfig, const string& logoPath, \
 									const int logoWidth, const int logoHeight);
@@ -32,9 +36,13 @@ class YesNo final : public Window
 
 		virtual int				routine(void);
 		virtual int				waitForEvent(void);
+
+		virtual	void			display(void);
 		
 		virtual void			draw(void);
-		virtual void			reactEvent(SDL_Event* event);
+
+		virtual void			reactEvent(SDL_Event* event, \
+									const int x = 0, const int y = 0);
 };
 
 #endif

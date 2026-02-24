@@ -28,6 +28,18 @@ YesNo::YesNo(const string& name, const int width, const int height, \
 	}
 
 	addText(globalConfig, text, fontPath);
+
+	if (_image.has_value())
+		_elements.push_back(&_image.value());
+
+	if (_separator.has_value())
+		_elements.push_back(&_separator.value());
+
+	for (int i = 0; i < _texts.size(); i++)
+		_elements.push_back(&_texts[i]);
+
+	for (int i = 0; i < _buttons.size(); i++)
+		_elements.push_back(&_buttons[i]);
 }
 
 void	YesNo::addLogo(Config& globalConfig, const string& logoPath, \
@@ -41,15 +53,16 @@ void	YesNo::addLogo(Config& globalConfig, const string& logoPath, \
 	logoConfig.y = getHeight() * LIMIT_RATIO;
 
 	logoConfig.w = logoWidth, logoConfig.h = logoHeight;
+	logoConfig.type = IMAGE;
 
-	_elements.emplace_back(logoConfig);
-	_elements.back().setTexture(logoImg);
+	_image.emplace(logoConfig);
+	_image.value().setTexture(logoImg);
 
 	globalConfig.x += (getWidth() * LIMIT_RATIO) + logoWidth;
 }
 
 void	YesNo::addTitleText(Config& globalConfig, const string& text, \
-		const string& fontPath, const bool logo, const int logoWidth)
+	const string& fontPath, const bool logo, const int logoWidth)
 {
 	SDL_Renderer*	renderer = getRenderer();
 	int				titleSize = getHeight() * TITLE_RATIO;
@@ -57,6 +70,8 @@ void	YesNo::addTitleText(Config& globalConfig, const string& text, \
 
 	if (logo)
 		newWidth -= (logoWidth * 2) - (getWidth() * LIMIT_RATIO);
+
+	globalConfig.type = TEXT;
 
 	_texts.emplace_back(globalConfig, text.c_str(), \
 		titleSize, getWriteColor(), fontPath, renderer, newWidth);
@@ -81,8 +96,10 @@ void	YesNo::addTitleLimit(Config& globalConfig, const bool logo, const int logoW
 	limitConfig.h = LIMIT_HEIGHT;
 
 	limitConfig.color = getWriteColor();
+	limitConfig.type = ELEMENT;
 
-	_elements.emplace_back(limitConfig);
+	_separator.emplace(limitConfig);
+
 	globalConfig.y += (getHeight() * LIMIT_RATIO) + (LIMIT_HEIGHT * 2);
 }
 
@@ -95,6 +112,7 @@ void	YesNo::addText(Config& globalConfig, const string& text, const string& font
 
 	int		textSize = getHeight() * TEXT_RATIO;
 
+	globalConfig.type = TEXT;
 	_texts.emplace_back(globalConfig, text.c_str(), textSize, getWriteColor(), \
 	 	fontPath, renderer, getWidth() - (getWidth() * LIMIT_RATIO));
 }
@@ -122,18 +140,25 @@ int     YesNo::waitForEvent(void)
 	int			x = 0, y = 0;
 	SDL_Event	event;
 
-	if (SDL_PollEvent(&event) == true)
+	if (SDL_WaitEvent(&event) == 0)
+		throw std::runtime_error("SDL failed listening to events: " + string(SDL_GetError()));
+
+	if (event.type == SDL_QUIT \
+		|| (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE))
+		return END;
+
+	if (event.type == SDL_KEYDOWN && (event.key.keysym.sym == SDLK_RETURN \
+		|| event.key.keysym.sym == SDLK_KP_ENTER))
+		return ENTER;
+
+	if (event.type == SDL_MOUSEMOTION || event.type == SDL_MOUSEBUTTONDOWN \
+		|| event.type == SDL_MOUSEBUTTONUP)
 	{
-		if (event.type == SDL_QUIT \
-			|| (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE))
-			return END;
-
-		if (event.type == SDL_KEYDOWN && (event.key.keysym.sym == SDLK_RETURN \
-			|| event.key.keysym.sym == SDLK_KP_ENTER))
-			return ENTER;
-
-		x = event.button.x;
-		y = event.button.y;
+		if (event.type == SDL_MOUSEMOTION)
+			x = event.motion.x, y = event.motion.y;
+		else if (event.type == SDL_MOUSEBUTTONDOWN \
+			|| event.type == SDL_MOUSEBUTTONUP)
+			x = event.button.x, y = event.button.y;
 
 		if (x < 0 || x > getWidth() || y < 0 || y > getHeight())
 			return OK;
@@ -143,17 +168,23 @@ int     YesNo::waitForEvent(void)
 		// cout << event.button.x << " ; " << event.button.y << endl;
 		// cout << x << " ; " << y << endl;
 
-		reactEvent(&event);
-
-		clear();
-		draw();
-		render();
+		reactEvent(&event, x, y);
 	}
+	else
+		reactEvent(&event);
 
 	return OK;
 }
 
-void     YesNo::draw(void)
+void	YesNo::display(void)
+{
+	clear();
+	draw();
+
+	render();
+}
+
+void	YesNo::draw(void)
 {
 	SDL_Renderer*	renderer = getRenderer();
 
@@ -162,14 +193,25 @@ void     YesNo::draw(void)
 	if (renderer)
 	{
 		for (auto& element : _elements)
-			element.draw(renderer);
-
-		for (auto& text : _texts)
-			text.draw(renderer);
+			element->draw(renderer);
 	}
 }
 
-void     YesNo::reactEvent(SDL_Event* event)
+void	YesNo::reactEvent(SDL_Event* event, \
+	const int x, const int y)
 {
-    (void) event;
+    if (event->type == SDL_KEYDOWN && event->type == SDL_KEYUP \
+		&& event->button.button == SDLK_TAB)
+	{
+		;
+	}
+
+	if (event->type == SDL_MOUSEMOTION)
+	{
+		for (auto& element : _elements)
+		{
+			if (element->isAbove(x, y) == true)
+				{ display(); return; }
+		}
+	}
 }

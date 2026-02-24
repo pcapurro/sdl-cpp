@@ -38,7 +38,10 @@ class Window
 		virtual int				waitForEvent(void) = 0;
 
 		virtual void			draw(void) = 0;
-		virtual void			reactEvent(SDL_Event* event) = 0;
+		virtual void			reactEvent(SDL_Event* event, \
+									const int x = 0, const int y = 0) = 0;
+
+		virtual void			display(void) = 0;
 
 		void					drawBackground(void);
 	

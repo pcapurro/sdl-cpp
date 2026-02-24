@@ -40,9 +40,6 @@ void	Element::draw(SDL_Renderer* renderer)
 
 bool	Element::isAbove(const int x, const int y) const
 {
-	if (_config.highlight == false)
-		return false;
-
 	if (x >= _config.x && x <= _config.x + _config.w)
 	{
 		if (y >= _config.y && y <= _config.y + _config.h)
