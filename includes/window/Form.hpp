@@ -5,11 +5,9 @@
 
 class Form final : public Render
 {
-    private:
-        Texture     _image;
-
     public:
         Form(void) = default;
+        ~Form(void) = default;
 
         void        render(SDL_Renderer* renderer, const Config& config);
 };
