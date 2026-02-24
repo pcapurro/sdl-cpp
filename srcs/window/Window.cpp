@@ -87,7 +87,7 @@ void	Window::setY(const int y)
 
 void	Window::setWriteColor(const Color& color)
 {
-	_backgroundColor = color;
+	_writeColor = color;
 }
 
 void	Window::setBackgroundColor(const Color& color)
