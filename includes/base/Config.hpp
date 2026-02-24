@@ -17,9 +17,12 @@ class Config
 
         Color           color = WHITE;
 
-        int             type = 0;
+        int             type = NONE;
+
+        bool            selected = false;
 
         bool            highlight = false;
+        bool            highlighted = false;
 
         int             highlightCursor = 1;
         int             normalCursor = 1;

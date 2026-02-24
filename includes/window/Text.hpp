@@ -1,31 +1,28 @@
 #ifndef TEXT_HPP
 # define TEXT_HPP
 
-# include "Element.hpp"
 # include "Font.hpp"
-# include "Config.hpp"
 # include "Texture.hpp"
+# include "Render.hpp"
 
-class Text final : public Element
+class Text final : public Render
 {
     private:
-        string                      _text;
-        int                         _size;
+        int         _realWidth;
+        int         _realHeight;
 
-        Font                        _font;
+        Font        _font;
+        Texture     _text;
 
     public:
-        Text(void) = default;
-        Text(const Config& config, const string& text, const int size, \
-            const Color& color, const string& fontPath, SDL_Renderer* renderer, const int maxWidth);
+        Text(void) = delete;
+        Text(const string& text, const int size, const Color& color, \
+            const string& fontPath, SDL_Renderer* renderer, const int maxWidth);
 
-        Text(const Text& original) = delete;
-        Text(Text&& original) = default;
+        void        render(SDL_Renderer* renderer, const Config& config);
 
-        Text&   operator=(const Text& original) = delete;
-        Text&   operator=(Text&& original) = default;
-
-        ~Text(void) = default;
+        int         getRealWidth(void) const;
+        int         getRealHeight(void) const;
 };
 
 #endif

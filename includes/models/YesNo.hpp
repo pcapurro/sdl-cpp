@@ -2,17 +2,15 @@
 # define YESNO_HPP
 
 # include "Window.hpp"
+
 # include "Text.hpp"
+# include "Form.hpp"
+# include "Image.hpp"
 
 class YesNo final : public Window
 {
 	private:
-		vector<Element*>		_elements;
-
-		std::optional<Element>	_image;
-		std::optional<Element>	_separator;
-		vector<Text>			_texts;
-		vector<Element>			_buttons;
+		vector<Element>			_elements;
 
 		void					addLogo(Config& globalConfig, const string& logoPath, \
 									const int logoWidth, const int logoHeight);

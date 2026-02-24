@@ -28,18 +28,6 @@ YesNo::YesNo(const string& name, const int width, const int height, \
 	}
 
 	addText(globalConfig, text, fontPath);
-
-	if (_image.has_value())
-		_elements.push_back(&_image.value());
-
-	if (_separator.has_value())
-		_elements.push_back(&_separator.value());
-
-	for (int i = 0; i < _texts.size(); i++)
-		_elements.push_back(&_texts[i]);
-
-	for (int i = 0; i < _buttons.size(); i++)
-		_elements.push_back(&_buttons[i]);
 }
 
 void	YesNo::addLogo(Config& globalConfig, const string& logoPath, \
@@ -55,8 +43,10 @@ void	YesNo::addLogo(Config& globalConfig, const string& logoPath, \
 	logoConfig.w = logoWidth, logoConfig.h = logoHeight;
 	logoConfig.type = IMAGE;
 
-	_image.emplace(logoConfig);
-	_image.value().setTexture(logoImg);
+	Element			element(logoConfig);
+
+	element.setRender(std::make_unique<Image>(logoPath.c_str(), renderer));
+	_elements.push_back(std::move(element));
 
 	globalConfig.x += (getWidth() * LIMIT_RATIO) + logoWidth;
 }
@@ -73,10 +63,14 @@ void	YesNo::addTitleText(Config& globalConfig, const string& text, \
 
 	globalConfig.type = TEXT;
 
-	_texts.emplace_back(globalConfig, text.c_str(), \
-		titleSize, getWriteColor(), fontPath, renderer, newWidth);
+	Element				element(globalConfig);
+	unique_ptr<Text>	ptr = std::make_unique<Text>(text.c_str(), titleSize, \
+		getWriteColor(), fontPath, renderer, newWidth);
 
-	globalConfig.y += _texts.back().getHeight();
+	globalConfig.y += ptr.get()->getRealHeight();
+
+	element.setRender(std::move(ptr));
+	_elements.push_back(std::move(element));
 }
 
 void	YesNo::addTitleLimit(Config& globalConfig, const bool logo, const int logoWidth)
@@ -98,7 +92,10 @@ void	YesNo::addTitleLimit(Config& globalConfig, const bool logo, const int logoW
 	limitConfig.color = getWriteColor();
 	limitConfig.type = ELEMENT;
 
-	_separator.emplace(limitConfig);
+	Element			element(limitConfig);
+
+	element.setRender(std::make_unique<Form>());
+	_elements.push_back(std::move(element));
 
 	globalConfig.y += (getHeight() * LIMIT_RATIO) + (LIMIT_HEIGHT * 2);
 }
@@ -113,8 +110,13 @@ void	YesNo::addText(Config& globalConfig, const string& text, const string& font
 	int		textSize = getHeight() * TEXT_RATIO;
 
 	globalConfig.type = TEXT;
-	_texts.emplace_back(globalConfig, text.c_str(), textSize, getWriteColor(), \
-	 	fontPath, renderer, getWidth() - (getWidth() * LIMIT_RATIO));
+
+	Element			element(globalConfig);
+
+	element.setRender(std::make_unique<Text>(text.c_str(), textSize, getWriteColor(), \
+	 	fontPath, renderer, getWidth() - (getWidth() * LIMIT_RATIO)));
+
+	_elements.push_back(std::move(element));
 }
 
 int     YesNo::routine(void)
@@ -193,7 +195,7 @@ void	YesNo::draw(void)
 	if (renderer)
 	{
 		for (auto& element : _elements)
-			element->draw(renderer);
+			element.draw(renderer);
 	}
 }
 
@@ -210,7 +212,7 @@ void	YesNo::reactEvent(SDL_Event* event, \
 	{
 		for (auto& element : _elements)
 		{
-			if (element->isAbove(x, y) == true)
+			if (element.isAbove(x, y) == true)
 				{ display(); return; }
 		}
 	}

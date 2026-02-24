@@ -18,6 +18,7 @@
 
 # define CANCEL 5
 
+# define NONE 0
 # define ELEMENT 20
 # define TEXT 21
 # define BUTTON 22
@@ -38,5 +39,11 @@
 # define GREEN {0, 255, 0, 255}
 # define BLUE {0, 0, 255, 255}
 # define YELLOW {255, 255, 0, 255}
+
+# define RED_TXT "\033[31m"
+# define GREEN_TXT "\033[32m"
+# define GREY_TXT "\033[90m"
+
+# define END_COLOR "\033[0m"
 
 #endif

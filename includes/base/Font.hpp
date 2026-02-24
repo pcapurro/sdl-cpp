@@ -19,7 +19,6 @@ class Font
 
         ~Font(void) noexcept;
 
-        void        setPath(const string& newPath);
         TTF_Font*   getFont(void) const;
 };
 

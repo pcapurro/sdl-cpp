@@ -9,7 +9,6 @@ class Texture
 		SDL_Texture*	_texture = nullptr;
 
 	public:
-		Texture(void) = default;
 		Texture(const Texture& original) = delete;
 		Texture(Texture&& original) noexcept;
 

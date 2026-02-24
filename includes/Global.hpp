@@ -33,4 +33,7 @@ using std::endl;
 using std::string;
 using std::vector;
 
+using std::optional;
+using std::unique_ptr;
+
 #endif

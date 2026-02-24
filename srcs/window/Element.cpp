@@ -1,41 +1,9 @@
 #include "Element.hpp"
 
-Element::Element(const Config& config) noexcept : _config(config) {}
-
-Element::Element(Element&& original) noexcept : _config(original._config)
-{
-	_texture = original._texture;
-}
-
 void	Element::draw(SDL_Renderer* renderer)
 {
-	SDL_Rect	obj;
-
-	obj.x = _config.x, obj.y = _config.y;
-	obj.w = _config.w, obj.h = _config.h;
-
-	if (_config.visibility == true)
-	{
-		SDL_SetRenderDrawColor(renderer, _config.color.r, \
-			_config.color.g, _config.color.b, _config.color.a);
-
-		if (_texture.getTexture())
-			SDL_RenderCopy(renderer, _texture.getTexture(), nullptr, &obj);
-		else
-			SDL_RenderFillRect(renderer, &obj);
-
-		if (_selected == true)
-		{
-			SDL_SetRenderDrawColor(renderer, 32, 129, 1, 150);
-			SDL_RenderFillRect(renderer, &obj);
-		}
-	}
-	
-	if (_config.highlight == true && _highlighted == true)
-	{
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 121);
-		SDL_RenderFillRect(renderer, &obj);
-	}
+	if (_render)
+		_render.get()->render(renderer, _config);
 }
 
 bool	Element::isAbove(const int x, const int y) const
@@ -47,4 +15,84 @@ bool	Element::isAbove(const int x, const int y) const
 	}
 
 	return false;
+}
+
+void	Element::setRender(unique_ptr<Render>&& render)
+{
+	_render = std::move(render);
+}
+
+void	Element::setX(const int x)
+{
+	_config.x = x;
+}
+
+void	Element::setY(const int y)
+{
+	_config.y = y;
+}
+
+void	Element::setWidth(const int w)
+{
+	_config.w = w;
+}
+
+void	Element::setHeight(const int h)
+{
+	_config.h = h;
+}
+
+void	Element::setVisibility(const bool value)
+{
+	_config.visibility = value;
+}
+
+void	Element::setColor(const Color color)
+{
+	_config.color = color;
+}
+
+void	Element::setOpacity(const int opacity)
+{
+	_config.color.a = opacity;
+}
+
+Color	Element::getColor(void) const
+{
+	return _config.color;
+}
+
+int		Element::getType(void) const
+{
+	return _config.type;
+}
+
+int		Element::getHighlightCursor(void) const
+{
+	return _config.highlightCursor;
+}
+
+int		Element::getNormalCursor(void) const
+{
+	return _config.normalCursor;
+}
+
+int		Element::getX(void) const
+{
+	return _config.x;
+}
+
+int		Element::getY(void) const
+{
+	return _config.y;
+}
+
+int		Element::getWidth(void) const
+{
+	return _config.w;
+}
+
+int		Element::getHeight(void) const
+{
+	return _config.h;
 }

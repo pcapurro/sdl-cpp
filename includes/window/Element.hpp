@@ -4,58 +4,49 @@
 # include "Global.hpp"
 
 # include "Config.hpp"
+# include "Render.hpp"
 
 class Element
 {
 	private:
-		Config			_config;
-		Texture			_texture;
-
-		bool			_selected;
-		bool			_highlighted;
+		Config					_config;
+		unique_ptr<Render>		_render;
 
 	public:
 		Element(void) = default;
-		Element(const Config& config) noexcept;
-		Element(Element&& original) noexcept;
+		Element(const Config& config) noexcept : _config(config) {}
+		Element(Element&& original) noexcept : _config(std::move(original._config)), \
+			_render(std::move(original._render)) {}
 
 		~Element(void) = default;
 
-		int				getX(void) const { return _config.x; };
-		int				getY(void) const { return _config.y; };
-
-		int				getWidth(void) const { return _config.w; };
-		int				getHeight(void) const { return _config.h; };
-
-		void			setX(const int x) { _config.x = x; };
-		void			setY(const int y) { _config.y = y; };
-
-		void			setWidth(const int w) { _config.w = w; };
-		void			setHeight(const int h) { _config.h = h; };
-
-		void			select(void) { _selected = true; };
-		void			unSelect(void) { _selected = false; };
-
-		void			highlight(void) { _highlighted = true; };
-		void			unHighlight(void) { _highlighted = false; };
-
-		SDL_Texture*	getTexture(void) const { return _texture.getTexture(); };
-		Color			getColor(void) const { return _config.color; };
-
-		int				getType(void) const { return _config.type; };
-
-		int				getHighlightCursor(void) const { return _config.highlightCursor; };
-		int				getNormalCursor(void) const { return _config.normalCursor; };
-
-		void			setTexture(Texture& texture) { _texture = texture; };
-		void			setVisibility(const bool value) { _config.visibility = value; };
-		void			setColor(const Color color) { _config.color = color; };
-		void			setOpacity(const int opacity) { _config.color.a = opacity; };
-
-		bool			isAbove(const int x, const int y) const;
-		bool			isSelected(void) const { return _selected; };
-
 		void			draw(SDL_Renderer* renderer);
+		bool			isAbove(const int x, const int y) const;
+
+		void			setRender(unique_ptr<Render>&& render);
+
+		void			setX(const int x);
+		void			setY(const int y);
+
+		void			setWidth(const int w);
+		void			setHeight(const int h);
+
+		void			setVisibility(const bool value);
+		void			setColor(const Color color);
+		void			setOpacity(const int opacity);
+
+		Color			getColor(void) const;
+
+		int				getType(void) const;
+
+		int				getHighlightCursor(void) const;
+		int				getNormalCursor(void) const;
+
+		int				getX(void) const;
+		int				getY(void) const;
+
+		int				getWidth(void) const;
+		int				getHeight(void) const;
 };
 
 #endif

@@ -8,7 +8,7 @@
 class Engine
 {
     private:
-        std::optional<TTF>      _ttf;
+        optional<TTF>       _ttf;
 
     public:
         Engine(const bool video = true, const bool antialiasing = false, \

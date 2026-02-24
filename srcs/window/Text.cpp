@@ -1,21 +1,36 @@
 #include "Text.hpp"
 
-Text::Text(const Config& config, const string& text, const int size, \
-    const Color& color, const string& fontPath, SDL_Renderer* renderer, const int maxWidth) : \
-    Element(config), \
-    _font(fontPath, size)
+Text::Text(const string& text, const int size, const Color& color, \
+    const string& fontPath, SDL_Renderer* renderer, const int maxWidth) : \
+    _font(fontPath, size), \
+    _text(text.c_str(), _font.getFont(), color.toSDL(), renderer, maxWidth)
 {
-    int width = 0;
-    int height = 0;
+    SDL_QueryTexture(_text.getTexture(), nullptr, \
+        nullptr, &_realWidth, &_realHeight);
+}
 
-    Texture     texture(text.c_str(), _font.getFont(), \
-        {color.r, color.g, color.b, color.a}, renderer, maxWidth);
+void    Text::render(SDL_Renderer* renderer, const Config& config)
+{
+	SDL_Rect	obj;
 
-    SDL_QueryTexture(texture.getTexture(), nullptr, \
-        nullptr, &width, &height);
+	obj.x = config.x, obj.y = config.y;
+    obj.w = _realWidth, obj.h = _realHeight;
 
-    setWidth(width);
-    setHeight(height);
+	if (config.visibility == false)
+        return;
 
-    setTexture(texture);
+    SDL_SetRenderDrawColor(renderer, config.color.r, \
+        config.color.g, config.color.b, config.color.a);
+
+    SDL_RenderCopy(renderer, _text.getTexture(), nullptr, &obj);
+}
+
+int     Text::getRealWidth(void) const
+{
+    return _realWidth;
+}
+
+int     Text::getRealHeight(void) const
+{
+    return _realHeight;
 }

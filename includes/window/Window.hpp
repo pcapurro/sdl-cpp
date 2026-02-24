@@ -25,10 +25,10 @@ class Window
 		SDL_Window*				_mainWindow;
 		SDL_Renderer*			_mainRenderer;
 
-		std::optional<Cursor>	_normalCursor;
-		std::optional<Cursor>	_interactCursor;
-		std::optional<Cursor>	_crossHairCursor;
-		std::optional<Cursor>	_textCursor;
+		optional<Cursor>		_normalCursor;
+		optional<Cursor>		_interactCursor;
+		optional<Cursor>		_crossHairCursor;
+		optional<Cursor>		_textCursor;
 
 	public:
 		Window(const string& name, const int width, const int height);
