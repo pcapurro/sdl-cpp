@@ -10,111 +10,117 @@ YesNo::YesNo(const string& name, const int width, const int height, \
 	else
 		setWriteColor(BLACK), setBackgroundColor(WHITE);
 
-	Config		globalConfig;
+	Config		globalFrameConfig;
 
-	globalConfig.x = width * LIMIT_RATIO;
-	globalConfig.y = height * LIMIT_RATIO;
+	globalFrameConfig.x = width * LIMIT_RATIO;
+	globalFrameConfig.y = height * LIMIT_RATIO;
 
 	if (logoPath.size() > 0)
-		addLogo(globalConfig, logoPath, logoWidth, logoHeight);
+		addLogo(globalFrameConfig, logoPath, logoWidth, logoHeight);
 
 	if (titleText.size() > 0)
 	{
-		addTitleText(globalConfig, titleText, fontPath, \
+		addTitleText(globalFrameConfig, titleText, fontPath, \
 			!logoPath.empty(), logoWidth);
 
 		if (titleLimit)
-			addTitleLimit(globalConfig, !logoPath.empty(), logoWidth);
+			addTitleLimit(globalFrameConfig, !logoPath.empty(), logoWidth);
 	}
 
-	addText(globalConfig, text, fontPath);
+	addText(globalFrameConfig, text, fontPath);
 }
 
-void	YesNo::addLogo(Config& globalConfig, const string& logoPath, \
+void	YesNo::addLogo(Config& globalFrameConfig, const string& logoPath, \
 	const int logoWidth, const int logoHeight)
 {
-	SDL_Renderer*	renderer = getRenderer();
-	Texture			logoImg(logoPath.c_str(), renderer);
-	Config			logoConfig;
+	Layout			logoLayout;
+	Config			logoFrameConfig;
 
-	logoConfig.x = getWidth() * LIMIT_RATIO;
-	logoConfig.y = getHeight() * LIMIT_RATIO;
+	logoFrameConfig.x = getWidth() * LIMIT_RATIO;
+	logoFrameConfig.y = getHeight() * LIMIT_RATIO;
 
-	logoConfig.w = logoWidth, logoConfig.h = logoHeight;
-	logoConfig.type = IMAGE;
+	logoFrameConfig.w = logoWidth;
+	logoFrameConfig.h = logoHeight;
 
-	Element			element(logoConfig);
+	logoFrameConfig.type = IMAGE;
 
-	element.addWidget(std::make_unique<Image>(logoPath.c_str(), renderer));
+	logoLayout.widthPercent = 100;
+	logoLayout.heightPercent = 100;
+
+	logoLayout.xPercent = 50;
+	logoLayout.yPercent = 50;
+
+	logoLayout.xCentered = true;
+	logoLayout.yCentered = true;
+
+	Element			element(logoFrameConfig);
+
+	element.addWidget(std::make_unique<Image>(logoPath.c_str(), getRenderer(), logoLayout));
 	_elements.push_back(std::move(element));
 
-	globalConfig.x += (getWidth() * LIMIT_RATIO) + logoWidth;
+	globalFrameConfig.x += (getWidth() * LIMIT_RATIO) + logoWidth;
 }
 
-void	YesNo::addTitleText(Config& globalConfig, const string& text, \
+void	YesNo::addTitleText(Config& globalFrameConfig, const string& text, \
 	const string& fontPath, const bool logo, const int logoWidth)
 {
-	SDL_Renderer*	renderer = getRenderer();
-	int				titleSize = getHeight() * TITLE_RATIO;
-	int				newWidth = getWidth() - (getWidth() * LIMIT_RATIO * 2);
+	int		titleSize = getHeight() * TITLE_RATIO;
+	int		newWidth = getWidth() - (getWidth() * LIMIT_RATIO * 2);
 
 	if (logo)
 		newWidth -= (logoWidth * 2) - (getWidth() * LIMIT_RATIO);
 
-	globalConfig.type = TEXT;
+	globalFrameConfig.type = TEXT;
 
-	Element				element(globalConfig);
+	Element				element(globalFrameConfig);
 	unique_ptr<Text>	ptr = std::make_unique<Text>(text.c_str(), titleSize, \
-		getWriteColor(), fontPath, renderer, newWidth);
+		getWriteColor(), fontPath, getRenderer(), newWidth);
 
-	globalConfig.y += ptr.get()->getRealHeight();
+	globalFrameConfig.y += ptr.get()->getRealHeight();
 
 	element.addWidget(std::move(ptr));
 	_elements.push_back(std::move(element));
 }
 
-void	YesNo::addTitleLimit(Config& globalConfig, const bool logo, const int logoWidth)
+void	YesNo::addTitleLimit(Config& globalFrameConfig, const bool logo, const int logoWidth)
 {
-	Config		limitConfig;
+	Config		limitFrameConfig;
 
-	limitConfig.x = globalConfig.x;
-	limitConfig.y = globalConfig.y + (getHeight() * LIMIT_RATIO) + (LIMIT_HEIGHT * 2);
+	limitFrameConfig.x = globalFrameConfig.x;
+	limitFrameConfig.y = globalFrameConfig.y + (getHeight() * LIMIT_RATIO) + (LIMIT_HEIGHT * 2);
 
-	limitConfig.w = getWidth();
+	limitFrameConfig.w = getWidth();
 
 	if (!logo)
-		limitConfig.w -= (getWidth() * LIMIT_RATIO * 2);
+		limitFrameConfig.w -= (getWidth() * LIMIT_RATIO * 2);
 	else
-		limitConfig.w -= (getWidth() * LIMIT_RATIO + (logoWidth * 2));
+		limitFrameConfig.w -= (getWidth() * LIMIT_RATIO + (logoWidth * 2));
 
-	limitConfig.h = LIMIT_HEIGHT;
+	limitFrameConfig.h = LIMIT_HEIGHT;
 
-	limitConfig.color = getWriteColor();
-	limitConfig.type = ELEMENT;
+	limitFrameConfig.color = getWriteColor();
+	limitFrameConfig.type = ELEMENT;
 
-	Element			element(limitConfig);
+	Element			element(limitFrameConfig);
 
 	element.addWidget(std::make_unique<Form>());
 	_elements.push_back(std::move(element));
 
-	globalConfig.y += (getHeight() * LIMIT_RATIO) + (LIMIT_HEIGHT * 2);
+	globalFrameConfig.y += (getHeight() * LIMIT_RATIO) + (LIMIT_HEIGHT * 2);
 }
 
-void	YesNo::addText(Config& globalConfig, const string& text, const string& fontPath)
+void	YesNo::addText(Config& globalFrameConfig, const string& text, const string& fontPath)
 {
-	SDL_Renderer*	renderer = getRenderer();
+	globalFrameConfig.x = getWidth() * LIMIT_RATIO;
+	globalFrameConfig.y += getHeight() * LIMIT_RATIO;
 
-	globalConfig.x = getWidth() * LIMIT_RATIO;
-	globalConfig.y += getHeight() * LIMIT_RATIO;
+	globalFrameConfig.type = TEXT;
 
-	int		textSize = getHeight() * TEXT_RATIO;
-
-	globalConfig.type = TEXT;
-
-	Element			element(globalConfig);
+	int			textSize = getHeight() * TEXT_RATIO;
+	Element		element(globalFrameConfig);
 
 	element.addWidget(std::make_unique<Text>(text.c_str(), textSize, getWriteColor(), \
-	 	fontPath, renderer, getWidth() - (getWidth() * LIMIT_RATIO)));
+	 	fontPath, getRenderer(), getWidth() - (getWidth() * LIMIT_RATIO)));
 
 	_elements.push_back(std::move(element));
 }

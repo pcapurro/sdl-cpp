@@ -11,7 +11,8 @@ class Image final : public Widget
 
     public:
         Image(void) = delete;
-        Image(const char* path, SDL_Renderer* renderer);
+        Image(const char* path, SDL_Renderer* renderer, \
+            Layout layout = Layout{});
 
         void        render(SDL_Renderer* renderer, const Config& frameConfig);
 };
