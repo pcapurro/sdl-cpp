@@ -3,9 +3,9 @@
 
 # include "Font.hpp"
 # include "Texture.hpp"
-# include "Render.hpp"
+# include "Widget.hpp"
 
-class Text final : public Render
+class Text final : public Widget
 {
     private:
         int         _realWidth;
@@ -19,7 +19,7 @@ class Text final : public Render
         Text(const string& text, const int size, const Color& color, \
             const string& fontPath, SDL_Renderer* renderer, const int maxWidth);
 
-        void        render(SDL_Renderer* renderer, const Config& config);
+        void        render(SDL_Renderer* renderer, const Config& frameConfig);
 
         int         getRealWidth(void) const;
         int         getRealHeight(void) const;

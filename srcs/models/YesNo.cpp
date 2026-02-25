@@ -45,7 +45,7 @@ void	YesNo::addLogo(Config& globalConfig, const string& logoPath, \
 
 	Element			element(logoConfig);
 
-	element.addRender(std::make_unique<Image>(logoPath.c_str(), renderer));
+	element.addWidget(std::make_unique<Image>(logoPath.c_str(), renderer));
 	_elements.push_back(std::move(element));
 
 	globalConfig.x += (getWidth() * LIMIT_RATIO) + logoWidth;
@@ -69,7 +69,7 @@ void	YesNo::addTitleText(Config& globalConfig, const string& text, \
 
 	globalConfig.y += ptr.get()->getRealHeight();
 
-	element.addRender(std::move(ptr));
+	element.addWidget(std::move(ptr));
 	_elements.push_back(std::move(element));
 }
 
@@ -94,7 +94,7 @@ void	YesNo::addTitleLimit(Config& globalConfig, const bool logo, const int logoW
 
 	Element			element(limitConfig);
 
-	element.addRender(std::make_unique<Form>());
+	element.addWidget(std::make_unique<Form>());
 	_elements.push_back(std::move(element));
 
 	globalConfig.y += (getHeight() * LIMIT_RATIO) + (LIMIT_HEIGHT * 2);
@@ -113,7 +113,7 @@ void	YesNo::addText(Config& globalConfig, const string& text, const string& font
 
 	Element			element(globalConfig);
 
-	element.addRender(std::make_unique<Text>(text.c_str(), textSize, getWriteColor(), \
+	element.addWidget(std::make_unique<Text>(text.c_str(), textSize, getWriteColor(), \
 	 	fontPath, renderer, getWidth() - (getWidth() * LIMIT_RATIO)));
 
 	_elements.push_back(std::move(element));

@@ -9,18 +9,18 @@ Text::Text(const string& text, const int size, const Color& color, \
         nullptr, &_realWidth, &_realHeight);
 }
 
-void    Text::render(SDL_Renderer* renderer, const Config& config)
+void    Text::render(SDL_Renderer* renderer, const Config& frameConfig)
 {
 	SDL_Rect	obj;
 
-	obj.x = config.x, obj.y = config.y;
+	obj.x = frameConfig.x, obj.y = frameConfig.y;
     obj.w = _realWidth, obj.h = _realHeight;
 
-	if (config.visibility == false)
+	if (frameConfig.visibility == false)
         return;
 
-    SDL_SetRenderDrawColor(renderer, config.color.r, \
-        config.color.g, config.color.b, config.color.a);
+    SDL_SetRenderDrawColor(renderer, frameConfig.color.r, \
+        frameConfig.color.g, frameConfig.color.b, frameConfig.color.a);
 
     SDL_RenderCopy(renderer, _text.getTexture(), nullptr, &obj);
 }

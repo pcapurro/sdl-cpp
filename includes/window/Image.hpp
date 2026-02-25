@@ -2,9 +2,9 @@
 # define IMAGE_HPP
 
 # include "Texture.hpp"
-# include "Render.hpp"
+# include "Widget.hpp"
 
-class Image final : public Render
+class Image final : public Widget
 {
     private:
         Texture     _image;
@@ -13,7 +13,7 @@ class Image final : public Render
         Image(void) = delete;
         Image(const char* path, SDL_Renderer* renderer);
 
-        void        render(SDL_Renderer* renderer, const Config& config);
+        void        render(SDL_Renderer* renderer, const Config& frameConfig);
 };
 
 #endif

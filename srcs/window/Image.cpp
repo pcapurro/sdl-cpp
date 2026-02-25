@@ -2,18 +2,12 @@
 
 Image::Image(const char* path, SDL_Renderer* renderer) : _image(path, renderer) {}
 
-void    Image::render(SDL_Renderer* renderer, const Config& config)
+void    Image::render(SDL_Renderer* renderer, const Config& frameConfig)
 {
 	SDL_Rect	obj;
 
-	obj.x = config.x, obj.y = config.y;
-	obj.w = config.w, obj.h = config.h;
-
-	if (config.visibility == false)
-        return;
-
-    SDL_SetRenderDrawColor(renderer, config.color.r, \
-        config.color.g, config.color.b, config.color.a);
+	obj.x = frameConfig.x, obj.y = frameConfig.y;
+	obj.w = frameConfig.w, obj.h = frameConfig.h;
 
     SDL_RenderCopy(renderer, _image.getTexture(), nullptr, &obj);
 }

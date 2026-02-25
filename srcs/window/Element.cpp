@@ -2,10 +2,13 @@
 
 void	Element::render(SDL_Renderer* renderer)
 {
-	for (const auto& render : _renders)
+	if (_config.visibility == false)
+		return;
+
+	for (const auto& widget : _widgets)
 	{
-		if (render)
-			render.get()->render(renderer, _config);
+		if (widget)
+			widget.get()->render(renderer, _config);
 	}
 }
 
@@ -20,9 +23,9 @@ bool	Element::isAbove(const int x, const int y) const
 	return false;
 }
 
-void	Element::addRender(unique_ptr<Render>&& render)
+void	Element::addWidget(unique_ptr<Widget>&& widget)
 {
-	_renders.push_back(std::move(render));
+	_widgets.push_back(std::move(widget));
 }
 
 void	Element::setX(const int x)
