@@ -1,6 +1,6 @@
-#include "Form.hpp"
+#include "Shape.hpp"
 
-void    Form::render(SDL_Renderer* renderer, const Config& frameConfig)
+void    Shape::render(SDL_Renderer* renderer, const Config& frameConfig)
 {
 	if (frameConfig.visibility == false)
         return;

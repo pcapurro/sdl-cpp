@@ -103,7 +103,7 @@ void	YesNo::addTitleLimit(Config& globalFrameConfig, const bool logo, const int 
 
 	Element			element(limitFrameConfig);
 
-	element.addWidget(std::make_unique<Form>());
+	element.addWidget(std::make_unique<Shape>());
 	_elements.push_back(std::move(element));
 
 	globalFrameConfig.y += (getHeight() * LIMIT_RATIO) + (LIMIT_HEIGHT * 2);
