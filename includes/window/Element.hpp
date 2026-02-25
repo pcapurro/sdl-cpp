@@ -9,21 +9,21 @@
 class Element
 {
 	private:
-		Config					_config;
-		unique_ptr<Render>		_render;
+		Config							_config;
+		vector<unique_ptr<Render>>		_renders;
 
 	public:
 		Element(void) = default;
 		Element(const Config& config) noexcept : _config(config) {}
 		Element(Element&& original) noexcept : _config(std::move(original._config)), \
-			_render(std::move(original._render)) {}
+			_renders(std::move(original._renders)) {}
 
 		~Element(void) = default;
 
-		void			draw(SDL_Renderer* renderer);
+		void			render(SDL_Renderer* renderer);
 		bool			isAbove(const int x, const int y) const;
 
-		void			setRender(unique_ptr<Render>&& render);
+		void			addRender(unique_ptr<Render>&& render);
 
 		void			setX(const int x);
 		void			setY(const int y);

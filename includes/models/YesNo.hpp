@@ -35,9 +35,9 @@ class YesNo final : public Window
 		virtual int				routine(void);
 		virtual int				waitForEvent(void);
 
-		virtual	void			display(void);
+		virtual	void			refreshDisplay(void);
 		
-		virtual void			draw(void);
+		virtual void			render(void);
 
 		virtual void			reactEvent(SDL_Event* event, \
 									const int x = 0, const int y = 0);

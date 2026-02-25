@@ -40,7 +40,7 @@ void	Window::blur(const uint8_t blurA)
 	SDL_RenderFillRect(_mainRenderer, &obj);
 }
 
-void	Window::render(void)
+void	Window::display(void)
 {
 	SDL_RenderPresent(_mainRenderer);
 }
@@ -124,7 +124,7 @@ void	Window::setTitle(const std::string& title)
 	SDL_SetWindowTitle(_mainWindow, title.c_str());
 }
 
-void	Window::drawBackground()
+void	Window::renderBackground()
 {
 	SDL_Rect	obj;
 

@@ -37,16 +37,16 @@ class Window
 		virtual int				routine(void) = 0;
 		virtual int				waitForEvent(void) = 0;
 
-		virtual void			draw(void) = 0;
+		virtual void			render(void) = 0;
 		virtual void			reactEvent(SDL_Event* event, \
 									const int x = 0, const int y = 0) = 0;
 
-		virtual void			display(void) = 0;
+		virtual void			refreshDisplay(void) = 0;
 
-		void					drawBackground(void);
+		void					renderBackground(void);
 	
 		void					blur(const uint8_t blurA = 127);
-		void					render(void);
+		void					display(void);
 		void					clear(void);
 
 		void					setTitle(const std::string& title);

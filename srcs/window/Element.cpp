@@ -1,9 +1,12 @@
 #include "Element.hpp"
 
-void	Element::draw(SDL_Renderer* renderer)
+void	Element::render(SDL_Renderer* renderer)
 {
-	if (_render)
-		_render.get()->render(renderer, _config);
+	for (const auto& render : _renders)
+	{
+		if (render)
+			render.get()->render(renderer, _config);
+	}
 }
 
 bool	Element::isAbove(const int x, const int y) const
@@ -17,9 +20,9 @@ bool	Element::isAbove(const int x, const int y) const
 	return false;
 }
 
-void	Element::setRender(unique_ptr<Render>&& render)
+void	Element::addRender(unique_ptr<Render>&& render)
 {
-	_render = std::move(render);
+	_renders.push_back(std::move(render));
 }
 
 void	Element::setX(const int x)
