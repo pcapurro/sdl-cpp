@@ -18,13 +18,11 @@ Image::Image(const int x, const int y, const int w, const int h, \
 
 void    Image::render(SDL_Renderer* renderer)
 {
-    SDL_Rect                main;
+    SDL_Rect    main;
 
-    main.x = _properties.x;
-    main.y = _properties.y;
+    main.x = _properties.x, main.y = _properties.y;
+    main.w = _properties.w, main.h = _properties.h;
 
-    main.w = _properties.w;
-    main.h = _properties.h;
-
-    SDL_RenderCopy(renderer, _image.getTexture(), nullptr, &main);
+    SDL_RenderCopy(renderer, _image.getTexture(), \
+        nullptr, &main);
 }

@@ -29,16 +29,16 @@ Window::~Window(void)
 		SDL_DestroyWindow(_mainWindow);
 }
 
-void	Window::blur(const uint8_t blurA)
-{
-	SDL_Rect	obj;
+// void	Window::blur(const uint8_t blurA)
+// {
+// 	SDL_Rect	obj;
 
-	obj.w = _width, obj.h = _height;
-	obj.x = 0, obj.y = 0;
+// 	obj.w = _width, obj.h = _height;
+// 	obj.x = 0, obj.y = 0;
 
-	SDL_SetRenderDrawColor(_mainRenderer, 0, 0, 0, blurA);
-	SDL_RenderFillRect(_mainRenderer, &obj);
-}
+// 	SDL_SetRenderDrawColor(_mainRenderer, 0, 0, 0, blurA);
+// 	SDL_RenderFillRect(_mainRenderer, &obj);
+// }
 
 void	Window::display(void)
 {

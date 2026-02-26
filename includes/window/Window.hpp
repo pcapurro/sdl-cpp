@@ -45,7 +45,6 @@ class Window
 
 		void					renderBackground(void);
 	
-		void					blur(const uint8_t blurA = 127);
 		void					display(void);
 		void					clear(void);
 

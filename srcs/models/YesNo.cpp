@@ -58,8 +58,8 @@ void	YesNo::addTitleText(Properties& globalFrame, const string& text, \
 	if (logo)
 		newWidth -= (logoWidth * 2) - (getWidth() * LIMIT_RATIO);
 
-	unique_ptr<Text>	textElement = std::make_unique<Text>(globalFrame, text.c_str(), titleSize, \
-		getWriteColor(), fontPath, getRenderer(), newWidth);
+	unique_ptr<Text>	textElement = std::make_unique<Text>(globalFrame.x, globalFrame.y, \
+		text.c_str(), titleSize, getWriteColor(), fontPath, getRenderer(), newWidth);
 
 	globalFrame.y += textElement.get()->getHeight();
 
@@ -83,7 +83,7 @@ void	YesNo::addTitleLimit(Properties& globalFrame, const bool logo, const int lo
 
 	limitFrame.h = LIMIT_HEIGHT;
 
-	auto	shapeElement = std::make_unique<Shape>(limitFrame, color, false, 0, color);
+	auto	shapeElement = std::make_unique<Shape>(limitFrame, color);
 
 	_elements.push_back(std::move(shapeElement));
 
@@ -97,7 +97,7 @@ void	YesNo::addText(Properties& globalFrame, const string& text, const string& f
 
 	int			textSize = getHeight() * TEXT_RATIO;
 
-	auto	textElement = std::make_unique<Text>(globalFrame, text.c_str(), \
+	auto	textElement = std::make_unique<Text>(globalFrame.x, globalFrame.y, text.c_str(), \
 		textSize, getWriteColor(), fontPath, getRenderer(), getWidth() - (getWidth() * LIMIT_RATIO));
 
 	_elements.push_back(std::move(textElement));

@@ -8,7 +8,7 @@
 class Element
 {
 	protected:
-		Properties				_properties;
+		Properties			_properties;
 
 	public:
 		Element(void) = delete;
@@ -16,20 +16,20 @@ class Element
 
 		virtual ~Element(void) = default;
 
-		virtual void			render(SDL_Renderer* renderer) = 0;
-		bool					isAbove(const int x, const int y) const;
+		virtual void		render(SDL_Renderer* renderer) = 0;
+		bool				isAbove(const int x, const int y) const;
 
-		void					setX(const int x);
-		void					setY(const int y);
+		void				setX(const int x);
+		void				setY(const int y);
 
-		void					setWidth(const int w);
-		void					setHeight(const int h);
+		void				setWidth(const int w);
+		void				setHeight(const int h);
 
-		int						getX(void) const;
-		int						getY(void) const;
+		int					getX(void) const;
+		int					getY(void) const;
 
-		int						getWidth(void) const;
-		int						getHeight(void) const;
+		int					getWidth(void) const;
+		int					getHeight(void) const;
 };
 
 #endif
