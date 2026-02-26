@@ -33,15 +33,15 @@ ImageViewer::ImageViewer(const string& name, const int width, \
 
 	if (scaleProp)
 	{
-    	imageLayout.scaleProportionally = true;
+    	imageLayout.scaleProp = true;
     	imageLayout.originalWidth = imageWidth;
     	imageLayout.originalHeight = imageHeight;
 	}
 
-	Element			element(imageFrameConfig);
+	auto	image = std::make_unique<Image>(imageFrameConfig, \
+		imagePath.c_str(), getRenderer(), imageLayout);
 
-	element.addWidget(std::make_unique<Image>(imagePath.c_str(), getRenderer(), imageLayout));
-	_elements.push_back(std::move(element));
+	_elements.push_back(std::move(image));
 }
 
 int     ImageViewer::routine(void)
@@ -120,7 +120,7 @@ void	ImageViewer::render(void)
 	if (renderer)
 	{
 		for (auto& element : _elements)
-			element.render(renderer);
+			element.get()->render(renderer);
 	}
 }
 
@@ -137,7 +137,7 @@ void	ImageViewer::reactEvent(SDL_Event* event, \
 	{
 		for (auto& element : _elements)
 		{
-			if (element.isAbove(x, y) == true)
+			if (element.get()->isAbove(x, y) == true)
 				{ display(); return; }
 		}
 	}

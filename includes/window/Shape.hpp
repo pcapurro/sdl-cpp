@@ -1,15 +1,17 @@
 #ifndef SHAPE_HPP
 # define SHAPE_HPP
 
-# include "Widget.hpp"
+# include "Element.hpp"
 
-class Shape final : public Widget
+class Shape final : public Element
 {
     public:
-        Shape(void) = default;
+        Shape(void) = delete;
+        Shape(const Config& frameConfig);
+
         ~Shape(void) = default;
 
-        void        render(SDL_Renderer* renderer, const Config& frameConfig);
+        void        render(SDL_Renderer* renderer);
 };
 
 #endif

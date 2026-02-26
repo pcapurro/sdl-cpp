@@ -53,10 +53,10 @@ void	YesNo::addLogo(Config& globalFrameConfig, const string& logoPath, \
 	logoLayout.xCentered = true;
 	logoLayout.yCentered = true;
 
-	Element			element(logoFrameConfig);
+	auto	image = std::make_unique<Image>(logoFrameConfig, \
+		logoPath.c_str(), getRenderer(), logoLayout);
 
-	element.addWidget(std::make_unique<Image>(logoPath.c_str(), getRenderer(), logoLayout));
-	_elements.push_back(std::move(element));
+	_elements.push_back(std::move(image));
 
 	globalFrameConfig.x += (getWidth() * LIMIT_RATIO) + logoWidth;
 }
@@ -72,14 +72,12 @@ void	YesNo::addTitleText(Config& globalFrameConfig, const string& text, \
 
 	globalFrameConfig.type = TEXT;
 
-	Element				element(globalFrameConfig);
-	unique_ptr<Text>	ptr = std::make_unique<Text>(text.c_str(), titleSize, \
+	unique_ptr<Text>	textElement = std::make_unique<Text>(globalFrameConfig, text.c_str(), titleSize, \
 		getWriteColor(), fontPath, getRenderer(), newWidth);
 
-	globalFrameConfig.y += ptr.get()->getRealHeight();
+	globalFrameConfig.y += textElement.get()->getRealHeight();
 
-	element.addWidget(std::move(ptr));
-	_elements.push_back(std::move(element));
+	_elements.push_back(std::move(textElement));
 }
 
 void	YesNo::addTitleLimit(Config& globalFrameConfig, const bool logo, const int logoWidth)
@@ -101,10 +99,9 @@ void	YesNo::addTitleLimit(Config& globalFrameConfig, const bool logo, const int 
 	limitFrameConfig.color = getWriteColor();
 	limitFrameConfig.type = ELEMENT;
 
-	Element			element(limitFrameConfig);
+	auto	shapeElement = std::make_unique<Shape>(limitFrameConfig);
 
-	element.addWidget(std::make_unique<Shape>());
-	_elements.push_back(std::move(element));
+	_elements.push_back(std::move(shapeElement));
 
 	globalFrameConfig.y += (getHeight() * LIMIT_RATIO) + (LIMIT_HEIGHT * 2);
 }
@@ -117,12 +114,11 @@ void	YesNo::addText(Config& globalFrameConfig, const string& text, const string&
 	globalFrameConfig.type = TEXT;
 
 	int			textSize = getHeight() * TEXT_RATIO;
-	Element		element(globalFrameConfig);
 
-	element.addWidget(std::make_unique<Text>(text.c_str(), textSize, getWriteColor(), \
-	 	fontPath, getRenderer(), getWidth() - (getWidth() * LIMIT_RATIO)));
+	auto	textElement = std::make_unique<Text>(globalFrameConfig, text.c_str(), \
+		textSize, getWriteColor(), fontPath, getRenderer(), getWidth() - (getWidth() * LIMIT_RATIO));
 
-	_elements.push_back(std::move(element));
+	_elements.push_back(std::move(textElement));
 }
 
 int     YesNo::routine(void)
@@ -201,7 +197,7 @@ void	YesNo::render(void)
 	if (renderer)
 	{
 		for (auto& element : _elements)
-			element.render(renderer);
+			element.get()->render(renderer);
 	}
 }
 
@@ -218,7 +214,7 @@ void	YesNo::reactEvent(SDL_Event* event, \
 	{
 		for (auto& element : _elements)
 		{
-			if (element.isAbove(x, y) == true)
+			if (element.get()->isAbove(x, y) == true)
 				{ display(); return; }
 		}
 	}

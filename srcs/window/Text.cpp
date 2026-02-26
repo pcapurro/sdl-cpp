@@ -1,7 +1,8 @@
 #include "Text.hpp"
 
-Text::Text(const string& text, const int size, const Color& color, \
+Text::Text(const Config& frameConfig, const string& text, const int size, const Color& color, \
     const string& fontPath, SDL_Renderer* renderer, const int maxWidth) : \
+    Element(frameConfig), \
     _font(fontPath, size), \
     _text(text.c_str(), _font.getFont(), color.toSDL(), renderer, maxWidth)
 {
@@ -9,18 +10,15 @@ Text::Text(const string& text, const int size, const Color& color, \
         nullptr, &_realWidth, &_realHeight);
 }
 
-void    Text::render(SDL_Renderer* renderer, const Config& frameConfig)
+void    Text::render(SDL_Renderer* renderer)
 {
 	SDL_Rect	obj;
 
-	obj.x = frameConfig.x, obj.y = frameConfig.y;
+	obj.x = _frameConfig.x, obj.y = _frameConfig.y;
     obj.w = _realWidth, obj.h = _realHeight;
 
-	if (frameConfig.visibility == false)
-        return;
-
-    SDL_SetRenderDrawColor(renderer, frameConfig.color.r, \
-        frameConfig.color.g, frameConfig.color.b, frameConfig.color.a);
+    SDL_SetRenderDrawColor(renderer, _frameConfig.color.r, \
+        _frameConfig.color.g, _frameConfig.color.b, _frameConfig.color.a);
 
     SDL_RenderCopy(renderer, _text.getTexture(), nullptr, &obj);
 }

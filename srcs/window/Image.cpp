@@ -1,19 +1,21 @@
 #include "Image.hpp"
 
-Image::Image(const char* path, SDL_Renderer* renderer, Layout layout) : \
-    Widget(IMAGE, layout), _image(path, renderer) {}
+Image::Image(const Config& frameConfig, const char* path, \
+    SDL_Renderer* renderer, Layout layout) : \
+        Element(frameConfig), \
+        _image(path, renderer), \
+        _layout(layout) {}
 
-void    Image::render(SDL_Renderer* renderer, const Config& frameConfig)
+void    Image::render(SDL_Renderer* renderer)
 {
 	SDL_Rect	obj;
-    Layout      layout = getLayout();
 
-    obj.w = (layout.widthPercent * frameConfig.w) / 100;
-    obj.h = (layout.heightPercent * frameConfig.h) / 100;
+    obj.w = (_layout.widthPercent * _frameConfig.w) / 100;
+    obj.h = (_layout.heightPercent * _frameConfig.h) / 100;
 
-    if (layout.scaleProportionally)
+    if (_layout.scaleProp)
     {
-        float   imageRatio = (float) layout.originalWidth / (float) layout.originalHeight;
+        float   imageRatio = (float) _layout.originalWidth / (float) _layout.originalHeight;
         float   ratio = (float) obj.w / (float) obj.h;
 
         if (ratio > imageRatio)
@@ -22,12 +24,12 @@ void    Image::render(SDL_Renderer* renderer, const Config& frameConfig)
             obj.h = obj.w / imageRatio;
     }
 
-    obj.x = frameConfig.x + ((layout.xPercent * frameConfig.w) / 100);
-    obj.y = frameConfig.y + ((layout.yPercent * frameConfig.h) / 100);
+    obj.x = _frameConfig.x + ((_layout.xPercent * _frameConfig.w) / 100);
+    obj.y = _frameConfig.y + ((_layout.yPercent * _frameConfig.h) / 100);
 
-    if (layout.xCentered)
+    if (_layout.xCentered)
         obj.x -= obj.w / 2;
-    if (layout.yCentered)
+    if (_layout.yCentered)
         obj.y -= obj.h / 2;
 
     if (obj.x < 0)

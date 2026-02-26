@@ -4,26 +4,21 @@
 # include "Global.hpp"
 
 # include "Config.hpp"
-# include "Widget.hpp"
 
 class Element
 {
-	private:
-		Config							_config;
-		vector<unique_ptr<Widget>>		_widgets;
+	protected:
+		Config			_frameConfig;
 
 	public:
-		Element(void) = default;
-		Element(const Config& config) noexcept : _config(config) {}
-		Element(Element&& original) noexcept : _config(std::move(original._config)), \
-			_widgets(std::move(original._widgets)) {}
+		Element(void) = delete;
+		Element(const Config& frameConfig) : _frameConfig(frameConfig) {}
+		Element(Element&& original) : _frameConfig(std::move(original._frameConfig)) {}
 
-		~Element(void) = default;
+		virtual ~Element(void) = default;
 
-		void			render(SDL_Renderer* renderer);
+		virtual void	render(SDL_Renderer* renderer) = 0;
 		bool			isAbove(const int x, const int y) const;
-
-		void			addWidget(unique_ptr<Widget>&& widget);
 
 		void			setX(const int x);
 		void			setY(const int y);

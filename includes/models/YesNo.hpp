@@ -10,18 +10,18 @@
 class YesNo final : public Window
 {
 	private:
-		vector<Element>			_elements;
+		vector<unique_ptr<Element>>		_elements;
 
-		void					addLogo(Config& globalConfig, const string& logoPath, \
-									const int logoWidth, const int logoHeight);
+		void							addLogo(Config& globalConfig, const string& logoPath, \
+											const int logoWidth, const int logoHeight);
 
-		void					addTitleText(Config& globalConfig, const string& text, \
-									const string& fontPath, const bool logo, const int logoWidth);
-		void					addTitleLimit(Config& globalConfig, const bool logo, \
-									const int logoWidth);
+		void							addTitleText(Config& globalConfig, const string& text, \
+											const string& fontPath, const bool logo, const int logoWidth);
+		void							addTitleLimit(Config& globalConfig, const bool logo, \
+											const int logoWidth);
 
-		void					addText(Config& globalConfig, const string& text, \
-									const string& fontPath);
+		void							addText(Config& globalConfig, const string& text, \
+											const string& fontPath);
 
 	public:
 		YesNo(void) = delete;
@@ -32,15 +32,15 @@ class YesNo final : public Window
 
 		~YesNo(void) = default;
 
-		virtual int				routine(void);
-		virtual int				waitForEvent(void);
+		virtual int						routine(void);
+		virtual int						waitForEvent(void);
 
-		virtual	void			refreshDisplay(void);
+		virtual	void					refreshDisplay(void);
 		
-		virtual void			render(void);
+		virtual void					render(void);
 
-		virtual void			reactEvent(SDL_Event* event, \
-									const int x = 0, const int y = 0);
+		virtual void					reactEvent(SDL_Event* event, \
+											const int x = 0, const int y = 0);
 };
 
 #endif

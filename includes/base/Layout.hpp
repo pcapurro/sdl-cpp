@@ -13,7 +13,7 @@ class Layout
         bool    xCentered = true;
         bool    yCentered = true;
 
-        bool    scaleProportionally = false;
+        bool    scaleProp = false;
         int     originalWidth = 100;
         int     originalHeight = 100;
 };
