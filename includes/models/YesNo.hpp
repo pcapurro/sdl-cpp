@@ -12,15 +12,15 @@ class YesNo final : public Window
 	private:
 		vector<unique_ptr<Element>>		_elements;
 
-		void							addLogo(Config& globalConfig, const string& logoPath, \
+		void							addLogo(Properties& globalFrame, const string& logoPath, \
 											const int logoWidth, const int logoHeight);
 
-		void							addTitleText(Config& globalConfig, const string& text, \
+		void							addTitleText(Properties& globalFrame, const string& text, \
 											const string& fontPath, const bool logo, const int logoWidth);
-		void							addTitleLimit(Config& globalConfig, const bool logo, \
+		void							addTitleLimit(Properties& globalFrame, const bool logo, \
 											const int logoWidth);
 
-		void							addText(Config& globalConfig, const string& text, \
+		void							addText(Properties& globalFrame, const string& text, \
 											const string& fontPath);
 
 	public:

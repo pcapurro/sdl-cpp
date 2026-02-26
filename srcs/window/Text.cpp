@@ -1,34 +1,39 @@
 #include "Text.hpp"
 
-Text::Text(const Config& frameConfig, const string& text, const int size, const Color& color, \
-    const string& fontPath, SDL_Renderer* renderer, const int maxWidth) : \
-    Element(frameConfig), \
-    _font(fontPath, size), \
-    _text(text.c_str(), _font.getFont(), color.toSDL(), renderer, maxWidth)
+Text::Text(const Properties& properties, const string& text, \
+    const int size, const Color& color, const string& fontPath, \
+    SDL_Renderer* renderer, const int maxWidth) : \
+        Element(properties), \
+        _font(fontPath, size), \
+        _text(text.c_str(), _font.getFont(), color.toSDL(), renderer, maxWidth)
 {
     SDL_QueryTexture(_text.getTexture(), nullptr, \
-        nullptr, &_realWidth, &_realHeight);
+        nullptr, &_properties.w, &_properties.h);
+}
+
+Text::Text(const int x, const int y, const int w, const int h, \
+    const string& text, const int size, const Color& color, \
+    const string& fontPath, SDL_Renderer* renderer, const int maxWidth) : \
+        Element({x, y, w, h}), \
+        _font(fontPath, size), \
+        _text(text.c_str(), _font.getFont(), color.toSDL(), renderer, maxWidth)
+{
+    SDL_QueryTexture(_text.getTexture(), nullptr, \
+        nullptr, &_properties.w, &_properties.h);
 }
 
 void    Text::render(SDL_Renderer* renderer)
 {
-	SDL_Rect	obj;
+    SDL_Rect            main;
 
-	obj.x = _frameConfig.x, obj.y = _frameConfig.y;
-    obj.w = _realWidth, obj.h = _realHeight;
+	main.x = _properties.x;
+    main.y = _properties.y;
 
-    SDL_SetRenderDrawColor(renderer, _frameConfig.color.r, \
-        _frameConfig.color.g, _frameConfig.color.b, _frameConfig.color.a);
+    main.w = _properties.w;
+    main.h = _properties.h;
 
-    SDL_RenderCopy(renderer, _text.getTexture(), nullptr, &obj);
-}
+    SDL_SetRenderDrawColor(renderer, _writeColor.r, _writeColor.g, \
+        _writeColor.b, _writeColor.a);
 
-int     Text::getRealWidth(void) const
-{
-    return _realWidth;
-}
-
-int     Text::getRealHeight(void) const
-{
-    return _realHeight;
+    SDL_RenderCopy(renderer, _text.getTexture(), nullptr, &main);
 }
