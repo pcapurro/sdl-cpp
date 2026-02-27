@@ -34,7 +34,7 @@ Font::~Font(void) noexcept
         TTF_CloseFont(_font);
 }
 
-TTF_Font*   Font::getFont(void) const
+TTF_Font*   Font::getFont(void) const noexcept
 {
     return _font;
 }

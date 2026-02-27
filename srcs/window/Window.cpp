@@ -15,6 +15,8 @@ Window::Window(const string& name, const int width, const int height) : \
 	if (_mainRenderer == nullptr)
 		throw std::runtime_error("SDL failed to create a renderer: " + string(SDL_GetError()));
 
+	SDL_SetRenderDrawBlendMode(_mainRenderer, SDL_BLENDMODE_BLEND);
+
 	_normalCursor.emplace(Cursor(SDL_SYSTEM_CURSOR_ARROW));
 	_interactCursor.emplace(Cursor(SDL_SYSTEM_CURSOR_HAND));
 	_crossHairCursor.emplace(Cursor(SDL_SYSTEM_CURSOR_CROSSHAIR));

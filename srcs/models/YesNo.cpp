@@ -69,7 +69,6 @@ void	YesNo::addTitleText(Properties& globalFrame, const string& text, \
 void	YesNo::addTitleLimit(Properties& globalFrame, const bool logo, const int logoWidth)
 {
 	Properties		limitFrame;
-	Color			color;
 
 	limitFrame.x = globalFrame.x;
 	limitFrame.y = globalFrame.y + (getHeight() * LIMIT_RATIO) + (LIMIT_HEIGHT * 2);
@@ -83,7 +82,7 @@ void	YesNo::addTitleLimit(Properties& globalFrame, const bool logo, const int lo
 
 	limitFrame.h = LIMIT_HEIGHT;
 
-	auto	shapeElement = std::make_unique<Shape>(limitFrame, color);
+	auto	shapeElement = std::make_unique<Shape>(limitFrame, getWriteColor());
 
 	_elements.push_back(std::move(shapeElement));
 
@@ -95,7 +94,7 @@ void	YesNo::addText(Properties& globalFrame, const string& text, const string& f
 	globalFrame.x = getWidth() * LIMIT_RATIO;
 	globalFrame.y += getHeight() * LIMIT_RATIO;
 
-	int			textSize = getHeight() * TEXT_RATIO;
+	int		textSize = getHeight() * TEXT_RATIO;
 
 	auto	textElement = std::make_unique<Text>(globalFrame.x, globalFrame.y, text.c_str(), \
 		textSize, getWriteColor(), fontPath, getRenderer(), getWidth() - (getWidth() * LIMIT_RATIO));
@@ -194,10 +193,21 @@ void	YesNo::reactEvent(SDL_Event* event, \
 
 	if (event->type == SDL_MOUSEMOTION)
 	{
+		Image*	ptr = nullptr;
+
 		for (auto& element : _elements)
 		{
+			ptr = dynamic_cast<Image*>(element.get());
+
+			if (!ptr)
+				continue;
+
 			if (element.get()->isAbove(x, y) == true)
-				{ display(); return; }
+				element.get()->setHighlight(true);
+			else
+				element.get()->setHighlight(false);
 		}
 	}
+
+	refreshDisplay();
 }

@@ -6,13 +6,13 @@
 class Color
 {
 	public:
-		unsigned char	r = 0;
-		unsigned char	g = 0;
-		unsigned char	b = 0;
+		uint8_t			r = 0;
+		uint8_t			g = 0;
+		uint8_t			b = 0;
 
-		unsigned char	a = 255;
+		uint8_t			a = 255;
 
-		SDL_Color		toSDL(void) const
+		SDL_Color		toSDL(void) const noexcept
 			{ return {r, g, b, a}; }
 };
 

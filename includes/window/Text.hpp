@@ -29,6 +29,8 @@ class Text final : public Element
             const string& fontPath, SDL_Renderer* renderer, const int maxWidth = 0);
 
         void        render(SDL_Renderer* renderer);
+
+        void        setColor(Color color) noexcept;
 };
 
 #endif

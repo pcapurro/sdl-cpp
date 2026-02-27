@@ -20,7 +20,7 @@ class Font
 
         ~Font(void) noexcept;
 
-        TTF_Font*       getFont(void) const;
+        TTF_Font*       getFont(void) const noexcept;
 };
 
 #endif

@@ -11,8 +11,10 @@ class Cursor
 
     public:
         Cursor(void) = delete;
+
         Cursor(const SDL_SystemCursor value);
         Cursor(const Cursor& original) = delete;
+
         Cursor(Cursor&& original) noexcept;
 
         Cursor&	    operator=(const Cursor& original) noexcept = delete;

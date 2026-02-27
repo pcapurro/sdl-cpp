@@ -3,10 +3,14 @@
 
 # include "Global.hpp"
 
+# include "Color.hpp"
+
 class Texture
 {
 	private:
 		SDL_Texture*	_texture = nullptr;
+
+		Color			_averageColor;
 
 	public:
 		Texture(const Texture& original) = delete;
@@ -14,7 +18,7 @@ class Texture
 
 		Texture(const char* path, SDL_Renderer* renderer);
 
-		Texture(const char* text, TTF_Font* font, SDL_Color color, \
+		Texture(const char* text, TTF_Font* font, \
 			SDL_Renderer* renderer, const int maxWidth = 0);
 
 		Texture&		operator=(const Texture& original) = delete;
@@ -22,7 +26,10 @@ class Texture
 
 		~Texture(void) noexcept;
 
+		void			calculateAverageColor(SDL_Surface* surface);
+
 		SDL_Texture*	getTexture(void) const noexcept;
+		Color			getAverageColor(void) const noexcept;
 };
 
 #endif
