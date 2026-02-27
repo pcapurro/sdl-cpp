@@ -38,8 +38,8 @@ void	YesNo::addLogo(Properties& globalFrame, const string& logoPath, \
 	logoProperties.x = getWidth() * LIMIT_RATIO;
 	logoProperties.y = getHeight() * LIMIT_RATIO;
 
-	logoProperties.w = logoWidth;
-	logoProperties.h = logoHeight;
+	logoProperties.width = logoWidth;
+	logoProperties.height = logoHeight;
 
 	auto	image = std::make_unique<Image>(logoProperties, \
 		logoPath.c_str(), getRenderer());
@@ -73,14 +73,14 @@ void	YesNo::addTitleLimit(Properties& globalFrame, const bool logo, const int lo
 	limitFrame.x = globalFrame.x;
 	limitFrame.y = globalFrame.y + (getHeight() * LIMIT_RATIO) + (LIMIT_HEIGHT * 2);
 
-	limitFrame.w = getWidth();
+	limitFrame.width = getWidth();
 
 	if (!logo)
-		limitFrame.w -= (getWidth() * LIMIT_RATIO * 2);
+		limitFrame.width -= (getWidth() * LIMIT_RATIO * 2);
 	else
-		limitFrame.w -= (getWidth() * LIMIT_RATIO + (logoWidth * 2));
+		limitFrame.width -= (getWidth() * LIMIT_RATIO + (logoWidth * 2));
 
-	limitFrame.h = LIMIT_HEIGHT;
+	limitFrame.height = LIMIT_HEIGHT;
 
 	auto	shapeElement = std::make_unique<Shape>(limitFrame, getWriteColor());
 

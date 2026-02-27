@@ -1,23 +1,22 @@
 #include "Element.hpp"
 
-Element::Element(const Properties& properties) noexcept : \
-	_properties(properties)
+Element::Element(const Properties& properties, const Style& style, \
+	const State& state) noexcept : \
+		_properties(properties), _style(style), _state(state)
 {
-	_opacity = 255;
-	_highlight = false;
-
-	_visibility = true;
+	;
 }
 
-bool	Element::isAbove(const int x, const int y) const  noexcept
+bool	Element::isAbove(const int mouseX, const int mouseY) const noexcept
 {
-	if (x >= _properties.x && x <= _properties.x + _properties.w)
-	{
-		if (y >= _properties.y && y <= _properties.y + _properties.h)
-			return true;
-	}
+	return _properties.isAbove(mouseX, mouseY);
+}
 
-	return false;
+bool	Element::isInside(const int elementX, const int elementY, \
+	const int elementWidth, const int elementHeight) const noexcept
+{
+	return _properties.isInside(elementX, elementY, \
+		elementWidth, elementHeight);
 }
 
 void	Element::setX(const int x) noexcept
@@ -30,29 +29,47 @@ void	Element::setY(const int y) noexcept
 	_properties.y = y;
 }
 
-void	Element::setWidth(const int w) noexcept
+void	Element::setWidth(const int width) noexcept
 {
-	_properties.w = w;
+	_properties.width = width;
 }
 
-void	Element::setHeight(const int h) noexcept
+void	Element::setHeight(const int height) noexcept
 {
-	_properties.h = h;
+	_properties.height = height;
 }
 
 void	Element::setOpacity(const uint8_t opacity) noexcept
 {
-	_opacity = opacity;
+	_style.globalOpacity = opacity;
+
+	_style.mainColor.a = opacity;
+	_style.borderColor.a = opacity;
+}
+
+void	Element::setClick(const bool click) noexcept
+{
+	_state.click = click;
+}
+
+void	Element::setSelect(const bool select) noexcept
+{
+	_state.select = select;
+}
+
+void	Element::setSelectType(const int selectType) noexcept
+{
+	_state.selectType = selectType;
 }
 
 void	Element::setHighlight(const bool highlight) noexcept
 {
-	_highlight = highlight;
+	_state.highlight = highlight;
 }
 
 void	Element::setVisibility(const bool visibility) noexcept
 {
-	_visibility = visibility;
+	_state.visibility = visibility;
 }
 
 int		Element::getX(void) const noexcept
@@ -67,25 +84,40 @@ int		Element::getY(void) const noexcept
 
 int		Element::getWidth(void) const noexcept
 {
-	return _properties.w;
+	return _properties.width;
 }
 
 int		Element::getHeight(void) const noexcept
 {
-	return _properties.h;
+	return _properties.height;
 }
 
 uint8_t		Element::getOpacity(void) const noexcept
 {
-	return _opacity;
+	return _style.globalOpacity;
+}
+
+bool	Element::getClick(void) const noexcept
+{
+	return _state.click;
+}
+
+bool	Element::getSelect(void) const noexcept
+{
+	return _state.select;
+}
+
+int		Element::getSelectType(void) const noexcept
+{
+	return _state.selectType;
 }
 
 bool	Element::getHighlight(void) const noexcept
 {
-	return _highlight;
+	return _state.highlight;
 }
 
 bool	Element::getVisibility(void) const noexcept
 {
-	return _visibility;
+	return _state.visibility;
 }

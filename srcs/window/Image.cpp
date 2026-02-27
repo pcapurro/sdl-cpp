@@ -20,26 +20,30 @@ Image::Image(const int x, const int y, const int w, const int h, \
 
 void    Image::render(SDL_Renderer* renderer)
 {
-    if (!_visibility)
+    if (!getVisibility())
         return;
 
     SDL_Rect    main;
 
-    main.x = _properties.x, main.y = _properties.y;
-    main.w = _properties.w, main.h = _properties.h;
+    main.x = getX(), main.y = getY();
+    main.w = getWidth(), main.h = getHeight();
 
-    SDL_SetTextureAlphaMod(_image.getTexture(), _opacity);
+    SDL_SetTextureAlphaMod(_image.getTexture(), getOpacity());
 
     SDL_RenderCopy(renderer, _image.getTexture(), \
         nullptr, &main);
 
-    if (_highlight)
+    if (getSelect())
+    {
+        // ...
+    }
+
+    if (getHighlight())
     {
         SDL_Rect    highlight = main;
         Color       avgColor = _image.getAverageColor();
-        int         colorValue = (avgColor.r + avgColor.g + avgColor.b) / 3;
 
-		if (colorValue < 128)
+		if (avgColor.getAverage() < 128)
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 200);
 		else
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 200);

@@ -24,6 +24,11 @@
 # define BUTTON 22
 # define IMAGE 23
 
+# define BORDER_SELECT 21
+# define CORNER_SELECT 22
+# define CENTER_SELECT 23
+# define CROSS_SELECT 24
+
 # define LOGO_WIDTH 75
 # define LOGO_HEIGHT 75
 

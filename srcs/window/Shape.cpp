@@ -25,18 +25,18 @@ Shape::Shape(const Properties& properties, const Color& color, \
 
 void    Shape::render(SDL_Renderer* renderer)
 {
-    if (!_visibility)
+    if (!getVisibility())
         return;
 
     SDL_Rect	main, center;
 
-	main.x = _properties.x, main.y = _properties.y;
-	main.w = _properties.w, main.h = _properties.h;
+	main.x = getX(), main.y = getY();
+	main.w = getWidth(), main.h = getHeight();
 
 	center = main;
 
-	if (_border && _borderThickness <= _properties.w \
-		&& _borderThickness <= _properties.h)
+	if (_border && _borderThickness <= getWidth() \
+		&& _borderThickness <= getHeight())
 	{
 		center.x = main.x + _borderThickness;
 		center.y = main.y + _borderThickness;
@@ -45,26 +45,29 @@ void    Shape::render(SDL_Renderer* renderer)
 		center.h = main.h - 2 * _borderThickness;
 
 		SDL_SetRenderDrawColor(renderer, _borderColor.r, \
-			_borderColor.g, _borderColor.b, _opacity);
+			_borderColor.g, _borderColor.b, getOpacity());
 		SDL_RenderFillRect(renderer, &main);
 
 		SDL_SetRenderDrawColor(renderer, _color.r, _color.g, \
-			_color.b, _opacity);
+			_color.b, getOpacity());
 		SDL_RenderFillRect(renderer, &center);
 	}
 	else
 	{
 		SDL_SetRenderDrawColor(renderer, _color.r, _color.g, \
-			_color.b, _opacity);
+			_color.b, getOpacity());
 
 		SDL_RenderFillRect(renderer, &main);
 	}
 
-	if (_highlight)
-	{
-		int		colorValue = (_color.r + _color.g + _color.b) / 3;
+    if (getSelect() && getSelectType() != NONE)
+    {
+        // ...
+    }
 
-		if (colorValue < 128)
+	if (getHighlight())
+	{
+		if (_color.getAverage() < 128)
 			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 200);
 		else
 			SDL_SetRenderDrawColor(renderer, 0, 0, 0, 200);

@@ -12,8 +12,8 @@ class Color
 
 		uint8_t			a = 255;
 
-		SDL_Color		toSDL(void) const noexcept
-			{ return {r, g, b, a}; }
+		SDL_Color		toSDL(void) const noexcept;
+		int				getAverage(void) const noexcept;
 };
 
 #endif
