@@ -8,10 +8,12 @@
 class Text final : public Element
 {
     private:
-        Color       _writeColor;
+        Color               _writeColor;
 
-        Font        _font;
-        Texture     _text;
+        Font                _font;
+        optional<Texture>   _text;
+
+        bool                _free;
 
     public:
         Text(void) = delete;
@@ -24,13 +26,12 @@ class Text final : public Element
             const Color& color, const string& fontPath, SDL_Renderer* renderer, \
             const int maxWidth = 0);
 
-        Text(const int x, const int y, const int w, const int h, \
-            const string& text, const int size, const Color& color, \
-            const string& fontPath, SDL_Renderer* renderer, const int maxWidth = 0);
-
         void        render(SDL_Renderer* renderer);
 
         void        setColor(Color color) noexcept;
+
+        void        updateText(const string& text, const int maxWidth, \
+                        SDL_Renderer* renderer) noexcept;
 };
 
 #endif

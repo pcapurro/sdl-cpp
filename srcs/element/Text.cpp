@@ -4,44 +4,41 @@ Text::Text(const int x, const int y, const string& text, const int size, \
     const Color& color, const string& fontPath, SDL_Renderer* renderer, \
     const int maxWidth) : \
         Element({x, y, 0, 0}), \
-        _writeColor(color),
         _font(fontPath, size), \
-        _text(text.c_str(), _font.getFont(), renderer, maxWidth)
+        _writeColor(color)
 {
+    _text.emplace(text.c_str(), _font.getFont(), \
+        renderer, maxWidth);
+
     int     width = 0;
     int     height = 0;
 
-    SDL_SetTextureBlendMode(_text.getTexture(),\
+    SDL_SetTextureBlendMode(_text.value().getTexture(),\
         SDL_BLENDMODE_BLEND);
 
-    SDL_QueryTexture(_text.getTexture(), nullptr, \
+    SDL_QueryTexture(_text.value().getTexture(), nullptr, \
         nullptr, &width, &height);
 
     setWidth(width);
     setHeight(height);
+
+    _free = false;
 }
 
 Text::Text(const Properties& properties, const string& text, \
     const int size, const Color& color, const string& fontPath, \
     SDL_Renderer* renderer, const int maxWidth) : \
         Element(properties), \
-        _writeColor(color),
         _font(fontPath, size), \
-        _text(text.c_str(), _font.getFont(), renderer, maxWidth)
-{
-    SDL_SetTextureBlendMode(_text.getTexture(),\
-        SDL_BLENDMODE_BLEND);
-}
+        _writeColor(color)
+{    
+    _text.emplace(text.c_str(), _font.getFont(), \
+        renderer, maxWidth);
 
-Text::Text(const int x, const int y, const int w, const int h, \
-    const string& text, const int size, const Color& color, \
-    const string& fontPath, SDL_Renderer* renderer, const int maxWidth) : \
-        Element({x, y, w, h}), \
-        _writeColor(color),
-        _font(fontPath, size), \
-        _text(text.c_str(), _font.getFont(), renderer, maxWidth)
-{
-    ;
+    SDL_SetTextureBlendMode(_text.value().getTexture(),\
+        SDL_BLENDMODE_BLEND);
+
+    _free = true;
 }
 
 void    Text::render(SDL_Renderer* renderer)
@@ -54,10 +51,10 @@ void    Text::render(SDL_Renderer* renderer)
 	main.x = getX(), main.y = getY();
     main.w = getWidth(), main.h = getHeight();
 
-    SDL_SetTextureColorMod(_text.getTexture(), _writeColor.r, _writeColor.g, _writeColor.b);
-    SDL_SetTextureAlphaMod(_text.getTexture(), getOpacity());
+    SDL_SetTextureColorMod(_text.value().getTexture(), _writeColor.r, _writeColor.g, _writeColor.b);
+    SDL_SetTextureAlphaMod(_text.value().getTexture(), getOpacity());
 
-    SDL_RenderCopy(renderer, _text.getTexture(), \
+    SDL_RenderCopy(renderer, _text.value().getTexture(), \
         nullptr, &main);
 
     if (isHighlighted())
@@ -83,4 +80,25 @@ void    Text::render(SDL_Renderer* renderer)
 void    Text::setColor(Color color) noexcept
 {
     _writeColor = color;
+}
+
+void    Text::updateText(const string& text, const int maxWidth, \
+    SDL_Renderer* renderer) noexcept
+{
+    _text.reset();
+
+    _text.emplace(text.c_str(), _font.getFont(), \
+        renderer, maxWidth);
+
+    if (!_free)
+    {
+        int     width = 0;
+        int     height = 0;
+
+        SDL_QueryTexture(_text.value().getTexture(), nullptr, \
+            nullptr, &width, &height);
+
+        setWidth(width);
+        setHeight(height);
+    }
 }
