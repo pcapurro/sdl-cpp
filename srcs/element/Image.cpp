@@ -2,19 +2,21 @@
 
 Image::Image(const Properties& properties, const char* path, \
     SDL_Renderer* renderer) : \
-        Element(properties), \
-        _image(path, renderer)
+        Element(properties)
 {
-    SDL_SetTextureBlendMode(_image.getTexture(),\
+    _image.emplace(path, renderer);
+
+    SDL_SetTextureBlendMode(_image.value().getTexture(),\
         SDL_BLENDMODE_BLEND);
 }
 
 Image::Image(const int x, const int y, const int w, const int h, \
     const char* path, SDL_Renderer* renderer) : \
-        Element({x, y, w, h}), \
-        _image(path, renderer)
+        Element({x, y, w, h})
 {
-    SDL_SetTextureBlendMode(_image.getTexture(), \
+    _image.emplace(path, renderer);
+
+    SDL_SetTextureBlendMode(_image.value().getTexture(), \
         SDL_BLENDMODE_BLEND);
 }
 
@@ -28,14 +30,14 @@ void    Image::render(SDL_Renderer* renderer)
     main.x = getX(), main.y = getY();
     main.w = getWidth(), main.h = getHeight();
 
-    SDL_SetTextureAlphaMod(_image.getTexture(), getOpacity());
+    SDL_SetTextureAlphaMod(_image.value().getTexture(), getOpacity());
 
-    SDL_RenderCopy(renderer, _image.getTexture(), \
+    SDL_RenderCopy(renderer, _image.value().getTexture(), \
         nullptr, &main);
 
     if (isHighlighted())
     {
-        Color       avgColor = _image.getAverageColor();
+        Color       avgColor = _image.value().getAverageColor();
         Color       highlightColor;
 
 		if (avgColor.getAverage() < 128)
@@ -45,7 +47,6 @@ void    Image::render(SDL_Renderer* renderer)
 
         Render::renderHighlight(getX(), getY(), getWidth(), \
             getHeight(), highlightColor, renderer);
-
     }
 
     if (isSelected() && getSelectType() != NONE)
@@ -53,4 +54,11 @@ void    Image::render(SDL_Renderer* renderer)
         Render::renderSelect(getSelectType(), getX(), getY(), \
             getWidth(), getHeight(), getSelectColor(), renderer);
     }
+}
+
+void    Image::update(const char* path, SDL_Renderer* renderer)
+{
+    _image.reset();
+
+    _image.emplace(path, renderer);
 }

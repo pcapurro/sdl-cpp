@@ -82,7 +82,7 @@ void    Text::setColor(Color color) noexcept
     _writeColor = color;
 }
 
-void    Text::updateText(const string& text, const int maxWidth, \
+void    Text::update(const string& text, const int maxWidth, \
     SDL_Renderer* renderer) noexcept
 {
     _text.reset();

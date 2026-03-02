@@ -8,7 +8,7 @@
 class Image final : public Element
 {
     private:
-        Texture     _image;
+        optional<Texture>   _image;
 
     public:
         Image(void) = delete;
@@ -19,7 +19,9 @@ class Image final : public Element
         Image(const int x, const int y, const int w, const int h, \
             const char* path, SDL_Renderer* renderer);
 
-        void        render(SDL_Renderer* renderer);
+        void                render(SDL_Renderer* renderer);
+
+        void                update(const char* path, SDL_Renderer* renderer);
 };
 
 #endif
