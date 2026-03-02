@@ -33,21 +33,24 @@ void    Image::render(SDL_Renderer* renderer)
     SDL_RenderCopy(renderer, _image.getTexture(), \
         nullptr, &main);
 
-    if (getSelect())
+    if (isHighlighted())
     {
-        // ...
-    }
-
-    if (getHighlight())
-    {
-        SDL_Rect    highlight = main;
         Color       avgColor = _image.getAverageColor();
+        Color       highlightColor;
 
 		if (avgColor.getAverage() < 128)
-            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 200);
-		else
-            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 200);
+            highlightColor.setColor(0, 0, 0, HIGHLIGHT_OPACITY);
+        else
+            highlightColor.setColor(255, 255, 255, HIGHLIGHT_OPACITY);
 
-		SDL_RenderFillRect(renderer, &highlight);
+        Render::renderHighlight(getX(), getY(), getWidth(), \
+            getHeight(), highlightColor, renderer);
+
+    }
+
+    if (isSelected() && getSelectType() != NONE)
+    {
+        Render::renderSelect(getSelectType(), getX(), getY(), \
+            getWidth(), getHeight(), getSelectColor(), renderer);
     }
 }

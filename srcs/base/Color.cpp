@@ -19,3 +19,12 @@ int     Color::getAverage(void) const noexcept
 
     return value;
 }
+
+void    Color::setColor(const int r, const int g, const int b, const int a)
+{
+    this->r = r;
+    this->g = g;
+    this->b = b;
+
+    this->a = a;
+}

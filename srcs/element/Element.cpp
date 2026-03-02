@@ -45,6 +45,7 @@ void	Element::setOpacity(const uint8_t opacity) noexcept
 
 	_style.mainColor.a = opacity;
 	_style.borderColor.a = opacity;
+	_style.selectColor.a = opacity;
 }
 
 void	Element::setClick(const bool click) noexcept
@@ -52,7 +53,7 @@ void	Element::setClick(const bool click) noexcept
 	_state.click = click;
 }
 
-void	Element::setSelect(const bool select) noexcept
+void	Element::setSelected(const bool select) noexcept
 {
 	_state.select = select;
 }
@@ -60,6 +61,11 @@ void	Element::setSelect(const bool select) noexcept
 void	Element::setSelectType(const int selectType) noexcept
 {
 	_state.selectType = selectType;
+}
+
+void	Element::setSelectColor(const Color& color) noexcept
+{
+	_style.selectColor = color;
 }
 
 void	Element::setHighlight(const bool highlight) noexcept
@@ -102,7 +108,7 @@ bool	Element::getClick(void) const noexcept
 	return _state.click;
 }
 
-bool	Element::getSelect(void) const noexcept
+bool	Element::isSelected(void) const noexcept
 {
 	return _state.select;
 }
@@ -112,7 +118,12 @@ int		Element::getSelectType(void) const noexcept
 	return _state.selectType;
 }
 
-bool	Element::getHighlight(void) const noexcept
+Color	Element::getSelectColor(void) const noexcept
+{
+	return _style.selectColor;
+}
+
+bool	Element::isHighlighted(void) const noexcept
 {
 	return _state.highlight;
 }

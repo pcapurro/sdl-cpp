@@ -14,6 +14,8 @@ class Style
         Color       borderColor;
 
         Color       highlightColor;
+
+        Color       selectColor;
 };
 
 #endif

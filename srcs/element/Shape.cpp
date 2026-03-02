@@ -60,20 +60,25 @@ void    Shape::render(SDL_Renderer* renderer)
 		SDL_RenderFillRect(renderer, &main);
 	}
 
-    if (getSelect() && getSelectType() != NONE)
+	if (isHighlighted())
+	{
+		Color	highlightColor;
+
+		if (_color.getAverage() < 128)
+			highlightColor.setColor(255, 255, 255, HIGHLIGHT_OPACITY);
+		else
+			highlightColor.setColor(0, 0, 0, HIGHLIGHT_OPACITY);
+
+		Render::renderHighlight(getX(), getY(), getWidth(), \
+			getHeight(), highlightColor, renderer);
+	}
+
+    if (isSelected() && getSelectType() != NONE)
     {
-        // ...
+        Render::renderSelect(getSelectType(), getX(), getY(), \
+            getWidth(), getHeight(), getSelectColor(), renderer);
     }
 
-	if (getHighlight())
-	{
-		if (_color.getAverage() < 128)
-			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 200);
-		else
-			SDL_SetRenderDrawColor(renderer, 0, 0, 0, 200);
-
-		SDL_RenderFillRect(renderer, &center);
-	}
 }
 
 void	Shape::setColor(Color color) noexcept

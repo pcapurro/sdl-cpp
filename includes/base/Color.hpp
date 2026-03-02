@@ -14,6 +14,8 @@ class Color
 
 		SDL_Color		toSDL(void) const noexcept;
 		int				getAverage(void) const noexcept;
+
+		void			setColor(const int r, const int g, const int b, const int a);
 };
 
 #endif

@@ -190,10 +190,15 @@ void	YesNo::render(void)
 void	YesNo::reactEvent(SDL_Event* event, \
 	const int x, const int y)
 {
-    if (event->type == SDL_KEYDOWN && event->type == SDL_KEYUP \
-		&& event->button.button == SDLK_TAB)
+	if (event->type == SDL_MOUSEBUTTONDOWN)
 	{
-		;
+		for (auto& element : _elements)
+		{
+			if (!element.get()->isAbove(x, y) || element.get()->isSelected())
+				element.get()->setSelected(false);
+			else
+				element.get()->setSelected(true);
+		}
 	}
 
 	if (event->type == SDL_MOUSEMOTION)

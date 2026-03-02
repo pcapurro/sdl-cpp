@@ -60,19 +60,23 @@ void    Text::render(SDL_Renderer* renderer)
     SDL_RenderCopy(renderer, _text.getTexture(), \
         nullptr, &main);
 
-    if (getSelect())
+    if (isHighlighted())
     {
-        // ...
+		Color	highlightColor;
+
+		if (_writeColor.getAverage() < 128)
+			highlightColor.setColor(255, 255, 255, HIGHLIGHT_OPACITY);
+		else
+			highlightColor.setColor(0, 0, 0, HIGHLIGHT_OPACITY);
+
+		Render::renderHighlight(getX(), getY(), getWidth(), \
+			getHeight(), highlightColor, renderer);
     }
 
-    if (getHighlight())
+    if (isSelected() && getSelectType() != NONE)
     {
-		if (_writeColor.getAverage() < 128)
-			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 200);
-		else
-			SDL_SetRenderDrawColor(renderer, 0, 0, 0, 200);
-
-        SDL_RenderFillRect(renderer, &main);
+        Render::renderSelect(getSelectType(), getX(), getY(), \
+            getWidth(), getHeight(), getSelectColor(), renderer);
     }
 }
 

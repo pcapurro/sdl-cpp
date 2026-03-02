@@ -6,6 +6,7 @@
 # include "Properties.hpp"
 # include "Style.hpp"
 # include "State.hpp"
+# include "Render.hpp"
 
 class Element
 {
@@ -38,8 +39,9 @@ class Element
 
 		void			setClick(const bool click) noexcept;
 
-		void			setSelect(const bool select) noexcept;
+		void			setSelected(const bool select) noexcept;
 		void			setSelectType(const int selectType) noexcept;
+		void			setSelectColor(const Color& color) noexcept;
 
 		void			setHighlight(const bool highlight) noexcept;
 
@@ -55,10 +57,11 @@ class Element
 
 		bool			getClick(void) const noexcept;
 
-		bool			getSelect(void) const noexcept;
+		bool			isSelected(void) const noexcept;
 		int				getSelectType(void) const noexcept;
+		Color			getSelectColor(void) const noexcept;
 
-		bool			getHighlight(void) const noexcept;
+		bool			isHighlighted(void) const noexcept;
 
 		bool			getVisibility(void) const noexcept;
 };

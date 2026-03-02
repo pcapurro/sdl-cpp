@@ -7,8 +7,10 @@
 # define LIMIT_ON 1
 # define LIMIT_OFF 0
 
-# define DARK_MODE_ON 1
-# define DARK_MODE_OFF 0
+# define DARK_MODE 1
+# define LIGHT_MODE 0
+
+# define HIGHLIGHT_OPACITY 175
 
 # define NM_CURSOR 0
 # define INT_CURSOR 1
@@ -35,8 +37,8 @@
 
 # define BORDER_SELECT 21
 # define CORNER_SELECT 22
-# define CENTER_SELECT 23
-# define CROSS_SELECT 24
+# define CENTER_SELECT_V 23
+# define CENTER_SELECT_X 24
 
 # define LOGO_WIDTH 75
 # define LOGO_HEIGHT 75
