@@ -14,10 +14,10 @@ class Render
         static void     renderCornerSelect(const int x, const int y, const int width, const int height, \
                             const Color& color, SDL_Renderer* renderer);
 
-        static void     renderCenterSelectV(const int x, const int y, const int width, const int height, \
+        static void     renderCenterSelectCheck(const int x, const int y, const int width, const int height, \
                             const Color& color, SDL_Renderer* renderer);
 
-        static void     renderCenterSelectX(const int x, const int y, const int width, const int height, \
+        static void     renderCenterSelectCross(const int x, const int y, const int width, const int height, \
                             const Color& color, SDL_Renderer* renderer);
 
         static void     renderSelect(const int value, const int x, const int y, const int width, const int height, \
