@@ -23,9 +23,12 @@ Window::Window(const string& name, const int width, const int height) : \
 	SDL_SetRenderDrawBlendMode(_mainRenderer, SDL_BLENDMODE_BLEND);
 
 	_normalCursor.emplace(Cursor(SDL_SYSTEM_CURSOR_ARROW));
-	_interactCursor.emplace(Cursor(SDL_SYSTEM_CURSOR_HAND));
-	_crossHairCursor.emplace(Cursor(SDL_SYSTEM_CURSOR_CROSSHAIR));
 	_textCursor.emplace(Cursor(SDL_SYSTEM_CURSOR_IBEAM));
+	_loadingCursor.emplace(Cursor(SDL_SYSTEM_CURSOR_WAIT));
+	_crossHairCursor.emplace(Cursor(SDL_SYSTEM_CURSOR_CROSSHAIR));
+	_interactCursor.emplace(Cursor(SDL_SYSTEM_CURSOR_HAND));
+	_waitCursor.emplace(Cursor(SDL_SYSTEM_CURSOR_WAITARROW));
+	_noCursor.emplace(Cursor(SDL_SYSTEM_CURSOR_NO));
 }
 
 Window::~Window(void)
@@ -112,16 +115,28 @@ Color	Window::getBackgroundColor(void) const
 	return _backgroundColor;
 }
 
-SDL_Cursor*		Window::getCursor(const uint8_t value) const
+SDL_Cursor*		Window::getCursor(const int value) const
 {
-	if (value == NM_CURSOR)
-		return _normalCursor.value().getCursor();
-	else if (value == INT_CURSOR)
-		return _interactCursor.value().getCursor();
-	else if (value == CROSS_CURSOR)
-		return _crossHairCursor.value().getCursor();
-	else if (value == TXT_CURSOR)
+	if (value == SDL_SYSTEM_CURSOR_IBEAM)
 		return _textCursor.value().getCursor();
+
+	else if (value == SDL_SYSTEM_CURSOR_WAIT)
+		return _loadingCursor.value().getCursor();
+
+	else if (value == SDL_SYSTEM_CURSOR_CROSSHAIR)
+		return _crossHairCursor.value().getCursor();
+
+	else if (value == SDL_SYSTEM_CURSOR_HAND)
+		return _interactCursor.value().getCursor();
+
+	else if (value == SDL_SYSTEM_CURSOR_WAITARROW)
+		return _waitCursor.value().getCursor();
+
+	else if (value == SDL_SYSTEM_CURSOR_NO)
+		return _noCursor.value().getCursor();
+
+	else
+		return _normalCursor.value().getCursor();
 
 	return nullptr;
 }

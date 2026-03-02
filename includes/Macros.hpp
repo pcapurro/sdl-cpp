@@ -12,11 +12,6 @@
 
 # define HIGHLIGHT_OPACITY 175
 
-# define NM_CURSOR 0
-# define INT_CURSOR 1
-# define CROSS_CURSOR 2
-# define TXT_CURSOR 3
-
 # define ERROR -1
 
 # define OK 0

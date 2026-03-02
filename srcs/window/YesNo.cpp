@@ -67,6 +67,8 @@ void	YesNo::addLogo(const int cursorX, const int cursorY, const string& logoPath
 	auto	image = std::make_unique<Image>(logoProperties, \
 		logoPath.c_str(), getRenderer());
 
+	image.get()->setHoverCursor(SDL_SYSTEM_CURSOR_HAND);
+
 	_elements.push_back(std::move(image));
 }
 
@@ -77,6 +79,8 @@ void	YesNo::addTitleText(const int cursorX, const int cursorY, const string& tex
 
 	unique_ptr<Text>	textElement = std::make_unique<Text>(cursorX, cursorY, \
 		text.c_str(), titleSize, getWriteColor(), fontPath, getRenderer(), maxWidth);
+
+	textElement.get()->setHoverCursor(SDL_SYSTEM_CURSOR_IBEAM);
 
 	_elements.push_back(std::move(textElement));
 }
@@ -93,6 +97,8 @@ void	YesNo::addTitleLimit(const int cursorX, const int cursorY, const int width)
 
 	auto	shapeElement = std::make_unique<Shape>(limitFrame, getWriteColor());
 
+	shapeElement.get()->setHoverCursor(SDL_SYSTEM_CURSOR_IBEAM);
+
 	_elements.push_back(std::move(shapeElement));
 }
 
@@ -103,6 +109,8 @@ void	YesNo::addText(const int cursorX, const int cursorY, const string& text, \
 
 	auto	textElement = std::make_unique<Text>(cursorX, cursorY, text.c_str(), \
 		textSize, getWriteColor(), fontPath, getRenderer(), maxWidth);
+
+	textElement.get()->setHoverCursor(SDL_SYSTEM_CURSOR_IBEAM);
 
 	_elements.push_back(std::move(textElement));
 }
@@ -217,6 +225,24 @@ void	YesNo::reactEvent(SDL_Event* event, \
 			else
 				element.get()->setHighlight(false);
 		}
+
+		bool	isAbove = false;
+
+		for (auto& element : _elements)
+		{
+			if (element.get()->isAbove(x, y))
+			{
+				isAbove = true;
+
+				element.get()->setHover(true);
+				SDL_SetCursor(getCursor(element.get()->getHoverCursor()));
+			}
+			else
+				element.get()->setHover(false);
+		}
+
+		if (!isAbove)
+			SDL_SetCursor(getCursor(SDL_SYSTEM_CURSOR_ARROW));
 	}
 
 	refreshDisplay();

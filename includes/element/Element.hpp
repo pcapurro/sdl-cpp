@@ -45,6 +45,9 @@ class Element
 
 		void			setHighlight(const bool highlight) noexcept;
 
+		void			setHover(const bool hover) noexcept;
+		void			setHoverCursor(const int cursor) noexcept;
+
 		void			setVisibility(const bool visibility) noexcept;
 
 		int				getX(void) const noexcept;
@@ -62,6 +65,9 @@ class Element
 		Color			getSelectColor(void) const noexcept;
 
 		bool			isHighlighted(void) const noexcept;
+
+		bool			isHover(void) const noexcept;
+		int				getHoverCursor(void) const noexcept;
 
 		bool			getVisibility(void) const noexcept;
 };

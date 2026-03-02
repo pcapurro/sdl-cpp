@@ -73,6 +73,16 @@ void	Element::setHighlight(const bool highlight) noexcept
 	_state.highlight = highlight;
 }
 
+void	Element::setHover(const bool hover) noexcept
+{
+	_state.hover = hover;
+}
+
+void	Element::setHoverCursor(const int cursor) noexcept
+{
+	_state.hoverCursor = cursor;
+}
+
 void	Element::setVisibility(const bool visibility) noexcept
 {
 	_state.visibility = visibility;
@@ -126,6 +136,16 @@ Color	Element::getSelectColor(void) const noexcept
 bool	Element::isHighlighted(void) const noexcept
 {
 	return _state.highlight;
+}
+
+bool	Element::isHover(void) const noexcept
+{
+	return _state.hover;
+}
+
+int		Element::getHoverCursor(void) const noexcept
+{
+	return _state.hoverCursor;
 }
 
 bool	Element::getVisibility(void) const noexcept

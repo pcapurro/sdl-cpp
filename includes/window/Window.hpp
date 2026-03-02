@@ -26,9 +26,12 @@ class Window
 		SDL_Renderer*			_mainRenderer;
 
 		optional<Cursor>		_normalCursor;
-		optional<Cursor>		_interactCursor;
-		optional<Cursor>		_crossHairCursor;
 		optional<Cursor>		_textCursor;
+		optional<Cursor>		_loadingCursor;
+		optional<Cursor>		_crossHairCursor;
+		optional<Cursor>		_interactCursor;
+		optional<Cursor>		_waitCursor;
+		optional<Cursor>		_noCursor;
 
 	public:
 		Window(const string& name, const int width, const int height);
@@ -56,7 +59,7 @@ class Window
 		Color					getWriteColor(void) const;
 		Color					getBackgroundColor(void) const;
 
-		SDL_Cursor*				getCursor(const uint8_t value) const;
+		SDL_Cursor*				getCursor(const int value) const;
 		SDL_Renderer*			getRenderer(void) const;
 
 		int						getWidth(void) const;
