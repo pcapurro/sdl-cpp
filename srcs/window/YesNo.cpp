@@ -10,33 +10,56 @@ YesNo::YesNo(const string& name, const int width, const int height, \
 	else
 		setWriteColor(BLACK), setBackgroundColor(WHITE);
 
-	Properties		globalFrame;
+	int		limitX = width * LIMIT_RATIO;
+	int		limitY = height * LIMIT_RATIO;
 
-	globalFrame.x = width * LIMIT_RATIO;
-	globalFrame.y = height * LIMIT_RATIO;
+	int		cursorX = limitX;
+	int		cursorY = limitY;
+
+	int		maxWidth = 0;
 
 	if (logoPath.size() > 0)
-		addLogo(globalFrame, logoPath, logoWidth, logoHeight);
+		addLogo(cursorX, cursorY, logoPath, logoWidth, logoHeight);
 
 	if (titleText.size() > 0)
 	{
-		addTitleText(globalFrame, titleText, fontPath, \
-			!logoPath.empty(), logoWidth);
+		if (_elements.size() > 0)
+			cursorX += _elements.back().get()->getWidth() + limitX;
+
+		maxWidth = width - cursorX - limitX;
+
+		addTitleText(cursorX, cursorY, titleText, fontPath, maxWidth);
+
+		cursorY += _elements.back().get()->getHeight() + limitY;
 
 		if (titleLimit)
-			addTitleLimit(globalFrame, !logoPath.empty(), logoWidth);
+		{
+			addTitleLimit(cursorX, cursorY, maxWidth);
+			cursorY += _elements.back().get()->getHeight() + limitY;
+		}
+
+		if (logoPath.size() > 0)
+		{
+			int		logoBottomY = _elements.front()->getHeight() + limitY;
+
+			cursorY = std::max(logoBottomY, cursorY);
+		}
+		
+		cursorX = limitX;
 	}
 
-	addText(globalFrame, text, fontPath);
+	maxWidth = width - (limitX * 2);
+
+	addText(cursorX, cursorY, text, fontPath, maxWidth);
 }
 
-void	YesNo::addLogo(Properties& globalFrame, const string& logoPath, \
+void	YesNo::addLogo(const int cursorX, const int cursorY, const string& logoPath, \
 	const int logoWidth, const int logoHeight)
 {
 	Properties		logoProperties;
 
-	logoProperties.x = getWidth() * LIMIT_RATIO;
-	logoProperties.y = getHeight() * LIMIT_RATIO;
+	logoProperties.x = cursorX;
+	logoProperties.y = cursorY;
 
 	logoProperties.width = logoWidth;
 	logoProperties.height = logoHeight;
@@ -45,59 +68,41 @@ void	YesNo::addLogo(Properties& globalFrame, const string& logoPath, \
 		logoPath.c_str(), getRenderer());
 
 	_elements.push_back(std::move(image));
-
-	globalFrame.x += (getWidth() * LIMIT_RATIO) + logoWidth;
 }
 
-void	YesNo::addTitleText(Properties& globalFrame, const string& text, \
-	const string& fontPath, const bool logo, const int logoWidth)
+void	YesNo::addTitleText(const int cursorX, const int cursorY, const string& text, \
+	const string& fontPath, const int maxWidth)
 {
 	int		titleSize = getHeight() * TITLE_RATIO;
-	int		newWidth = getWidth() - (getWidth() * LIMIT_RATIO * 2);
 
-	if (logo)
-		newWidth -= (logoWidth * 2) - (getWidth() * LIMIT_RATIO);
-
-	unique_ptr<Text>	textElement = std::make_unique<Text>(globalFrame.x, globalFrame.y, \
-		text.c_str(), titleSize, getWriteColor(), fontPath, getRenderer(), newWidth);
-
-	globalFrame.y += textElement.get()->getHeight();
+	unique_ptr<Text>	textElement = std::make_unique<Text>(cursorX, cursorY, \
+		text.c_str(), titleSize, getWriteColor(), fontPath, getRenderer(), maxWidth);
 
 	_elements.push_back(std::move(textElement));
 }
 
-void	YesNo::addTitleLimit(Properties& globalFrame, const bool logo, const int logoWidth)
+void	YesNo::addTitleLimit(const int cursorX, const int cursorY, const int width)
 {
 	Properties		limitFrame;
 
-	limitFrame.x = globalFrame.x;
-	limitFrame.y = globalFrame.y + (getHeight() * LIMIT_RATIO) + (LIMIT_HEIGHT * 2);
+	limitFrame.x = cursorX;
+	limitFrame.y = cursorY;
 
-	limitFrame.width = getWidth();
-
-	if (!logo)
-		limitFrame.width -= (getWidth() * LIMIT_RATIO * 2);
-	else
-		limitFrame.width -= (getWidth() * LIMIT_RATIO + (logoWidth * 2));
-
+	limitFrame.width = width;
 	limitFrame.height = LIMIT_HEIGHT;
 
 	auto	shapeElement = std::make_unique<Shape>(limitFrame, getWriteColor());
 
 	_elements.push_back(std::move(shapeElement));
-
-	globalFrame.y += (getHeight() * LIMIT_RATIO) + (LIMIT_HEIGHT * 2);
 }
 
-void	YesNo::addText(Properties& globalFrame, const string& text, const string& fontPath)
+void	YesNo::addText(const int cursorX, const int cursorY, const string& text, \
+	const string& fontPath, const int maxWidth)
 {
-	globalFrame.x = getWidth() * LIMIT_RATIO;
-	globalFrame.y += getHeight() * LIMIT_RATIO;
-
 	int		textSize = getHeight() * TEXT_RATIO;
 
-	auto	textElement = std::make_unique<Text>(globalFrame.x, globalFrame.y, text.c_str(), \
-		textSize, getWriteColor(), fontPath, getRenderer(), getWidth() - (getWidth() * LIMIT_RATIO));
+	auto	textElement = std::make_unique<Text>(cursorX, cursorY, text.c_str(), \
+		textSize, getWriteColor(), fontPath, getRenderer(), maxWidth);
 
 	_elements.push_back(std::move(textElement));
 }

@@ -12,16 +12,15 @@ class YesNo final : public Window
 	private:
 		vector<unique_ptr<Element>>		_elements;
 
-		void							addLogo(Properties& globalFrame, const string& logoPath, \
+		void							addLogo(const int cursorX, const int cursorY, const string& logoPath, \
 											const int logoWidth, const int logoHeight);
 
-		void							addTitleText(Properties& globalFrame, const string& text, \
-											const string& fontPath, const bool logo, const int logoWidth);
-		void							addTitleLimit(Properties& globalFrame, const bool logo, \
-											const int logoWidth);
+		void							addTitleText(const int cursorX, const int cursorY, const string& text, \
+											const string& fontPath, const int maxWidth);
+		void							addTitleLimit(const int cursorX, const int cursorY, const int width);
 
-		void							addText(Properties& globalFrame, const string& text, \
-											const string& fontPath);
+		void							addText(const int cursorX, const int cursorY, const string& text, \
+											const string& fontPath, const int maxWidth);
 
 	public:
 		YesNo(void) = delete;

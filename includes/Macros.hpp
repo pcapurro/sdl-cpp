@@ -2,7 +2,13 @@
 # define MACROS_HPP
 
 # define MIN_WINDOW_W 300
-# define MIN_WINDOW_H 100
+# define MIN_WINDOW_H 150
+
+# define LIMIT_ON 1
+# define LIMIT_OFF 0
+
+# define DARK_MODE_ON 1
+# define DARK_MODE_OFF 0
 
 # define NM_CURSOR 0
 # define INT_CURSOR 1
@@ -37,7 +43,8 @@
 
 # define TITLE_RATIO 0.10f
 # define TEXT_RATIO 0.08f
-# define LIMIT_RATIO 0.07f
+
+# define LIMIT_RATIO 0.05f
 # define LIMIT_HEIGHT 1
 
 # define WHITE {255, 255, 255, 255}
