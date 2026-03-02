@@ -5,6 +5,11 @@ Window::Window(const string& name, const int width, const int height) : \
 	_height(height), \
 	_name(name)
 {
+	if (_width < MIN_WINDOW_W)
+		_width = MIN_WINDOW_W;
+	if (_height < MIN_WINDOW_H)
+		_height = MIN_WINDOW_H;
+
 	_mainWindow = SDL_CreateWindow(_name.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, \
 		_width, _height, 0);
 	if (_mainWindow == nullptr)

@@ -11,8 +11,8 @@
 class Window
 {
 	private:
-		const int				_width;
-		const int				_height;
+		int						_width;
+		int						_height;
 
 		int						_x;
 		int						_y;

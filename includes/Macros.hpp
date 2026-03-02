@@ -1,6 +1,9 @@
 #ifndef MACROS_HPP
 # define MACROS_HPP
 
+# define MIN_WINDOW_W 300
+# define MIN_WINDOW_H 100
+
 # define NM_CURSOR 0
 # define INT_CURSOR 1
 # define CROSS_CURSOR 2
