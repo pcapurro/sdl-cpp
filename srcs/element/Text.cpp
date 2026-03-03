@@ -57,7 +57,7 @@ void    Text::render(SDL_Renderer* renderer)
     SDL_RenderCopy(renderer, _text.value().getTexture(), \
         nullptr, &main);
 
-    if (isHighlighted())
+    if (isHighlightPossible() && isHighlighted())
     {
 		Color	highlightColor;
 
@@ -70,7 +70,7 @@ void    Text::render(SDL_Renderer* renderer)
 			getHeight(), highlightColor, renderer);
     }
 
-    if (isSelected() && getSelectType() != NONE)
+    if (isSelectPossible() && isSelected() && getSelectType() != NONE)
     {
         Render::renderSelect(getSelectType(), getX(), getY(), \
             getWidth(), getHeight(), getSelectColor(), renderer);

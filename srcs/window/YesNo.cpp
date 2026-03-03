@@ -1,8 +1,9 @@
 #include "YesNo.hpp"
 
 YesNo::YesNo(const string& name, const int width, const int height, \
-    const string& fontPath, const bool darkMode, const string& titleText, \
-	const bool titleLimit, const string& text, const string& logoPath, \
+	const string& fontPath, const bool darkMode, const string& titleText, \
+	const bool titleLimit, const string& text, const string& leftbuttonText, \
+	const string& rightButtonText, const string& logoPath, \
 	const int logoWidth, const int logoHeight) : Window(name, width, height)
 {
 	if (darkMode)
@@ -54,7 +55,7 @@ YesNo::YesNo(const string& name, const int width, const int height, \
 
 	cursorY += _elements.back().get()->getHeight() + limitY;
 
-	addButtons(fontPath, "yes", "no");
+	addButtons(fontPath, leftbuttonText, rightButtonText);
 }
 
 void	YesNo::addLogo(const int cursorX, const int cursorY, const string& logoPath, \
@@ -135,6 +136,14 @@ void	YesNo::addButtons(const string& fontPath, \
 
 	leftButton->setY(getHeight() - limitY - leftButton->getHeight());
 	rightButton->setY(getHeight() - limitY - rightButton->getHeight());
+
+	leftButton->enableHighlight();
+	leftButton->enableHover();
+	leftButton->enableSelect();
+
+	rightButton->enableHighlight();
+	rightButton->enableHover();
+	rightButton->enableSelect();
 
 	leftButton->setHoverCursor(SDL_SYSTEM_CURSOR_HAND);
 	rightButton->setHoverCursor(SDL_SYSTEM_CURSOR_HAND);
@@ -239,34 +248,22 @@ void	YesNo::reactEvent(SDL_Event* event, \
 
 	if (event->type == SDL_MOUSEMOTION)
 	{
-		Image*	ptr = nullptr;
-
-		for (auto& element : _elements)
-		{
-			ptr = dynamic_cast<Image*>(element.get());
-
-			if (!ptr)
-				continue;
-
-			if (element.get()->isAbove(x, y) == true)
-				element.get()->setHighlight(true);
-			else
-				element.get()->setHighlight(false);
-		}
-
 		bool	isAbove = false;
 
 		for (auto& element : _elements)
 		{
-			if (element.get()->isAbove(x, y))
+			if (element.get()->isAbove(x, y) == true)
 			{
+				element.get()->setHighlight(true);
+
 				isAbove = true;
 
 				element.get()->setHover(true);
+
 				SDL_SetCursor(getCursor(element.get()->getHoverCursor()));
 			}
 			else
-				element.get()->setHover(false);
+				element.get()->setHighlight(false), element.get()->setHover(false);
 		}
 
 		if (!isAbove)

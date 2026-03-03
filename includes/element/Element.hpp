@@ -6,6 +6,7 @@
 # include "Properties.hpp"
 # include "Style.hpp"
 # include "State.hpp"
+# include "Settings.hpp"
 # include "Render.hpp"
 
 class Element
@@ -14,12 +15,13 @@ class Element
 		Properties		_properties;
 		Style			_style;
 
+		Settings		_settings;
 		State			_state;
 
 	public:
 		Element(void) = delete;
 		Element(const Properties& properties, const Style& style = Style{}, \
-			const State& state = State{}) noexcept;
+			const Settings& settings = Settings{}, const State& state = State{}) noexcept;
 
 		virtual ~Element(void) = default;
 
@@ -50,6 +52,15 @@ class Element
 
 		void			setVisibility(const bool visibility) noexcept;
 
+		void			enableSelect(void) noexcept;
+		void			disableSelect(void) noexcept;
+
+		void			enableHover(void) noexcept;
+		void			disableHover(void) noexcept;
+
+		void			enableHighlight(void) noexcept;
+		void			disableHighlight(void) noexcept;
+
 		int				getX(void) const noexcept;
 		int				getY(void) const noexcept;
 
@@ -60,12 +71,15 @@ class Element
 
 		bool			getClick(void) const noexcept;
 
+		bool			isSelectPossible(void) const noexcept;
 		bool			isSelected(void) const noexcept;
 		int				getSelectType(void) const noexcept;
 		Color			getSelectColor(void) const noexcept;
 
+		bool			isHighlightPossible(void) const noexcept;
 		bool			isHighlighted(void) const noexcept;
 
+		bool			isHoverPossible(void) const noexcept;
 		bool			isHover(void) const noexcept;
 		int				getHoverCursor(void) const noexcept;
 

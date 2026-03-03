@@ -29,8 +29,9 @@ class YesNo final : public Window
 	public:
 		YesNo(void) = delete;
 		YesNo(const string& name, const int width = 400, const int height = 200, \
-    		const string& fontPath = "", const bool darkMode = false, const string& title = "", \
-			const bool titleLimit = true, const string& text = "", const string& logoPath = "", \
+    		const string& fontPath = "", const bool darkMode = false, const string& titleText = "", \
+			const bool titleLimit = true, const string& text = "", const string& leftbuttonText = "yes", \
+			const string& rightButtonText = "no", const string& logoPath = "", \
 			const int logoWidth = LOGO_WIDTH, const int logoHeight = LOGO_HEIGHT);
 
 		~YesNo(void) = default;

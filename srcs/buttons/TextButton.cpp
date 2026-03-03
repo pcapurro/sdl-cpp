@@ -50,16 +50,26 @@ TextButton::TextButton(const int x, const int y, const int width, const int heig
 
 void    TextButton::render(SDL_Renderer* renderer)
 {
-    _background.value().setX(getX());
-    _background.value().setY(getY());
+    Shape*      back = &_background.value();
+    Text*       text = &_mainText.value();
 
-    _background.value().render(renderer);
+    if (isHighlightPossible())
+        back->enableHighlight(), back->setHighlight(isHighlighted());
 
-    _mainText.value().setX(getX() + \
-        (getWidth() / 2 - _mainText.value().getWidth() / 2));
+    if (isHoverPossible())
+        back->setHover(isHover()), back->setHoverCursor(getHoverCursor());
 
-    _mainText.value().setY(getY() + \
-        (getHeight() / 2 - _mainText.value().getHeight() / 2));
+    if (isSelectPossible())
+        back->setSelected(isSelected()), back->setSelectColor(getSelectColor());
 
-    _mainText.value().render(renderer);
+    back->setX(getX());
+    back->setY(getY());
+
+    back->render(renderer);
+
+    text->setX(getX() + (getWidth() / 2 - text->getWidth() / 2));
+
+    text->setY(getY() + (getHeight() / 2 - text->getHeight() / 2));
+
+    text->render(renderer);
 }

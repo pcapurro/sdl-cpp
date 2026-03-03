@@ -1,7 +1,7 @@
 #include "Element.hpp"
 
 Element::Element(const Properties& properties, const Style& style, \
-	const State& state) noexcept : \
+	const Settings& settings, const State& state) noexcept : \
 		_properties(properties), _style(style), _state(state)
 {
 	;
@@ -55,37 +55,85 @@ void	Element::setClick(const bool click) noexcept
 
 void	Element::setSelected(const bool select) noexcept
 {
+	if (!isSelectPossible())
+		return;
+
 	_state.select = select;
 }
 
 void	Element::setSelectType(const int selectType) noexcept
 {
-	_state.selectType = selectType;
+	if (!isSelectPossible())
+		return;
+
+	_settings.selectType = selectType;
 }
 
 void	Element::setSelectColor(const Color& color) noexcept
 {
+	if (!isSelectPossible())
+		return;
+
 	_style.selectColor = color;
 }
 
 void	Element::setHighlight(const bool highlight) noexcept
 {
+	if (!isHighlightPossible())
+		return;
+
 	_state.highlight = highlight;
 }
 
 void	Element::setHover(const bool hover) noexcept
 {
+	if (!isHoverPossible())
+		return;
+
 	_state.hover = hover;
 }
 
 void	Element::setHoverCursor(const int cursor) noexcept
 {
-	_state.hoverCursor = cursor;
+	if (!isHoverPossible())
+		return;
+
+	_settings.hoverCursor = cursor;
 }
 
 void	Element::setVisibility(const bool visibility) noexcept
 {
 	_state.visibility = visibility;
+}
+
+void	Element::enableSelect(void) noexcept
+{
+	_settings.select = true;
+}
+
+void	Element::disableSelect(void) noexcept
+{
+	_settings.select = false;
+}
+
+void	Element::enableHover(void) noexcept
+{
+	_settings.hover = true;
+}
+
+void	Element::disableHover(void) noexcept
+{
+	_settings.hover = false;
+}
+
+void	Element::enableHighlight(void) noexcept
+{
+	_settings.highlight = true;
+}
+
+void	Element::disableHighlight(void) noexcept
+{
+	_settings.highlight = false;
 }
 
 int		Element::getX(void) const noexcept
@@ -118,6 +166,11 @@ bool	Element::getClick(void) const noexcept
 	return _state.click;
 }
 
+bool	Element::isSelectPossible(void) const noexcept
+{
+	return _settings.select;
+}
+
 bool	Element::isSelected(void) const noexcept
 {
 	return _state.select;
@@ -125,7 +178,7 @@ bool	Element::isSelected(void) const noexcept
 
 int		Element::getSelectType(void) const noexcept
 {
-	return _state.selectType;
+	return _settings.selectType;
 }
 
 Color	Element::getSelectColor(void) const noexcept
@@ -133,9 +186,19 @@ Color	Element::getSelectColor(void) const noexcept
 	return _style.selectColor;
 }
 
+bool	Element::isHighlightPossible(void) const noexcept
+{
+	return _settings.highlight;
+}
+
 bool	Element::isHighlighted(void) const noexcept
 {
 	return _state.highlight;
+}
+
+bool	Element::isHoverPossible(void) const noexcept
+{
+	return _settings.hover;
 }
 
 bool	Element::isHover(void) const noexcept
@@ -145,7 +208,7 @@ bool	Element::isHover(void) const noexcept
 
 int		Element::getHoverCursor(void) const noexcept
 {
-	return _state.hoverCursor;
+	return _settings.hoverCursor;
 }
 
 bool	Element::getVisibility(void) const noexcept

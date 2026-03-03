@@ -35,7 +35,7 @@ void    Image::render(SDL_Renderer* renderer)
     SDL_RenderCopy(renderer, _image.value().getTexture(), \
         nullptr, &main);
 
-    if (isHighlighted())
+    if (isHighlightPossible() && isHighlighted())
     {
         Color       avgColor = _image.value().getAverageColor();
         Color       highlightColor;
@@ -49,7 +49,7 @@ void    Image::render(SDL_Renderer* renderer)
             getHeight(), highlightColor, renderer);
     }
 
-    if (isSelected() && getSelectType() != NONE)
+    if (isSelectPossible() && isSelected() && getSelectType() != NONE)
     {
         Render::renderSelect(getSelectType(), getX(), getY(), \
             getWidth(), getHeight(), getSelectColor(), renderer);

@@ -24,7 +24,7 @@ Shape::Shape(const Properties& properties, const Color& color, \
 }
 
 void    Shape::render(SDL_Renderer* renderer)
-{
+{	
     if (!getVisibility())
         return;
 
@@ -60,7 +60,7 @@ void    Shape::render(SDL_Renderer* renderer)
 		SDL_RenderFillRect(renderer, &main);
 	}
 
-	if (isHighlighted())
+	if (isHighlightPossible() && isHighlighted())
 	{
 		Color	highlightColor;
 
@@ -73,12 +73,11 @@ void    Shape::render(SDL_Renderer* renderer)
 			getHeight(), highlightColor, renderer);
 	}
 
-    if (isSelected() && getSelectType() != NONE)
+    if (isSelectPossible() && isSelected() && getSelectType() != NONE)
     {
         Render::renderSelect(getSelectType(), getX(), getY(), \
             getWidth(), getHeight(), getSelectColor(), renderer);
     }
-
 }
 
 void	Shape::setColor(Color color) noexcept
