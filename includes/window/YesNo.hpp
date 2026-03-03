@@ -6,6 +6,7 @@
 # include "Text.hpp"
 # include "Shape.hpp"
 # include "Image.hpp"
+# include "TextButton.hpp"
 
 class YesNo final : public Window
 {
@@ -21,6 +22,9 @@ class YesNo final : public Window
 
 		void							addText(const int cursorX, const int cursorY, const string& text, \
 											const string& fontPath, const int maxWidth);
+
+		void							addButtons(const string& fontPath, const string& leftButtonText, \
+											const string& rightButtonText);
 
 	public:
 		YesNo(void) = delete;

@@ -22,13 +22,16 @@ Window::Window(const string& name, const int width, const int height) : \
 
 	SDL_SetRenderDrawBlendMode(_mainRenderer, SDL_BLENDMODE_BLEND);
 
-	_normalCursor.emplace(Cursor(SDL_SYSTEM_CURSOR_ARROW));
-	_textCursor.emplace(Cursor(SDL_SYSTEM_CURSOR_IBEAM));
-	_loadingCursor.emplace(Cursor(SDL_SYSTEM_CURSOR_WAIT));
-	_crossHairCursor.emplace(Cursor(SDL_SYSTEM_CURSOR_CROSSHAIR));
-	_interactCursor.emplace(Cursor(SDL_SYSTEM_CURSOR_HAND));
-	_waitCursor.emplace(Cursor(SDL_SYSTEM_CURSOR_WAITARROW));
-	_noCursor.emplace(Cursor(SDL_SYSTEM_CURSOR_NO));
+	_normalCursor.emplace(SDL_SYSTEM_CURSOR_ARROW);
+	_textCursor.emplace(SDL_SYSTEM_CURSOR_IBEAM);
+
+	_loadingCursor.emplace(SDL_SYSTEM_CURSOR_WAIT);
+	_crossHairCursor.emplace(SDL_SYSTEM_CURSOR_CROSSHAIR);
+
+	_interactCursor.emplace(SDL_SYSTEM_CURSOR_HAND);
+	_waitCursor.emplace(SDL_SYSTEM_CURSOR_WAITARROW);
+
+	_noCursor.emplace(SDL_SYSTEM_CURSOR_NO);
 }
 
 Window::~Window(void)

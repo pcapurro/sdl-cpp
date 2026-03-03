@@ -51,6 +51,10 @@ YesNo::YesNo(const string& name, const int width, const int height, \
 	maxWidth = width - (limitX * 2);
 
 	addText(cursorX, cursorY, text, fontPath, maxWidth);
+
+	cursorY += _elements.back().get()->getHeight() + limitY;
+
+	addButtons(fontPath, "yes", "no");
 }
 
 void	YesNo::addLogo(const int cursorX, const int cursorY, const string& logoPath, \
@@ -67,9 +71,7 @@ void	YesNo::addLogo(const int cursorX, const int cursorY, const string& logoPath
 	auto	image = std::make_unique<Image>(logoProperties, \
 		logoPath.c_str(), getRenderer());
 
-	image.get()->setHoverCursor(SDL_SYSTEM_CURSOR_HAND);
-
-	_elements.push_back(std::move(image));
+	_elements.emplace_back(std::move(image));
 }
 
 void	YesNo::addTitleText(const int cursorX, const int cursorY, const string& text, \
@@ -80,9 +82,7 @@ void	YesNo::addTitleText(const int cursorX, const int cursorY, const string& tex
 	unique_ptr<Text>	textElement = std::make_unique<Text>(cursorX, cursorY, \
 		text.c_str(), titleSize, getWriteColor(), fontPath, getRenderer(), maxWidth);
 
-	textElement.get()->setHoverCursor(SDL_SYSTEM_CURSOR_IBEAM);
-
-	_elements.push_back(std::move(textElement));
+	_elements.emplace_back(std::move(textElement));
 }
 
 void	YesNo::addTitleLimit(const int cursorX, const int cursorY, const int width)
@@ -97,9 +97,7 @@ void	YesNo::addTitleLimit(const int cursorX, const int cursorY, const int width)
 
 	auto	shapeElement = std::make_unique<Shape>(limitFrame, getWriteColor());
 
-	shapeElement.get()->setHoverCursor(SDL_SYSTEM_CURSOR_IBEAM);
-
-	_elements.push_back(std::move(shapeElement));
+	_elements.emplace_back(std::move(shapeElement));
 }
 
 void	YesNo::addText(const int cursorX, const int cursorY, const string& text, \
@@ -110,9 +108,39 @@ void	YesNo::addText(const int cursorX, const int cursorY, const string& text, \
 	auto	textElement = std::make_unique<Text>(cursorX, cursorY, text.c_str(), \
 		textSize, getWriteColor(), fontPath, getRenderer(), maxWidth);
 
-	textElement.get()->setHoverCursor(SDL_SYSTEM_CURSOR_IBEAM);
+	_elements.emplace_back(std::move(textElement));
+}
 
-	_elements.push_back(std::move(textElement));
+void	YesNo::addButtons(const string& fontPath, \
+	const string& leftButtonText, const string& rightButtonText)
+{
+	int				textSize = getHeight() * TEXT_RATIO;
+	int				spaceSize = (getWidth() * LIMIT_RATIO);
+	int				limitY = getHeight() * LIMIT_RATIO;
+
+	auto			leftButtonElement = std::make_unique<TextButton>(Properties{0, 0, 50, 25}, \
+						getBackgroundColor(), leftButtonText, textSize, getWriteColor(), fontPath, getRenderer());
+
+	auto			rightButtonElement = std::make_unique<TextButton>(Properties{0, 0, 50, 25}, \
+						getBackgroundColor(), rightButtonText, textSize, getWriteColor(), fontPath, getRenderer());
+
+	TextButton*		leftButton = leftButtonElement.get();
+	TextButton*		rightButton = rightButtonElement.get();
+
+	int				totalWidth = leftButton->getWidth() + rightButton->getWidth() + spaceSize;
+	int				centerX = (getWidth() / 2) - (totalWidth / 2);
+
+	leftButton->setX(centerX);
+	rightButton->setX(centerX + leftButton->getWidth() + spaceSize);
+
+	leftButton->setY(getHeight() - limitY - leftButton->getHeight());
+	rightButton->setY(getHeight() - limitY - rightButton->getHeight());
+
+	leftButton->setHoverCursor(SDL_SYSTEM_CURSOR_HAND);
+	rightButton->setHoverCursor(SDL_SYSTEM_CURSOR_HAND);
+
+	_elements.emplace_back(std::move(leftButtonElement));
+	_elements.emplace_back(std::move(rightButtonElement));
 }
 
 int     YesNo::routine(void)
