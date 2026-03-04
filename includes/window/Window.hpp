@@ -41,7 +41,7 @@ class Window
 		virtual int				waitForEvent(void) = 0;
 
 		virtual void			render(void) = 0;
-		virtual void			reactEvent(SDL_Event* event, \
+		virtual int				reactEvent(SDL_Event* event, \
 									const int x = 0, const int y = 0) = 0;
 
 		virtual void			refreshDisplay(void) = 0;

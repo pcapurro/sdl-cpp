@@ -62,12 +62,16 @@ void    Shape::render(SDL_Renderer* renderer)
 
 	if (isHighlightPossible() && isHighlighted())
 	{
-		Color	highlightColor;
+		Color		highlightColor;
+		uint8_t		opacity = HIGHLIGHT_OPACITY;
+
+        if (isFocusPossible() && isFocused())
+            opacity = FOCUS_OPACITY;
 
 		if (_color.getAverage() < 128)
-			highlightColor.setColor(255, 255, 255, HIGHLIGHT_OPACITY);
+			highlightColor.setColor(255, 255, 255, opacity);
 		else
-			highlightColor.setColor(0, 0, 0, HIGHLIGHT_OPACITY);
+			highlightColor.setColor(0, 0, 0, opacity);
 
 		Render::renderHighlight(getX(), getY(), getWidth(), \
 			getHeight(), highlightColor, renderer);

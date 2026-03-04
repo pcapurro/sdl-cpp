@@ -43,7 +43,10 @@ class YesNo final : public Window
 		
 		virtual void					render(void);
 
-		virtual void					reactEvent(SDL_Event* event, \
+		virtual int						reactEvent(SDL_Event* event, \
+											const int x = 0, const int y = 0);
+
+		int								reactButtonsEvent(SDL_Event* event, \
 											const int x = 0, const int y = 0);
 };
 

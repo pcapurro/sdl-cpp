@@ -48,19 +48,37 @@ TextButton::TextButton(const int x, const int y, const int width, const int heig
         true, limit, textColor);
 }
 
+void    TextButton::setSettings(const bool select, const int selectType, \
+    const bool hover, const int hoverCursor, const bool highlight, const bool focus)
+{
+    select ? enableSelect() : disableSelect();
+    if (select && selectType != DEFAULT && selectType != NONE)
+        setSelectType(selectType);
+
+    hover ? enableHover() : disableHover();
+    if (hover && hoverCursor != DEFAULT && hoverCursor != NONE)
+        setHoverCursor(hoverCursor);
+
+    highlight ? enableHighlight() : disableHighlight();
+    focus ? enableFocus() : disableFocus();
+}
+
 void    TextButton::render(SDL_Renderer* renderer)
 {
     Shape*      back = &_background.value();
     Text*       text = &_mainText.value();
-
-    if (isHighlightPossible())
-        back->enableHighlight(), back->setHighlight(isHighlighted());
 
     if (isHoverPossible())
         back->setHover(isHover()), back->setHoverCursor(getHoverCursor());
 
     if (isSelectPossible())
         back->setSelected(isSelected()), back->setSelectColor(getSelectColor());
+
+    if (isHighlightPossible())
+        back->enableHighlight(), back->setHighlight(isHighlighted());
+
+    if (isFocusPossible())
+        back->enableFocus(), back->setFocus(isFocused());
 
     back->setX(getX());
     back->setY(getY());

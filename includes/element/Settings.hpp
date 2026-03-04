@@ -13,6 +13,7 @@ class Settings
         int     hoverCursor = SDL_SYSTEM_CURSOR_ARROW;
 
         bool    highlight = false;
+        bool    focus = false;
 };
 
 #endif

@@ -39,11 +39,15 @@ void    Image::render(SDL_Renderer* renderer)
     {
         Color       avgColor = _image.value().getAverageColor();
         Color       highlightColor;
+        uint8_t     opacity = HIGHLIGHT_OPACITY;
+
+        if (isFocusPossible() && isFocused())
+            opacity = FOCUS_OPACITY;
 
 		if (avgColor.getAverage() < 128)
-            highlightColor.setColor(0, 0, 0, HIGHLIGHT_OPACITY);
+            highlightColor.setColor(0, 0, 0, opacity);
         else
-            highlightColor.setColor(255, 255, 255, HIGHLIGHT_OPACITY);
+            highlightColor.setColor(255, 255, 255, opacity);
 
         Render::renderHighlight(getX(), getY(), getWidth(), \
             getHeight(), highlightColor, renderer);

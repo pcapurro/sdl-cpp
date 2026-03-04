@@ -19,6 +19,8 @@ YesNo::YesNo(const string& name, const int width, const int height, \
 
 	int		maxWidth = 0;
 
+	_elements.reserve(6);
+
 	if (logoPath.size() > 0)
 		addLogo(cursorX, cursorY, logoPath, logoWidth, logoHeight);
 
@@ -119,37 +121,32 @@ void	YesNo::addButtons(const string& fontPath, \
 	int				spaceSize = (getWidth() * LIMIT_RATIO);
 	int				limitY = getHeight() * LIMIT_RATIO;
 
-	auto			leftButtonElement = std::make_unique<TextButton>(Properties{0, 0, 50, 25}, \
+	auto leftButton = std::make_unique<TextButton>(Properties{0, 0, 50, 25}, \
 						getBackgroundColor(), leftButtonText, textSize, getWriteColor(), fontPath, getRenderer());
 
-	auto			rightButtonElement = std::make_unique<TextButton>(Properties{0, 0, 50, 25}, \
+	auto rightButton = std::make_unique<TextButton>(Properties{0, 0, 50, 25}, \
 						getBackgroundColor(), rightButtonText, textSize, getWriteColor(), fontPath, getRenderer());
 
-	TextButton*		leftButton = leftButtonElement.get();
-	TextButton*		rightButton = rightButtonElement.get();
+	TextButton*		leftElement = leftButton.get();
+	TextButton*		rightElement = rightButton.get();
 
-	int				totalWidth = leftButton->getWidth() + rightButton->getWidth() + spaceSize;
+	int				totalWidth = leftElement->getWidth() + rightElement->getWidth() + spaceSize;
 	int				centerX = (getWidth() / 2) - (totalWidth / 2);
 
-	leftButton->setX(centerX);
-	rightButton->setX(centerX + leftButton->getWidth() + spaceSize);
+	leftElement->setX(centerX);
+	rightElement->setX(centerX + leftElement->getWidth() + spaceSize);
 
-	leftButton->setY(getHeight() - limitY - leftButton->getHeight());
-	rightButton->setY(getHeight() - limitY - rightButton->getHeight());
+	leftElement->setY(getHeight() - limitY - leftElement->getHeight());
+	rightElement->setY(getHeight() - limitY - rightElement->getHeight());
 
-	leftButton->enableHighlight();
-	leftButton->enableHover();
-	leftButton->enableSelect();
+	leftElement->setSettings(false, NONE, true, \
+		SDL_SYSTEM_CURSOR_HAND, true, true);
 
-	rightButton->enableHighlight();
-	rightButton->enableHover();
-	rightButton->enableSelect();
+	rightElement->setSettings(false, NONE, true, \
+		SDL_SYSTEM_CURSOR_HAND, true, true);
 
-	leftButton->setHoverCursor(SDL_SYSTEM_CURSOR_HAND);
-	rightButton->setHoverCursor(SDL_SYSTEM_CURSOR_HAND);
-
-	_elements.emplace_back(std::move(leftButtonElement));
-	_elements.emplace_back(std::move(rightButtonElement));
+	_elements.emplace_back(std::move(leftButton));
+	_elements.emplace_back(std::move(rightButton));
 }
 
 int     YesNo::routine(void)
@@ -172,6 +169,7 @@ int     YesNo::routine(void)
 
 int     YesNo::waitForEvent(void)
 {
+	int			value = OK;
 	int			x = 0, y = 0;
 	SDL_Event	event;
 
@@ -203,12 +201,12 @@ int     YesNo::waitForEvent(void)
 		// cout << event.button.x << " ; " << event.button.y << endl;
 		// cout << x << " ; " << y << endl;
 
-		reactEvent(&event, x, y);
+		value = reactEvent(&event, x, y);
 	}
 	else
-		reactEvent(&event);
+		value = reactEvent(&event);
 
-	return OK;
+	return value;
 }
 
 void	YesNo::refreshDisplay(void)
@@ -232,19 +230,43 @@ void	YesNo::render(void)
 	}
 }
 
-void	YesNo::reactEvent(SDL_Event* event, \
-	const int x, const int y)
+int		YesNo::reactButtonsEvent(SDL_Event* event, const int x, const int y)
 {
+	TextButton*		leftButton = dynamic_cast<TextButton*> \
+		(_elements[_elements.size() - 2].get());
+
+	TextButton*		rightButton = dynamic_cast<TextButton*> \
+		(_elements.back().get());
+
 	if (event->type == SDL_MOUSEBUTTONDOWN)
 	{
-		for (auto& element : _elements)
+		if (leftButton->isAbove(x, y))
+			leftButton->setFocus(true);
+		else if (rightButton->isAbove(x, y))
+			rightButton->setFocus(true);
+	}
+
+	if (event->type == SDL_MOUSEBUTTONUP)
+	{
+		if (leftButton->isAbove(x, y) && leftButton->isFocused())
+			return YES;
+		else if (rightButton->isAbove(x, y) && rightButton->isFocused())
+			return NO;
+		else
 		{
-			if (!element.get()->isAbove(x, y) || element.get()->isSelected())
-				element.get()->setSelected(false);
-			else
-				element.get()->setSelected(true);
+			if (leftButton->isFocused())
+				leftButton->setFocus(false);
+			if (rightButton->isFocused())
+				rightButton->setFocus(false);
 		}
 	}
+
+	return OK;
+}
+
+int		YesNo::reactEvent(SDL_Event* event, const int x, const int y)
+{
+	int		value = OK;
 
 	if (event->type == SDL_MOUSEMOTION)
 	{
@@ -259,7 +281,6 @@ void	YesNo::reactEvent(SDL_Event* event, \
 				isAbove = true;
 
 				element.get()->setHover(true);
-
 				SDL_SetCursor(getCursor(element.get()->getHoverCursor()));
 			}
 			else
@@ -270,5 +291,9 @@ void	YesNo::reactEvent(SDL_Event* event, \
 			SDL_SetCursor(getCursor(SDL_SYSTEM_CURSOR_ARROW));
 	}
 
+	value = reactButtonsEvent(event, x, y);
+
 	refreshDisplay();
+
+	return value;
 }

@@ -11,6 +11,7 @@ class State
 		bool		select = false;
 		bool		hover = false;
 		bool		highlight = false;
+		bool		focus = false;
 
 		bool		visibility = true;
 };

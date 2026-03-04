@@ -13,8 +13,6 @@ class Style
         Color       mainColor;
         Color       borderColor;
 
-        Color       highlightColor;
-
         Color       selectColor;
 };
 

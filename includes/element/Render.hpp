@@ -25,6 +25,9 @@ class Render
 
         static void     renderHighlight(const int x, const int y, const int width, const int height, \
                             const Color& color, SDL_Renderer* renderer);
+
+        static void     renderFocus(const int x, const int y, const int width, const int height, \
+                            const Color& color, SDL_Renderer* renderer);
 };
 
 #endif

@@ -10,7 +10,8 @@
 # define DARK_MODE 1
 # define LIGHT_MODE 0
 
-# define HIGHLIGHT_OPACITY 175
+# define HIGHLIGHT_OPACITY 100
+# define FOCUS_OPACITY 200
 
 # define ERROR -1
 
@@ -25,6 +26,7 @@
 # define CANCEL 5
 
 # define NONE 0
+# define DEFAULT 1
 # define ELEMENT 20
 # define TEXT 21
 # define BUTTON 22

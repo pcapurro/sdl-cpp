@@ -85,6 +85,14 @@ void	Element::setHighlight(const bool highlight) noexcept
 	_state.highlight = highlight;
 }
 
+void	Element::setFocus(const bool focus) noexcept
+{
+	if (!isFocusPossible())
+		return;
+
+	_state.focus = focus;
+}
+
 void	Element::setHover(const bool hover) noexcept
 {
 	if (!isHoverPossible())
@@ -134,6 +142,16 @@ void	Element::enableHighlight(void) noexcept
 void	Element::disableHighlight(void) noexcept
 {
 	_settings.highlight = false;
+}
+
+void	Element::enableFocus(void) noexcept
+{
+	_settings.focus = true;
+}
+
+void	Element::disableFocus(void) noexcept
+{
+	_settings.focus = false;
 }
 
 int		Element::getX(void) const noexcept
@@ -194,6 +212,16 @@ bool	Element::isHighlightPossible(void) const noexcept
 bool	Element::isHighlighted(void) const noexcept
 {
 	return _state.highlight;
+}
+
+bool	Element::isFocusPossible(void) const noexcept
+{
+	return _settings.focus;
+}
+
+bool	Element::isFocused(void) const noexcept
+{
+	return _state.focus;
 }
 
 bool	Element::isHoverPossible(void) const noexcept
