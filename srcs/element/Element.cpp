@@ -2,7 +2,10 @@
 
 Element::Element(const Properties& properties, const Style& style, \
 	const Settings& settings, const State& state) noexcept : \
-		_properties(properties), _style(style), _state(state)
+		_properties(properties), \
+		_style(style), \
+		_settings(settings), \
+		_state(state)
 {
 	;
 }

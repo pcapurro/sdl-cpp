@@ -4,8 +4,8 @@ Text::Text(const int x, const int y, const string& text, const int size, \
     const Color& color, const string& fontPath, SDL_Renderer* renderer, \
     const int maxWidth) : \
         Element({x, y, 0, 0}), \
-        _font(fontPath, size), \
-        _writeColor(color)
+        _writeColor(color), \
+        _font(fontPath, size)
 {
     int     width = 0;
     int     height = 0;
@@ -29,8 +29,8 @@ Text::Text(const Properties& properties, const string& text, \
     const int size, const Color& color, const string& fontPath, \
     SDL_Renderer* renderer, const int maxWidth) : \
         Element(properties), \
-        _font(fontPath, size), \
-        _writeColor(color)
+        _writeColor(color), \
+        _font(fontPath, size)
 {    
     _text.emplace(text.c_str(), _font.getFont(), \
         renderer, maxWidth);
