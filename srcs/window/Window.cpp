@@ -149,6 +149,14 @@ void	Window::setTitle(const std::string& title)
 	SDL_SetWindowTitle(_mainWindow, title.c_str());
 }
 
+void	Window::refreshDisplay(void)
+{
+	clear();
+	render();
+
+	display();
+}
+
 void	Window::renderBackground()
 {
 	SDL_Rect	obj;

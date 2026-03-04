@@ -38,8 +38,6 @@ class YesNo final : public Window
 
 		virtual int						routine(void);
 		virtual int						waitForEvent(void);
-
-		virtual	void					refreshDisplay(void);
 		
 		virtual void					render(void);
 

@@ -44,7 +44,7 @@ class Window
 		virtual int				reactEvent(SDL_Event* event, \
 									const int x = 0, const int y = 0) = 0;
 
-		virtual void			refreshDisplay(void) = 0;
+		void					refreshDisplay(void);
 
 		void					renderBackground(void);
 	

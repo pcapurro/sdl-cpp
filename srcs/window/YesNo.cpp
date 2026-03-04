@@ -209,14 +209,6 @@ int     YesNo::waitForEvent(void)
 	return value;
 }
 
-void	YesNo::refreshDisplay(void)
-{
-	clear();
-	render();
-
-	display();
-}
-
 void	YesNo::render(void)
 {
 	SDL_Renderer*	renderer = getRenderer();
