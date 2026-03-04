@@ -8,6 +8,7 @@
 class Text final : public Element
 {
     private:
+        string              _textStr;
         Color               _writeColor;
 
         Font                _font;
@@ -29,6 +30,8 @@ class Text final : public Element
         void        render(SDL_Renderer* renderer);
 
         void        setColor(Color color) noexcept;
+
+        string      getTextStr(void) const noexcept;
 
         void        update(const string& text, const int maxWidth, \
                         SDL_Renderer* renderer);

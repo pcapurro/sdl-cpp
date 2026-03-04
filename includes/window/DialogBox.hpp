@@ -12,6 +12,9 @@ class DialogBox final : public Window
 {
 	private:
 		vector<unique_ptr<Element>>		_elements;
+		vector<unique_ptr<TextButton>>	_buttons;
+
+		const vector<string>			_textButtons;
 
 		void							addLogo(const int cursorX, const int cursorY, const string& logoPath, \
 											const int logoWidth, const int logoHeight, const bool centered = false);
@@ -40,10 +43,11 @@ class DialogBox final : public Window
 		
 		virtual void					render(void);
 
-		virtual int						reactEvent(SDL_Event* event, \
-											const int x = 0, const int y = 0);
+		void 							reactMouseMotion(const int x, const int y);
+		int								reactMouseButtonUp(const int x, const int y);
+		void 							reactMouseButtonDown(const int x, const int y);
 
-		int								reactButtonsEvent(SDL_Event* event, \
+		virtual int						reactEvent(SDL_Event* event, \
 											const int x = 0, const int y = 0);
 };
 

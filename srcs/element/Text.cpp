@@ -4,6 +4,7 @@ Text::Text(const int x, const int y, const string& text, const int size, \
     const Color& color, const string& fontPath, SDL_Renderer* renderer, \
     const int maxWidth) : \
         Element({x, y, 0, 0}), \
+        _textStr(text), \
         _writeColor(color), \
         _font(fontPath, size)
 {
@@ -29,6 +30,7 @@ Text::Text(const Properties& properties, const string& text, \
     const int size, const Color& color, const string& fontPath, \
     SDL_Renderer* renderer, const int maxWidth) : \
         Element(properties), \
+        _textStr(text), \
         _writeColor(color), \
         _font(fontPath, size)
 {    
@@ -87,9 +89,16 @@ void    Text::setColor(Color color) noexcept
     _writeColor = color;
 }
 
+string  Text::getTextStr(void) const noexcept
+{
+    return _textStr;
+}
+
 void    Text::update(const string& text, const int maxWidth, \
     SDL_Renderer* renderer)
 {
+    _textStr = text;
+
     _text.reset();
 
     _text.emplace(text.c_str(), _font.getFont(), \

@@ -63,6 +63,11 @@ void    TextButton::setSettings(const bool select, const int selectType, \
     focus ? enableFocus() : disableFocus();
 }
 
+string  TextButton::getText(void) const
+{
+    return _mainText.value().getTextStr();
+}
+
 void    TextButton::render(SDL_Renderer* renderer)
 {
     Shape*      back = &_background.value();

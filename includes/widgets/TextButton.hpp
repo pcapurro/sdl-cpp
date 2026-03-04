@@ -27,6 +27,8 @@ class TextButton : public Element
         void                    setSettings(const bool select, const int selectType, \
             const bool hover, const int hoverCursor, const bool highlight, const bool focus) noexcept;
 
+        string                  getText(void) const;
+
         void                    render(SDL_Renderer* renderer);
 };
 

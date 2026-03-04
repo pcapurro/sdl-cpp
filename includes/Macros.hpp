@@ -17,11 +17,8 @@
 
 # define OK 0
 
-# define END 1
-# define ENTER 2
-
-# define YES 3
-# define NO 4
+# define END 42
+# define ENTER 43
 
 # define CANCEL 5
 

@@ -5,7 +5,8 @@ DialogBox::DialogBox(const string& name, const int width, const int height, \
 	const bool titleLimit, const string& text, const vector<string>& buttonsTexts, \
 	const string& logoPath, const int logoWidth, const int logoHeight, \
 	const bool logoCentered) : \
-		Window(name, width, height)
+		Window(name, width, height), \
+		_textButtons(buttonsTexts)
 {
 	int		limitX = width * LIMIT_RATIO;
 	int		limitY = height * LIMIT_RATIO;
@@ -65,7 +66,8 @@ DialogBox::DialogBox(const string& name, const int width, const int height, \
 
 	cursorY += _elements.back().get()->getHeight() + limitY;
 
-	addButtons(fontPath, buttonsTexts);
+	if (buttonsTexts.size() > 0)
+		addButtons(fontPath, buttonsTexts);
 }
 
 void	DialogBox::addLogo(const int cursorX, const int cursorY, const string& logoPath, \
@@ -133,13 +135,37 @@ void	DialogBox::addButtons(const string& fontPath, \
 	int		textSize = getHeight() * TEXT_RATIO;
 	int		spaceSize = (getWidth() * LIMIT_RATIO);
 	int		limitY = getHeight() * LIMIT_RATIO;
+	int		totalWidth = 0;
 
-	(void) fontPath;
-	(void) buttonsTexts;
+	for (size_t i = 0; i < buttonsTexts.size() && i < 4; i++)
+	{
+		auto button = std::make_unique<TextButton>(Properties{0, 0, ((textSize * 5) / 10) * 10, \
+			((textSize * 2) / 10) * 10}, getBackgroundColor(), buttonsTexts[i], textSize, \
+			getWriteColor(), fontPath, getRenderer());
 
-	(void) textSize;
-	(void) spaceSize;
-	(void) limitY;
+		button.get()->setY(getHeight() - limitY - button.get()->getHeight());
+		button.get()->setSettings(false, NONE, true, SDL_SYSTEM_CURSOR_HAND, true, true);
+
+		totalWidth += button.get()->getWidth();
+		if (i + 1 < buttonsTexts.size() && i + 1 < 4)
+			totalWidth += spaceSize;
+
+		_buttons.emplace_back(std::move(button));
+	}
+
+	int		cursorX = (getWidth() / 2) - (totalWidth / 2);
+
+	for (const auto& button : _buttons)
+	{
+		button->setX(cursorX);
+		button->setY(getHeight() - limitY - \
+			button->getHeight());
+
+		button->setSettings(false, NONE, true, \
+			SDL_SYSTEM_CURSOR_HAND, true, true);
+
+		cursorX += button->getWidth() + spaceSize;
+	}
 }
 
 int     DialogBox::routine(void)
@@ -212,41 +238,76 @@ void	DialogBox::render(void)
 	{
 		for (auto& element : _elements)
 			element.get()->render(renderer);
+
+		for (auto& button : _buttons)
+			button.get()->render(renderer);
 	}
 }
 
-int		DialogBox::reactButtonsEvent(SDL_Event* event, const int x, const int y)
+void	DialogBox::reactMouseMotion(const int x, const int y)
 {
-	TextButton*		leftButton = dynamic_cast<TextButton*> \
-		(_elements[_elements.size() - 2].get());
+	bool	isAbove = false;
 
-	TextButton*		rightButton = dynamic_cast<TextButton*> \
-		(_elements.back().get());
-
-	if (event->type == SDL_MOUSEBUTTONDOWN)
+	for (auto& element : _elements)
 	{
-		if (leftButton->isAbove(x, y))
-			leftButton->setFocus(true);
-		else if (rightButton->isAbove(x, y))
-			rightButton->setFocus(true);
+		if (element.get()->isAbove(x, y) == true)
+		{
+			isAbove = true;
+
+			element.get()->setHighlight(true);
+			element.get()->setHover(true);
+
+			SDL_SetCursor(getCursor(element.get()->getHoverCursor()));
+		}
+		else
+			element.get()->setHighlight(false), element.get()->setHover(false);
 	}
 
-	if (event->type == SDL_MOUSEBUTTONUP)
+	for (auto& button : _buttons)
 	{
-		if (leftButton->isAbove(x, y) && leftButton->isFocused())
-			return YES;
-		else if (rightButton->isAbove(x, y) && rightButton->isFocused())
-			return NO;
-		else
+		if (button.get()->isAbove(x, y) == true)
 		{
-			if (leftButton->isFocused())
-				leftButton->setFocus(false);
-			if (rightButton->isFocused())
-				rightButton->setFocus(false);
+			isAbove = true;
+
+			button.get()->setHighlight(true);
+			button.get()->setHover(true);
+
+			SDL_SetCursor(getCursor(button.get()->getHoverCursor()));
 		}
+		else
+			button.get()->setHighlight(false), button.get()->setHover(false);
+	}
+
+	if (!isAbove)
+		SDL_SetCursor(getCursor(SDL_SYSTEM_CURSOR_ARROW));
+}
+
+int		DialogBox::reactMouseButtonUp(const int x, const int y)
+{
+	for (auto& button : _buttons)
+	{
+		if (button->isAbove(x, y) && button->isFocused())
+		{
+			for (size_t i = 0; i < _textButtons.size(); i++)
+			{
+				if (_textButtons[i] == button->getText())
+					return i + 1;
+			}
+		}
+		else
+			button->setFocus(false);
 	}
 
 	return OK;
+}
+
+void	DialogBox::reactMouseButtonDown(const int x, const int y)
+{
+	for (auto& button : _buttons)
+	{
+		if (button->isAbove(x, y))
+			button->setFocus(true);
+	}
 }
 
 int		DialogBox::reactEvent(SDL_Event* event, const int x, const int y)
@@ -254,29 +315,13 @@ int		DialogBox::reactEvent(SDL_Event* event, const int x, const int y)
 	int		value = OK;
 
 	if (event->type == SDL_MOUSEMOTION)
-	{
-		bool	isAbove = false;
+		reactMouseMotion(x, y);
 
-		for (auto& element : _elements)
-		{
-			if (element.get()->isAbove(x, y) == true)
-			{
-				element.get()->setHighlight(true);
+	else if (event->type == SDL_MOUSEBUTTONDOWN)
+		reactMouseButtonDown(x, y);
 
-				isAbove = true;
-
-				element.get()->setHover(true);
-				SDL_SetCursor(getCursor(element.get()->getHoverCursor()));
-			}
-			else
-				element.get()->setHighlight(false), element.get()->setHover(false);
-		}
-
-		if (!isAbove)
-			SDL_SetCursor(getCursor(SDL_SYSTEM_CURSOR_ARROW));
-	}
-
-	value = reactButtonsEvent(event, x, y);
+	else if (event->type == SDL_MOUSEBUTTONUP)
+		value = reactMouseButtonUp(x, y);
 
 	refreshDisplay();
 
