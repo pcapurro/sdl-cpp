@@ -121,11 +121,13 @@ void	YesNo::addButtons(const string& fontPath, \
 	int				spaceSize = (getWidth() * LIMIT_RATIO);
 	int				limitY = getHeight() * LIMIT_RATIO;
 
-	auto leftButton = std::make_unique<TextButton>(Properties{0, 0, 50, 25}, \
-		getBackgroundColor(), leftButtonText, textSize, getWriteColor(), fontPath, getRenderer());
+	auto leftButton = std::make_unique<TextButton>(Properties{0, 0, ((textSize * 5) / 10) * 10, \
+		((textSize * 2) / 10) * 10}, getBackgroundColor(), leftButtonText, textSize, \
+		getWriteColor(), fontPath, getRenderer());
 
-	auto rightButton = std::make_unique<TextButton>(Properties{0, 0, 50, 25}, \
-		getBackgroundColor(), rightButtonText, textSize, getWriteColor(), fontPath, getRenderer());
+	auto rightButton = std::make_unique<TextButton>(Properties{0, 0, ((textSize * 5) / 10) * 10, \
+		((textSize * 2) / 10) * 10}, getBackgroundColor(), rightButtonText, textSize, \
+		getWriteColor(), fontPath, getRenderer());
 
 	TextButton*		leftElement = leftButton.get();
 	TextButton*		rightElement = rightButton.get();
