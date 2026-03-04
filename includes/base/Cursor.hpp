@@ -17,8 +17,8 @@ class Cursor
 
         Cursor(Cursor&& original) noexcept;
 
-        Cursor&	    operator=(const Cursor& original) noexcept = delete;
-        Cursor&     operator=(Cursor&& original) noexcept;
+        Cursor&	                    operator=(const Cursor& original) noexcept = delete;
+        Cursor&                     operator=(Cursor&& original) noexcept;
 
         ~Cursor(void) noexcept;
 

@@ -31,7 +31,7 @@ class Text final : public Element
         void        setColor(Color color) noexcept;
 
         void        update(const string& text, const int maxWidth, \
-                        SDL_Renderer* renderer) noexcept;
+                        SDL_Renderer* renderer);
 };
 
 #endif

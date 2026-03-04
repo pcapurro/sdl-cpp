@@ -6,7 +6,7 @@ Font::Font(const string& path, const int size)
 
 	if (_font == nullptr)
 		throw std::runtime_error("SDL failed to load a font: " + string(SDL_GetError()));
-    }
+}
 
 Font::Font(Font&& original) noexcept
 {

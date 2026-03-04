@@ -49,7 +49,7 @@ TextButton::TextButton(const int x, const int y, const int width, const int heig
 }
 
 void    TextButton::setSettings(const bool select, const int selectType, \
-    const bool hover, const int hoverCursor, const bool highlight, const bool focus)
+    const bool hover, const int hoverCursor, const bool highlight, const bool focus) noexcept
 {
     select ? enableSelect() : disableSelect();
     if (select && selectType != DEFAULT && selectType != NONE)

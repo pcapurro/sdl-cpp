@@ -53,23 +53,23 @@ class Window
 
 		void					setTitle(const std::string& title);
 
-		void					setWriteColor(const Color& color);
-		void					setBackgroundColor(const Color& color);
+		void					setWriteColor(const Color& color) noexcept;
+		void					setBackgroundColor(const Color& color) noexcept;
 
-		Color					getWriteColor(void) const;
-		Color					getBackgroundColor(void) const;
+		Color					getWriteColor(void) const noexcept;
+		Color					getBackgroundColor(void) const noexcept;
 
-		SDL_Cursor*				getCursor(const int value) const;
-		SDL_Renderer*			getRenderer(void) const;
+		SDL_Cursor*				getCursor(const int value) const noexcept;
+		SDL_Renderer*			getRenderer(void) const noexcept;
 
-		int						getWidth(void) const;
-		int						getHeight(void) const;
+		int						getWidth(void) const noexcept;
+		int						getHeight(void) const noexcept;
 
-		int						getX(void) const;
-		int						getY(void) const;
+		int						getX(void) const noexcept;
+		int						getY(void) const noexcept;
 
-		void					setX(const int x);
-		void					setY(const int y);
+		void					setX(const int x) noexcept;
+		void					setY(const int y) noexcept;
 };
 
 #endif

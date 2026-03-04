@@ -26,7 +26,7 @@ class Texture
 
 		~Texture(void) noexcept;
 
-		void			calculateAverageColor(SDL_Surface* surface);
+		void			calculateAverageColor(SDL_Surface* surface) noexcept;
 
 		SDL_Texture*	getTexture(void) const noexcept;
 		Color			getAverageColor(void) const noexcept;

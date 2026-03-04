@@ -12,13 +12,6 @@ bool	Element::isAbove(const int mouseX, const int mouseY) const noexcept
 	return _properties.isAbove(mouseX, mouseY);
 }
 
-bool	Element::isInside(const int elementX, const int elementY, \
-	const int elementWidth, const int elementHeight) const noexcept
-{
-	return _properties.isInside(elementX, elementY, \
-		elementWidth, elementHeight);
-}
-
 void	Element::setX(const int x) noexcept
 {
 	_properties.x = x;

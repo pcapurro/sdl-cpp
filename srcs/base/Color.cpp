@@ -20,7 +20,8 @@ int     Color::getAverage(void) const noexcept
     return value;
 }
 
-void    Color::setColor(const int r, const int g, const int b, const int a)
+void    Color::setColor(const int r, const int g, \
+    const int b, const int a) noexcept
 {
     this->r = r;
     this->g = g;

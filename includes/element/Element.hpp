@@ -28,8 +28,6 @@ class Element
 		virtual void	render(SDL_Renderer* renderer) = 0;
 
 		bool			isAbove(const int mouseX, const int mouseY) const noexcept;
-		bool			isInside(const int elementX, const int elementY, \
-    						const int elementWidth, const int elementHeight) const noexcept;
 
 		void			setX(const int x) noexcept;
 		void			setY(const int y) noexcept;

@@ -10,8 +10,8 @@ Window::Window(const string& name, const int width, const int height) : \
 	if (_height < MIN_WINDOW_H)
 		_height = MIN_WINDOW_H;
 
-	_mainWindow = SDL_CreateWindow(_name.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, \
-		_width, _height, 0);
+	_mainWindow = SDL_CreateWindow(_name.c_str(), SDL_WINDOWPOS_CENTERED, \
+		SDL_WINDOWPOS_CENTERED, _width, _height, 0);
 	if (_mainWindow == nullptr)
 		throw std::runtime_error("SDL failed to create a window: " + string(SDL_GetError()));
 
@@ -42,17 +42,6 @@ Window::~Window(void)
 		SDL_DestroyWindow(_mainWindow);
 }
 
-// void	Window::blur(const uint8_t blurA)
-// {
-// 	SDL_Rect	obj;
-
-// 	obj.w = _width, obj.h = _height;
-// 	obj.x = 0, obj.y = 0;
-
-// 	SDL_SetRenderDrawColor(_mainRenderer, 0, 0, 0, blurA);
-// 	SDL_RenderFillRect(_mainRenderer, &obj);
-// }
-
 void	Window::display(void)
 {
 	SDL_RenderPresent(_mainRenderer);
@@ -63,62 +52,62 @@ void	Window::clear(void)
 	SDL_RenderClear(_mainRenderer);
 }
 
-SDL_Renderer*	Window::getRenderer(void) const
+SDL_Renderer*	Window::getRenderer(void) const noexcept
 {
 	return _mainRenderer;
 }
 
-int	Window::getWidth(void) const
+int	Window::getWidth(void) const noexcept
 {
 	return _width;
 }
 
-int	Window::getHeight(void) const
+int	Window::getHeight(void) const noexcept
 {
 	return _height;
 }
 
-int	Window::getX(void) const
+int	Window::getX(void) const noexcept
 {
 	return _x;
 }
 
-int	Window::getY(void) const
+int	Window::getY(void) const noexcept
 {
 	return _y;
 }
 
-void	Window::setX(const int x)
+void	Window::setX(const int x) noexcept
 {
 	_x = x;
 }
 
-void	Window::setY(const int y)
+void	Window::setY(const int y) noexcept
 {
 	_y = y;
 }
 
-void	Window::setWriteColor(const Color& color)
+void	Window::setWriteColor(const Color& color) noexcept
 {
 	_writeColor = color;
 }
 
-void	Window::setBackgroundColor(const Color& color)
+void	Window::setBackgroundColor(const Color& color) noexcept
 {
 	_backgroundColor = color;
 }
 
-Color	Window::getWriteColor(void) const
+Color	Window::getWriteColor(void) const noexcept
 {
 	return _writeColor;
 }
 
-Color	Window::getBackgroundColor(void) const
+Color	Window::getBackgroundColor(void) const noexcept
 {
 	return _backgroundColor;
 }
 
-SDL_Cursor*		Window::getCursor(const int value) const
+SDL_Cursor*		Window::getCursor(const int value) const noexcept
 {
 	if (value == SDL_SYSTEM_CURSOR_IBEAM)
 		return _textCursor.value().getCursor();

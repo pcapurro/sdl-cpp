@@ -7,11 +7,11 @@ Text::Text(const int x, const int y, const string& text, const int size, \
         _font(fontPath, size), \
         _writeColor(color)
 {
-    _text.emplace(text.c_str(), _font.getFont(), \
-        renderer, maxWidth);
-
     int     width = 0;
     int     height = 0;
+
+    _text.emplace(text.c_str(), _font.getFont(), \
+        renderer, maxWidth);
 
     SDL_SetTextureBlendMode(_text.value().getTexture(),\
         SDL_BLENDMODE_BLEND);
@@ -51,7 +51,8 @@ void    Text::render(SDL_Renderer* renderer)
 	main.x = getX(), main.y = getY();
     main.w = getWidth(), main.h = getHeight();
 
-    SDL_SetTextureColorMod(_text.value().getTexture(), _writeColor.r, _writeColor.g, _writeColor.b);
+    SDL_SetTextureColorMod(_text.value().getTexture(), _writeColor.r, \
+        _writeColor.g, _writeColor.b);
     SDL_SetTextureAlphaMod(_text.value().getTexture(), getOpacity());
 
     SDL_RenderCopy(renderer, _text.value().getTexture(), \
@@ -87,7 +88,7 @@ void    Text::setColor(Color color) noexcept
 }
 
 void    Text::update(const string& text, const int maxWidth, \
-    SDL_Renderer* renderer) noexcept
+    SDL_Renderer* renderer)
 {
     _text.reset();
 

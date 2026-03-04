@@ -24,7 +24,10 @@ Texture::Texture(const char* path, SDL_Renderer* renderer)
 	SDL_Surface*	surface = SDL_LoadBMP(path);
 
 	if (!surface)
-		throw std::runtime_error("SDL failed to load a BMP path: " + string(SDL_GetError()));
+	{
+		throw std::runtime_error("SDL failed to load a BMP path: " \
+			+ string(SDL_GetError()));
+	}
 
 	calculateAverageColor(surface);
 
@@ -32,7 +35,10 @@ Texture::Texture(const char* path, SDL_Renderer* renderer)
 	SDL_FreeSurface(surface);
 
 	if (!_texture)
-		throw std::runtime_error("SDL failed to create a texture from a surface: " + string(SDL_GetError()));
+	{
+		throw std::runtime_error("SDL failed to create a texture from a surface: " \
+			+ string(SDL_GetError()));
+	}
 }
 
 Texture::Texture(const char* text, TTF_Font* font, \
@@ -46,7 +52,10 @@ Texture::Texture(const char* text, TTF_Font* font, \
 		surface = TTF_RenderText_Blended(font, text, WHITE);
 
 	if (!surface)
-		throw std::runtime_error("SDL failed to create a text from a surface: " + string(SDL_GetError()));
+	{
+		throw std::runtime_error("SDL failed to create a text from a surface: " \
+			+ string(SDL_GetError()));
+	}
 
 	calculateAverageColor(surface);
 
@@ -54,7 +63,10 @@ Texture::Texture(const char* text, TTF_Font* font, \
 	SDL_FreeSurface(surface);
 
 	if (!_texture)
-		throw std::runtime_error("SDL failed to create a texture from a surface: " + string(SDL_GetError()));
+	{
+		throw std::runtime_error("SDL failed to create a texture from a surface: " \
+			+ string(SDL_GetError()));
+	}
 }
 
 Texture::~Texture(void) noexcept
@@ -63,7 +75,7 @@ Texture::~Texture(void) noexcept
 	_texture = nullptr;
 }
 
-void	Texture::calculateAverageColor(SDL_Surface* surface)
+void	Texture::calculateAverageColor(SDL_Surface* surface) noexcept
 {
 	Uint64	rSum = 0, gSum = 0, bSum = 0;
 	int		count = 0;

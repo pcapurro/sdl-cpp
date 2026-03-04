@@ -7,7 +7,7 @@ class TTF
 {
     public:
         TTF(void);
-        ~TTF(void);
+        ~TTF(void) noexcept;
 };
 
 #endif

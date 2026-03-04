@@ -6,11 +6,6 @@ YesNo::YesNo(const string& name, const int width, const int height, \
 	const string& rightButtonText, const string& logoPath, \
 	const int logoWidth, const int logoHeight) : Window(name, width, height)
 {
-	if (darkMode)
-		setWriteColor(WHITE), setBackgroundColor(BLACK);
-	else
-		setWriteColor(BLACK), setBackgroundColor(WHITE);
-
 	int		limitX = width * LIMIT_RATIO;
 	int		limitY = height * LIMIT_RATIO;
 
@@ -18,6 +13,11 @@ YesNo::YesNo(const string& name, const int width, const int height, \
 	int		cursorY = limitY;
 
 	int		maxWidth = 0;
+
+	if (darkMode)
+		setWriteColor(WHITE), setBackgroundColor(BLACK);
+	else
+		setWriteColor(BLACK), setBackgroundColor(WHITE);
 
 	_elements.reserve(6);
 
@@ -122,10 +122,10 @@ void	YesNo::addButtons(const string& fontPath, \
 	int				limitY = getHeight() * LIMIT_RATIO;
 
 	auto leftButton = std::make_unique<TextButton>(Properties{0, 0, 50, 25}, \
-						getBackgroundColor(), leftButtonText, textSize, getWriteColor(), fontPath, getRenderer());
+		getBackgroundColor(), leftButtonText, textSize, getWriteColor(), fontPath, getRenderer());
 
 	auto rightButton = std::make_unique<TextButton>(Properties{0, 0, 50, 25}, \
-						getBackgroundColor(), rightButtonText, textSize, getWriteColor(), fontPath, getRenderer());
+		getBackgroundColor(), rightButtonText, textSize, getWriteColor(), fontPath, getRenderer());
 
 	TextButton*		leftElement = leftButton.get();
 	TextButton*		rightElement = rightButton.get();
@@ -174,7 +174,10 @@ int     YesNo::waitForEvent(void)
 	SDL_Event	event;
 
 	if (SDL_WaitEvent(&event) == 0)
-		throw std::runtime_error("SDL failed listening to events: " + string(SDL_GetError()));
+	{
+		throw std::runtime_error("SDL failed listening to events: " + \
+			string(SDL_GetError()));
+	}
 
 	if (event.type == SDL_QUIT \
 		|| (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE))
@@ -197,9 +200,6 @@ int     YesNo::waitForEvent(void)
 			return OK;
 		else
 			setX(x), setY(y);
-
-		// cout << event.button.x << " ; " << event.button.y << endl;
-		// cout << x << " ; " << y << endl;
 
 		value = reactEvent(&event, x, y);
 	}
