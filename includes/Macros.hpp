@@ -34,8 +34,7 @@
 
 # define BORDER_SELECT 21
 # define CORNER_SELECT 22
-# define CENTER_SELECT_V 23
-# define CENTER_SELECT_X 24
+# define CENTER_SELECT_X 23
 
 # define LOGO_WIDTH 75
 # define LOGO_HEIGHT 75

@@ -14,9 +14,6 @@ class Render
         static void     renderCornerSelect(const int x, const int y, const int width, const int height, \
                             const Color& color, SDL_Renderer* renderer);
 
-        static void     renderCenterSelectCheck(const int x, const int y, const int width, const int height, \
-                            const Color& color, SDL_Renderer* renderer);
-
         static void     renderCenterSelectCross(const int x, const int y, const int width, const int height, \
                             const Color& color, SDL_Renderer* renderer);
 

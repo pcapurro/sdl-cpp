@@ -48,16 +48,25 @@ void    Render::renderCornerSelect(const int x, const int y, const int width, \
         SDL_RenderFillRect(renderer, &shape);
 }
 
-void    Render::renderCenterSelectCheck(const int x, const int y, const int width, \
-    const int height, const Color& color, SDL_Renderer* renderer)
-{
-    // ...
-}
-
 void    Render::renderCenterSelectCross(const int x, const int y, const int width, \
     const int height, const Color& color, SDL_Renderer* renderer)
 {
-    // ...
+    int     size = width < height ? width : height;
+    int     thickness = size * LIMIT_RATIO;
+
+    float   centerX = x + (width - size) / 2.0f;
+    float   centerY = y + (height - size) / 2.0f;
+
+    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+
+    for (int i = 0; i < thickness; i++)
+    {
+        SDL_RenderDrawLine(renderer, centerX + i - thickness / 2.0f, centerY, \
+            centerX + size + i - thickness / 2.0f, centerY + size);
+
+        SDL_RenderDrawLine(renderer, centerX + i - thickness / 2.0f, centerY + size, \
+            centerX + size + i - thickness / 2.0f, centerY);
+    }
 }
 
 void    Render::renderSelect(const int value, const int x, const int y, const int width, \
@@ -68,9 +77,6 @@ void    Render::renderSelect(const int value, const int x, const int y, const in
 
     else if (value == CORNER_SELECT)
         renderCornerSelect(x, y, width, height, color, renderer);
-
-    else if (value == CENTER_SELECT_V)
-        renderCenterSelectCheck(x, y, width, height, color, renderer);
 
     else if (value == CENTER_SELECT_X)
         renderCenterSelectCross(x, y, width, height, color, renderer);
