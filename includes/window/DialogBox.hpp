@@ -1,5 +1,5 @@
-#ifndef YESNO_HPP
-# define YESNO_HPP
+#ifndef DIALOGBOX_HPP
+# define DIALOGBOX_HPP
 
 # include "Window.hpp"
 
@@ -8,13 +8,13 @@
 # include "Image.hpp"
 # include "TextButton.hpp"
 
-class YesNo final : public Window
+class DialogBox final : public Window
 {
 	private:
 		vector<unique_ptr<Element>>		_elements;
 
 		void							addLogo(const int cursorX, const int cursorY, const string& logoPath, \
-											const int logoWidth, const int logoHeight);
+											const int logoWidth, const int logoHeight, const bool centered = false);
 
 		void							addTitleText(const int cursorX, const int cursorY, const string& text, \
 											const string& fontPath, const int maxWidth);
@@ -23,18 +23,17 @@ class YesNo final : public Window
 		void							addText(const int cursorX, const int cursorY, const string& text, \
 											const string& fontPath, const int maxWidth);
 
-		void							addButtons(const string& fontPath, const string& leftButtonText, \
-											const string& rightButtonText);
+		void							addButtons(const string& fontPath, const vector<string>& buttonsTexts);
 
 	public:
-		YesNo(void) = delete;
-		YesNo(const string& name, const int width = 400, const int height = 170, \
+		DialogBox(void) = delete;
+		DialogBox(const string& name, const int width = 400, const int height = 170, \
     		const string& fontPath = "", const bool darkMode = false, const string& titleText = "", \
-			const bool titleLimit = true, const string& text = "", const string& leftbuttonText = "yes", \
-			const string& rightButtonText = "no", const string& logoPath = "", \
-			const int logoWidth = LOGO_WIDTH, const int logoHeight = LOGO_HEIGHT);
+			const bool titleLimit = true, const string& text = "", const vector<string>& buttonsTexts = {"yes", "no"}, \
+			const string& logoPath = "", const int logoWidth = LOGO_WIDTH, const int logoHeight = LOGO_HEIGHT, \
+			const bool logoCentered = false);
 
-		~YesNo(void) = default;
+		~DialogBox(void) = default;
 
 		virtual int						routine(void);
 		virtual int						waitForEvent(void);

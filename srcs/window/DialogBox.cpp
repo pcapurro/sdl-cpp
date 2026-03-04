@@ -1,10 +1,11 @@
-#include "YesNo.hpp"
+#include "DialogBox.hpp"
 
-YesNo::YesNo(const string& name, const int width, const int height, \
+DialogBox::DialogBox(const string& name, const int width, const int height, \
 	const string& fontPath, const bool darkMode, const string& titleText, \
-	const bool titleLimit, const string& text, const string& leftbuttonText, \
-	const string& rightButtonText, const string& logoPath, \
-	const int logoWidth, const int logoHeight) : Window(name, width, height)
+	const bool titleLimit, const string& text, const vector<string>& buttonsTexts, \
+	const string& logoPath, const int logoWidth, const int logoHeight, \
+	const bool logoCentered) : \
+		Window(name, width, height)
 {
 	int		limitX = width * LIMIT_RATIO;
 	int		limitY = height * LIMIT_RATIO;
@@ -12,7 +13,7 @@ YesNo::YesNo(const string& name, const int width, const int height, \
 	int		cursorX = limitX;
 	int		cursorY = limitY;
 
-	int		maxWidth = 0;
+	int		maxWidth = width - (limitX * 2);
 
 	if (darkMode)
 		setWriteColor(WHITE), setBackgroundColor(BLACK);
@@ -22,11 +23,17 @@ YesNo::YesNo(const string& name, const int width, const int height, \
 	_elements.reserve(6);
 
 	if (logoPath.size() > 0)
-		addLogo(cursorX, cursorY, logoPath, logoWidth, logoHeight);
+	{
+		addLogo(cursorX, cursorY, logoPath, logoWidth, \
+			logoHeight, logoCentered);
+
+		if (titleText.size() == 0 || logoCentered)
+			cursorY += _elements.back().get()->getHeight() + limitY;
+	}
 
 	if (titleText.size() > 0)
 	{
-		if (_elements.size() > 0)
+		if (_elements.size() > 0 && !logoCentered)
 			cursorX += _elements.back().get()->getWidth() + limitX;
 
 		maxWidth = width - cursorX - limitX;
@@ -34,22 +41,23 @@ YesNo::YesNo(const string& name, const int width, const int height, \
 		addTitleText(cursorX, cursorY, titleText, fontPath, maxWidth);
 
 		cursorY += _elements.back().get()->getHeight() + limitY;
-
-		if (titleLimit)
-		{
-			addTitleLimit(cursorX, cursorY, maxWidth);
-			cursorY += _elements.back().get()->getHeight() + limitY;
-		}
-
-		if (logoPath.size() > 0)
-		{
-			int		logoBottomY = _elements.front()->getHeight() + limitY;
-
-			cursorY = std::max(logoBottomY, cursorY);
-		}
-		
-		cursorX = limitX;
 	}
+
+	if (titleLimit)
+	{
+		addTitleLimit(cursorX, cursorY, maxWidth);
+		cursorY += _elements.back().get()->getHeight() + limitY;
+	}
+
+	if (logoPath.size() > 0)
+	{
+		int		logoBottomY = _elements.front()->getHeight() + limitY;
+
+		cursorY = std::max(logoBottomY, cursorY);
+		cursorY += limitY;
+	}
+	
+	cursorX = limitX;
 
 	maxWidth = width - (limitX * 2);
 
@@ -57,15 +65,17 @@ YesNo::YesNo(const string& name, const int width, const int height, \
 
 	cursorY += _elements.back().get()->getHeight() + limitY;
 
-	addButtons(fontPath, leftbuttonText, rightButtonText);
+	addButtons(fontPath, buttonsTexts);
 }
 
-void	YesNo::addLogo(const int cursorX, const int cursorY, const string& logoPath, \
-	const int logoWidth, const int logoHeight)
+void	DialogBox::addLogo(const int cursorX, const int cursorY, const string& logoPath, \
+	const int logoWidth, const int logoHeight, const bool centered)
 {
 	Properties		logoProperties;
 
-	logoProperties.x = cursorX;
+	if (!centered)
+		logoProperties.x = cursorX;
+
 	logoProperties.y = cursorY;
 
 	logoProperties.width = logoWidth;
@@ -74,10 +84,13 @@ void	YesNo::addLogo(const int cursorX, const int cursorY, const string& logoPath
 	auto	image = std::make_unique<Image>(logoProperties, \
 		logoPath.c_str(), getRenderer());
 
+	if (centered)
+		image.get()->setX(getWidth() / 2 - (image.get()->getWidth() / 2));
+
 	_elements.emplace_back(std::move(image));
 }
 
-void	YesNo::addTitleText(const int cursorX, const int cursorY, const string& text, \
+void	DialogBox::addTitleText(const int cursorX, const int cursorY, const string& text, \
 	const string& fontPath, const int maxWidth)
 {
 	int		titleSize = getHeight() * TITLE_RATIO;
@@ -88,7 +101,7 @@ void	YesNo::addTitleText(const int cursorX, const int cursorY, const string& tex
 	_elements.emplace_back(std::move(textElement));
 }
 
-void	YesNo::addTitleLimit(const int cursorX, const int cursorY, const int width)
+void	DialogBox::addTitleLimit(const int cursorX, const int cursorY, const int width)
 {
 	Properties		limitFrame;
 
@@ -103,7 +116,7 @@ void	YesNo::addTitleLimit(const int cursorX, const int cursorY, const int width)
 	_elements.emplace_back(std::move(shapeElement));
 }
 
-void	YesNo::addText(const int cursorX, const int cursorY, const string& text, \
+void	DialogBox::addText(const int cursorX, const int cursorY, const string& text, \
 	const string& fontPath, const int maxWidth)
 {
 	int		textSize = getHeight() * TEXT_RATIO;
@@ -114,44 +127,22 @@ void	YesNo::addText(const int cursorX, const int cursorY, const string& text, \
 	_elements.emplace_back(std::move(textElement));
 }
 
-void	YesNo::addButtons(const string& fontPath, \
-	const string& leftButtonText, const string& rightButtonText)
+void	DialogBox::addButtons(const string& fontPath, \
+	const vector<string>& buttonsTexts)
 {
-	int				textSize = getHeight() * TEXT_RATIO;
-	int				spaceSize = (getWidth() * LIMIT_RATIO);
-	int				limitY = getHeight() * LIMIT_RATIO;
+	int		textSize = getHeight() * TEXT_RATIO;
+	int		spaceSize = (getWidth() * LIMIT_RATIO);
+	int		limitY = getHeight() * LIMIT_RATIO;
 
-	auto leftButton = std::make_unique<TextButton>(Properties{0, 0, ((textSize * 5) / 10) * 10, \
-		((textSize * 2) / 10) * 10}, getBackgroundColor(), leftButtonText, textSize, \
-		getWriteColor(), fontPath, getRenderer());
+	(void) fontPath;
+	(void) buttonsTexts;
 
-	auto rightButton = std::make_unique<TextButton>(Properties{0, 0, ((textSize * 5) / 10) * 10, \
-		((textSize * 2) / 10) * 10}, getBackgroundColor(), rightButtonText, textSize, \
-		getWriteColor(), fontPath, getRenderer());
-
-	TextButton*		leftElement = leftButton.get();
-	TextButton*		rightElement = rightButton.get();
-
-	int				totalWidth = leftElement->getWidth() + rightElement->getWidth() + spaceSize;
-	int				centerX = (getWidth() / 2) - (totalWidth / 2);
-
-	leftElement->setX(centerX);
-	rightElement->setX(centerX + leftElement->getWidth() + spaceSize);
-
-	leftElement->setY(getHeight() - limitY - leftElement->getHeight());
-	rightElement->setY(getHeight() - limitY - rightElement->getHeight());
-
-	leftElement->setSettings(false, NONE, true, \
-		SDL_SYSTEM_CURSOR_HAND, true, true);
-
-	rightElement->setSettings(false, NONE, true, \
-		SDL_SYSTEM_CURSOR_HAND, true, true);
-
-	_elements.emplace_back(std::move(leftButton));
-	_elements.emplace_back(std::move(rightButton));
+	(void) textSize;
+	(void) spaceSize;
+	(void) limitY;
 }
 
-int     YesNo::routine(void)
+int     DialogBox::routine(void)
 {
     int     value = OK;
 
@@ -169,7 +160,7 @@ int     YesNo::routine(void)
     return OK;
 }
 
-int     YesNo::waitForEvent(void)
+int     DialogBox::waitForEvent(void)
 {
 	int			value = OK;
 	int			x = 0, y = 0;
@@ -211,7 +202,7 @@ int     YesNo::waitForEvent(void)
 	return value;
 }
 
-void	YesNo::render(void)
+void	DialogBox::render(void)
 {
 	SDL_Renderer*	renderer = getRenderer();
 
@@ -224,7 +215,7 @@ void	YesNo::render(void)
 	}
 }
 
-int		YesNo::reactButtonsEvent(SDL_Event* event, const int x, const int y)
+int		DialogBox::reactButtonsEvent(SDL_Event* event, const int x, const int y)
 {
 	TextButton*		leftButton = dynamic_cast<TextButton*> \
 		(_elements[_elements.size() - 2].get());
@@ -258,7 +249,7 @@ int		YesNo::reactButtonsEvent(SDL_Event* event, const int x, const int y)
 	return OK;
 }
 
-int		YesNo::reactEvent(SDL_Event* event, const int x, const int y)
+int		DialogBox::reactEvent(SDL_Event* event, const int x, const int y)
 {
 	int		value = OK;
 
