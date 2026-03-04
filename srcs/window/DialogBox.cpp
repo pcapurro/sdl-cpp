@@ -6,6 +6,7 @@ DialogBox::DialogBox(const string& name, const int width, const int height, \
 	const string& logoPath, const int logoWidth, const int logoHeight, \
 	const bool logoCentered) : \
 		Window(name, width, height), \
+		_tabCursor(0), \
 		_textButtons(buttonsTexts)
 {
 	int		limitX = width * LIMIT_RATIO;
@@ -202,10 +203,6 @@ int     DialogBox::waitForEvent(void)
 		|| (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE))
 		return END;
 
-	if (event.type == SDL_KEYDOWN && (event.key.keysym.sym == SDLK_RETURN \
-		|| event.key.keysym.sym == SDLK_KP_ENTER))
-		return ENTER;
-
 	if (event.type == SDL_MOUSEMOTION || event.type == SDL_MOUSEBUTTONDOWN \
 		|| event.type == SDL_MOUSEBUTTONUP)
 	{
@@ -248,21 +245,6 @@ void	DialogBox::reactMouseMotion(const int x, const int y)
 {
 	bool	isAbove = false;
 
-	for (auto& element : _elements)
-	{
-		if (element.get()->isAbove(x, y) == true)
-		{
-			isAbove = true;
-
-			element.get()->setHighlight(true);
-			element.get()->setHover(true);
-
-			SDL_SetCursor(getCursor(element.get()->getHoverCursor()));
-		}
-		else
-			element.get()->setHighlight(false), element.get()->setHover(false);
-	}
-
 	for (auto& button : _buttons)
 	{
 		if (button.get()->isAbove(x, y) == true)
@@ -275,7 +257,7 @@ void	DialogBox::reactMouseMotion(const int x, const int y)
 			SDL_SetCursor(getCursor(button.get()->getHoverCursor()));
 		}
 		else
-			button.get()->setHighlight(false), button.get()->setHover(false);
+			button.get()->setHighlight(false);
 	}
 
 	if (!isAbove)
@@ -310,6 +292,25 @@ void	DialogBox::reactMouseButtonDown(const int x, const int y)
 	}
 }
 
+int		DialogBox::reactKeyButtonDown(const int key)
+{
+	if (key == SDLK_TAB)
+	{
+		_buttons[_tabCursor].get()->setHighlight(false);
+
+		if (_tabCursor < _buttons.size() - 1)
+			_tabCursor++;
+		else
+			_tabCursor = 0;
+
+		_buttons[_tabCursor].get()->setHighlight(true);
+	}
+	else if (key == SDLK_RETURN || key == SDLK_KP_ENTER)
+		return _tabCursor + 1;
+
+	return OK;
+}
+
 int		DialogBox::reactEvent(SDL_Event* event, const int x, const int y)
 {
 	int		value = OK;
@@ -322,6 +323,9 @@ int		DialogBox::reactEvent(SDL_Event* event, const int x, const int y)
 
 	else if (event->type == SDL_MOUSEBUTTONUP)
 		value = reactMouseButtonUp(x, y);
+
+	else if (event->type == SDL_KEYDOWN)
+		value = reactKeyButtonDown(event->key.keysym.sym);
 
 	refreshDisplay();
 
