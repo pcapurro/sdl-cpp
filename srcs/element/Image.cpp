@@ -30,12 +30,13 @@ void    Image::render(SDL_Renderer* renderer)
     main.x = getX(), main.y = getY();
     main.w = getWidth(), main.h = getHeight();
 
-    SDL_SetTextureAlphaMod(_image.value().getTexture(), getOpacity());
+    SDL_SetTextureAlphaMod(_image.value().getTexture(), getMainColor().a);
 
     SDL_RenderCopy(renderer, _image.value().getTexture(), \
         nullptr, &main);
 
-    if (isHighlightPossible() && isHighlighted())
+    if ((isHighlightPossible() && isHighlighted()) \
+        || (isHoverPossible() && isHover()))
     {
         Color       avgColor = _image.value().getAverageColor();
         Color       highlightColor;

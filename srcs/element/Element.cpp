@@ -43,21 +43,9 @@ void	Element::setHeight(const int height, SDL_Renderer* renderer) noexcept
 	onPropertiesChanged(renderer);
 }
 
-void	Element::setOpacity(const uint8_t opacity) noexcept
-{
-	_style.globalOpacity = opacity;
-
-	_style.mainColor.a = opacity;
-	_style.selectColor.a = opacity;
-
-	onStyleChanged();
-}
-
 void	Element::setMainColor(const Color& color) noexcept
 {
-	_style.mainColor.r = color.r;
-	_style.mainColor.g = color.g;
-	_style.mainColor.b = color.b;
+	_style.mainColor = color;
 
 	onStyleChanged();
 }
@@ -67,9 +55,7 @@ void	Element::setSelectColor(const Color& color) noexcept
 	if (!isSelectPossible())
 		return;
 
-	_style.selectColor.r = color.r;
-	_style.selectColor.g = color.g;
-	_style.selectColor.b = color.b;
+	_style.selectColor = color;
 
 	onStyleChanged();
 }
@@ -224,11 +210,6 @@ int		Element::getHeight(void) const noexcept
 	return _properties.height;
 }
 
-uint8_t		Element::getOpacity(void) const noexcept
-{
-	return _style.globalOpacity;
-}
-
 Color		Element::getMainColor(void) const noexcept
 {
 	return _style.mainColor;
@@ -239,7 +220,7 @@ Color		Element::getSelectColor(void) const noexcept
 	return _style.selectColor;
 }
 
-bool	Element::getClick(void) const noexcept
+bool	Element::isClicked(void) const noexcept
 {
 	return _state.click;
 }

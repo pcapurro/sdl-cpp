@@ -137,14 +137,22 @@ void    DialogTextBox::addTextField(const int cursorX, const string& fontPath)
 		((textSize * 2) / 10) * 10}, getBackgroundColor(), ">", textSize, \
 		getWriteColor(), fontPath, getRenderer());
 
-	textField.get()->setWidth(getWidth() - (limitX * 3) - mainButton.get()->getWidth(), getRenderer());
-	textField.get()->setY(getHeight() - limitY - mainButton.get()->getHeight(), getRenderer());
+	TextField*	text = textField.get();
+	TextButton*	button = mainButton.get();
 
-	mainButton.get()->setX(textField.get()->getX() + textField.get()->getWidth() + limitX, getRenderer());
-	mainButton.get()->setY(getHeight() - limitY - mainButton.get()->getHeight(), getRenderer());
+	text->setWidth(getWidth() - (limitX * 3) - button->getWidth(), getRenderer());
+	text->setY(getHeight() - limitY - button->getHeight(), getRenderer());
 
-	mainButton.get()->setSettings(false, NONE, true, SDL_SYSTEM_CURSOR_HAND, true, true);
-	textField.get()->setSettings(false, NONE, true, SDL_SYSTEM_CURSOR_IBEAM, true, false);
+	button->setX(text->getX() + text->getWidth() + limitX, getRenderer());
+	button->setY(getHeight() - limitY - button->getHeight(), getRenderer());
+
+	button->setSettings(false, NONE, true, SDL_SYSTEM_CURSOR_HAND, true, true);
+	text->setSettings(true, HIGHLIGHT_SELECT, true, SDL_SYSTEM_CURSOR_IBEAM, false, false);
+
+	Color	color = BLUE;
+
+	color.a = HIGHLIGHT_OPACITY;
+	text->setSelectColor(color);
 
 	_buttons.emplace_back(std::move(mainButton));
 	_buttons.emplace_back(std::move(textField));
@@ -232,13 +240,12 @@ void	DialogTextBox::reactMouseMotion(const int x, const int y)
 		{
 			isAbove = true;
 
-			button.get()->setHighlight(true);
 			button.get()->setHover(true);
 
 			SDL_SetCursor(getCursor(button.get()->getHoverCursor()));
 		}
 		else
-			button.get()->setHighlight(false), button.get()->setHover(false);
+			button.get()->setHover(false);
 	}
 
     if (!isAbove)
@@ -252,13 +259,18 @@ void	DialogTextBox::reactMouseButtonDown(const int x, const int y)
 	for (auto& button : _buttons)
 	{
 		if (button.get()->isAbove(x, y))
-			button.get()->setClick(true), isAbove = true;
+		{
+			button.get()->setClick(true);
+			button.get()->setSelected(true);
+
+			isAbove = true;
+		}
 	}
 
     if (!isAbove)
     {
 		for (auto& button : _buttons)
-			button.get()->setClick(false);
+			button.get()->setClick(false), button.get()->setSelected(false);
 	}
 }
 

@@ -3,7 +3,7 @@
 Shape::Shape(const int x, const int y, const int w, const int h, \
     const Color& color, const bool border, \
     const int borderThickness, const Color& borderColor) : \
-		Element({x, y, w, h}, {color.a, color, borderColor})
+		Element({x, y, w, h}, {color, borderColor})
 {
 	_border = border;
 
@@ -13,7 +13,7 @@ Shape::Shape(const int x, const int y, const int w, const int h, \
 
 Shape::Shape(const Properties& properties, const Color& color, \
 	const bool border, const int borderThickness, const Color& borderColor) : \
-		Element(properties, {color.a, color, borderColor})
+		Element(properties, {color, borderColor})
 {
 	_border = border;
 
@@ -44,22 +44,23 @@ void    Shape::render(SDL_Renderer* renderer)
 		center.h = main.h - 2 * _borderThickness;
 
 		SDL_SetRenderDrawColor(renderer, _borderColor.r, \
-			_borderColor.g, _borderColor.b, getOpacity());
+			_borderColor.g, _borderColor.b, _borderColor.a);
 		SDL_RenderFillRect(renderer, &main);
 
 		SDL_SetRenderDrawColor(renderer, mainColor.r, mainColor.g, \
-			mainColor.b, getOpacity());
+			mainColor.b, mainColor.a);
 		SDL_RenderFillRect(renderer, &center);
 	}
 	else
 	{
 		SDL_SetRenderDrawColor(renderer, mainColor.r, mainColor.g, \
-			mainColor.b, getOpacity());
+			mainColor.b, mainColor.a);
 
 		SDL_RenderFillRect(renderer, &main);
 	}
 
-	if (isHighlightPossible() && isHighlighted())
+	if ((isHighlightPossible() && isHighlighted()) \
+        || (isHoverPossible() && isHover()))
 	{
 		Color		highlightColor;
 		uint8_t		opacity = HIGHLIGHT_OPACITY;

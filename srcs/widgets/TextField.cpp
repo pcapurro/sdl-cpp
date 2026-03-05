@@ -50,13 +50,16 @@ void    TextField::updateText(const string& text, const string& fontPath, \
     else
     {
         int     cursorX = (getWidth() / 2) * LIMIT_RATIO;
+        int     textRatio = getHeight() / 4;
 
-        _mainText.emplace(getX() + cursorX, 0,
-            text, 42, textColor, fontPath, renderer, getWidth());
+        _mainText.emplace(getX() + cursorX, 0, text, getHeight() - textRatio, \
+            textColor, fontPath, renderer, getWidth());
 
-        _mainText->setX(getX() + cursorX, renderer);
-        _mainText->setY(getY() + (getHeight() / 2 - \
-            _mainText->getHeight() / 2), renderer);
+        onPropertiesChanged(renderer);
+        onStateChanged();
+
+        onStyleChanged();
+        onSettingsChanged();
     }
 }
 
@@ -96,49 +99,48 @@ void	TextField::onPropertiesChanged(SDL_Renderer* renderer)
 void	TextField::onStyleChanged(void)
 {
     Shape*      back = &_background.value();
+    Text*       text = _mainText.has_value() ? \
+        &_mainText.value() : nullptr;
 
-    back->setOpacity(getOpacity());
-
-    back->setMainColor(getMainColor());
-    back->setSelectColor(getSelectColor());
+    if (text)
+        text->setSelectColor(getSelectColor());
 }
 
 void	TextField::onSettingsChanged(void)
 {
     Shape*      back = &_background.value();
+    Text*       text = _mainText.has_value() ? \
+        &_mainText.value() : nullptr;
 
     if (isHoverPossible())
-        back->enableHover(), back->setHoverCursor(getHoverCursor());
+        back->enableHover();
     else
         back->disableHover();
 
-    if (isSelectPossible())
-        back->enableSelect(), back->setSelectColor(getSelectColor());
+    if (text)
+    {
+        if (isSelectPossible())
+            text->enableSelect(), text->setSelectType(getSelectType());
+        else
+            text->disableSelect();
 
-    if (isHighlightPossible())
-        back->enableHighlight();
-    else
-        back->disableHighlight();
-
-    if (isFocusPossible())
-        back->enableFocus();
-    else
-        back->disableFocus();
+        if (isHoverPossible())
+            text->enableHover();
+        else
+            text->disableHover();
+    }
 }
 
 void	TextField::onStateChanged(void)
 {
     Shape*      back = &_background.value();
+    Text*       text = _mainText.has_value() ? \
+        &_mainText.value() : nullptr;
 
-    back->setHover(isHover());
-    back->setSelected(isSelected());
-
-    if (isHighlighted() && getText() == "")
-        back->setHighlight(true);
+    if (!text)
+        back->setHover(isHover());
     else
-        back->setHighlight(false);
-
-    back->setFocus(isFocused());
+        text->setSelected(isSelected());
 }
 
 void    TextField::render(SDL_Renderer* renderer)

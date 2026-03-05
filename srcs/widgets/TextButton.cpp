@@ -96,8 +96,6 @@ void	TextButton::onStyleChanged(void)
 {
     Shape*      back = &_background.value();
 
-    back->setOpacity(getOpacity());
-
     back->setMainColor(getMainColor());
     back->setSelectColor(getSelectColor());
 }

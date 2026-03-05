@@ -30,6 +30,7 @@
 # define BORDER_SELECT 21
 # define CORNER_SELECT 22
 # define CENTER_SELECT_X 23
+# define HIGHLIGHT_SELECT 24
 
 /* UI Ratios */
 

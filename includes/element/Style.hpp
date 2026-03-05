@@ -8,8 +8,6 @@
 class Style
 {
     public:
-        uint8_t     globalOpacity = 255;
-
         Color       mainColor;
         Color       selectColor;
 };

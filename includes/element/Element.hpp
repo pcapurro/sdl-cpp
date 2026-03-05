@@ -42,10 +42,7 @@ class Element
 		void			setWidth(const int width, SDL_Renderer* renderer) noexcept;
 		void			setHeight(const int height, SDL_Renderer* renderer) noexcept;
 
-		void			setOpacity(const uint8_t opacity) noexcept;
-
 		void			setMainColor(const Color& color) noexcept;
-		void			setBorderColor(const Color& color) noexcept;
 		void			setSelectColor(const Color& color) noexcept;
 
 		void			setClick(const bool click) noexcept;
@@ -79,13 +76,10 @@ class Element
 		int				getWidth(void) const noexcept;
 		int				getHeight(void) const noexcept;
 
-		uint8_t			getOpacity(void) const noexcept;
-
 		Color			getMainColor(void) const noexcept;
-		Color			getBorderColor(void) const noexcept;
 		Color			getSelectColor(void) const noexcept;
 
-		bool			getClick(void) const noexcept;
+		bool			isClicked(void) const noexcept;
 
 		bool			isSelectPossible(void) const noexcept;
 		bool			isSelected(void) const noexcept;

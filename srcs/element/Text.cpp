@@ -61,12 +61,13 @@ void    Text::render(SDL_Renderer* renderer)
 
     SDL_SetTextureColorMod(_text.value().getTexture(), _writeColor.r, \
         _writeColor.g, _writeColor.b);
-    SDL_SetTextureAlphaMod(_text.value().getTexture(), getOpacity());
+    SDL_SetTextureAlphaMod(_text.value().getTexture(), _writeColor.a);
 
     SDL_RenderCopy(renderer, _text.value().getTexture(), \
         nullptr, &main);
 
-    if (isHighlightPossible() && isHighlighted())
+    if ((isHighlightPossible() && isHighlighted()) \
+        || (isHoverPossible() && isHover()))
     {
 		Color	    highlightColor;
 		uint8_t		opacity = HIGHLIGHT_OPACITY;
