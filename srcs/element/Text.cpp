@@ -8,6 +8,11 @@ Text::Text(const int x, const int y, const string& text, const int size, \
         _writeColor(color), \
         _font(fontPath, size)
 {
+    _free = false;
+
+    if (text.size() <= 0)
+        return;
+
     int     width = 0;
     int     height = 0;
 
@@ -20,10 +25,8 @@ Text::Text(const int x, const int y, const string& text, const int size, \
     SDL_QueryTexture(_text.value().getTexture(), nullptr, \
         nullptr, &width, &height);
 
-    setWidth(width);
-    setHeight(height);
-
-    _free = false;
+    setWidth(width, renderer);
+    setHeight(height, renderer);
 }
 
 Text::Text(const Properties& properties, const string& text, \
@@ -33,19 +36,22 @@ Text::Text(const Properties& properties, const string& text, \
         _textStr(text), \
         _writeColor(color), \
         _font(fontPath, size)
-{    
+{
+    _free = true;
+
+    if (text.size() <= 0)
+        return;
+
     _text.emplace(text.c_str(), _font.getFont(), \
         renderer, maxWidth);
 
     SDL_SetTextureBlendMode(_text.value().getTexture(),\
         SDL_BLENDMODE_BLEND);
-
-    _free = true;
 }
 
 void    Text::render(SDL_Renderer* renderer)
 {
-    if (!getVisibility())
+    if (!getVisibility() || !_text.has_value())
         return;
 
     SDL_Rect    main;
@@ -99,10 +105,14 @@ void    Text::update(const string& text, const int maxWidth, \
 {
     _textStr = text;
 
-    _text.reset();
+    if (!_text.has_value())
+        _text.reset();
 
     _text.emplace(text.c_str(), _font.getFont(), \
         renderer, maxWidth);
+
+    SDL_SetTextureBlendMode(_text.value().getTexture(),\
+        SDL_BLENDMODE_BLEND);
 
     if (!_free)
     {
@@ -112,7 +122,7 @@ void    Text::update(const string& text, const int maxWidth, \
         SDL_QueryTexture(_text.value().getTexture(), nullptr, \
             nullptr, &width, &height);
 
-        setWidth(width);
-        setHeight(height);
+        setWidth(width, renderer);
+        setHeight(height, renderer);
     }
 }

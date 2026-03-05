@@ -8,9 +8,9 @@ TextField::TextField(const Properties& properties, const Color& backColor, \
     _mainText.emplace(properties.x, properties.y, text, size, \
         textColor, fontPath, renderer, properties.width);
 
-    _mainText.value().setX(properties.x);
+    _mainText.value().setX(properties.x, renderer);
     _mainText.value().setY(properties.y + \
-        (properties.height / 2 - _mainText.value().getHeight() / 2));
+        (properties.height / 2 - _mainText.value().getHeight() / 2), renderer);
 
     Color   placeholderColor = textColor;
 
@@ -19,9 +19,9 @@ TextField::TextField(const Properties& properties, const Color& backColor, \
     _placeholder.emplace(properties.x, properties.y, placeholder, size, \
         placeholderColor, fontPath, renderer, properties.width);
 
-    _placeholder.value().setX(properties.x);
+    _placeholder.value().setX(properties.x, renderer);
     _placeholder.value().setX(properties.y + \
-        (properties.height / 2 - _mainText.value().getHeight() / 2));
+        (properties.height / 2 - _mainText.value().getHeight() / 2), renderer);
 
     int         limit = properties.width < properties.height \
         ? properties.width : properties.height;
@@ -40,18 +40,18 @@ TextField::TextField(const int x, const int y, const int width, const int height
     Properties  properties = {x, y, width, height};
 
     _mainText.emplace(x, y, text, size, \
-        textColor, fontPath, renderer, width);
+        textColor, fontPath, renderer, properties.width);
 
-    _mainText.value().setX(properties.x);
+    _mainText.value().setX(properties.x, renderer);
     _mainText.value().setY(properties.y + \
-        (properties.height / 2 - _mainText.value().getHeight() / 2));
+        (properties.height / 2 - _mainText.value().getHeight() / 2), renderer);
 
     _placeholder.emplace(properties.x, properties.y, placeholder, size, \
         textColor, fontPath, renderer, properties.width);
 
-    _placeholder.value().setX(properties.x);
+    _placeholder.value().setX(properties.x, renderer);
     _placeholder.value().setX(properties.y + \
-        (properties.height / 2 - _mainText.value().getHeight() / 2));
+        (properties.height / 2 - _mainText.value().getHeight() / 2), renderer);
 
     int         limit = properties.width < properties.height \
         ? properties.width : properties.height;
@@ -79,7 +79,83 @@ void    TextField::setSettings(const bool select, const int selectType, \
 
 string  TextField::getText(void) const
 {
+    if (!_mainText.has_value())
+        return "";
+
     return _mainText.value().getTextStr();
+}
+
+string  TextField::getPlaceholder(void) const
+{
+    if (!_placeholder.has_value())
+        return "";
+
+    return _placeholder.value().getTextStr();
+}
+
+void	TextField::onPropertiesChanged(SDL_Renderer* renderer)
+{
+    Properties  properties = {getX(), getY(), getWidth(), getHeight()};
+
+    _mainText.value().update(_mainText.value().getTextStr(), properties.width, renderer);
+
+    _mainText.value().setX(properties.x + \
+        (properties.width / 2 - _mainText.value().getWidth() / 2), renderer);
+
+    _mainText.value().setY(properties.y + \
+        (properties.height / 2 - _mainText.value().getHeight() / 2), renderer);
+
+    int         limit = properties.width < properties.height \
+        ? properties.width : properties.height;
+
+    limit = limit * LIMIT_RATIO;
+
+    _background.value().update(properties.x, properties.y, \
+        properties.width, properties.height, limit, renderer);
+}
+
+void	TextField::onStyleChanged(void)
+{
+    Shape*      back = &_background.value();
+
+    back->setOpacity(getOpacity());
+
+    back->setMainColor(getMainColor());
+    back->setSelectColor(getSelectColor());
+}
+
+void	TextField::onSettingsChanged(void)
+{
+    Shape*      back = &_background.value();
+
+    if (isHoverPossible())
+        back->enableHover(), back->setHoverCursor(getHoverCursor());
+    else
+        back->disableHover();
+
+    if (isSelectPossible())
+        back->enableSelect(), back->setSelectColor(getSelectColor());
+
+    if (isHighlightPossible())
+        back->enableHighlight();
+    else
+        back->disableHighlight();
+
+    if (isFocusPossible())
+        back->enableFocus();
+    else
+        back->disableFocus();
+}
+
+void	TextField::onStateChanged(void)
+{
+    Shape*      back = &_background.value();
+
+    back->setHover(isHover());
+    back->setSelected(isSelected());
+
+    back->setHighlight(isHighlighted());
+    back->setFocus(isFocused());
 }
 
 void    TextField::render(SDL_Renderer* renderer)
@@ -87,26 +163,13 @@ void    TextField::render(SDL_Renderer* renderer)
     Shape*      back = &_background.value();
     Text*       text = &_mainText.value();
 
-    if (isHoverPossible())
-        back->setHover(isHover()), back->setHoverCursor(getHoverCursor());
-
-    if (isSelectPossible())
-        back->setSelected(isSelected()), back->setSelectColor(getSelectColor());
-
-    if (isHighlightPossible())
-        back->enableHighlight(), back->setHighlight(isHighlighted());
-
-    if (isFocusPossible())
-        back->enableFocus(), back->setFocus(isFocused());
-
-    back->setX(getX());
-    back->setY(getY());
+    back->setX(getX(), renderer);
+    back->setY(getY(), renderer);
 
     back->render(renderer);
 
-    text->setX(getX() + (getWidth() / 2 - text->getWidth() / 2));
-
-    text->setY(getY() + (getHeight() / 2 - text->getHeight() / 2));
+    text->setX(getX() + (getWidth() / 2 - text->getWidth() / 2), renderer);
+    text->setY(getY() + (getHeight() / 2 - text->getHeight() / 2), renderer);
 
     text->render(renderer);
 }

@@ -11,8 +11,6 @@ class Style
         uint8_t     globalOpacity = 255;
 
         Color       mainColor;
-        Color       borderColor;
-
         Color       selectColor;
 };
 

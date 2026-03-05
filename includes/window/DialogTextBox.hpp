@@ -6,13 +6,15 @@
 # include "Text.hpp"
 # include "Shape.hpp"
 # include "Image.hpp"
+
+# include "TextButton.hpp"
 # include "TextField.hpp"
 
 class DialogTextBox final : public Window
 {
 	private:
 		vector<unique_ptr<Element>>		_elements;
-		unique_ptr<TextField>           _textField;
+		vector<unique_ptr<Element>>		_buttons;
 
 		string							_finalAnswer;
 
@@ -25,6 +27,9 @@ class DialogTextBox final : public Window
 
 		void							addText(const int cursorX, const int cursorY, const string& text, \
 											const string& fontPath, const int maxWidth);
+
+		void							addTextField(const int cursorX, const string& placeholder, \
+											const string& fontPath);
 
 	public:
 		DialogTextBox(void) = delete;

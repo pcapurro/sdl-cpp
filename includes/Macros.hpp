@@ -21,7 +21,7 @@
 /* State */
 
 # define NONE 0
-# define DEFAULT 1
+# define DEFAULT -1
 # define OK 21
 # define END 42
 

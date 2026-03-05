@@ -3,10 +3,8 @@
 Shape::Shape(const int x, const int y, const int w, const int h, \
     const Color& color, const bool border, \
     const int borderThickness, const Color& borderColor) : \
-		Element({x, y, w, h}), _color(color)
+		Element({x, y, w, h}, {color.a, color, borderColor})
 {
-	setOpacity(_color.a);
-
 	_border = border;
 
 	if (_border)
@@ -15,7 +13,7 @@ Shape::Shape(const int x, const int y, const int w, const int h, \
 
 Shape::Shape(const Properties& properties, const Color& color, \
 	const bool border, const int borderThickness, const Color& borderColor) : \
-		Element(properties), _color(color)
+		Element(properties, {color.a, color, borderColor})
 {
 	_border = border;
 
@@ -29,6 +27,7 @@ void    Shape::render(SDL_Renderer* renderer)
         return;
 
     SDL_Rect	main, center;
+	Color		mainColor = getMainColor();
 
 	main.x = getX(), main.y = getY();
 	main.w = getWidth(), main.h = getHeight();
@@ -48,14 +47,14 @@ void    Shape::render(SDL_Renderer* renderer)
 			_borderColor.g, _borderColor.b, getOpacity());
 		SDL_RenderFillRect(renderer, &main);
 
-		SDL_SetRenderDrawColor(renderer, _color.r, _color.g, \
-			_color.b, getOpacity());
+		SDL_SetRenderDrawColor(renderer, mainColor.r, mainColor.g, \
+			mainColor.b, getOpacity());
 		SDL_RenderFillRect(renderer, &center);
 	}
 	else
 	{
-		SDL_SetRenderDrawColor(renderer, _color.r, _color.g, \
-			_color.b, getOpacity());
+		SDL_SetRenderDrawColor(renderer, mainColor.r, mainColor.g, \
+			mainColor.b, getOpacity());
 
 		SDL_RenderFillRect(renderer, &main);
 	}
@@ -68,7 +67,7 @@ void    Shape::render(SDL_Renderer* renderer)
         if (isFocusPossible() && isFocused())
             opacity = FOCUS_OPACITY;
 
-		if (_color.getAverage() < 128)
+		if (mainColor.getAverage() < 128)
 			highlightColor.setColor(255, 255, 255, opacity);
 		else
 			highlightColor.setColor(0, 0, 0, opacity);
@@ -84,12 +83,20 @@ void    Shape::render(SDL_Renderer* renderer)
     }
 }
 
-void	Shape::setColor(Color color) noexcept
-{
-	_color = color;
-}
-
 void	Shape::setBorderColor(Color color) noexcept
 {
 	_borderColor = color;
+}
+
+void	Shape::update(const int x, const int y, const int width, const int height, \
+    const int borderThickness, SDL_Renderer* renderer)
+{
+	setX(x, renderer);
+	setY(y, renderer);
+
+	setWidth(width, renderer);
+	setHeight(height, renderer);
+
+	if (_border)
+		_borderThickness = borderThickness;
 }

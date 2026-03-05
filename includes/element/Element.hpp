@@ -18,6 +18,13 @@ class Element
 		Settings		_settings;
 		State			_state;
 
+	protected:
+		virtual void	onPropertiesChanged(SDL_Renderer* renderer) { (void) renderer; };
+		virtual void	onStyleChanged(void) {};
+
+		virtual void	onSettingsChanged(void) {};
+		virtual void	onStateChanged(void) {};
+
 	public:
 		Element(void) = delete;
 		Element(const Properties& properties, const Style& style = Style{}, \
@@ -29,19 +36,22 @@ class Element
 
 		bool			isAbove(const int mouseX, const int mouseY) const noexcept;
 
-		void			setX(const int x) noexcept;
-		void			setY(const int y) noexcept;
+		void			setX(const int x, SDL_Renderer* renderer) noexcept;
+		void			setY(const int y, SDL_Renderer* renderer) noexcept;
 
-		void			setWidth(const int width) noexcept;
-		void			setHeight(const int height) noexcept;
+		void			setWidth(const int width, SDL_Renderer* renderer) noexcept;
+		void			setHeight(const int height, SDL_Renderer* renderer) noexcept;
 
 		void			setOpacity(const uint8_t opacity) noexcept;
+
+		void			setMainColor(const Color& color) noexcept;
+		void			setBorderColor(const Color& color) noexcept;
+		void			setSelectColor(const Color& color) noexcept;
 
 		void			setClick(const bool click) noexcept;
 
 		void			setSelected(const bool select) noexcept;
 		void			setSelectType(const int selectType) noexcept;
-		void			setSelectColor(const Color& color) noexcept;
 
 		void			setHighlight(const bool highlight) noexcept;
 		void			setFocus(const bool focus) noexcept;
@@ -71,12 +81,15 @@ class Element
 
 		uint8_t			getOpacity(void) const noexcept;
 
+		Color			getMainColor(void) const noexcept;
+		Color			getBorderColor(void) const noexcept;
+		Color			getSelectColor(void) const noexcept;
+
 		bool			getClick(void) const noexcept;
 
 		bool			isSelectPossible(void) const noexcept;
 		bool			isSelected(void) const noexcept;
 		int				getSelectType(void) const noexcept;
-		Color			getSelectColor(void) const noexcept;
 
 		bool			isHighlightPossible(void) const noexcept;
 		bool			isHighlighted(void) const noexcept;

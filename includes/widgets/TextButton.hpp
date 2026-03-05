@@ -11,6 +11,13 @@ class TextButton : public Element
         optional<Text>          _mainText;
         optional<Shape>         _background;
 
+    protected:
+		virtual void	onPropertiesChanged(SDL_Renderer* renderer) override;
+		virtual void	onStyleChanged(void) override;
+
+		virtual void	onSettingsChanged(void) override;
+		virtual void	onStateChanged(void) override;
+
     public:
         TextButton(void) = delete;
 

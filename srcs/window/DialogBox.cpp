@@ -65,8 +65,6 @@ DialogBox::DialogBox(const string& name, const int width, const int height, \
 
 	addText(cursorX, cursorY, text, fontPath, maxWidth);
 
-	cursorY += _elements.back().get()->getHeight() + limitY;
-
 	if (buttonsTexts.size() > 0)
 		addButtons(fontPath, buttonsTexts);
 }
@@ -88,7 +86,7 @@ void	DialogBox::addLogo(const int cursorX, const int cursorY, const string& logo
 		logoPath.c_str(), getRenderer());
 
 	if (centered)
-		image.get()->setX(getWidth() / 2 - (image.get()->getWidth() / 2));
+		image.get()->setX(getWidth() / 2 - (image.get()->getWidth() / 2), getRenderer());
 
 	_elements.emplace_back(std::move(image));
 }
@@ -144,7 +142,7 @@ void	DialogBox::addButtons(const string& fontPath, \
 			((textSize * 2) / 10) * 10}, getBackgroundColor(), buttonsTexts[i], textSize, \
 			getWriteColor(), fontPath, getRenderer());
 
-		button.get()->setY(getHeight() - limitY - button.get()->getHeight());
+		button.get()->setY(getHeight() - limitY - button.get()->getHeight(), getRenderer());
 		button.get()->setSettings(false, NONE, true, SDL_SYSTEM_CURSOR_HAND, true, true);
 
 		totalWidth += button.get()->getWidth();
@@ -158,9 +156,8 @@ void	DialogBox::addButtons(const string& fontPath, \
 
 	for (const auto& button : _buttons)
 	{
-		button->setX(cursorX);
-		button->setY(getHeight() - limitY - \
-			button->getHeight());
+		button->setX(cursorX, getRenderer());
+		button->setY(getHeight() - limitY - button->getHeight(), getRenderer());
 
 		button->setSettings(false, NONE, true, \
 			SDL_SYSTEM_CURSOR_HAND, true, true);
