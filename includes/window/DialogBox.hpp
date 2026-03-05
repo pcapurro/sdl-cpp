@@ -33,9 +33,9 @@ class DialogBox final : public Window
 	public:
 		DialogBox(void) = delete;
 		DialogBox(const string& name, const int width = 400, const int height = 170, \
-    		const string& fontPath = "", const bool darkMode = false, const string& titleText = "", \
+    		const string& fontPath = "", const int displayMode = LIGHT_MODE, const string& titleText = "", \
 			const bool titleLimit = true, const string& text = "", const vector<string>& buttonsTexts = {"yes", "no"}, \
-			const string& logoPath = "", const int logoWidth = LOGO_WIDTH, const int logoHeight = LOGO_HEIGHT, \
+			const string& logoPath = "", const int logoWidth = 75, const int logoHeight = 75, \
 			const bool logoCentered = false);
 
 		~DialogBox(void) = default;

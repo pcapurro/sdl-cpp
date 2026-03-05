@@ -1,46 +1,45 @@
 #ifndef MACROS_HPP
 # define MACROS_HPP
 
+/* UI config */
+
 # define MIN_WINDOW_W 300
 # define MIN_WINDOW_H 150
 
-# define LIMIT_ON 1
-# define LIMIT_OFF 0
-
-# define DARK_MODE 1
-# define LIGHT_MODE 0
+# define MAX_BUTTONS 4
 
 # define HIGHLIGHT_OPACITY 100
 # define FOCUS_OPACITY 200
 
-# define ERROR -1
+/* DialogBox paramaters */
 
-# define OK 0
+# define LIMIT_ON 1
+# define LIMIT_OFF 0
+# define DARK_MODE 1
+# define LIGHT_MODE 0
 
-# define END 42
-# define ENTER 43
-
-# define CANCEL 5
+/* State */
 
 # define NONE 0
 # define DEFAULT 1
-# define ELEMENT 20
-# define TEXT 21
-# define BUTTON 22
-# define IMAGE 23
+# define OK 21
+# define END 42
+
+/* Render values */
 
 # define BORDER_SELECT 21
 # define CORNER_SELECT 22
 # define CENTER_SELECT_X 23
 
-# define LOGO_WIDTH 75
-# define LOGO_HEIGHT 75
+/* UI Ratios */
 
 # define TITLE_RATIO 0.10f
 # define TEXT_RATIO 0.08f
 
 # define LIMIT_RATIO 0.05f
 # define LIMIT_HEIGHT 1
+
+/* UI Colors */
 
 # define WHITE {255, 255, 255, 255}
 # define BLACK {0, 0, 0, 255}
@@ -49,6 +48,8 @@
 # define GREEN {0, 255, 0, 255}
 # define BLUE {0, 0, 255, 255}
 # define YELLOW {255, 255, 0, 255}
+
+/* Text colors */
 
 # define RED_TXT "\033[31m"
 # define GREEN_TXT "\033[32m"

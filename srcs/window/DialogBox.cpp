@@ -1,7 +1,7 @@
 #include "DialogBox.hpp"
 
 DialogBox::DialogBox(const string& name, const int width, const int height, \
-	const string& fontPath, const bool darkMode, const string& titleText, \
+	const string& fontPath, const int displayMode, const string& titleText, \
 	const bool titleLimit, const string& text, const vector<string>& buttonsTexts, \
 	const string& logoPath, const int logoWidth, const int logoHeight, \
 	const bool logoCentered) : \
@@ -17,7 +17,7 @@ DialogBox::DialogBox(const string& name, const int width, const int height, \
 
 	int		maxWidth = width - (limitX * 2);
 
-	if (darkMode)
+	if (displayMode == DARK_MODE)
 		setWriteColor(WHITE), setBackgroundColor(BLACK);
 	else
 		setWriteColor(BLACK), setBackgroundColor(WHITE);
@@ -138,7 +138,7 @@ void	DialogBox::addButtons(const string& fontPath, \
 	int		limitY = getHeight() * LIMIT_RATIO;
 	int		totalWidth = 0;
 
-	for (size_t i = 0; i < buttonsTexts.size() && i < 4; i++)
+	for (size_t i = 0; i < buttonsTexts.size() && i < MAX_BUTTONS; i++)
 	{
 		auto button = std::make_unique<TextButton>(Properties{0, 0, ((textSize * 5) / 10) * 10, \
 			((textSize * 2) / 10) * 10}, getBackgroundColor(), buttonsTexts[i], textSize, \
@@ -148,7 +148,7 @@ void	DialogBox::addButtons(const string& fontPath, \
 		button.get()->setSettings(false, NONE, true, SDL_SYSTEM_CURSOR_HAND, true, true);
 
 		totalWidth += button.get()->getWidth();
-		if (i + 1 < buttonsTexts.size() && i + 1 < 4)
+		if (i + 1 < buttonsTexts.size() && i + 1 < MAX_BUTTONS)
 			totalWidth += spaceSize;
 
 		_buttons.emplace_back(std::move(button));
