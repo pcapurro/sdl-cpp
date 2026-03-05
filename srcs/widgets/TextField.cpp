@@ -1,65 +1,30 @@
 #include "TextField.hpp"
 
 TextField::TextField(const Properties& properties, const Color& backColor, \
-    const string& text, const string& placeholder, const int size, const Color& textColor, \
-    const string& fontPath, SDL_Renderer* renderer) : \
+    const Color& frameColor) : \
         Element(properties)
 {
-    _mainText.emplace(properties.x, properties.y, text, size, \
-        textColor, fontPath, renderer, properties.width);
-
-    _mainText.value().setX(properties.x, renderer);
-    _mainText.value().setY(properties.y + \
-        (properties.height / 2 - _mainText.value().getHeight() / 2), renderer);
-
-    Color   placeholderColor = textColor;
-
-    placeholderColor.a -= placeholderColor.a / 3;
-
-    _placeholder.emplace(properties.x, properties.y, placeholder, size, \
-        placeholderColor, fontPath, renderer, properties.width);
-
-    _placeholder.value().setX(properties.x, renderer);
-    _placeholder.value().setX(properties.y + \
-        (properties.height / 2 - _mainText.value().getHeight() / 2), renderer);
-
-    int         limit = properties.width < properties.height \
+    int     limit = properties.width < properties.height \
         ? properties.width : properties.height;
 
     limit = limit * LIMIT_RATIO;
 
     _background.emplace(properties, backColor, \
-        true, limit, textColor);
+        true, limit, frameColor);
 }
 
 TextField::TextField(const int x, const int y, const int width, const int height, \
-    const Color& backColor, const string& text, const string& placeholder, const int size, \
-    const Color& textColor, const string& fontPath, SDL_Renderer* renderer) : \
+    const Color& backColor, const Color& frameColor) : \
         Element({x, y, width, height})
 {
     Properties  properties = {x, y, width, height};
-
-    _mainText.emplace(x, y, text, size, \
-        textColor, fontPath, renderer, properties.width);
-
-    _mainText.value().setX(properties.x, renderer);
-    _mainText.value().setY(properties.y + \
-        (properties.height / 2 - _mainText.value().getHeight() / 2), renderer);
-
-    _placeholder.emplace(properties.x, properties.y, placeholder, size, \
-        textColor, fontPath, renderer, properties.width);
-
-    _placeholder.value().setX(properties.x, renderer);
-    _placeholder.value().setX(properties.y + \
-        (properties.height / 2 - _mainText.value().getHeight() / 2), renderer);
-
     int         limit = properties.width < properties.height \
         ? properties.width : properties.height;
 
     limit = limit * LIMIT_RATIO;
 
     _background.emplace(properties, backColor, \
-        true, limit, textColor);
+        true, limit, frameColor);
 }
 
 void    TextField::setSettings(const bool select, const int selectType, \
@@ -77,6 +42,24 @@ void    TextField::setSettings(const bool select, const int selectType, \
     focus ? enableFocus() : disableFocus();
 }
 
+void    TextField::updateText(const string& text, const string& fontPath, \
+    const Color& textColor, SDL_Renderer* renderer)
+{
+    if (_mainText.has_value())
+        _mainText.value().update(text, getWidth(), renderer);
+    else
+    {
+        int     cursorX = (getWidth() / 2) * LIMIT_RATIO;
+
+        _mainText.emplace(getX() + cursorX, 0,
+            text, 42, textColor, fontPath, renderer, getWidth());
+
+        _mainText->setX(getX() + cursorX, renderer);
+        _mainText->setY(getY() + (getHeight() / 2 - \
+            _mainText->getHeight() / 2), renderer);
+    }
+}
+
 string  TextField::getText(void) const
 {
     if (!_mainText.has_value())
@@ -85,25 +68,21 @@ string  TextField::getText(void) const
     return _mainText.value().getTextStr();
 }
 
-string  TextField::getPlaceholder(void) const
-{
-    if (!_placeholder.has_value())
-        return "";
-
-    return _placeholder.value().getTextStr();
-}
-
 void	TextField::onPropertiesChanged(SDL_Renderer* renderer)
 {
     Properties  properties = {getX(), getY(), getWidth(), getHeight()};
 
-    _mainText.value().update(_mainText.value().getTextStr(), properties.width, renderer);
+    if (_mainText.has_value())
+    {
+        _mainText.value().update(_mainText.value().getTextStr(), properties.width, renderer);
 
-    _mainText.value().setX(properties.x + \
-        (properties.width / 2 - _mainText.value().getWidth() / 2), renderer);
+        int         cursorX = (getWidth() / 2) * LIMIT_RATIO;
 
-    _mainText.value().setY(properties.y + \
-        (properties.height / 2 - _mainText.value().getHeight() / 2), renderer);
+        _mainText.value().setX(properties.x + cursorX, renderer);
+
+        _mainText.value().setY(properties.y + \
+            (properties.height / 2 - _mainText.value().getHeight() / 2), renderer);
+    }
 
     int         limit = properties.width < properties.height \
         ? properties.width : properties.height;
@@ -154,22 +133,36 @@ void	TextField::onStateChanged(void)
     back->setHover(isHover());
     back->setSelected(isSelected());
 
-    back->setHighlight(isHighlighted());
+    if (isHighlighted() && getText() == "")
+        back->setHighlight(true);
+    else
+        back->setHighlight(false);
+
     back->setFocus(isFocused());
 }
 
 void    TextField::render(SDL_Renderer* renderer)
 {
-    Shape*      back = &_background.value();
-    Text*       text = &_mainText.value();
+    Shape*      back = _background.has_value() ? \
+        &_background.value() : nullptr;
+    Text*       text = _mainText.has_value() ? \
+        &_mainText.value() : nullptr;
 
-    back->setX(getX(), renderer);
-    back->setY(getY(), renderer);
+    if (back)
+    {
+        back->setX(getX(), renderer);
+        back->setY(getY(), renderer);
 
-    back->render(renderer);
+        back->render(renderer);
+    }
 
-    text->setX(getX() + (getWidth() / 2 - text->getWidth() / 2), renderer);
-    text->setY(getY() + (getHeight() / 2 - text->getHeight() / 2), renderer);
+    if (text)
+    {
+        int         cursorX = (getWidth() / 2) * LIMIT_RATIO;
 
-    text->render(renderer);
+        text->setX(getX() + cursorX, renderer);
+        text->setY(getY() + (getHeight() / 2 - text->getHeight() / 2), renderer);
+
+        text->render(renderer);
+    }
 }

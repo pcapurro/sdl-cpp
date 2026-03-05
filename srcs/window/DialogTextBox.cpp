@@ -2,9 +2,8 @@
 
 DialogTextBox::DialogTextBox(const string& name, const int width, const int height, \
 	const string& fontPath, const int displayMode, const string& titleText, \
-	const bool titleLimit, const string& text, const string& placeholder, \
-	const string& logoPath, const int logoWidth, const int logoHeight, \
-	const bool logoCentered) : \
+	const bool titleLimit, const string& text, const string& logoPath, \
+	const int logoWidth, const int logoHeight, const bool logoCentered) : \
 		Window(name, width, height)
 {
 	int		limitX = width * LIMIT_RATIO;
@@ -63,7 +62,7 @@ DialogTextBox::DialogTextBox(const string& name, const int width, const int heig
 
 	addText(cursorX, cursorY, text, fontPath, maxWidth);
 
-    addTextField(cursorX, placeholder, fontPath);
+    addTextField(cursorX, fontPath);
 }
 
 void	DialogTextBox::addLogo(const int cursorX, const int cursorY, const string& logoPath, \
@@ -125,16 +124,14 @@ void	DialogTextBox::addText(const int cursorX, const int cursorY, const string& 
 	_elements.emplace_back(std::move(textElement));
 }
 
-void    DialogTextBox::addTextField(const int cursorX, const string& placeholder, \
-	const string& fontPath)
+void    DialogTextBox::addTextField(const int cursorX, const string& fontPath)
 {
     int		textSize = getHeight() * TEXT_RATIO;
 	int		limitX = getWidth() * LIMIT_RATIO;
 	int		limitY = getHeight() * LIMIT_RATIO;
 
     auto textField = std::make_unique<TextField>(Properties{cursorX, 0, 0, \
-		((textSize * 2) / 10) * 10}, getBackgroundColor(), "...", placeholder, textSize, \
-		getWriteColor(), fontPath, getRenderer());
+		((textSize * 2) / 10) * 10}, getBackgroundColor(), getWriteColor());
 
 	auto mainButton = std::make_unique<TextButton>(Properties{cursorX, 0, ((textSize * 5) / 10) * 10, \
 		((textSize * 2) / 10) * 10}, getBackgroundColor(), ">", textSize, \
@@ -147,7 +144,7 @@ void    DialogTextBox::addTextField(const int cursorX, const string& placeholder
 	mainButton.get()->setY(getHeight() - limitY - mainButton.get()->getHeight(), getRenderer());
 
 	mainButton.get()->setSettings(false, NONE, true, SDL_SYSTEM_CURSOR_HAND, true, true);
-	textField.get()->setSettings(false, NONE, true, SDL_SYSTEM_CURSOR_IBEAM, false, false);
+	textField.get()->setSettings(false, NONE, true, SDL_SYSTEM_CURSOR_IBEAM, true, false);
 
 	_buttons.emplace_back(std::move(mainButton));
 	_buttons.emplace_back(std::move(textField));
@@ -241,7 +238,7 @@ void	DialogTextBox::reactMouseMotion(const int x, const int y)
 			SDL_SetCursor(getCursor(button.get()->getHoverCursor()));
 		}
 		else
-			button.get()->setHighlight(false);
+			button.get()->setHighlight(false), button.get()->setHover(false);
 	}
 
     if (!isAbove)
@@ -250,10 +247,19 @@ void	DialogTextBox::reactMouseMotion(const int x, const int y)
 
 void	DialogTextBox::reactMouseButtonDown(const int x, const int y)
 {
-    (void) x;
-    (void) y;
+	bool	isAbove = false;
 
-	// ...
+	for (auto& button : _buttons)
+	{
+		if (button.get()->isAbove(x, y))
+			button.get()->setClick(true), isAbove = true;
+	}
+
+    if (!isAbove)
+    {
+		for (auto& button : _buttons)
+			button.get()->setClick(false);
+	}
 }
 
 int		DialogTextBox::reactKeyButtonDown(const int key)
