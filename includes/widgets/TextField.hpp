@@ -34,7 +34,9 @@ class TextField : public Element
         void                    setSettings(const bool select, const int selectType, \
             const bool hover, const int hoverCursor, const bool highlight, const bool focus) noexcept;
 
-        void                    updateText(const string& text, const string& fontPath, \
+        void                    clear(void);
+
+        void                    update(const string& text, const string& fontPath, \
                                     const Color& textColor, SDL_Renderer* renderer);
 
         string                  getText(void) const;

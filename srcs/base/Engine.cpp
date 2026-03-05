@@ -1,7 +1,7 @@
 #include "Engine.hpp"
 
 Engine::Engine(const bool video, const bool antialiasing, \
-    const bool ttf, const bool events, const bool audio)
+    const bool ttf, const bool events, const bool textInput, const bool audio)
 {
     if (video)
     {
@@ -13,6 +13,15 @@ Engine::Engine(const bool video, const bool antialiasing, \
 
         if (ttf)
             _ttf.emplace();
+    }
+
+    if (events)
+    {
+        if (SDL_Init(SDL_INIT_EVENTS) != 0)
+            throw std::runtime_error("SDL failed to init events: " + string(SDL_GetError()));
+
+        if (textInput)
+            SDL_StartTextInput();
     }
 
     if (events && SDL_Init(SDL_INIT_EVENTS) != 0)

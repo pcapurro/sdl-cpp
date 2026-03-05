@@ -42,7 +42,12 @@ void    TextField::setSettings(const bool select, const int selectType, \
     focus ? enableFocus() : disableFocus();
 }
 
-void    TextField::updateText(const string& text, const string& fontPath, \
+void    TextField::clear(void)
+{
+    _mainText.reset();
+}
+
+void    TextField::update(const string& text, const string& fontPath, \
     const Color& textColor, SDL_Renderer* renderer)
 {
     if (_mainText.has_value())

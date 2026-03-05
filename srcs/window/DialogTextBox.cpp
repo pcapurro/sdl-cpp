@@ -4,7 +4,8 @@ DialogTextBox::DialogTextBox(const string& name, const int width, const int heig
 	const string& fontPath, const int displayMode, const string& titleText, \
 	const bool titleLimit, const string& text, const string& logoPath, \
 	const int logoWidth, const int logoHeight, const bool logoCentered) : \
-		Window(name, width, height)
+		Window(name, width, height), \
+		_fontPath(fontPath)
 {
 	int		limitX = width * LIMIT_RATIO;
 	int		limitY = height * LIMIT_RATIO;
@@ -134,7 +135,7 @@ void    DialogTextBox::addTextField(const int cursorX, const string& fontPath)
 		((textSize * 2) / 10) * 10}, getBackgroundColor(), getWriteColor());
 
 	auto mainButton = std::make_unique<TextButton>(Properties{cursorX, 0, ((textSize * 5) / 10) * 10, \
-		((textSize * 2) / 10) * 10}, getBackgroundColor(), ">", textSize, \
+		((textSize * 2) / 10) * 10}, getBackgroundColor(), "OK", textSize, \
 		getWriteColor(), fontPath, getRenderer());
 
 	TextField*	text = textField.get();
@@ -154,8 +155,8 @@ void    DialogTextBox::addTextField(const int cursorX, const string& fontPath)
 	color.a = HIGHLIGHT_OPACITY;
 	text->setSelectColor(color);
 
-	_buttons.emplace_back(std::move(mainButton));
 	_buttons.emplace_back(std::move(textField));
+	_buttons.emplace_back(std::move(mainButton));
 }
 
 int     DialogTextBox::routine(void)
@@ -170,7 +171,14 @@ int     DialogTextBox::routine(void)
         value = waitForEvent();
 
         if (value != OK)
+		{
+			TextField*	textField = dynamic_cast<TextField*> \
+				(_buttons.front().get());
+
+			_finalAnswer = textField->getText();
+			
             return value;
+		}
     }
 
     return OK;
@@ -276,11 +284,52 @@ void	DialogTextBox::reactMouseButtonDown(const int x, const int y)
 
 int		DialogTextBox::reactKeyButtonDown(const int key)
 {
-    (void) key;
+	if (key == SDLK_BACKSPACE || key  == SDLK_DELETE)
+	{
+		TextField*	textField = dynamic_cast<TextField*> \
+			(_buttons.front().get());
 
-	// ...
+		if (!textField->isClicked())
+			return OK;
+
+		string	text = textField->getText();
+
+		if (textField->isSelected() || text.size() <= 1)
+			textField->clear();
+		else if (key != SDLK_DELETE)
+		{
+			text.pop_back();
+
+			textField->update(text, _fontPath, \
+				getWriteColor(), getRenderer());
+		}
+	}
+
+    else if (key == SDLK_RETURN || key == SDLK_KP_ENTER)
+		return DEFAULT;
 
 	return OK;
+}
+
+void	DialogTextBox::reactCharactersDown(const char* text)
+{
+	TextField*	textField = dynamic_cast<TextField*> \
+		(_buttons.front().get());
+
+	if (!textField->isClicked())
+		return;
+
+	string		newText;
+
+	if (!textField->isSelected())
+		newText += textField->getText();
+
+	newText += text;
+
+	textField->update(newText, _fontPath, \
+		getWriteColor(), getRenderer());
+
+	textField->setSelected(false);
 }
 
 int		DialogTextBox::reactEvent(SDL_Event* event, const int x, const int y)
@@ -295,6 +344,9 @@ int		DialogTextBox::reactEvent(SDL_Event* event, const int x, const int y)
 
 	else if (event->type == SDL_KEYDOWN)
 		value = reactKeyButtonDown(event->key.keysym.sym);
+
+	else if (event->type == SDL_TEXTINPUT)
+		reactCharactersDown(event->text.text);
 
 	refreshDisplay();
 

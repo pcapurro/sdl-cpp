@@ -16,6 +16,8 @@ class DialogTextBox final : public Window
 		vector<unique_ptr<Element>>		_elements;
 		vector<unique_ptr<Element>>		_buttons;
 
+		string							_fontPath;
+
 		string							_finalAnswer;
 
 		void							addLogo(const int cursorX, const int cursorY, const string& logoPath, \
@@ -48,6 +50,7 @@ class DialogTextBox final : public Window
 		void 							reactMouseButtonDown(const int x, const int y);
 
 		int								reactKeyButtonDown(const int key);
+		void 							reactCharactersDown(const char* text);
 
 		virtual int						reactEvent(SDL_Event* event, \
 											const int x = 0, const int y = 0);

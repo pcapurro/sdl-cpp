@@ -10,6 +10,7 @@
 
 # define HIGHLIGHT_OPACITY 100
 # define FOCUS_OPACITY 200
+# define DEF_SELECT_COLOR BLUE
 
 /* DialogBox paramaters */
 
@@ -21,9 +22,9 @@
 /* State */
 
 # define NONE 0
-# define DEFAULT -1
-# define OK 21
-# define END 42
+# define DEFAULT 21
+# define OK 42
+# define END 84
 
 /* Render values */
 
