@@ -1,22 +1,20 @@
-#ifndef DIALOGBOX_HPP
-# define DIALOGBOX_HPP
+#ifndef DIALOGTEXTBOX_HPP
+# define DIALOGTEXTBOX_HPP
 
 # include "Window.hpp"
 
 # include "Text.hpp"
 # include "Shape.hpp"
 # include "Image.hpp"
-# include "TextButton.hpp"
+# include "TextField.hpp"
 
-class DialogBox final : public Window
+class DialogTextBox final : public Window
 {
 	private:
 		vector<unique_ptr<Element>>		_elements;
-		vector<unique_ptr<TextButton>>	_buttons;
+		unique_ptr<TextField>           _textField;
 
-		size_t							_tabCursor;
-
-		const vector<string>			_textButtons;
+		string							_finalAnswer;
 
 		void							addLogo(const int cursorX, const int cursorY, const string& logoPath, \
 											const int logoWidth, const int logoHeight, const bool centered = false);
@@ -28,17 +26,15 @@ class DialogBox final : public Window
 		void							addText(const int cursorX, const int cursorY, const string& text, \
 											const string& fontPath, const int maxWidth);
 
-		void							addButtons(const string& fontPath, const vector<string>& buttonsTexts);
-
 	public:
-		DialogBox(void) = delete;
-		DialogBox(const string& name, const int width = 400, const int height = 170, \
+		DialogTextBox(void) = delete;
+		DialogTextBox(const string& name, const int width = 400, const int height = 170, \
     		const string& fontPath = "", const int displayMode = LIGHT_MODE, const string& titleText = "", \
-			const bool titleLimit = LIMIT_ON, const string& text = "", const vector<string>& buttonsTexts = {"yes", "no"}, \
+			const bool titleLimit = LIMIT_ON, const string& text = "", const string& placeholder = "...", \
 			const string& logoPath = "", const int logoWidth = 75, const int logoHeight = 75, \
 			const bool logoCentered = false);
 
-		~DialogBox(void) = default;
+		~DialogTextBox(void) = default;
 
 		virtual int						routine(void);
 		virtual int						waitForEvent(void);
@@ -46,13 +42,14 @@ class DialogBox final : public Window
 		virtual void					render(void);
 
 		void 							reactMouseMotion(const int x, const int y);
-		int								reactMouseButtonUp(const int x, const int y);
 		void 							reactMouseButtonDown(const int x, const int y);
 
 		int								reactKeyButtonDown(const int key);
 
 		virtual int						reactEvent(SDL_Event* event, \
 											const int x = 0, const int y = 0);
+
+		string							getFinalAnswer(void) const;
 };
 
 #endif
