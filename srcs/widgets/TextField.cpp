@@ -48,17 +48,17 @@ void    TextField::clear(void)
 }
 
 void    TextField::update(const string& text, const string& fontPath, \
-    const Color& textColor, SDL_Renderer* renderer)
+    const Color& textColor, const int maxWidth, const bool wrapping, SDL_Renderer* renderer)
 {
     if (_mainText.has_value())
-        _mainText.value().update(text, getWidth(), renderer);
+        _mainText.value().update(text, maxWidth, wrapping, renderer);
     else
     {
         int     cursorX = (getWidth() / 2) * LIMIT_RATIO;
         int     textRatio = getHeight() / 4;
 
         _mainText.emplace(getX() + cursorX, 0, text, getHeight() - textRatio, \
-            textColor, fontPath, renderer, getWidth());
+            textColor, fontPath, renderer, maxWidth);
 
         onPropertiesChanged(renderer);
         onStateChanged();
@@ -82,7 +82,8 @@ void	TextField::onPropertiesChanged(SDL_Renderer* renderer)
 
     if (_mainText.has_value())
     {
-        _mainText.value().update(_mainText.value().getTextStr(), properties.width, renderer);
+        _mainText.value().update(_mainText.value().getTextStr(), \
+            properties.width, _mainText.value().isWrapped(), renderer);
 
         int         cursorX = (getWidth() / 2) * LIMIT_RATIO;
 

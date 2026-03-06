@@ -37,7 +37,8 @@ class TextField : public Element
         void                    clear(void);
 
         void                    update(const string& text, const string& fontPath, \
-                                    const Color& textColor, SDL_Renderer* renderer);
+                                    const Color& textColor, const int maxWidth, \
+                                    const bool wrapping, SDL_Renderer* renderer);
 
         string                  getText(void) const;
 

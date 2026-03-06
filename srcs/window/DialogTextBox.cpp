@@ -340,8 +340,11 @@ int		DialogTextBox::reactKeyButtonDown(const int key)
 		{
 			text.pop_back();
 
+			int	limitX = (textField->getWidth() / 2) * LIMIT_RATIO;
+
 			textField->update(text, _fontPath, \
-				getWriteColor(), getRenderer());
+				getWriteColor(), textField->getWidth() - limitX * 2, \
+				false, getRenderer());
 		}
 	}
 
@@ -363,8 +366,11 @@ void	DialogTextBox::reactCharactersDown(const char* text)
 
 	newText += text;
 
+	int	limitX = (textField->getWidth() / 2) * LIMIT_RATIO;
+
 	textField->update(newText, _fontPath, \
-		getWriteColor(), getRenderer());
+		getWriteColor(), textField->getWidth() - limitX * 2, \
+		false, getRenderer());
 
 	textField->setSelected(false);
 	textField->setHover(false);

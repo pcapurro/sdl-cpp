@@ -18,8 +18,8 @@ class Texture
 
 		Texture(const char* path, SDL_Renderer* renderer);
 
-		Texture(const char* text, TTF_Font* font, \
-			SDL_Renderer* renderer, const int maxWidth = 0);
+		Texture(const char* text, TTF_Font* font, SDL_Renderer* renderer, \
+			const int maxWidth, const bool wrapping);
 
 		Texture&		operator=(const Texture& original) = delete;
 		Texture&		operator=(Texture&& original) noexcept;

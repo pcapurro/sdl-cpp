@@ -42,11 +42,11 @@ Texture::Texture(const char* path, SDL_Renderer* renderer)
 }
 
 Texture::Texture(const char* text, TTF_Font* font, \
-	SDL_Renderer* renderer, const int maxWidth)
+	SDL_Renderer* renderer, const int maxWidth, const bool wrapping)
 {
 	SDL_Surface*	surface = nullptr;
 	
-	if (maxWidth > 0)
+	if (wrapping)
 		surface = TTF_RenderText_Blended_Wrapped(font, text, WHITE, maxWidth);
 	else
 		surface = TTF_RenderText_Blended(font, text, WHITE);

@@ -2,11 +2,12 @@
 
 Text::Text(const int x, const int y, const string& text, const int size, \
     const Color& color, const string& fontPath, SDL_Renderer* renderer, \
-    const int maxWidth) : \
+    const int maxWidth, const bool wrapping) : \
         Element({x, y, 0, 0}), \
         _textStr(text), \
         _writeColor(color), \
-        _font(fontPath, size)
+        _font(fontPath, size), \
+        _wrapping(wrapping)
 {
     _free = false;
 
@@ -17,7 +18,7 @@ Text::Text(const int x, const int y, const string& text, const int size, \
     int     height = 0;
 
     _text.emplace(text.c_str(), _font.getFont(), \
-        renderer, maxWidth);
+        renderer, maxWidth, wrapping);
 
     SDL_SetTextureBlendMode(_text.value().getTexture(),\
         SDL_BLENDMODE_BLEND);
@@ -31,11 +32,12 @@ Text::Text(const int x, const int y, const string& text, const int size, \
 
 Text::Text(const Properties& properties, const string& text, \
     const int size, const Color& color, const string& fontPath, \
-    SDL_Renderer* renderer, const int maxWidth) : \
+    SDL_Renderer* renderer, const int maxWidth, const bool wrapping) : \
         Element(properties), \
         _textStr(text), \
         _writeColor(color), \
-        _font(fontPath, size)
+        _font(fontPath, size), \
+        _wrapping(wrapping)
 {
     _free = true;
 
@@ -43,7 +45,7 @@ Text::Text(const Properties& properties, const string& text, \
         return;
 
     _text.emplace(text.c_str(), _font.getFont(), \
-        renderer, maxWidth);
+        renderer, maxWidth, wrapping);
 
     SDL_SetTextureBlendMode(_text.value().getTexture(),\
         SDL_BLENDMODE_BLEND);
@@ -101,16 +103,34 @@ string  Text::getTextStr(void) const noexcept
     return _textStr;
 }
 
-void    Text::update(const string& text, const int maxWidth, \
-    SDL_Renderer* renderer)
+bool    Text::isWrapped(void) const noexcept
 {
+    return _wrapping;
+}
+
+int     Text::getTextWidth(const string& text, TTF_Font* font)
+{
+    int     width = 0;
+
+    if (TTF_SizeText(font, text.c_str(), &width, nullptr) == -1)
+        return 0;
+
+    return width;
+}
+
+void    Text::update(const string& text, const int maxWidth, \
+    const bool wrapping, SDL_Renderer* renderer)
+{
+    if (!wrapping && getTextWidth(text, _font.getFont()) > maxWidth)
+        return;
+    
     _textStr = text;
 
     if (!_text.has_value())
         _text.reset();
 
     _text.emplace(text.c_str(), _font.getFont(), \
-        renderer, maxWidth);
+        renderer, maxWidth, wrapping);
 
     SDL_SetTextureBlendMode(_text.value().getTexture(),\
         SDL_BLENDMODE_BLEND);
