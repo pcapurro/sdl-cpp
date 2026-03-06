@@ -310,10 +310,12 @@ int		DialogBox::reactEvent(SDL_Event* event, const int x, const int y)
 	if (event->type == SDL_MOUSEMOTION)
 		reactMouseMotion(x, y);
 
-	else if (event->type == SDL_MOUSEBUTTONDOWN)
+	else if (event->type == SDL_MOUSEBUTTONDOWN \
+		&& event->button.button == SDL_BUTTON_LEFT)
 		reactMouseButtonDown(x, y);
 
-	else if (event->type == SDL_MOUSEBUTTONUP)
+	else if (event->type == SDL_MOUSEBUTTONUP \
+		&& event->button.button == SDL_BUTTON_LEFT)
 		value = reactMouseButtonUp(x, y);
 
 	else if (event->type == SDL_KEYDOWN)
