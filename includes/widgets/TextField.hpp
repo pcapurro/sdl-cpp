@@ -44,6 +44,7 @@ class TextField : public Element
         void                    render(SDL_Renderer* renderer);
 
 		virtual void	        onMouseDown(void) override;
+        virtual void	        onMouseDownDouble(void) override;
 		virtual void	        onMouseDownOutside(void) override;
 
 		virtual void	        onMouseUp(void) override;

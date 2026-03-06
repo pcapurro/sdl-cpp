@@ -297,7 +297,8 @@ int		DialogTextBox::reactMouseButtonUp(const int x, const int y)
 	return OK;
 }
 
-void	DialogTextBox::reactMouseButtonDown(const int x, const int y)
+void	DialogTextBox::reactMouseButtonDown(const int x, const int y, \
+	const int clicks)
 {
 	bool	isAbove = false;
 
@@ -308,7 +309,14 @@ void	DialogTextBox::reactMouseButtonDown(const int x, const int y)
 		element = button.get();
 
 		if (element->isAbove(x, y) == true)
-			element->onMouseDown(), isAbove = true;
+		{
+			if (clicks > 1)
+				element->onMouseDownDouble();
+			else
+				element->onMouseDown();
+			
+			isAbove = true;
+		}
 		else
 			element->onMouseDownOutside();
 	}
@@ -370,7 +378,7 @@ int		DialogTextBox::reactEvent(SDL_Event* event, const int x, const int y)
 		reactMouseMotion(x, y);
 
 	else if (event->type == SDL_MOUSEBUTTONDOWN)
-		reactMouseButtonDown(x, y);
+		reactMouseButtonDown(x, y, event->button.clicks);
 
 	else if (event->type == SDL_MOUSEBUTTONUP)
 		value = reactMouseButtonUp(x, y);

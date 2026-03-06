@@ -36,6 +36,7 @@ class Element
 		virtual void	render(SDL_Renderer* renderer) = 0;
 
 		virtual void	onMouseDown(void) {};
+		virtual void	onMouseDownDouble(void) {};
 		virtual void	onMouseDownOutside(void) {};
 
 		virtual void	onMouseUp(void) {};

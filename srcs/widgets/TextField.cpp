@@ -63,8 +63,8 @@ void    TextField::update(const string& text, const string& fontPath, \
         onPropertiesChanged(renderer);
         onStateChanged();
 
-        onStyleChanged();
         onSettingsChanged();
+        onStyleChanged();
     }
 }
 
@@ -155,29 +155,32 @@ void	TextField::onStateChanged(void)
 
 void    TextField::onMouseDown(void)
 {
+    setClick(true);
+}
+
+void    TextField::onMouseDownDouble(void)
+{
     setClick(true, false);
-    setFocus(true, false);
+    setSelected(true, false);
 
     onStateChanged();
 }
 
 void    TextField::onMouseDownOutside(void)
 {
-    setClick(false, false);
     setSelected(false, false);
-    setFocus(false, false);
 
     onStateChanged();
 }
 
 void    TextField::onMouseUp(void)
 {
-    setFocus(false);
+    // ...
 }
 
 void    TextField::onMouseUpOutside(void)
 {
-    setFocus(false);
+    // ...
 }
 
 void    TextField::onMouseHover(void)
