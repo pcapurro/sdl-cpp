@@ -156,7 +156,10 @@ void	TextField::onStateChanged(void)
 
 void    TextField::onMouseDown(void)
 {
-    setClick(true);
+    setClick(true, false);
+    setHover(false, false);
+
+    onStateChanged();
 }
 
 void    TextField::onMouseDownDouble(void)

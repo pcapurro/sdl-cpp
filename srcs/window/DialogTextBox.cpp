@@ -5,6 +5,7 @@ DialogTextBox::DialogTextBox(const string& name, const int width, const int heig
 	const bool titleLimit, const string& text, const string& logoPath, \
 	const int logoWidth, const int logoHeight, const bool logoCentered) : \
 		Window(name, width, height), \
+		_tabCursor(0), \
 		_fontPath(fontPath)
 {
 	int		limitX = width * LIMIT_RATIO;
@@ -203,9 +204,6 @@ int     DialogTextBox::waitForEvent(void)
 	{
 		int	key = event.key.keysym.sym;
 
-		if (key == SDLK_RETURN || key == SDLK_KP_ENTER)
-			return RETURN;
-
 		if (key == SDLK_ESCAPE)
 			return END;
 	}
@@ -346,6 +344,27 @@ int		DialogTextBox::reactKeyButtonDown(const int key)
 				getWriteColor(), textField->getWidth() - limitX * 2, \
 				false, getRenderer());
 		}
+	}
+	else if (key == SDLK_TAB)
+	{
+		_buttons[_tabCursor].get()->setHover(false);
+
+		if (_tabCursor < _buttons.size() - 1)
+			_tabCursor++;
+		else
+			_tabCursor = 0;
+
+		_buttons[_tabCursor].get()->setHover(true);
+	}
+	else if (key == SDLK_RETURN || key == SDLK_KP_ENTER)
+	{
+		_buttons[_tabCursor].get()->onMouseDown();
+
+		TextButton*	textButton = dynamic_cast \
+			<TextButton*>(_buttons[_tabCursor].get());
+
+		if (textButton)
+			return RETURN;
 	}
 
 	return OK;

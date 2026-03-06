@@ -16,6 +16,8 @@ class DialogTextBox final : public Window
 		vector<unique_ptr<Element>>		_elements;
 		vector<unique_ptr<Element>>		_buttons;
 
+		size_t							_tabCursor;
+
 		string							_fontPath;
 
 		string							_finalAnswer;
