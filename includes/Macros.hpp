@@ -25,6 +25,7 @@
 # define DEFAULT 21
 # define OK 42
 # define END 84
+# define RETURN 168
 
 /* Render values */
 

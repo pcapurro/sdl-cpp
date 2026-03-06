@@ -15,179 +15,201 @@ bool	Element::isAbove(const int mouseX, const int mouseY) const noexcept
 	return _properties.isAbove(mouseX, mouseY);
 }
 
-void	Element::setX(const int x, SDL_Renderer* renderer) noexcept
+void	Element::setX(const int x, SDL_Renderer* renderer, const bool propagation) noexcept
 {
 	_properties.x = x;
 
-	onPropertiesChanged(renderer);
+	if (propagation)
+		onPropertiesChanged(renderer);
 }
 
-void	Element::setY(const int y, SDL_Renderer* renderer) noexcept
+void	Element::setY(const int y, SDL_Renderer* renderer, const bool propagation) noexcept
 {
 	_properties.y = y;
 
-	onPropertiesChanged(renderer);
+	if (propagation)
+		onPropertiesChanged(renderer);
 }
 
-void	Element::setWidth(const int width, SDL_Renderer* renderer) noexcept
+void	Element::setWidth(const int width, SDL_Renderer* renderer, const bool propagation) noexcept
 {
 	_properties.width = width;
 
-	onPropertiesChanged(renderer);
+	if (propagation)
+		onPropertiesChanged(renderer);
 }
 
-void	Element::setHeight(const int height, SDL_Renderer* renderer) noexcept
+void	Element::setHeight(const int height, SDL_Renderer* renderer, const bool propagation) noexcept
 {
 	_properties.height = height;
 
-	onPropertiesChanged(renderer);
+	if (propagation)
+		onPropertiesChanged(renderer);
 }
 
-void	Element::setMainColor(const Color& color) noexcept
+void	Element::setMainColor(const Color& color, const bool propagation) noexcept
 {
 	_style.mainColor = color;
 
-	onStyleChanged();
+	if (propagation)
+		onStyleChanged();
 }
 
-void	Element::setSelectColor(const Color& color) noexcept
+void	Element::setSelectColor(const Color& color, const bool propagation) noexcept
 {
 	if (!isSelectPossible())
 		return;
 
 	_style.selectColor = color;
 
-	onStyleChanged();
+	if (propagation)
+		onStyleChanged();
 }
 
-void	Element::setClick(const bool click) noexcept
+void	Element::setClick(const bool click, const bool propagation) noexcept
 {
 	_state.click = click;
 
-	onStateChanged();
+	if (propagation)
+		onStateChanged();
 }
 
-void	Element::setSelected(const bool select) noexcept
+void	Element::setSelected(const bool select, const bool propagation) noexcept
 {
 	if (!isSelectPossible())
 		return;
 
 	_state.select = select;
 
-	onStateChanged();
+	if (propagation)
+		onStateChanged();
 }
 
-void	Element::setSelectType(const int selectType) noexcept
+void	Element::setSelectType(const int selectType, const bool propagation) noexcept
 {
 	if (!isSelectPossible())
 		return;
 
 	_settings.selectType = selectType;
 
-	onSettingsChanged();
+	if (propagation)
+		onSettingsChanged();
 }
 
-void	Element::setHighlight(const bool highlight) noexcept
+void	Element::setHighlight(const bool highlight, const bool propagation) noexcept
 {
 	if (!isHighlightPossible())
 		return;
 
 	_state.highlight = highlight;
 
-	onStateChanged();
+	if (propagation)
+		onStateChanged();
 }
 
-void	Element::setFocus(const bool focus) noexcept
+void	Element::setFocus(const bool focus, const bool propagation) noexcept
 {
 	if (!isFocusPossible())
 		return;
 
 	_state.focus = focus;
 
-	onStateChanged();
+	if (propagation)
+		onStateChanged();
 }
 
-void	Element::setHover(const bool hover) noexcept
+void	Element::setHover(const bool hover, const bool propagation) noexcept
 {
 	if (!isHoverPossible())
 		return;
 
 	_state.hover = hover;
 
-	onStateChanged();
+	if (propagation)
+		onStateChanged();
 }
 
-void	Element::setHoverCursor(const int cursor) noexcept
+void	Element::setHoverCursor(const int cursor, const bool propagation) noexcept
 {
 	if (!isHoverPossible())
 		return;
 
 	_settings.hoverCursor = cursor;
 
-	onSettingsChanged();
+	if (propagation)
+		onSettingsChanged();
 }
 
-void	Element::setVisibility(const bool visibility) noexcept
+void	Element::setVisibility(const bool visibility, const bool propagation) noexcept
 {
 	_state.visibility = visibility;
 
-	onStateChanged();
+	if (propagation)
+		onStateChanged();
 }
 
-void	Element::enableSelect(void) noexcept
+void	Element::enableSelect(const bool propagation) noexcept
 {
 	_settings.select = true;
 
-	onSettingsChanged();
+	if (propagation)
+		onSettingsChanged();
 }
 
-void	Element::disableSelect(void) noexcept
+void	Element::disableSelect(const bool propagation) noexcept
 {
 	_settings.select = false;
 
-	onSettingsChanged();
+	if (propagation)
+		onSettingsChanged();
 }
 
-void	Element::enableHover(void) noexcept
+void	Element::enableHover(const bool propagation) noexcept
 {
 	_settings.hover = true;
 
-	onSettingsChanged();
+	if (propagation)
+		onSettingsChanged();
 }
 
-void	Element::disableHover(void) noexcept
+void	Element::disableHover(const bool propagation) noexcept
 {
 	_settings.hover = false;
 
-	onSettingsChanged();
+	if (propagation)
+		onSettingsChanged();
 }
 
-void	Element::enableHighlight(void) noexcept
+void	Element::enableHighlight(const bool propagation) noexcept
 {
 	_settings.highlight = true;
 
-	onSettingsChanged();
+	if (propagation)
+		onSettingsChanged();
 }
 
-void	Element::disableHighlight(void) noexcept
+void	Element::disableHighlight(const bool propagation) noexcept
 {
 	_settings.highlight = false;
 
-	onSettingsChanged();
+	if (propagation)
+		onSettingsChanged();
 }
 
-void	Element::enableFocus(void) noexcept
+void	Element::enableFocus(const bool propagation) noexcept
 {
 	_settings.focus = true;
 
-	onSettingsChanged();
+	if (propagation)
+		onSettingsChanged();
 }
 
-void	Element::disableFocus(void) noexcept
+void	Element::disableFocus(const bool propagation) noexcept
 {
 	_settings.focus = false;
 
-	onSettingsChanged();
+	if (propagation)
+		onSettingsChanged();
 }
 
 int		Element::getX(void) const noexcept

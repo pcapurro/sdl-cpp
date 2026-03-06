@@ -248,13 +248,11 @@ void	DialogBox::reactMouseMotion(const int x, const int y)
 		{
 			isAbove = true;
 
-			button.get()->setHighlight(true);
-			button.get()->setHover(true);
-
+			button.get()->onMouseHover();
 			SDL_SetCursor(getCursor(button.get()->getHoverCursor()));
 		}
 		else
-			button.get()->setHighlight(false);
+			button.get()->onMouseHoverOutside();
 	}
 
 	if (!isAbove)
@@ -274,7 +272,7 @@ int		DialogBox::reactMouseButtonUp(const int x, const int y)
 			}
 		}
 		else
-			button->setFocus(false);
+			button->onMouseUpOutside();
 	}
 
 	return OK;
@@ -283,10 +281,7 @@ int		DialogBox::reactMouseButtonUp(const int x, const int y)
 void	DialogBox::reactMouseButtonDown(const int x, const int y)
 {
 	for (auto& button : _buttons)
-	{
-		if (button->isAbove(x, y))
-			button->setFocus(true);
-	}
+		button->onMouseDown();
 }
 
 int		DialogBox::reactKeyButtonDown(const int key)

@@ -19,7 +19,8 @@ class Element
 		State			_state;
 
 	protected:
-		virtual void	onPropertiesChanged(SDL_Renderer* renderer) { (void) renderer; };
+		virtual void	onPropertiesChanged(SDL_Renderer* renderer)
+							{ (void) renderer; };
 		virtual void	onStyleChanged(void) {};
 
 		virtual void	onSettingsChanged(void) {};
@@ -34,41 +35,66 @@ class Element
 
 		virtual void	render(SDL_Renderer* renderer) = 0;
 
+		virtual void	onMouseDown(void) {};
+		virtual void	onMouseDownOutside(void) {};
+
+		virtual void	onMouseUp(void) {};
+		virtual void	onMouseUpOutside(void) {};
+
+		virtual void	onMouseHover(void) {};
+		virtual void	onMouseHoverOutside(void) {};
+
+		virtual void	onButtonDown(const int key) {};
+
 		bool			isAbove(const int mouseX, const int mouseY) const noexcept;
 
-		void			setX(const int x, SDL_Renderer* renderer) noexcept;
-		void			setY(const int y, SDL_Renderer* renderer) noexcept;
+		void			setX(const int x, SDL_Renderer* renderer, \
+							const bool propagation = true) noexcept;
+		void			setY(const int y, SDL_Renderer* renderer, \
+							const bool propagation = true) noexcept;
 
-		void			setWidth(const int width, SDL_Renderer* renderer) noexcept;
-		void			setHeight(const int height, SDL_Renderer* renderer) noexcept;
+		void			setWidth(const int width, SDL_Renderer* renderer, \
+							const bool propagation = true) noexcept;
+		void			setHeight(const int height, SDL_Renderer* renderer, \
+							const bool propagation = true) noexcept;
 
-		void			setMainColor(const Color& color) noexcept;
-		void			setSelectColor(const Color& color) noexcept;
+		void			setMainColor(const Color& color, \
+							const bool propagation = true) noexcept;
+		void			setSelectColor(const Color& color, \
+							const bool propagation = true) noexcept;
 
-		void			setClick(const bool click) noexcept;
+		void			setClick(const bool click, \
+							const bool propagation = true) noexcept;
 
-		void			setSelected(const bool select) noexcept;
-		void			setSelectType(const int selectType) noexcept;
+		void			setSelected(const bool select, \
+							const bool propagation = true) noexcept;
+		void			setSelectType(const int selectType, \
+							const bool propagation = true) noexcept;
 
-		void			setHighlight(const bool highlight) noexcept;
-		void			setFocus(const bool focus) noexcept;
+		void			setHighlight(const bool highlight, \
+							const bool propagation = true) noexcept;
+		void			setFocus(const bool focus, \
+							const bool propagation = true) noexcept;
 
-		void			setHover(const bool hover) noexcept;
-		void			setHoverCursor(const int cursor) noexcept;
+		void			setHover(const bool hover, \
+							const bool propagation = true) noexcept;
+		void			setHoverCursor(const int cursor, \
+							const bool propagation = true) noexcept;
 
-		void			setVisibility(const bool visibility) noexcept;
+		void			setVisibility(const bool visibility, \
+							const bool propagation = true) noexcept;
 
-		void			enableSelect(void) noexcept;
-		void			disableSelect(void) noexcept;
+		void			enableSelect(const bool propagation = true) noexcept;
+		void			disableSelect(const bool propagation = true) noexcept;
 
-		void			enableHover(void) noexcept;
-		void			disableHover(void) noexcept;
+		void			enableHover(const bool propagation = true) noexcept;
+		void			disableHover(const bool propagation = true) noexcept;
 
-		void			enableHighlight(void) noexcept;
-		void			disableHighlight(void) noexcept;
+		void			enableHighlight(const bool propagation = true) noexcept;
+		void			disableHighlight(const bool propagation = true) noexcept;
 
-		void			enableFocus(void) noexcept;
-		void			disableFocus(void) noexcept;
+		void			enableFocus(const bool propagation = true) noexcept;
+		void			disableFocus(const bool propagation = true) noexcept;
 
 		int				getX(void) const noexcept;
 		int				getY(void) const noexcept;

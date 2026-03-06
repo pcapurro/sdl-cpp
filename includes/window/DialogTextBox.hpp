@@ -47,6 +47,7 @@ class DialogTextBox final : public Window
 		virtual void					render(void);
 
 		void 							reactMouseMotion(const int x, const int y);
+		int								reactMouseButtonUp(const int x, const int y);
 		void 							reactMouseButtonDown(const int x, const int y);
 
 		int								reactKeyButtonDown(const int key);

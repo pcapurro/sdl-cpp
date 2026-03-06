@@ -142,10 +142,72 @@ void	TextField::onStateChanged(void)
     Text*       text = _mainText.has_value() ? \
         &_mainText.value() : nullptr;
 
-    if (!text)
-        back->setHover(isHover());
-    else
+    if (text)
+    {
+        text->setHover(!isClicked());
         text->setSelected(isSelected());
+
+        back->setHover(false);
+    }
+    else
+        back->setHover(isHover());
+}
+
+void    TextField::onMouseDown(void)
+{
+    setClick(true, false);
+    setFocus(true, false);
+
+    onStateChanged();
+}
+
+void    TextField::onMouseDownOutside(void)
+{
+    setClick(false, false);
+    setSelected(false, false);
+    setFocus(false, false);
+
+    onStateChanged();
+}
+
+void    TextField::onMouseUp(void)
+{
+    setFocus(false);
+}
+
+void    TextField::onMouseUpOutside(void)
+{
+    setFocus(false);
+}
+
+void    TextField::onMouseHover(void)
+{    
+    setHover(true);
+}
+
+void    TextField::onMouseHoverOutside(void)
+{
+    setHover(false);
+}
+
+void    TextField::onButtonDown(const int key)
+{
+    if (key == SDLK_BACKSPACE || key  == SDLK_DELETE)
+    {
+        if (!isClicked())
+            return;
+
+        string	text = getText();
+        
+        if (isSelected() && text.size() <= 1)
+            clear();
+        else if (key != SDLK_DELETE)
+        {
+            text.pop_back();
+
+            // update();
+        }
+    }
 }
 
 void    TextField::render(SDL_Renderer* renderer)

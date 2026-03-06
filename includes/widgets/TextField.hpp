@@ -43,6 +43,17 @@ class TextField : public Element
 
         void                    render(SDL_Renderer* renderer);
 
+		virtual void	        onMouseDown(void) override;
+		virtual void	        onMouseDownOutside(void) override;
+
+		virtual void	        onMouseUp(void) override;
+		virtual void	        onMouseUpOutside(void) override;
+
+		virtual void	        onMouseHover(void) override;
+		virtual void	        onMouseHoverOutside(void) override;
+
+        virtual void	        onButtonDown(const int key) override;
+
 };
 
 #endif

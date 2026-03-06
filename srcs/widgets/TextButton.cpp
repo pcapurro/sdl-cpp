@@ -134,6 +134,43 @@ void	TextButton::onStateChanged(void)
     back->setFocus(isFocused());
 }
 
+void    TextButton::onMouseDown(void)
+{
+    setClick(true, false);
+    setFocus(true, false);
+
+    onStateChanged();
+}
+
+void    TextButton::onMouseDownOutside(void)
+{
+    setClick(false, false);
+    setSelected(false, false);
+    setFocus(false, false);
+
+    onStateChanged();
+}
+
+void    TextButton::onMouseUp(void)
+{
+    setFocus(false);
+}
+
+void    TextButton::onMouseUpOutside(void)
+{
+    setFocus(false);
+}
+
+void    TextButton::onMouseHover(void)
+{
+    setHover(true);
+}
+
+void    TextButton::onMouseHoverOutside(void)
+{
+    setHover(false);
+}
+
 void    TextButton::render(SDL_Renderer* renderer)
 {
     Shape*      back = &_background.value();

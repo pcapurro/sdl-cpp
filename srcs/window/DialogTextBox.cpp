@@ -196,9 +196,19 @@ int     DialogTextBox::waitForEvent(void)
 			string(SDL_GetError()));
 	}
 
-	if (event.type == SDL_QUIT \
-		|| (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE))
+	if (event.type == SDL_QUIT)
 		return END;
+
+	if (event.type == SDL_KEYDOWN)
+	{
+		int	key = event.key.keysym.sym;
+
+		if (key == SDLK_RETURN || key == SDLK_KP_ENTER)
+			return RETURN;
+
+		if (key == SDLK_ESCAPE)
+			return END;
+	}
 
 	if (event.type == SDL_MOUSEMOTION || event.type == SDL_MOUSEBUTTONDOWN \
 		|| event.type == SDL_MOUSEBUTTONUP)
@@ -240,45 +250,67 @@ void	DialogTextBox::render(void)
 
 void	DialogTextBox::reactMouseMotion(const int x, const int y)
 {
-	bool	isAbove = false;
+	bool		isAbove = false;
+	Element*	element = nullptr;
 
 	for (auto& button : _buttons)
 	{
-		if (button.get()->isAbove(x, y) == true)
+		element = button.get();
+
+		if (element->isAbove(x, y) == true)
 		{
+			element->onMouseHover();
+			SDL_SetCursor(getCursor(element->getHoverCursor()));
+
 			isAbove = true;
-
-			button.get()->setHover(true);
-
-			SDL_SetCursor(getCursor(button.get()->getHoverCursor()));
 		}
 		else
-			button.get()->setHover(false);
+			element->onMouseHoverOutside();
 	}
 
     if (!isAbove)
         SDL_SetCursor(getCursor(SDL_SYSTEM_CURSOR_ARROW));
 }
 
+int		DialogTextBox::reactMouseButtonUp(const int x, const int y)
+{
+	Element*	element = nullptr;
+
+	for (auto& button : _buttons)
+	{
+		element = button.get();
+
+		if (element->isAbove(x, y) == true)
+		{
+			element->onMouseUp();
+
+			TextButton*	textButton = dynamic_cast \
+				<TextButton*>(element);
+
+			if (textButton)
+				return RETURN;
+		}
+		else
+			element->onMouseUpOutside();
+	}
+
+	return OK;
+}
+
 void	DialogTextBox::reactMouseButtonDown(const int x, const int y)
 {
 	bool	isAbove = false;
 
+	Element*	element = nullptr;
+
 	for (auto& button : _buttons)
 	{
-		if (button.get()->isAbove(x, y))
-		{
-			button.get()->setClick(true);
-			button.get()->setSelected(true);
+		element = button.get();
 
-			isAbove = true;
-		}
-	}
-
-    if (!isAbove)
-    {
-		for (auto& button : _buttons)
-			button.get()->setClick(false), button.get()->setSelected(false);
+		if (element->isAbove(x, y) == true)
+			element->onMouseDown(), isAbove = true;
+		else
+			element->onMouseDownOutside();
 	}
 }
 
@@ -305,9 +337,6 @@ int		DialogTextBox::reactKeyButtonDown(const int key)
 		}
 	}
 
-    else if (key == SDLK_RETURN || key == SDLK_KP_ENTER)
-		return DEFAULT;
-
 	return OK;
 }
 
@@ -330,6 +359,7 @@ void	DialogTextBox::reactCharactersDown(const char* text)
 		getWriteColor(), getRenderer());
 
 	textField->setSelected(false);
+	textField->setHover(false);
 }
 
 int		DialogTextBox::reactEvent(SDL_Event* event, const int x, const int y)
@@ -341,6 +371,9 @@ int		DialogTextBox::reactEvent(SDL_Event* event, const int x, const int y)
 
 	else if (event->type == SDL_MOUSEBUTTONDOWN)
 		reactMouseButtonDown(x, y);
+
+	else if (event->type == SDL_MOUSEBUTTONUP)
+		value = reactMouseButtonUp(x, y);
 
 	else if (event->type == SDL_KEYDOWN)
 		value = reactKeyButtonDown(event->key.keysym.sym);
