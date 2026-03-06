@@ -48,21 +48,6 @@ TextButton::TextButton(const int x, const int y, const int width, const int heig
         true, limit, textColor);
 }
 
-void    TextButton::setSettings(const bool select, const int selectType, \
-    const bool hover, const int hoverCursor, const bool highlight, const bool focus) noexcept
-{
-    select ? enableSelect() : disableSelect();
-    if (select && selectType != DEFAULT && selectType != NONE)
-        setSelectType(selectType);
-
-    hover ? enableHover() : disableHover();
-    if (hover && hoverCursor != DEFAULT && hoverCursor != NONE)
-        setHoverCursor(hoverCursor);
-
-    highlight ? enableHighlight() : disableHighlight();
-    focus ? enableFocus() : disableFocus();
-}
-
 string  TextButton::getText(void) const
 {
     if (!_mainText.has_value())
@@ -135,8 +120,11 @@ void	TextButton::onStateChanged(void)
     back->setFocus(isFocused());
 }
 
-void    TextButton::onMouseDown(void)
+void    TextButton::onMouseDown(const int x, const int y)
 {
+    (void) x;
+    (void) y;
+
     setClick(true, false);
     setFocus(true, false);
 
@@ -152,8 +140,11 @@ void    TextButton::onMouseDownOutside(void)
     onStateChanged();
 }
 
-void    TextButton::onMouseUp(void)
+void    TextButton::onMouseUp(const int x, const int y)
 {
+    (void) x;
+    (void) y;
+
     setFocus(false);
 }
 
@@ -162,8 +153,11 @@ void    TextButton::onMouseUpOutside(void)
     setFocus(false);
 }
 
-void    TextButton::onMouseHover(void)
+void    TextButton::onMouseHover(const int x, const int y)
 {
+    (void) x;
+    (void) y;
+
     setHover(true);
 }
 
@@ -177,13 +171,6 @@ void    TextButton::render(SDL_Renderer* renderer)
     Shape*      back = &_background.value();
     Text*       text = &_mainText.value();
 
-    back->setX(getX(), renderer);
-    back->setY(getY(), renderer);
-
     back->render(renderer);
-
-    text->setX(getX() + (getWidth() / 2 - text->getWidth() / 2), renderer);
-    text->setY(getY() + (getHeight() / 2 - text->getHeight() / 2), renderer);
-
     text->render(renderer);
 }

@@ -35,28 +35,31 @@ class Element
 
 		virtual void	render(SDL_Renderer* renderer) = 0;
 
-		virtual void	onMouseDown(void) {};
-		virtual void	onMouseDownDouble(void) {};
+		virtual void	onMouseDown(const int x = 0, const int y = 0) {};
+		virtual void	onMouseDownDouble(const int x = 0, const int y = 0) {};
 		virtual void	onMouseDownOutside(void) {};
 
-		virtual void	onMouseUp(void) {};
+		virtual void	onMouseUp(const int x = 0, const int y = 0) {};
 		virtual void	onMouseUpOutside(void) {};
 
-		virtual void	onMouseHover(void) {};
+		virtual void	onMouseHover(const int x = 0, const int y = 0) {};
 		virtual void	onMouseHoverOutside(void) {};
 
 		virtual void	onButtonDown(const int key) {};
 
+		void			setSettings(const bool select, const int selectType, const bool hover, \
+			const int hoverCursor, const bool highlight, const bool focus) noexcept;
+
 		bool			isAbove(const int mouseX, const int mouseY) const noexcept;
 
-		void			setX(const int x, SDL_Renderer* renderer, \
+		void			setX(const int x, SDL_Renderer* renderer = nullptr, \
 							const bool propagation = true) noexcept;
-		void			setY(const int y, SDL_Renderer* renderer, \
+		void			setY(const int y, SDL_Renderer* renderer = nullptr, \
 							const bool propagation = true) noexcept;
 
-		void			setWidth(const int width, SDL_Renderer* renderer, \
+		void			setWidth(const int width, SDL_Renderer* renderer = nullptr, \
 							const bool propagation = true) noexcept;
-		void			setHeight(const int height, SDL_Renderer* renderer, \
+		void			setHeight(const int height, SDL_Renderer* renderer = nullptr, \
 							const bool propagation = true) noexcept;
 
 		void			setMainColor(const Color& color, \

@@ -31,20 +31,17 @@ class TextButton : public Element
 
         ~TextButton(void) = default;
 
-        void                    setSettings(const bool select, const int selectType, \
-            const bool hover, const int hoverCursor, const bool highlight, const bool focus) noexcept;
-
         string                  getText(void) const;
 
         void                    render(SDL_Renderer* renderer);
 
-		virtual void	        onMouseDown(void) override;
+		virtual void	        onMouseDown(const int x = 0, const int y = 0) override;
 		virtual void	        onMouseDownOutside(void) override;
 
-		virtual void	        onMouseUp(void) override;
+		virtual void	        onMouseUp(const int x = 0, const int y = 0) override;
 		virtual void	        onMouseUpOutside(void) override;
 
-		virtual void	        onMouseHover(void) override;
+		virtual void	        onMouseHover(const int x = 0, const int y = 0) override;
 		virtual void	        onMouseHoverOutside(void) override;
 };
 

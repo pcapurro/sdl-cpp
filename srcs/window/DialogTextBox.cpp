@@ -311,7 +311,15 @@ void	DialogTextBox::reactMouseButtonDown(const int x, const int y, \
 			if (clicks > 1)
 				element->onMouseDownDouble();
 			else
-				element->onMouseDown();
+			{
+				element->onMouseDown(x, y);
+
+				TextField*	textField = dynamic_cast\
+					<TextField*>(element);
+
+				if (textField)
+					textField->setCursor(x, getRenderer());
+			}
 			
 			isAbove = true;
 		}
@@ -365,6 +373,19 @@ int		DialogTextBox::reactKeyButtonDown(const int key)
 
 		if (textButton)
 			return RETURN;
+	}
+	else if (key == SDLK_LEFT || key == SDLK_RIGHT)
+	{
+		TextField*	textField = dynamic_cast<TextField*> \
+			(_buttons.front().get());
+
+		if (!textField->isClicked())
+			return OK;
+
+		if (key == SDLK_LEFT)
+			textField->moveCursorBackward(getRenderer());
+		else
+			textField->moveCursorForward(getRenderer());
 	}
 
 	return OK;

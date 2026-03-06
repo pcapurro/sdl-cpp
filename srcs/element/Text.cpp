@@ -108,26 +108,110 @@ bool    Text::isWrapped(void) const noexcept
     return _wrapping;
 }
 
-int     Text::getClosestCharX(const int x) const noexcept
+size_t  Text::getClosestCharXIndex(const int x) const noexcept
 {
     for (size_t i = 0; i < _charEnds.size(); i++)
     {
         if (_charEnds[i] >= x)
         {
             if (i == 0)
-                return _charEnds[i];
+                return i;
 
             int     afterDistX = _charEnds[i] - x;
             int     beforeDistX = x - _charEnds[i - 1];
 
             if (afterDistX > beforeDistX)
-                return _charEnds[i - 1];
+                return i - 1;
             else
-                return _charEnds[i];
+                return i;
         }
     }
 
-    return _charEnds.back();
+    return _charEnds.size() - 1;
+}
+
+int     Text::getPreviousCharWidth(const int cursor) const noexcept
+{
+    int width = 0;
+
+    for (size_t i = 0; i < _textStr.size(); i++)
+    {
+        if ((int) i == cursor)
+        {
+            if (i == 0)
+                break;
+
+            string  charText = string(1, _textStr[i - 1]);
+
+            TTF_SizeText(_font.getFont(), charText.c_str(), \
+                &width, nullptr);
+
+            return width;
+        }
+    }
+
+    return width;
+}
+
+int     Text::getNextCharWidth(const int cursor) const noexcept
+{
+    int width = 0;
+
+    for (size_t i = 0; i < _textStr.size(); i++)
+    {
+        if ((int) i == cursor)
+        {
+            if (i + 1 == _textStr.size())
+                break;
+
+            string  charText = string(1, _textStr[i + 1]);
+
+            TTF_SizeText(_font.getFont(), charText.c_str(), \
+                &width, nullptr);
+
+            return width;
+        }
+    }
+
+    return width;
+}
+
+int     Text::getCharNumber(const int x) const noexcept
+{
+    for (size_t i = 0; i < _charEnds.size(); i++)
+    {
+        if (_charEnds[i] == x)
+            return i;
+    }
+
+    return 0;
+}
+
+int     Text::getClosestCharX(const int x) const noexcept
+{
+    size_t  closestX = getClosestCharXIndex(x);
+
+    return _charEnds[closestX];
+}
+
+int     Text::getPreviousCharX(const int x) const noexcept
+{
+    size_t  closestX = getClosestCharXIndex(x);
+
+    if (closestX == 0)
+        return _charEnds[closestX];
+
+    return _charEnds[closestX - 1];
+}
+
+int     Text::getNextCharX(const int x) const noexcept
+{
+    size_t  closestX = getClosestCharXIndex(x);
+
+    if (closestX + 1 == _charEnds.size())
+        return _charEnds[closestX];
+
+    return _charEnds[closestX + 1];
 }
 
 void    Text::calculateEndPoints(void)

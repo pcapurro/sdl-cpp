@@ -10,7 +10,9 @@ class TextField : public Element
     private:
         optional<Text>          _mainText;
 
-        optional<Shape>         _textBack;
+        int                     _cursorPos;
+        optional<Shape>         _cursor;
+
         optional<Shape>         _background;
 
     protected:
@@ -31,9 +33,6 @@ class TextField : public Element
 
         ~TextField(void) = default;
 
-        void                    setSettings(const bool select, const int selectType, \
-            const bool hover, const int hoverCursor, const bool highlight, const bool focus) noexcept;
-
         void                    clear(void);
 
         void                    update(const string& text, const string& fontPath, \
@@ -42,16 +41,21 @@ class TextField : public Element
 
         string                  getText(void) const;
 
+        void                    setCursor(const int x, SDL_Renderer* renderer);
+
+        void                    moveCursorForward(SDL_Renderer* renderer);
+        void                    moveCursorBackward(SDL_Renderer* renderer);
+
         void                    render(SDL_Renderer* renderer);
 
-		virtual void	        onMouseDown(void) override;
-        virtual void	        onMouseDownDouble(void) override;
+		virtual void	        onMouseDown(const int x = 0, const int y = 0) override;
+        virtual void	        onMouseDownDouble(const int x = 0, const int y = 0) override;
 		virtual void	        onMouseDownOutside(void) override;
 
-		virtual void	        onMouseUp(void) override;
+		virtual void	        onMouseUp(const int x = 0, const int y = 0) override;
 		virtual void	        onMouseUpOutside(void) override;
 
-		virtual void	        onMouseHover(void) override;
+		virtual void	        onMouseHover(const int x = 0, const int y = 0) override;
 		virtual void	        onMouseHoverOutside(void) override;
 
         virtual void	        onButtonDown(const int key) override;

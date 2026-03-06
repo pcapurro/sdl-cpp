@@ -10,6 +10,21 @@ Element::Element(const Properties& properties, const Style& style, \
 	;
 }
 
+void	Element::setSettings(const bool select, const int selectType, \
+    const bool hover, const int hoverCursor, const bool highlight, const bool focus) noexcept
+{
+    select ? enableSelect() : disableSelect();
+    if (select && selectType != DEFAULT && selectType != NONE)
+        setSelectType(selectType);
+
+    hover ? enableHover() : disableHover();
+    if (hover && hoverCursor != DEFAULT && hoverCursor != NONE)
+        setHoverCursor(hoverCursor);
+
+    highlight ? enableHighlight() : disableHighlight();
+    focus ? enableFocus() : disableFocus();
+}
+
 bool	Element::isAbove(const int mouseX, const int mouseY) const noexcept
 {
 	return _properties.isAbove(mouseX, mouseY);

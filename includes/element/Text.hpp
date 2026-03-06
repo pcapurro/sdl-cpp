@@ -20,6 +20,7 @@ class Text final : public Element
         bool                _free;
 
         void                calculateEndPoints(void);
+        size_t              getClosestCharXIndex(const int x) const noexcept;
 
     public:
         Text(void) = delete;
@@ -32,17 +33,24 @@ class Text final : public Element
             const Color& color, const string& fontPath, SDL_Renderer* renderer, \
             const int maxWidth = 0, const bool wrapping = false);
 
-        void        render(SDL_Renderer* renderer);
+        void                render(SDL_Renderer* renderer);
 
-        void        setColor(Color color) noexcept;
+        void                setColor(Color color) noexcept;
 
-        string      getTextStr(void) const noexcept;
-        bool        isWrapped(void) const noexcept;
+        string              getTextStr(void) const noexcept;
+        bool                isWrapped(void) const noexcept;
 
-        int         getClosestCharX(const int x) const noexcept;
+        int                 getPreviousCharWidth(const int cursor) const noexcept;
+        int                 getNextCharWidth(const int cursor) const noexcept;
 
-        void        update(const string& text, const int maxWidth, \
-                        const bool wrapping, SDL_Renderer* renderer);
+        int                 getCharNumber(const int x) const noexcept;
+
+        int                 getClosestCharX(const int x) const noexcept;
+        int                 getPreviousCharX(const int x) const noexcept;
+        int                 getNextCharX(const int x) const noexcept;
+
+        void                update(const string& text, const int maxWidth, \
+                                const bool wrapping, SDL_Renderer* renderer);
 };
 
 #endif
