@@ -108,21 +108,63 @@ bool    Text::isWrapped(void) const noexcept
     return _wrapping;
 }
 
-int     Text::getTextWidth(const string& text, TTF_Font* font)
+int     Text::getClosestCharX(const int x) const noexcept
 {
-    int     width = 0;
+    for (size_t i = 0; i < _charEnds.size(); i++)
+    {
+        if (_charEnds[i] >= x)
+        {
+            if (i == 0)
+                return _charEnds[i];
 
-    if (TTF_SizeText(font, text.c_str(), &width, nullptr) == -1)
-        return 0;
+            int     afterDistX = _charEnds[i] - x;
+            int     beforeDistX = x - _charEnds[i - 1];
 
-    return width;
+            if (afterDistX > beforeDistX)
+                return _charEnds[i - 1];
+            else
+                return _charEnds[i];
+        }
+    }
+
+    return _charEnds.back();
+}
+
+void    Text::calculateEndPoints(void)
+{
+    int     cursorX = getX();
+    int     charWidth;
+    int     minX, maxX, minY, maxY;
+
+    _charEnds.clear();
+    _charEnds.reserve(_textStr.size());
+
+    _charEnds.push_back(cursorX);
+
+    for (const auto& c : _textStr)
+    {
+        if (TTF_GlyphMetrics(_font.getFont(), c, &minX, &maxX, \
+            &minY, &maxY, &charWidth) != 0)
+            continue;
+
+        cursorX += charWidth;
+        _charEnds.push_back(cursorX);
+    }
 }
 
 void    Text::update(const string& text, const int maxWidth, \
     const bool wrapping, SDL_Renderer* renderer)
 {
-    if (!wrapping && getTextWidth(text, _font.getFont()) > maxWidth)
-        return;
+    if (!wrapping)
+    {
+        int width = 0;
+
+        TTF_SizeText(_font.getFont(), text.c_str(), \
+            &width, nullptr);
+
+        if (width > maxWidth)
+            return;
+    }
     
     _textStr = text;
 
@@ -145,5 +187,7 @@ void    Text::update(const string& text, const int maxWidth, \
 
         setWidth(width, renderer);
         setHeight(height, renderer);
+
+        calculateEndPoints();
     }
 }

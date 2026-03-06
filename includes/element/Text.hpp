@@ -15,7 +15,11 @@ class Text final : public Element
         optional<Texture>   _text;
         bool                _wrapping;
 
+        vector<int>         _charEnds;
+
         bool                _free;
+
+        void                calculateEndPoints(void);
 
     public:
         Text(void) = delete;
@@ -35,7 +39,7 @@ class Text final : public Element
         string      getTextStr(void) const noexcept;
         bool        isWrapped(void) const noexcept;
 
-        static int  getTextWidth(const string& text, TTF_Font* font);
+        int         getClosestCharX(const int x) const noexcept;
 
         void        update(const string& text, const int maxWidth, \
                         const bool wrapping, SDL_Renderer* renderer);
