@@ -5,7 +5,8 @@
 
 # include "Element.hpp"
 # include "Color.hpp"
-# include "Texture.hpp"
+# include "TextTexture.hpp"
+# include "ImageTexture.hpp"
 # include "Cursor.hpp"
 
 class Window

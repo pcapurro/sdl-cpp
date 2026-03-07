@@ -1,14 +1,14 @@
 #ifndef IMAGE_HPP
 # define IMAGE_HPP
 
-# include "Texture.hpp"
+# include "ImageTexture.hpp"
 
 # include "Element.hpp"
 
 class Image final : public Element
 {
     private:
-        optional<Texture>   _image;
+        optional<ImageTexture>  _image;
 
     public:
         Image(void) = delete;
@@ -19,9 +19,9 @@ class Image final : public Element
         Image(const int x, const int y, const int w, const int h, \
             const char* path, SDL_Renderer* renderer);
 
-        void                render(SDL_Renderer* renderer);
+        void                    render(SDL_Renderer* renderer);
 
-        void                update(const char* path, SDL_Renderer* renderer);
+        void                    update(const char* path, SDL_Renderer* renderer);
 };
 
 #endif

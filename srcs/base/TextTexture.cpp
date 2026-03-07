@@ -1,6 +1,6 @@
-#include "Texture.hpp"
+#include "TextTexture.hpp"
 
-Texture::Texture(Texture&& original) noexcept : \
+TextTexture::TextTexture(TextTexture&& original) noexcept : \
 	_texture(original._texture)
 {
 	_wrap = original._wrap;
@@ -11,7 +11,7 @@ Texture::Texture(Texture&& original) noexcept : \
 	original._texture = nullptr;
 }
 
-Texture&	Texture::operator=(Texture&& original) noexcept
+TextTexture&	TextTexture::operator=(TextTexture&& original) noexcept
 {
 	if (this == &original)
 		return *this;
@@ -29,29 +29,7 @@ Texture&	Texture::operator=(Texture&& original) noexcept
 	return *this;
 }
 
-Texture::Texture(const char* path, SDL_Renderer* renderer)
-{
-	SDL_Surface*	surface = SDL_LoadBMP(path);
-
-	if (!surface)
-	{
-		throw std::runtime_error("SDL failed to load a BMP path: " \
-			+ string(SDL_GetError()));
-	}
-
-	calculateAverageColor(surface);
-
-	_texture = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
-
-	if (!_texture)
-	{
-		throw std::runtime_error("SDL failed to create a texture from a surface: " \
-			+ string(SDL_GetError()));
-	}
-}
-
-Texture::Texture(const char* text, TTF_Font* font, \
+TextTexture::TextTexture(const char* text, TTF_Font* font, \
 	SDL_Renderer* renderer, const int maxWidth, const bool wrapping)
 {
 	SDL_Surface*	surface = nullptr;
@@ -87,13 +65,13 @@ Texture::Texture(const char* text, TTF_Font* font, \
 	}
 }
 
-Texture::~Texture(void) noexcept
+TextTexture::~TextTexture(void) noexcept
 {
 	SDL_DestroyTexture(_texture);
 	_texture = nullptr;
 }
 
-void	Texture::calculateAverageColor(SDL_Surface* surface) noexcept
+void	TextTexture::calculateAverageColor(SDL_Surface* surface) noexcept
 {
 	Uint64	rSum = 0, gSum = 0, bSum = 0;
 	int		count = 0;
@@ -127,27 +105,27 @@ void	Texture::calculateAverageColor(SDL_Surface* surface) noexcept
 	}
 }
 
-bool	Texture::isWrapped(void) const noexcept
+bool	TextTexture::isWrapped(void) const noexcept
 {
 	return _wrap;
 }
 
-int		Texture::getLinesNb(void) const noexcept
+int		TextTexture::getLinesNb(void) const noexcept
 {
 	return _linesNb;
 }
 
-int		Texture::getLinesHeight(void) const noexcept
+int		TextTexture::getLinesHeight(void) const noexcept
 {
 	return _linesHeight;
 }
 
-SDL_Texture*	Texture::getTexture(void) const noexcept
+SDL_Texture*	TextTexture::getTexture(void) const noexcept
 {
 	return _texture;
 }
 
-Color		Texture::getAverageColor(void) const noexcept
+Color		TextTexture::getAverageColor(void) const noexcept
 {
 	return _averageColor;
 }

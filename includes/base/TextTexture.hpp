@@ -1,11 +1,11 @@
-#ifndef TEXTURES_HPP
-# define TEXTURES_HPP
+#ifndef TEXTTEXTURE_HPP
+# define TEXTTEXTURE_HPP
 
 # include "Global.hpp"
 
 # include "Color.hpp"
 
-class Texture
+class TextTexture
 {
 	private:
 		SDL_Texture*	_texture = nullptr;
@@ -17,18 +17,16 @@ class Texture
 		Color			_averageColor;
 
 	public:
-		Texture(const Texture& original) = delete;
-		Texture(Texture&& original) noexcept;
+		TextTexture(const TextTexture& original) = delete;
+		TextTexture(TextTexture&& original) noexcept;
 
-		Texture(const char* path, SDL_Renderer* renderer);
-
-		Texture(const char* text, TTF_Font* font, SDL_Renderer* renderer, \
+		TextTexture(const char* text, TTF_Font* font, SDL_Renderer* renderer, \
 			const int maxWidth, const bool wrapping);
 
-		Texture&		operator=(const Texture& original) = delete;
-		Texture&		operator=(Texture&& original) noexcept;
+		TextTexture&		operator=(const TextTexture& original) = delete;
+		TextTexture&		operator=(TextTexture&& original) noexcept;
 
-		~Texture(void) noexcept;
+		~TextTexture(void) noexcept;
 
 		void			calculateAverageColor(SDL_Surface* surface) noexcept;
 

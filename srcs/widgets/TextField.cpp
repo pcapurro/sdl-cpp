@@ -130,7 +130,7 @@ void    TextField::add(const string& text, SDL_Renderer* renderer)
         int     cursorX = (getWidth() / 2) * LIMIT_RATIO;
         int     textRatio = getHeight() / 4;
 
-        _mainText.emplace(getX() + cursorX, 0, text, getHeight() - textRatio, \
+        _mainText.emplace(getX() + cursorX, getY(), text, getHeight() - textRatio, \
             _textColor, _fontPath, renderer, _maxWidth, _wrapping);
 
         _cursorPos = text.size();
