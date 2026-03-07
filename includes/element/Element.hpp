@@ -4,9 +4,12 @@
 # include "Global.hpp"
 
 # include "Properties.hpp"
+# include "Point.hpp"
+
 # include "Style.hpp"
 # include "State.hpp"
 # include "Settings.hpp"
+
 # include "Render.hpp"
 
 class Element

@@ -15,12 +15,13 @@ class Text final : public Element
         optional<Texture>   _text;
         bool                _wrapping;
 
-        vector<int>         _charEnds;
+        int                 _maxWidth;
+        vector<Point>       _charEnds;
 
         bool                _free;
 
         void                calculateEndPoints(void);
-        size_t              getClosestCharXIndex(const int x) const noexcept;
+        size_t              getClosestCharIndex(const int x, const int y) const noexcept;
 
     public:
         Text(void) = delete;
@@ -39,14 +40,15 @@ class Text final : public Element
 
         string              getTextStr(void) const noexcept;
         bool                isWrapped(void) const noexcept;
+        int                 getLinesNb(void) const noexcept;
 
         int                 getCharWidth(const int cursor) const noexcept;
-        int                 getCharNumber(const int x) const noexcept;
+        int                 getCharNumber(const int x, const int y) const noexcept;
 
-        int                 getCharX(const int cursor);
-        int                 getClosestCharX(const int x) const noexcept;
-        int                 getPreviousCharX(const int x) const noexcept;
-        int                 getNextCharX(const int x) const noexcept;
+        Point               getChar(const int cursor);
+        Point               getClosestCharX(const int x, const int y) const noexcept;
+        Point               getPreviousChar(const int x, const int y) const noexcept;
+        Point               getNextChar(const int x, const int y) const noexcept;
 
         void                update(const string& text, const int maxWidth, \
                                 const bool wrapping, SDL_Renderer* renderer);

@@ -146,8 +146,11 @@ void    DialogTextBox::addTextField(const int cursorX, const string& fontPath)
 	TextButton*	button = mainButton.get();
 
 	text->setWidth(getWidth() - (limitX * 3) - button->getWidth(), getRenderer());
+
 	text->setMaxWidth(text->getWidth() - ((textField->getWidth() / 2) * LIMIT_RATIO * 2));
-	text->setY(getHeight() - limitY - button->getHeight(), getRenderer());
+	text->setWrapping(true);
+
+	text->setY(getHeight() - limitY - (button->getHeight() * 3), getRenderer());
 
 	button->setX(text->getX() + text->getWidth() + limitX, getRenderer());
 	button->setY(getHeight() - limitY - button->getHeight(), getRenderer());
@@ -292,7 +295,7 @@ int		DialogTextBox::reactMouseButtonUp(const int x, const int y)
 			if (!textField)
 				return RETURN;
 			else
-				textField->updateCursor(x, getRenderer());
+				textField->updateCursor(x, y, getRenderer());
 		}
 		else
 			element->onMouseUpOutside();

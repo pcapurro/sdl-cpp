@@ -9,6 +9,8 @@ class TextField : public Element
 {
     private:
         int                     _maxWidth;
+        int                     _maxChar;
+
         string                  _fontPath;
         Color                   _textColor;
         optional<Text>          _mainText;
@@ -18,7 +20,9 @@ class TextField : public Element
 
         optional<Shape>         _background;
 
+        int                     _originalHeight;
         bool                    _wrapping;
+        int                     _maxLines;
 
 
     protected:
@@ -33,11 +37,12 @@ class TextField : public Element
 
         TextField(const Properties& properties, const Color& backColor, \
             const Color& frameColor, const string& fontPath, const Color& textColor, \
-            const int maxWidth = 0, const bool wrapping = false);
+            const int maxChar = 256, const int maxWidth = 0, const bool wrapping = false);
 
         TextField(const int x, const int y, const int width, const int height, \
             const Color& backColor, const Color& frameColor, const string& fontPath, \
-            const Color& textColor, const int maxWidth = 0, const bool wrapping = false);
+            const Color& textColor, const int maxChar = 256, const int maxWidth = 0, \
+            const bool wrapping = false);
 
         ~TextField(void) = default;
 
@@ -51,7 +56,7 @@ class TextField : public Element
         string                  getText(void) const;
 
         void                    updateCursor(SDL_Renderer* renderer);
-        void                    updateCursor(const int x, SDL_Renderer* renderer);
+        void                    updateCursor(const int x, const int y, SDL_Renderer* renderer);
 
         void                    setMaxWidth(const int maxWidth) noexcept;
         void                    setWrapping(const bool wrapping) noexcept;

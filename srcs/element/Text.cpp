@@ -7,6 +7,7 @@ Text::Text(const int x, const int y, const string& text, const int size, \
         _textStr(text), \
         _writeColor(color), \
         _font(fontPath, size), \
+        _maxWidth(maxWidth), \
         _wrapping(wrapping)
 {
     _free = false;
@@ -37,6 +38,7 @@ Text::Text(const Properties& properties, const string& text, \
         _textStr(text), \
         _writeColor(color), \
         _font(fontPath, size), \
+        _maxWidth(maxWidth), \
         _wrapping(wrapping)
 {
     _free = true;
@@ -108,23 +110,40 @@ bool    Text::isWrapped(void) const noexcept
     return _wrapping;
 }
 
-size_t  Text::getClosestCharXIndex(const int x) const noexcept
+int     Text::getLinesNb(void) const noexcept
 {
+    if (!_text.has_value())
+        return 0;
+
+    return _text.value().getLinesNb();
+}
+
+size_t  Text::getClosestCharIndex(const int x, const int y) const noexcept
+{
+    int     newY = 0;
+
     for (size_t i = 0; i < _charEnds.size(); i++)
     {
-        if (_charEnds[i] >= x)
-        {
-            if (i == 0)
-                return i;
+        if (y < _charEnds[i].y + _text.value().getLinesHeight() || i + 1 >= _charEnds.size())
+            { newY = _charEnds[i].y; break; }
+    }
 
-            int     afterDistX = _charEnds[i] - x;
-            int     beforeDistX = x - _charEnds[i - 1];
+    for (size_t i = 0; i < _charEnds.size(); i++)
+    {
+        if (_charEnds[i].y != newY \
+            || _charEnds[i].x < x)
+            continue;
 
-            if (afterDistX > beforeDistX)
-                return i - 1;
-            else
-                return i;
-        }
+        if (i == 0)
+            return i;
+
+        int     afterDistX = _charEnds[i].x - x;
+        int     beforeDistX = x - _charEnds[i - 1].x;
+
+        if (afterDistX > beforeDistX)
+            return i - 1;
+        else
+            return i;
     }
 
     return _charEnds.size() - 1;
@@ -145,62 +164,64 @@ int     Text::getCharWidth(const int cursor) const noexcept
     return width;
 }
 
-int     Text::getCharNumber(const int x) const noexcept
+int     Text::getCharNumber(const int x, const int y) const noexcept
 {
     for (size_t i = 0; i < _charEnds.size(); i++)
     {
-        if (_charEnds[i] == x)
+        if (_charEnds[i].x == x && _charEnds[i].y == y)
             return i;
     }
 
     return 0;
 }
 
-int     Text::getCharX(const int cursor)
+Point   Text::getChar(const int cursor)
 {
     if (cursor < 0 || cursor >= _charEnds.size())
-        return 0;
+        return {0, 0};
 
-    return _charEnds[cursor];
+    return { _charEnds[cursor].x, _charEnds[cursor].y };
 }
 
-int     Text::getClosestCharX(const int x) const noexcept
+Point   Text::getClosestCharX(const int x, const int y) const noexcept
 {
-    size_t  closestX = getClosestCharXIndex(x);
+    size_t  closest = getClosestCharIndex(x, y);
 
-    return _charEnds[closestX];
+    return { _charEnds[closest].x, _charEnds[closest].y };
 }
 
-int     Text::getPreviousCharX(const int x) const noexcept
+Point   Text::getPreviousChar(const int x, const int y) const noexcept
 {
-    size_t  closestX = getClosestCharXIndex(x);
+    size_t  closest = getClosestCharIndex(x, y);
 
-    if (closestX == 0)
-        return _charEnds[closestX];
+    if (closest == 0)
+        return { _charEnds[closest].x, _charEnds[closest].y };
 
-    return _charEnds[closestX - 1];
+    return { _charEnds[closest - 1].x, _charEnds[closest - 1].y };
 }
 
-int     Text::getNextCharX(const int x) const noexcept
+Point   Text::getNextChar(const int x, const int y) const noexcept
 {
-    size_t  closestX = getClosestCharXIndex(x);
+    size_t  closest = getClosestCharIndex(x, y);
 
-    if (closestX + 1 == _charEnds.size())
-        return _charEnds[closestX];
+    if (closest + 1 == _charEnds.size())
+        return { _charEnds[closest].x, _charEnds[closest].y };
 
-    return _charEnds[closestX + 1];
+    return { _charEnds[closest + 1].x, _charEnds[closest + 1].y };
 }
 
 void    Text::calculateEndPoints(void)
 {
     int     cursorX = getX();
+    int     cursorY = getY();
+
     int     charWidth;
     int     minX, maxX, minY, maxY;
 
     _charEnds.clear();
     _charEnds.reserve(_textStr.size());
 
-    _charEnds.push_back(cursorX);
+    _charEnds.push_back({cursorX, cursorY});
 
     for (const auto& c : _textStr)
     {
@@ -208,8 +229,11 @@ void    Text::calculateEndPoints(void)
             &minY, &maxY, &charWidth) != 0)
             continue;
 
+        if (cursorX + charWidth > getX() + _maxWidth)
+            cursorX = getX(), cursorY += _text.value().getLinesHeight();
+
         cursorX += charWidth;
-        _charEnds.push_back(cursorX);
+        _charEnds.push_back({cursorX, cursorY});
     }
 }
 

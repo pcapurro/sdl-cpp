@@ -2,8 +2,9 @@
 
 TextField::TextField(const Properties& properties, const Color& backColor, \
     const Color& frameColor, const string& fontPath, const Color& textColor, \
-    const int maxWidth, const bool wrapping) : \
+    const int maxChar, const int maxWidth, const bool wrapping) : \
         Element(properties), \
+        _maxChar(maxChar), \
         _maxWidth(maxWidth), \
         _fontPath(fontPath), \
         _textColor(textColor), \
@@ -17,7 +18,7 @@ TextField::TextField(const Properties& properties, const Color& backColor, \
     _cursorPos = 0;
 
     _cursor.emplace(Properties{properties.x, properties.y, \
-        CURSOR_WIDTH, getHeight()}, frameColor);
+        CURSOR_WIDTH, CURSOR_HEIGHT}, frameColor);
 
     _background.emplace(properties, backColor, \
         true, limit, frameColor);
@@ -25,8 +26,10 @@ TextField::TextField(const Properties& properties, const Color& backColor, \
 
 TextField::TextField(const int x, const int y, const int width, const int height, \
     const Color& backColor, const Color& frameColor, const string& fontPath, \
-    const Color& textColor, const int maxWidth, const bool wrapping) : \
+    const Color& textColor, const int maxChar, const int maxWidth, \
+    const bool wrapping) : \
         Element({x, y, width, height}), \
+        _maxChar(maxChar), \
         _maxWidth(maxWidth), \
         _fontPath(fontPath), \
         _textColor(textColor), \
@@ -39,7 +42,7 @@ TextField::TextField(const int x, const int y, const int width, const int height
     limit = limit * LIMIT_RATIO;
 
     _cursor.emplace(Properties{properties.x, properties.y, \
-        CURSOR_WIDTH, getHeight()}, frameColor);
+        CURSOR_WIDTH, CURSOR_HEIGHT}, frameColor);
 
     _background.emplace(properties, backColor, \
         true, limit, frameColor);
@@ -97,10 +100,16 @@ void    TextField::removeAfter(SDL_Renderer* renderer)
 
 void    TextField::add(const string& text, SDL_Renderer* renderer)
 {
+    int     oldLinesNb = _mainText.has_value() ? \
+        _mainText.value().getLinesNb() : 0;
+
     if (_mainText.has_value())
     {
         string  oldText = _mainText.value().getTextStr();
         string  newText;
+
+        if (oldText.size() >= _maxChar)
+            return;
 
         if (_cursorPos < oldText.size())
         {
@@ -122,7 +131,7 @@ void    TextField::add(const string& text, SDL_Renderer* renderer)
         int     textRatio = getHeight() / 4;
 
         _mainText.emplace(getX() + cursorX, 0, text, getHeight() - textRatio, \
-            _textColor, _fontPath, renderer, _maxWidth);
+            _textColor, _fontPath, renderer, _maxWidth, _wrapping);
 
         _cursorPos = text.size();
 
@@ -131,6 +140,14 @@ void    TextField::add(const string& text, SDL_Renderer* renderer)
 
         onSettingsChanged();
         onStyleChanged();
+
+        _originalHeight = _mainText.value().getHeight();
+    }
+
+    if (_wrapping && oldLinesNb < _mainText.value().getLinesNb())
+    {
+        setHeight(getHeight() + _originalHeight, renderer, false);
+        _background.value().setHeight(getHeight(), renderer);
     }
 
     updateCursor(renderer);
@@ -149,21 +166,31 @@ void    TextField::updateCursor(SDL_Renderer* renderer)
     if (!_mainText.has_value())
         return;
 
-    int newX = _mainText.value().getCharX(_cursorPos);
+    Point   point = _mainText.value().getChar(_cursorPos);
+
+    int     newX = point.x;
+    int     newY = point.y;
 
     _cursor.value().setX(newX, renderer);
+    _cursor.value().setY(newY, renderer);
 }
 
-void    TextField::updateCursor(const int x, SDL_Renderer* renderer)
+void    TextField::updateCursor(const int x, const int y, SDL_Renderer* renderer)
 {
     if (!_mainText.has_value())
         return;
 
-    int newX = _mainText.value().getClosestCharX(x);
-    int newCursorPos = _mainText.value().getCharNumber(newX);
+    Point   point = _mainText.value().getClosestCharX(x, y);
+
+    int     newX = point.x;
+    int     newY = point.y;
+
+    int     newCursorPos = _mainText.value().getCharNumber(newX, newY);
 
     _cursorPos = newCursorPos;
+
     _cursor.value().setX(newX, renderer);
+    _cursor.value().setY(newY, renderer);
 }
 
 void    TextField::setMaxWidth(const int maxWidth) noexcept
@@ -182,12 +209,9 @@ void    TextField::moveCursorForward(SDL_Renderer* renderer)
         _cursorPos >= _mainText.value().getTextStr().size())
         return;
 
-    int nextWidth = _mainText.value().getCharWidth(_cursorPos);
-
     _cursorPos++;
 
-    _cursor.value().setX(_cursor.value().getX() \
-        + nextWidth, renderer);
+    updateCursor(renderer);
 }
 
 void    TextField::moveCursorBackward(SDL_Renderer* renderer)
@@ -195,12 +219,9 @@ void    TextField::moveCursorBackward(SDL_Renderer* renderer)
     if (!_mainText.has_value() || _cursorPos <= 0)
         return;
 
-    int prevWidth = _mainText.value().getCharWidth(_cursorPos - 1);
-
     _cursorPos--;
 
-    _cursor.value().setX(_cursor.value().getX() \
-        - prevWidth, renderer);
+    updateCursor(renderer);
 }
 
 void	TextField::onPropertiesChanged(SDL_Renderer* renderer)
@@ -227,8 +248,9 @@ void	TextField::onPropertiesChanged(SDL_Renderer* renderer)
     _background.value().update(properties.x, properties.y, \
         properties.width, properties.height, limit, renderer);
 
-    _cursor.value().update(properties.x + cursorX, properties.y, \
-        CURSOR_WIDTH, properties.height, 0, renderer);
+    _cursor.value().update(properties.x + cursorX, properties.y \
+        + (properties.height / 2) - (CURSOR_HEIGHT / 2), \
+        CURSOR_WIDTH, CURSOR_HEIGHT, 0, renderer);
 }
 
 void	TextField::onStyleChanged(void)

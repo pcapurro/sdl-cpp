@@ -3,6 +3,11 @@
 Texture::Texture(Texture&& original) noexcept : \
 	_texture(original._texture)
 {
+	_wrap = original._wrap;
+	_linesNb = original._linesNb;
+
+	_averageColor = original._averageColor;
+
 	original._texture = nullptr;
 }
 
@@ -13,6 +18,11 @@ Texture&	Texture::operator=(Texture&& original) noexcept
 
 	SDL_DestroyTexture(_texture);
 	_texture = original._texture;
+
+	_wrap = original._wrap;
+	_linesNb = original._linesNb;
+
+	_averageColor = original._averageColor;
 
 	original._texture = nullptr;
 
@@ -55,6 +65,14 @@ Texture::Texture(const char* text, TTF_Font* font, \
 	{
 		throw std::runtime_error("SDL failed to create a text from a surface: " \
 			+ string(SDL_GetError()));
+	}
+
+	_linesHeight = TTF_FontLineSkip(font);
+
+	if (surface->h > _linesHeight)
+	{
+		_wrap = true;
+		_linesNb = (surface->h + _linesHeight - 1) / _linesHeight;
 	}
 
 	calculateAverageColor(surface);
@@ -107,6 +125,21 @@ void	Texture::calculateAverageColor(SDL_Surface* surface) noexcept
 		_averageColor.g = gSum / count;
 		_averageColor.b = bSum / count;
 	}
+}
+
+bool	Texture::isWrapped(void) const noexcept
+{
+	return _wrap;
+}
+
+int		Texture::getLinesNb(void) const noexcept
+{
+	return _linesNb;
+}
+
+int		Texture::getLinesHeight(void) const noexcept
+{
+	return _linesHeight;
 }
 
 SDL_Texture*	Texture::getTexture(void) const noexcept

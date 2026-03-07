@@ -12,6 +12,7 @@
 # define FOCUS_OPACITY 200
 
 # define CURSOR_WIDTH 1
+# define CURSOR_HEIGHT 16
 # define DEF_SELECT_COLOR BLUE
 
 /* DialogBox paramaters */

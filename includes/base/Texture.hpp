@@ -10,6 +10,10 @@ class Texture
 	private:
 		SDL_Texture*	_texture = nullptr;
 
+		bool			_wrap = false;
+		int				_linesNb = 0;
+		int				_linesHeight = 0;
+
 		Color			_averageColor;
 
 	public:
@@ -27,6 +31,10 @@ class Texture
 		~Texture(void) noexcept;
 
 		void			calculateAverageColor(SDL_Surface* surface) noexcept;
+
+		bool			isWrapped(void) const noexcept;
+		int				getLinesNb(void) const noexcept;
+		int				getLinesHeight(void) const noexcept;
 
 		SDL_Texture*	getTexture(void) const noexcept;
 		Color			getAverageColor(void) const noexcept;
