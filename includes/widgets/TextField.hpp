@@ -8,12 +8,18 @@
 class TextField : public Element
 {
     private:
+        int                     _maxWidth;
+        string                  _fontPath;
+        Color                   _textColor;
         optional<Text>          _mainText;
 
         int                     _cursorPos;
         optional<Shape>         _cursor;
 
         optional<Shape>         _background;
+
+        bool                    _wrapping;
+
 
     protected:
 		virtual void	        onPropertiesChanged(SDL_Renderer* renderer) override;
@@ -26,22 +32,29 @@ class TextField : public Element
         TextField(void) = delete;
 
         TextField(const Properties& properties, const Color& backColor, \
-            const Color& frameColor);
+            const Color& frameColor, const string& fontPath, const Color& textColor, \
+            const int maxWidth = 0, const bool wrapping = false);
 
         TextField(const int x, const int y, const int width, const int height, \
-            const Color& backColor, const Color& frameColor);
+            const Color& backColor, const Color& frameColor, const string& fontPath, \
+            const Color& textColor, const int maxWidth = 0, const bool wrapping = false);
 
         ~TextField(void) = default;
 
-        void                    clear(void);
+        void                    clear(SDL_Renderer* renderer);
 
-        void                    update(const string& text, const string& fontPath, \
-                                    const Color& textColor, const int maxWidth, \
-                                    const bool wrapping, SDL_Renderer* renderer);
+        void                    removeBefore(SDL_Renderer* renderer);
+        void                    removeAfter(SDL_Renderer* renderer);
+
+        void                    add(const string& text, SDL_Renderer* renderer);
 
         string                  getText(void) const;
 
-        void                    setCursor(const int x, SDL_Renderer* renderer);
+        void                    updateCursor(SDL_Renderer* renderer);
+        void                    updateCursor(const int x, SDL_Renderer* renderer);
+
+        void                    setMaxWidth(const int maxWidth) noexcept;
+        void                    setWrapping(const bool wrapping) noexcept;
 
         void                    moveCursorForward(SDL_Renderer* renderer);
         void                    moveCursorBackward(SDL_Renderer* renderer);

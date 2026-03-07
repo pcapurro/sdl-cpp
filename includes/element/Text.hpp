@@ -40,11 +40,10 @@ class Text final : public Element
         string              getTextStr(void) const noexcept;
         bool                isWrapped(void) const noexcept;
 
-        int                 getPreviousCharWidth(const int cursor) const noexcept;
-        int                 getNextCharWidth(const int cursor) const noexcept;
-
+        int                 getCharWidth(const int cursor) const noexcept;
         int                 getCharNumber(const int x) const noexcept;
 
+        int                 getCharX(const int cursor);
         int                 getClosestCharX(const int x) const noexcept;
         int                 getPreviousCharX(const int x) const noexcept;
         int                 getNextCharX(const int x) const noexcept;

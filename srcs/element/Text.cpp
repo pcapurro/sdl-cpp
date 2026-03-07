@@ -130,48 +130,17 @@ size_t  Text::getClosestCharXIndex(const int x) const noexcept
     return _charEnds.size() - 1;
 }
 
-int     Text::getPreviousCharWidth(const int cursor) const noexcept
+int     Text::getCharWidth(const int cursor) const noexcept
 {
-    int width = 0;
+    if (cursor < 0 || cursor >= (int) _textStr.size())
+        return -1;
 
-    for (size_t i = 0; i < _textStr.size(); i++)
-    {
-        if ((int) i == cursor)
-        {
-            if (i == 0)
-                break;
+    int     minX, maxX, minY, maxY;
+    int     width;
 
-            string  charText = string(1, _textStr[i - 1]);
-
-            TTF_SizeText(_font.getFont(), charText.c_str(), \
-                &width, nullptr);
-
-            return width;
-        }
-    }
-
-    return width;
-}
-
-int     Text::getNextCharWidth(const int cursor) const noexcept
-{
-    int width = 0;
-
-    for (size_t i = 0; i < _textStr.size(); i++)
-    {
-        if ((int) i == cursor)
-        {
-            if (i + 1 == _textStr.size())
-                break;
-
-            string  charText = string(1, _textStr[i + 1]);
-
-            TTF_SizeText(_font.getFont(), charText.c_str(), \
-                &width, nullptr);
-
-            return width;
-        }
-    }
+    if (TTF_GlyphMetrics(_font.getFont(), _textStr[cursor], \
+        &minX, &maxX, &minY, &maxY, &width) != 0)
+        return -2;
 
     return width;
 }
@@ -185,6 +154,14 @@ int     Text::getCharNumber(const int x) const noexcept
     }
 
     return 0;
+}
+
+int     Text::getCharX(const int cursor)
+{
+    if (cursor < 0 || cursor >= _charEnds.size())
+        return 0;
+
+    return _charEnds[cursor];
 }
 
 int     Text::getClosestCharX(const int x) const noexcept

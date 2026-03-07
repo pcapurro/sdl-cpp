@@ -132,17 +132,21 @@ void    DialogTextBox::addTextField(const int cursorX, const string& fontPath)
 	int		limitX = getWidth() * LIMIT_RATIO;
 	int		limitY = getHeight() * LIMIT_RATIO;
 
-    auto textField = std::make_unique<TextField>(Properties{cursorX, 0, 0, \
-		((textSize * 2) / 10) * 10}, getBackgroundColor(), getWriteColor());
+	int		globalWidth = ((textSize * 5) / 10) * 10;
+	int		globalHeight = ((textSize * 2) / 10) * 10;
 
-	auto mainButton = std::make_unique<TextButton>(Properties{cursorX, 0, ((textSize * 5) / 10) * 10, \
-		((textSize * 2) / 10) * 10}, getBackgroundColor(), "OK", textSize, \
+    auto textField = std::make_unique<TextField>(Properties{cursorX, 0, 0, \
+		globalHeight}, getBackgroundColor(), getWriteColor(), _fontPath, getWriteColor());
+
+	auto mainButton = std::make_unique<TextButton>(Properties{cursorX, 0, globalWidth, \
+		globalHeight}, getBackgroundColor(), "OK", textSize, \
 		getWriteColor(), fontPath, getRenderer());
 
 	TextField*	text = textField.get();
 	TextButton*	button = mainButton.get();
 
 	text->setWidth(getWidth() - (limitX * 3) - button->getWidth(), getRenderer());
+	text->setMaxWidth(text->getWidth() - ((textField->getWidth() / 2) * LIMIT_RATIO * 2));
 	text->setY(getHeight() - limitY - button->getHeight(), getRenderer());
 
 	button->setX(text->getX() + text->getWidth() + limitX, getRenderer());
@@ -282,11 +286,13 @@ int		DialogTextBox::reactMouseButtonUp(const int x, const int y)
 		{
 			element->onMouseUp();
 
-			TextButton*	textButton = dynamic_cast \
-				<TextButton*>(element);
+			TextField*	textField = dynamic_cast \
+				<TextField*>(element);
 
-			if (textButton)
+			if (!textField)
 				return RETURN;
+			else
+				textField->updateCursor(x, getRenderer());
 		}
 		else
 			element->onMouseUpOutside();
@@ -311,15 +317,7 @@ void	DialogTextBox::reactMouseButtonDown(const int x, const int y, \
 			if (clicks > 1)
 				element->onMouseDownDouble();
 			else
-			{
 				element->onMouseDown(x, y);
-
-				TextField*	textField = dynamic_cast\
-					<TextField*>(element);
-
-				if (textField)
-					textField->setCursor(x, getRenderer());
-			}
 			
 			isAbove = true;
 		}
@@ -338,19 +336,17 @@ int		DialogTextBox::reactKeyButtonDown(const int key)
 		if (!textField->isClicked())
 			return OK;
 
-		string	text = textField->getText();
+		SDL_Renderer*	renderer = getRenderer();
+		string			text = textField->getText();
 
-		if (textField->isSelected() || text.size() <= 1)
-			textField->clear();
-		else if (key != SDLK_DELETE)
+		if (textField->isSelected())
+			textField->clear(renderer);
+		else
 		{
-			text.pop_back();
-
-			int	limitX = (textField->getWidth() / 2) * LIMIT_RATIO;
-
-			textField->update(text, _fontPath, \
-				getWriteColor(), textField->getWidth() - limitX * 2, \
-				false, getRenderer());
+			if (key == SDLK_DELETE)
+				textField->removeAfter(renderer);
+			else
+				textField->removeBefore(renderer);
 		}
 	}
 	else if (key == SDLK_TAB)
@@ -399,18 +395,9 @@ void	DialogTextBox::reactCharactersDown(const char* text)
 	if (!textField->isClicked())
 		return;
 
-	string		newText;
-
-	if (!textField->isSelected())
-		newText += textField->getText();
-
-	newText += text;
-
 	int	limitX = (textField->getWidth() / 2) * LIMIT_RATIO;
 
-	textField->update(newText, _fontPath, \
-		getWriteColor(), textField->getWidth() - limitX * 2, \
-		false, getRenderer());
+	textField->add(text, getRenderer());
 
 	textField->setSelected(false);
 	textField->setHover(false);
