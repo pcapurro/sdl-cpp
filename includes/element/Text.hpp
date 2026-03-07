@@ -12,7 +12,8 @@ class Text final : public Element
         Color                   _writeColor;
 
         Font                    _font;
-        optional<TextTexture>   _text;
+        vector<TextTexture>     _lines;
+        int                     _lineHeight;
         bool                    _wrapping;
 
         int                     _maxWidth;
@@ -20,8 +21,8 @@ class Text final : public Element
 
         bool                    _free;
 
-        void                    calculateEndPoints(void);
-        size_t                  getClosestCharIndex(const int x, const int y) const noexcept;
+        void                    createWrappedLines(const string& text, const int maxWidth, \
+                                    vector<string>& lines);
 
     public:
         Text(void) = delete;
@@ -30,10 +31,6 @@ class Text final : public Element
             const int size, const Color& color, const string& fontPath, \
             SDL_Renderer* renderer, const int maxWidth = 0, const bool wrapping = false);
 
-        Text(const Properties& properties, const string& text, const int size, \
-            const Color& color, const string& fontPath, SDL_Renderer* renderer, \
-            const int maxWidth = 0, const bool wrapping = false);
-
         void                    render(SDL_Renderer* renderer);
 
         void                    setColor(Color color) noexcept;
@@ -41,14 +38,6 @@ class Text final : public Element
         string                  getTextStr(void) const noexcept;
         bool                    isWrapped(void) const noexcept;
         int                     getLinesNb(void) const noexcept;
-
-        int                     getCharWidth(const int cursor) const noexcept;
-        int                     getCharNumber(const int x, const int y) const noexcept;
-
-        Point                   getChar(const int cursor);
-        Point                   getClosestCharX(const int x, const int y) const noexcept;
-        Point                   getPreviousChar(const int x, const int y) const noexcept;
-        Point                   getNextChar(const int x, const int y) const noexcept;
 
         void                    update(const string& text, const int maxWidth, \
                                     const bool wrapping, SDL_Renderer* renderer);
