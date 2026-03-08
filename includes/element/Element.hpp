@@ -24,6 +24,9 @@ class Element
 	protected:
 		virtual void	onPropertiesChanged(SDL_Renderer* renderer)
 							{ (void) renderer; };
+		virtual void	onPositionChanged(SDL_Renderer* renderer)
+							{ (void) renderer; };
+
 		virtual void	onStyleChanged(void) {};
 
 		virtual void	onSettingsChanged(void) {};

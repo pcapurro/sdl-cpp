@@ -60,8 +60,16 @@ void	TextButton::onPropertiesChanged(SDL_Renderer* renderer)
 {
     Properties  properties = {getX(), getY(), getWidth(), getHeight()};
 
-    // _mainText.value().update(_mainText.value().getTextStr(), \
-    //     properties.width, true, renderer);
+    _mainText.value().update(_mainText.value().getTextStr(), \
+        properties.width, true, renderer);
+
+    _background.value().setWidth(properties.width);
+    _background.value().setHeight(properties.height);
+}
+
+void	TextButton::onPositionChanged(SDL_Renderer* renderer)
+{
+    Properties  properties = {getX(), getY(), getWidth(), getHeight()};
 
     _mainText.value().setX(properties.x + \
         (properties.width / 2 - _mainText.value().getWidth() / 2), renderer);
@@ -69,13 +77,8 @@ void	TextButton::onPropertiesChanged(SDL_Renderer* renderer)
     _mainText.value().setY(properties.y + \
         (properties.height / 2 - _mainText.value().getHeight() / 2), renderer);
 
-    int         limit = properties.width < properties.height \
-        ? properties.width : properties.height;
-
-    limit = limit * LIMIT_RATIO;
-
-    _background.value().update(properties.x, properties.y, \
-        properties.width, properties.height, limit, renderer);
+    _background.value().setX(properties.x);
+    _background.value().setY(properties.y);
 }
 
 void	TextButton::onStyleChanged(void)

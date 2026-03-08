@@ -28,6 +28,8 @@ class TextField : public Element
 
     protected:
 		virtual void	        onPropertiesChanged(SDL_Renderer* renderer) override;
+        virtual void	        onPositionChanged(SDL_Renderer* renderer) override;
+
 		virtual void	        onStyleChanged(void) override;
 
 		virtual void	        onSettingsChanged(void) override;

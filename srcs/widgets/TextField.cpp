@@ -244,13 +244,31 @@ void    TextField::moveCursorBackward(SDL_Renderer* renderer)
 void	TextField::onPropertiesChanged(SDL_Renderer* renderer)
 {
     Properties  properties = {getX(), getY(), getWidth(), getHeight()};
+
+    if (_mainText.has_value())
+    {
+        _mainText.value().update(_mainText.value().getTextStr(), \
+            properties.width, _wrapping, renderer);
+    }
+
+    int         limit = properties.width < properties.height \
+        ? properties.width : properties.height;
+
+    limit = limit * LIMIT_RATIO;
+
+    _background.value().setWidth(properties.width, renderer);
+    _background.value().setHeight(properties.height, renderer);
+
+    _cursor.value().setHeight(properties.height - (limit * 2), renderer);
+}
+
+void	TextField::onPositionChanged(SDL_Renderer* renderer)
+{
+    Properties  properties = {getX(), getY(), getWidth(), getHeight()};
     int         cursorX = (getWidth() / 2) * LIMIT_RATIO;
 
     if (_mainText.has_value())
     {
-        // _mainText.value().update(_mainText.value().getTextStr(), \
-            // properties.width, _wrapping, renderer);
-
         _mainText.value().setX(properties.x + cursorX, renderer);
 
         _mainText.value().setY(properties.y + \
@@ -262,11 +280,11 @@ void	TextField::onPropertiesChanged(SDL_Renderer* renderer)
 
     limit = limit * LIMIT_RATIO;
 
-    _background.value().update(properties.x, properties.y, \
-        properties.width, properties.height, limit, renderer);
+    _background.value().setX(properties.x);
+    _background.value().setY(properties.y);
 
-    _cursor.value().update(properties.x + cursorX, properties.y + limit, \
-        CURSOR_WIDTH, properties.height - (limit * 2), 0, renderer);
+    _cursor.value().setX(properties.x + cursorX);
+    _cursor.value().setY(properties.y + limit);
 }
 
 void	TextField::onStyleChanged(void)

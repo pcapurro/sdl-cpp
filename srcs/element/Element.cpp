@@ -35,7 +35,7 @@ void	Element::setX(const int x, SDL_Renderer* renderer, const bool propagation) 
 	_properties.x = x;
 
 	if (propagation && renderer)
-		onPropertiesChanged(renderer);
+		onPositionChanged(renderer);
 }
 
 void	Element::setY(const int y, SDL_Renderer* renderer, const bool propagation) noexcept
@@ -43,7 +43,7 @@ void	Element::setY(const int y, SDL_Renderer* renderer, const bool propagation) 
 	_properties.y = y;
 
 	if (propagation && renderer)
-		onPropertiesChanged(renderer);
+		onPositionChanged(renderer);
 }
 
 void	Element::setWidth(const int width, SDL_Renderer* renderer, const bool propagation) noexcept
