@@ -20,10 +20,15 @@ class TextField : public Element
         optional<Shape>         _textFocus;
         optional<Shape>         _background;
 
+        int                     _originalWidth;
         int                     _originalHeight;
+
         bool                    _wrapping;
 
         string                  _lastError;
+
+        void                    joinText(const string& text, SDL_Renderer* renderer);
+        void                    createText(const string& text, SDL_Renderer* renderer);
 
     protected:
 		virtual void	        onPropertiesChanged(SDL_Renderer* renderer) override;
