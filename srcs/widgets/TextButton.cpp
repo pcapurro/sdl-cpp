@@ -60,8 +60,8 @@ void	TextButton::onPropertiesChanged(SDL_Renderer* renderer)
 {
     Properties  properties = {getX(), getY(), getWidth(), getHeight()};
 
-    _mainText.value().update(_mainText.value().getTextStr(), \
-        properties.width, _mainText.value().isWrapped(), renderer);
+    // _mainText.value().update(_mainText.value().getTextStr(), \
+    //     properties.width, true, renderer);
 
     _mainText.value().setX(properties.x + \
         (properties.width / 2 - _mainText.value().getWidth() / 2), renderer);

@@ -8,7 +8,6 @@
 class TextField : public Element
 {
     private:
-        int                     _maxWidth;
         int                     _maxChar;
 
         string                  _fontPath;

@@ -146,8 +146,6 @@ void    DialogTextBox::addTextField(const int cursorX, const string& fontPath)
 	TextButton*	button = mainButton.get();
 
 	text->setWidth(getWidth() - (limitX * 3) - button->getWidth(), getRenderer());
-
-	text->setMaxWidth(text->getWidth() - ((textField->getWidth() / 2) * LIMIT_RATIO * 2));
 	text->setWrapping(true);
 
 	text->setY(getHeight() - limitY - (button->getHeight() * 3), getRenderer());

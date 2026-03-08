@@ -34,7 +34,7 @@ void	Element::setX(const int x, SDL_Renderer* renderer, const bool propagation) 
 {
 	_properties.x = x;
 
-	if (propagation)
+	if (propagation && renderer)
 		onPropertiesChanged(renderer);
 }
 
@@ -42,7 +42,7 @@ void	Element::setY(const int y, SDL_Renderer* renderer, const bool propagation) 
 {
 	_properties.y = y;
 
-	if (propagation)
+	if (propagation && renderer)
 		onPropertiesChanged(renderer);
 }
 
@@ -50,7 +50,7 @@ void	Element::setWidth(const int width, SDL_Renderer* renderer, const bool propa
 {
 	_properties.width = width;
 
-	if (propagation)
+	if (propagation && renderer)
 		onPropertiesChanged(renderer);
 }
 
@@ -58,7 +58,7 @@ void	Element::setHeight(const int height, SDL_Renderer* renderer, const bool pro
 {
 	_properties.height = height;
 
-	if (propagation)
+	if (propagation && renderer)
 		onPropertiesChanged(renderer);
 }
 

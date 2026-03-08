@@ -5,7 +5,6 @@ TextField::TextField(const Properties& properties, const Color& backColor, \
     const int maxChar, const int maxWidth, const bool wrapping) : \
         Element(properties), \
         _maxChar(maxChar), \
-        _maxWidth(maxWidth), \
         _fontPath(fontPath), \
         _textColor(textColor), \
         _wrapping(wrapping)
@@ -30,7 +29,6 @@ TextField::TextField(const int x, const int y, const int width, const int height
     const bool wrapping) : \
         Element({x, y, width, height}), \
         _maxChar(maxChar), \
-        _maxWidth(maxWidth), \
         _fontPath(fontPath), \
         _textColor(textColor), \
         _wrapping(wrapping)
@@ -72,7 +70,7 @@ void    TextField::removeBefore(SDL_Renderer* renderer)
         _mainText.reset();
     else
     {
-        _mainText.value().update(text, _maxWidth, \
+        _mainText.value().update(text, getWidth(), \
             _wrapping, renderer);
     }
 }
@@ -93,7 +91,7 @@ void    TextField::removeAfter(SDL_Renderer* renderer)
         _mainText.reset();
     else
     {
-        _mainText.value().update(text, _maxWidth, \
+        _mainText.value().update(text, getWidth(), \
             _wrapping, renderer);
     }
 }
@@ -101,7 +99,8 @@ void    TextField::removeAfter(SDL_Renderer* renderer)
 void    TextField::add(const string& text, SDL_Renderer* renderer)
 {
     int     oldLinesNb = _mainText.has_value() ? \
-        _mainText.value().getLinesNb() : 0;
+        _mainText.value().getLinesNb() : 1;
+    int     limitX = (getWidth() / 2) * LIMIT_RATIO;
 
     if (_mainText.has_value())
     {
@@ -119,7 +118,7 @@ void    TextField::add(const string& text, SDL_Renderer* renderer)
         else
             newText = oldText + text;
 
-        _mainText.value().update(newText, _maxWidth, \
+        _mainText.value().update(newText, getWidth() - (limitX * 2), \
             _wrapping, renderer);
 
         if (_mainText.value().getTextStr().size() > oldText.size())
@@ -127,13 +126,12 @@ void    TextField::add(const string& text, SDL_Renderer* renderer)
     }
     else
     {
-        int     cursorX = (getWidth() / 2) * LIMIT_RATIO;
         int     textRatio = getHeight() / 4;
 
-        _mainText.emplace(getX() + cursorX, getY(), text, getHeight() - textRatio, \
-            _textColor, _fontPath, renderer, _maxWidth, _wrapping);
+        _mainText.emplace(getX() + limitX, getY(), text, getHeight() - textRatio, \
+            _textColor, _fontPath, renderer, getWidth() - (limitX * 2), _wrapping);
 
-        _cursorPos = text.size();
+        _cursorPos += text.size();
 
         onPropertiesChanged(renderer);
         onStateChanged();
@@ -165,11 +163,9 @@ void    TextField::updateCursor(SDL_Renderer* renderer)
 {
     if (!_mainText.has_value())
         return;
-
-    Point   point = _mainText.value().getChar(_cursorPos);
-
-    int     newX = point.x;
-    int     newY = point.y;
+        
+    int newX = _mainText.value().getCharX(_cursorPos);
+    int newY = _mainText.value().getCharY(_cursorPos);
 
     _cursor.value().setX(newX, renderer);
     _cursor.value().setY(newY, renderer);
@@ -180,22 +176,11 @@ void    TextField::updateCursor(const int x, const int y, SDL_Renderer* renderer
     if (!_mainText.has_value())
         return;
 
-    Point   point = _mainText.value().getClosestCharX(x, y);
-
-    int     newX = point.x;
-    int     newY = point.y;
-
-    int     newCursorPos = _mainText.value().getCharNumber(newX, newY);
-
-    _cursorPos = newCursorPos;
+    int newY = _mainText.value().getLineY(y);
+    int newX = _mainText.value().getClosestCharX(x, newY);
 
     _cursor.value().setX(newX, renderer);
     _cursor.value().setY(newY, renderer);
-}
-
-void    TextField::setMaxWidth(const int maxWidth) noexcept
-{
-    _maxWidth = maxWidth;
 }
 
 void    TextField::setWrapping(const bool wrapping) noexcept
@@ -232,7 +217,7 @@ void	TextField::onPropertiesChanged(SDL_Renderer* renderer)
     if (_mainText.has_value())
     {
         _mainText.value().update(_mainText.value().getTextStr(), \
-            properties.width, _mainText.value().isWrapped(), renderer);
+            properties.width, _wrapping, renderer);
 
         _mainText.value().setX(properties.x + cursorX, renderer);
 
@@ -313,6 +298,9 @@ void    TextField::onMouseDown(const int x, const int y)
     setClick(true, false);
     setHover(false, false);
 
+    if (isSelected())
+        setSelected(false, false);
+
     onStateChanged();
 }
 
@@ -384,6 +372,6 @@ void    TextField::render(SDL_Renderer* renderer)
     if (text)
         text->render(renderer);
 
-    if (isClicked() && !isHover())
+    if (isClicked() && !isHover() && !isSelected())
         _cursor.value().render(renderer);
 }

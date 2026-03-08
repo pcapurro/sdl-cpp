@@ -6,12 +6,8 @@ Text::Text(const int x, const int y, const string& text, const int size, \
         Element({x, y, 0, 0}), \
         _textStr(text), \
         _writeColor(color), \
-        _font(fontPath, size), \
-        _maxWidth(maxWidth), \
-        _wrapping(wrapping)
+        _font(fontPath, size)
 {
-    _free = false;
-
     if (text.size() <= 0)
         return;
 
@@ -55,10 +51,15 @@ Text::Text(const int x, const int y, const string& text, const int size, \
 void    Text::createWrappedLines(const string& text, const int maxWidth, \
     vector<string>& lines)
 {
-    string          line;
+    string      line;
 
-    int             cursorX = 0;
-    int             cursorY = 0;
+    int         cursorX = getX();
+    int         cursorY = getY();
+
+    if (_charEnds.size() > 0)
+        _charEnds.clear();
+
+    _charEnds.reserve(text.size());
 
     for (size_t i = 0; i < text.size(); i++)
     {
@@ -71,9 +72,9 @@ void    Text::createWrappedLines(const string& text, const int maxWidth, \
             &minY, &maxY, &charWidth) != 0)
             continue;
 
-        if (cursorX + charWidth > maxWidth)
+        if (cursorX + charWidth > getX() + maxWidth)
         {
-            cursorX = 0;
+            cursorX = getX();
             cursorY += _lineHeight;
 
             lines.push_back(line);
@@ -152,14 +153,70 @@ string  Text::getTextStr(void) const noexcept
     return _textStr;
 }
 
-bool    Text::isWrapped(void) const noexcept
-{
-    return _wrapping;
-}
-
 int     Text::getLinesNb(void) const noexcept
 {
     return _lines.size();
+}
+
+int     Text::getCharX(const int cursor) const noexcept
+{
+    return _charEnds[cursor].x;
+}
+
+int     Text::getCharY(const int cursor) const noexcept
+{
+    return _charEnds[cursor].y;
+}
+
+int     Text::getClosestCharX(const int x, const int y) const noexcept
+{
+    for (size_t i = 0; i < _charEnds.size(); i++)
+    {
+        if (_charEnds[i].y != y)
+            continue;
+
+        if (_charEnds[i].x < x && i + 1 < _charEnds.size())
+            continue;
+
+        if (i == 0 || i + 1 >= _charEnds.size())
+            return _charEnds[i].x;
+
+        return _charEnds[i - 1].x;
+    }
+
+    return 0;
+}
+
+int     Text::getLineY(const int y) const noexcept
+{
+    for (size_t i = 0; i < _charEnds.size(); i++)
+    {
+        if (y == _charEnds[i].y)
+            break;
+        
+        if (y > _charEnds[i].y && i + 1 < _charEnds.size())
+            continue;
+        else
+        {
+            if (i == 0)
+                return _charEnds[i].y;
+            
+            return _charEnds[i - 1].y;
+        }
+    }
+
+    return y;
+}
+
+int     Text::getCharPos(const int x, const int y)
+{
+    for (size_t i = 0; i < _charEnds.size(); i++)
+    {
+        if (_charEnds[i].x == x && _charEnds[i].y == y)
+            return i;
+    }
+
+    return 0;
 }
 
 void    Text::update(const string& text, const int maxWidth, \

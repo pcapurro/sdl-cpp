@@ -14,12 +14,8 @@ class Text final : public Element
         Font                    _font;
         vector<TextTexture>     _lines;
         int                     _lineHeight;
-        bool                    _wrapping;
 
-        int                     _maxWidth;
         vector<Point>           _charEnds;
-
-        bool                    _free;
 
         void                    createWrappedLines(const string& text, const int maxWidth, \
                                     vector<string>& lines);
@@ -36,8 +32,15 @@ class Text final : public Element
         void                    setColor(Color color) noexcept;
 
         string                  getTextStr(void) const noexcept;
-        bool                    isWrapped(void) const noexcept;
         int                     getLinesNb(void) const noexcept;
+
+        int                     getCharX(const int cursor) const noexcept;
+        int                     getCharY(const int cursor) const noexcept;
+
+        int                     getClosestCharX(const int x, const int y) const noexcept;
+        int                     getLineY(const int y) const noexcept;
+
+        int                     getCharPos(const int x, const int y);
 
         void                    update(const string& text, const int maxWidth, \
                                     const bool wrapping, SDL_Renderer* renderer);
