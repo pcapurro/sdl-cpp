@@ -32,7 +32,8 @@ class DialogTextBox final : public Window
 		void							addText(const int cursorX, const int cursorY, const string& text, \
 											const string& fontPath, const int maxWidth);
 
-		void							addTextField(const int cursorX, const string& fontPath);
+		void							addTextField(const int cursorX, const string& fontPath, \
+											const int maxText);
 
 		void							addErrorText(const int cursorX, const string& fontPath);
 
@@ -40,8 +41,9 @@ class DialogTextBox final : public Window
 		DialogTextBox(void) = delete;
 		DialogTextBox(const string& name, const int width = 400, const int height = 170, \
     		const string& fontPath = "", const int displayMode = LIGHT_MODE, const string& titleText = "", \
-			const bool titleLimit = LIMIT_ON, const string& text = "", const string& logoPath = "", \
-			const int logoWidth = 75, const int logoHeight = 75, const bool logoCentered = false);
+			const bool titleLimit = LIMIT_ON, const string& text = "", const int maxText = 30, \
+			const string& logoPath = "", const int logoWidth = 75, const int logoHeight = 75, \
+			const bool logoCentered = false);
 
 		~DialogTextBox(void) = default;
 
@@ -56,8 +58,6 @@ class DialogTextBox final : public Window
 
 		int								reactKeyButtonDown(const int key);
 		void 							reactCharactersDown(const char* text);
-
-		void							reactTextFieldErrors(void);
 
 		virtual int						reactEvent(SDL_Event* event, \
 											const int x = 0, const int y = 0);

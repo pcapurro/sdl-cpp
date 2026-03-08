@@ -70,17 +70,18 @@ void    TextField::removeAfter(SDL_Renderer* renderer)
 void    TextField::joinText(const string& text, SDL_Renderer* renderer)
 {
     int     limitX = (getWidth() / 2) * LIMIT_RATIO;
-
     string  oldText = _mainText.value().getTextStr();
-    string  newText;
 
-    if (oldText.size() >= _maxChar)
+    if (oldText.size() >= _maxChar
+        || oldText.size() + text.size() > _maxChar)
     {
         _lastError = "Text has reached the limit (" \
             + std::to_string(_maxChar) + string(").");
 
         return;
     }
+
+    string  newText;
 
     if (_cursorPos < oldText.size())
     {
@@ -95,10 +96,20 @@ void    TextField::joinText(const string& text, SDL_Renderer* renderer)
 
     if (_mainText.value().getTextStr().size() > oldText.size())
         _cursorPos++;
+
+    _lastError.clear();
 }
 
 void    TextField::createText(const string& text, SDL_Renderer* renderer)
 {
+    if (text.size() > _maxChar)
+    {
+        _lastError = "Text has reached the limit (" \
+            + std::to_string(_maxChar) + string(").");
+
+        return;
+    }
+
     int     textRatio = getHeight() / 4;
     int     limitX = (getWidth() / 2) * LIMIT_RATIO;
 
@@ -115,13 +126,14 @@ void    TextField::createText(const string& text, SDL_Renderer* renderer)
 
     onSettingsChanged();
     onStyleChanged();
+
+    _lastError.clear();
 }
 
 void    TextField::add(const string& text, SDL_Renderer* renderer)
 {
     int     oldLinesNb = _mainText.has_value() ? \
         _mainText.value().getLinesNb() : 1;
-    int     limitX = (getWidth() / 2) * LIMIT_RATIO;
 
     if (_mainText.has_value())
         joinText(text, renderer);
@@ -135,6 +147,4 @@ void    TextField::add(const string& text, SDL_Renderer* renderer)
     }
 
     updateCursor(renderer);
-
-    _lastError.clear();
 }
