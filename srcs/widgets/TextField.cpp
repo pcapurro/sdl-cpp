@@ -2,7 +2,7 @@
 
 TextField::TextField(const Properties& properties, const Color& backColor, \
     const Color& frameColor, const string& fontPath, const Color& textColor, \
-    const int maxChar, const int maxWidth, const bool wrapping) : \
+    const int maxChar, const bool wrapping) : \
         Element(properties), \
         _maxChar(maxChar), \
         _fontPath(fontPath), \
@@ -25,7 +25,7 @@ TextField::TextField(const Properties& properties, const Color& backColor, \
 
 TextField::TextField(const int x, const int y, const int width, const int height, \
     const Color& backColor, const Color& frameColor, const string& fontPath, \
-    const Color& textColor, const int maxChar, const int maxWidth, \
+    const Color& textColor, const int maxChar, \
     const bool wrapping) : \
         Element({x, y, width, height}), \
         _maxChar(maxChar), \
@@ -61,7 +61,7 @@ void    TextField::clear(SDL_Renderer* renderer)
 
 void    TextField::removeBefore(SDL_Renderer* renderer)
 {
-    if (!_mainText.has_value() || _cursorPos <= 0)
+    if (!_mainText.has_value() || _cursorPos == 0)
     {
         _lastError.clear();
         return;
@@ -289,7 +289,6 @@ void	TextField::onPositionChanged(SDL_Renderer* renderer)
 
 void	TextField::onStyleChanged(void)
 {
-    Shape*      back = &_background.value();
     Text*       text = _mainText.has_value() ? \
         &_mainText.value() : nullptr;
 

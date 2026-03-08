@@ -8,13 +8,13 @@
 class TextField : public Element
 {
     private:
-        int                     _maxChar;
+        size_t                  _maxChar;
 
         string                  _fontPath;
         Color                   _textColor;
         optional<Text>          _mainText;
 
-        int                     _cursorPos;
+        size_t                  _cursorPos;
         optional<Shape>         _cursor;
 
         optional<Shape>         _textFocus;
@@ -22,7 +22,6 @@ class TextField : public Element
 
         int                     _originalHeight;
         bool                    _wrapping;
-        int                     _maxLines;
 
         string                  _lastError;
 
@@ -40,12 +39,11 @@ class TextField : public Element
 
         TextField(const Properties& properties, const Color& backColor, \
             const Color& frameColor, const string& fontPath, const Color& textColor, \
-            const int maxChar = 256, const int maxWidth = 0, const bool wrapping = false);
+            const int maxChar = 256, const bool wrapping = false);
 
         TextField(const int x, const int y, const int width, const int height, \
             const Color& backColor, const Color& frameColor, const string& fontPath, \
-            const Color& textColor, const int maxChar = 256, const int maxWidth = 0, \
-            const bool wrapping = false);
+            const Color& textColor, const int maxChar = 256, const bool wrapping = false);
 
         ~TextField(void) = default;
 

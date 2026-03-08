@@ -23,14 +23,14 @@ class Element
 
 	protected:
 		virtual void	onPropertiesChanged(SDL_Renderer* renderer)
-							{ (void) renderer; };
+							{ (void) renderer; }
 		virtual void	onPositionChanged(SDL_Renderer* renderer)
-							{ (void) renderer; };
+							{ (void) renderer; }
 
-		virtual void	onStyleChanged(void) {};
+		virtual void	onStyleChanged(void) {}
 
-		virtual void	onSettingsChanged(void) {};
-		virtual void	onStateChanged(void) {};
+		virtual void	onSettingsChanged(void) {}
+		virtual void	onStateChanged(void) {}
 
 	public:
 		Element(void) = delete;
@@ -41,17 +41,22 @@ class Element
 
 		virtual void	render(SDL_Renderer* renderer) = 0;
 
-		virtual void	onMouseDown(const int x = 0, const int y = 0) {};
-		virtual void	onMouseDownDouble(const int x = 0, const int y = 0) {};
-		virtual void	onMouseDownOutside(void) {};
+		virtual void	onMouseDown(const int x = 0, const int y = 0)
+			{ (void) x; (void) y; }
+		virtual void	onMouseDownDouble(const int x = 0, const int y = 0)
+			{ (void) x; (void) y; }
+		virtual void	onMouseDownOutside(void) {}
 
-		virtual void	onMouseUp(const int x = 0, const int y = 0) {};
-		virtual void	onMouseUpOutside(void) {};
+		virtual void	onMouseUp(const int x = 0, const int y = 0)
+			{ (void) x; (void) y; }
+		virtual void	onMouseUpOutside(void) {}
 
-		virtual void	onMouseHover(const int x = 0, const int y = 0) {};
-		virtual void	onMouseHoverOutside(void) {};
+		virtual void	onMouseHover(const int x = 0, const int y = 0)
+			{ (void) x; (void) y; }
+		virtual void	onMouseHoverOutside(void) {}
 
-		virtual void	onButtonDown(const int key) {};
+		virtual void	onButtonDown(const int key)
+			{ (void) key; }
 
 		void			setSettings(const bool select, const int selectType, const bool hover, \
 			const int hoverCursor, const bool highlight, const bool focus) noexcept;

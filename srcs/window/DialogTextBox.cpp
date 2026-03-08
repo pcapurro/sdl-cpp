@@ -137,7 +137,7 @@ void    DialogTextBox::addTextField(const int cursorX, const string& fontPath)
 	int		globalWidth = ((textSize * 5) / 10) * 10;
 	int		globalHeight = ((textSize * 2) / 10) * 10;
 
-	int		textLimit = 30;
+	int		textLimit = 500;
 
     auto textField = std::make_unique<TextField>(Properties{cursorX, 0, 0, globalHeight}, \
 		getBackgroundColor(), getWriteColor(), _fontPath, getWriteColor(), textLimit);
@@ -151,6 +151,8 @@ void    DialogTextBox::addTextField(const int cursorX, const string& fontPath)
 
 	text->setWidth(getWidth() - (limitX * 3) - button->getWidth(), getRenderer());
 	text->setY(getHeight() - limitY - button->getHeight(), getRenderer());
+
+	text->setWrapping(true);
 
 	button->setX(text->getX() + text->getWidth() + limitX, getRenderer());
 	button->setY(getHeight() - limitY - button->getHeight(), getRenderer());
@@ -325,8 +327,6 @@ int		DialogTextBox::reactMouseButtonUp(const int x, const int y)
 void	DialogTextBox::reactMouseButtonDown(const int x, const int y, \
 	const int clicks)
 {
-	bool	isAbove = false;
-
 	Element*	element = nullptr;
 
 	for (auto& button : _buttons)
@@ -339,8 +339,6 @@ void	DialogTextBox::reactMouseButtonDown(const int x, const int y, \
 				element->onMouseDownDouble();
 			else
 				element->onMouseDown(x, y);
-			
-			isAbove = true;
 		}
 		else
 			element->onMouseDownOutside();
