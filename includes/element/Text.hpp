@@ -17,8 +17,10 @@ class Text final : public Element
 
         vector<Point>           _charEnds;
 
+        void                    createNormalLine(const string& text, SDL_Renderer* renderer);
+
         void                    createWrappedLines(const string& text, const int maxWidth, \
-                                    vector<string>& lines);
+                                    SDL_Renderer* renderer);
 
     public:
         Text(void) = delete;

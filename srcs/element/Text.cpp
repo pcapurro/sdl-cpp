@@ -13,8 +13,7 @@ Text::Text(const int x, const int y, const string& text, const int size, \
 
     if (!wrapping)
     {
-        _lines.emplace_back(text.c_str(), \
-            _font.getFont(), renderer);
+        createNormalLine(text, renderer);
 
         int width = 0;
 
@@ -25,16 +24,7 @@ Text::Text(const int x, const int y, const string& text, const int size, \
     }
     else
     {
-        vector<string>  lines;
-
-        createWrappedLines(text, maxWidth, lines);
-
-        for (const auto& line : lines)
-        {
-            _lines.emplace_back(line.c_str(), \
-                _font.getFont(), renderer);
-        }
-
+        createWrappedLines(text, maxWidth, renderer);
         setWidth(maxWidth);
     }
 
@@ -48,18 +38,51 @@ Text::Text(const int x, const int y, const string& text, const int size, \
     }
 }
 
-void    Text::createWrappedLines(const string& text, const int maxWidth, \
-    vector<string>& lines)
+void    Text::createNormalLine(const string& text, SDL_Renderer* renderer)
 {
-    string      line;
-
-    int         cursorX = getX();
-    int         cursorY = getY();
+    int     cursorX = getX();
+    int     cursorY = getY();
 
     if (_charEnds.size() > 0)
         _charEnds.clear();
 
-    _charEnds.reserve(text.size());
+    _charEnds.reserve(text.size() + 2);
+
+    for (size_t i = 0; i < text.size(); i++)
+    {
+        char    c = text[i];
+    
+        int     minX, minY, maxX, maxY;
+        int     charWidth;
+
+        if (TTF_GlyphMetrics(_font.getFont(), c, &minX, &maxX, \
+            &minY, &maxY, &charWidth) != 0)
+            continue;
+        
+        _charEnds.push_back({cursorX, cursorY});
+        cursorX += charWidth;
+
+        if (i + 1 >= text.size())
+            _charEnds.push_back({cursorX, cursorY});
+    }
+
+    _lines.emplace_back(text.c_str(), \
+        _font.getFont(), renderer);
+}
+
+void    Text::createWrappedLines(const string& text, const int maxWidth, \
+    SDL_Renderer* renderer)
+{
+    vector<string>  lines;
+    string          line;
+
+    int             cursorX = getX();
+    int             cursorY = getY();
+
+    if (_charEnds.size() > 0)
+        _charEnds.clear();
+
+    _charEnds.reserve(text.size() + 2);
 
     for (size_t i = 0; i < text.size(); i++)
     {
@@ -92,6 +115,12 @@ void    Text::createWrappedLines(const string& text, const int maxWidth, \
 
     if (line.size() > 0)
         lines.push_back(line);
+
+    for (const auto& line : lines)
+    {
+        _lines.emplace_back(line.c_str(), \
+            _font.getFont(), renderer);
+    }
 }
 
 void    Text::render(SDL_Renderer* renderer)
@@ -244,8 +273,7 @@ void    Text::update(const string& text, const int maxWidth, \
 
     if (!wrapping)
     {
-        _lines.emplace_back(text.c_str(), \
-            _font.getFont(), renderer);
+        createNormalLine(text, renderer);
 
         int width = 0;
 
@@ -256,16 +284,7 @@ void    Text::update(const string& text, const int maxWidth, \
     }
     else
     {
-        vector<string>  lines;
-
-        createWrappedLines(text, maxWidth, lines);
-
-        for (const auto& line : lines)
-        {
-            _lines.emplace_back(line.c_str(), \
-                _font.getFont(), renderer);
-        }
-
+        createWrappedLines(text, maxWidth, renderer);
         setWidth(maxWidth);
     }
     
