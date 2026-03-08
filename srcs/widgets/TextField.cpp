@@ -70,7 +70,9 @@ void    TextField::removeBefore(SDL_Renderer* renderer)
         _mainText.reset();
     else
     {
-        _mainText.value().update(text, getWidth(), \
+        int     limitX = (getWidth() / 2) * LIMIT_RATIO;
+
+        _mainText.value().update(text, getWidth() - (limitX * 2), \
             _wrapping, renderer);
     }
 }
@@ -91,7 +93,9 @@ void    TextField::removeAfter(SDL_Renderer* renderer)
         _mainText.reset();
     else
     {
-        _mainText.value().update(text, getWidth(), \
+        int     limitX = (getWidth() / 2) * LIMIT_RATIO;
+
+        _mainText.value().update(text, getWidth() - (limitX * 2), \
             _wrapping, renderer);
     }
 }
