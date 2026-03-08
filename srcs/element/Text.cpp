@@ -100,6 +100,7 @@ void    Text::render(SDL_Renderer* renderer)
         return;
 
     SDL_Rect    main;
+    int         highestX = 0;
 
 	main.x = getX(), main.y = getY();
 
@@ -108,13 +109,16 @@ void    Text::render(SDL_Renderer* renderer)
         SDL_QueryTexture(line.getTexture(), nullptr, nullptr, \
             &main.w, &main.h);
 
+        if (main.w > highestX)
+            highestX = main.w;
+
         SDL_SetTextureColorMod(line.getTexture(), _writeColor.r, \
             _writeColor.g, _writeColor.b);
         SDL_SetTextureAlphaMod(line.getTexture(), _writeColor.a);
 
         SDL_RenderCopy(renderer, line.getTexture(), \
             nullptr, &main);
-
+        
         main.y += _lineHeight;
     }
 
@@ -139,7 +143,7 @@ void    Text::render(SDL_Renderer* renderer)
     if (isSelectPossible() && isSelected() && getSelectType() != NONE)
     {
         Render::renderSelect(getSelectType(), getX(), getY(), \
-            getWidth(), getHeight(), getSelectColor(), renderer);
+            highestX, getHeight(), getSelectColor(), renderer);
     }
 }
 

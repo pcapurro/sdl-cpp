@@ -17,6 +17,7 @@ class TextField : public Element
         int                     _cursorPos;
         optional<Shape>         _cursor;
 
+        optional<Shape>         _textFocus;
         optional<Shape>         _background;
 
         int                     _originalHeight;
