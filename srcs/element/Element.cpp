@@ -312,7 +312,7 @@ int		Element::getHoverCursor(void) const noexcept
 	return _settings.hoverCursor;
 }
 
-bool	Element::getVisibility(void) const noexcept
+bool	Element::isVisible(void) const noexcept
 {
 	return _state.visibility;
 }

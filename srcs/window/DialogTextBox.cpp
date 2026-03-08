@@ -65,6 +65,8 @@ DialogTextBox::DialogTextBox(const string& name, const int width, const int heig
 	addText(cursorX, cursorY, text, fontPath, maxWidth);
 
     addTextField(cursorX, fontPath);
+
+	addErrorText(cursorX, fontPath);
 }
 
 void	DialogTextBox::addLogo(const int cursorX, const int cursorY, const string& logoPath, \
@@ -135,8 +137,10 @@ void    DialogTextBox::addTextField(const int cursorX, const string& fontPath)
 	int		globalWidth = ((textSize * 5) / 10) * 10;
 	int		globalHeight = ((textSize * 2) / 10) * 10;
 
-    auto textField = std::make_unique<TextField>(Properties{cursorX, 0, 0, \
-		globalHeight}, getBackgroundColor(), getWriteColor(), _fontPath, getWriteColor());
+	int		textLimit = 30;
+
+    auto textField = std::make_unique<TextField>(Properties{cursorX, 0, 0, globalHeight}, \
+		getBackgroundColor(), getWriteColor(), _fontPath, getWriteColor(), textLimit);
 
 	auto mainButton = std::make_unique<TextButton>(Properties{cursorX, 0, globalWidth, \
 		globalHeight}, getBackgroundColor(), "OK", textSize, \
@@ -146,9 +150,7 @@ void    DialogTextBox::addTextField(const int cursorX, const string& fontPath)
 	TextButton*	button = mainButton.get();
 
 	text->setWidth(getWidth() - (limitX * 3) - button->getWidth(), getRenderer());
-	text->setWrapping(true);
-
-	text->setY(getHeight() - limitY - (button->getHeight() * 3), getRenderer());
+	text->setY(getHeight() - limitY - button->getHeight(), getRenderer());
 
 	button->setX(text->getX() + text->getWidth() + limitX, getRenderer());
 	button->setY(getHeight() - limitY - button->getHeight(), getRenderer());
@@ -163,6 +165,24 @@ void    DialogTextBox::addTextField(const int cursorX, const string& fontPath)
 
 	_buttons.emplace_back(std::move(textField));
 	_buttons.emplace_back(std::move(mainButton));
+}
+
+void	DialogTextBox::addErrorText(const int cursorX, const string& fontPath)
+{
+	int		limitY = getHeight() * LIMIT_RATIO;
+	int		textSize = getHeight() * TEXT_RATIO;
+
+	Color	errorColor = RED;
+
+	auto	textElement = std::make_unique<Text>(cursorX, 0, "No error", \
+		textSize, errorColor, fontPath, getRenderer());
+
+	int		y = _buttons.front().get()->getY() - (limitY / 2);
+
+	textElement.get()->setY(y - textElement.get()->getHeight(), getRenderer());
+	textElement.get()->setVisibility(false);
+
+	_elements.emplace_back(std::move(textElement));
 }
 
 int     DialogTextBox::routine(void)
@@ -396,12 +416,31 @@ void	DialogTextBox::reactCharactersDown(const char* text)
 	if (!textField->isClicked())
 		return;
 
-	int	limitX = (textField->getWidth() / 2) * LIMIT_RATIO;
-
 	textField->add(text, getRenderer());
 
 	textField->setSelected(false);
 	textField->setHover(false);
+
+	string	error = textField->getLastError();
+
+	if (error.size() > 0)
+	{
+		Text*	errorText = dynamic_cast<Text*> \
+			(_elements.back().get());
+
+		int		limitX = getWidth() * LIMIT_RATIO;
+		int		maxWidth = getWidth() - (limitX * 2);
+
+		errorText->update(error, maxWidth, false, getRenderer());
+		_elements.back().get()->setVisibility(true);
+	}
+	else if (_elements.back().get()->isVisible() == true)
+		_elements.back().get()->setVisibility(false);
+}
+
+void	DialogTextBox::reactTextFieldErrors(void)
+{
+	;
 }
 
 int		DialogTextBox::reactEvent(SDL_Event* event, const int x, const int y)

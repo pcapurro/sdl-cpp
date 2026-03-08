@@ -24,6 +24,7 @@ class TextField : public Element
         bool                    _wrapping;
         int                     _maxLines;
 
+        string                  _lastError;
 
     protected:
 		virtual void	        onPropertiesChanged(SDL_Renderer* renderer) override;
@@ -45,6 +46,8 @@ class TextField : public Element
             const bool wrapping = false);
 
         ~TextField(void) = default;
+
+        string                  getLastError(void);
 
         void                    clear(SDL_Renderer* renderer);
 

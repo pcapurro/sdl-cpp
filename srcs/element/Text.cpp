@@ -96,7 +96,7 @@ void    Text::createWrappedLines(const string& text, const int maxWidth, \
 
 void    Text::render(SDL_Renderer* renderer)
 {
-    if (!getVisibility() || _lines.size() == 0)
+    if (!isVisible() || _lines.size() == 0)
         return;
 
     SDL_Rect    main;

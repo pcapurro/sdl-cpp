@@ -34,6 +34,8 @@ class DialogTextBox final : public Window
 
 		void							addTextField(const int cursorX, const string& fontPath);
 
+		void							addErrorText(const int cursorX, const string& fontPath);
+
 	public:
 		DialogTextBox(void) = delete;
 		DialogTextBox(const string& name, const int width = 400, const int height = 170, \
@@ -54,6 +56,8 @@ class DialogTextBox final : public Window
 
 		int								reactKeyButtonDown(const int key);
 		void 							reactCharactersDown(const char* text);
+
+		void							reactTextFieldErrors(void);
 
 		virtual int						reactEvent(SDL_Event* event, \
 											const int x = 0, const int y = 0);

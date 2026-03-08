@@ -23,7 +23,7 @@ Shape::Shape(const Properties& properties, const Color& color, \
 
 void    Shape::render(SDL_Renderer* renderer)
 {	
-    if (!getVisibility())
+    if (!isVisible())
         return;
 
     SDL_Rect	main, center;

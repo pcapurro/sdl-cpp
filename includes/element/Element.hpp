@@ -128,7 +128,7 @@ class Element
 		bool			isHover(void) const noexcept;
 		int				getHoverCursor(void) const noexcept;
 
-		bool			getVisibility(void) const noexcept;
+		bool			isVisible(void) const noexcept;
 };
 
 #endif

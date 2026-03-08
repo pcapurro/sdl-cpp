@@ -46,6 +46,11 @@ TextField::TextField(const int x, const int y, const int width, const int height
         true, limit, frameColor);
 }
 
+string  TextField::getLastError(void)
+{
+    return std::move(_lastError);
+}
+
 void    TextField::clear(SDL_Renderer* renderer)
 {
     _cursorPos = 0;
@@ -57,7 +62,10 @@ void    TextField::clear(SDL_Renderer* renderer)
 void    TextField::removeBefore(SDL_Renderer* renderer)
 {
     if (!_mainText.has_value() || _cursorPos <= 0)
+    {
+        _lastError.clear();
         return;
+    }
 
     string  text = _mainText.value().getTextStr();
 
@@ -75,6 +83,8 @@ void    TextField::removeBefore(SDL_Renderer* renderer)
         _mainText.value().update(text, getWidth() - (limitX * 2), \
             _wrapping, renderer);
     }
+
+    _lastError.clear();
 }
 
 void    TextField::removeAfter(SDL_Renderer* renderer)
@@ -85,7 +95,10 @@ void    TextField::removeAfter(SDL_Renderer* renderer)
     string  text = _mainText.value().getTextStr();
 
     if (_cursorPos >= text.size())
+    {
+        _lastError.clear();
         return;
+    }
 
     text.erase(_cursorPos, 1);
 
@@ -98,6 +111,8 @@ void    TextField::removeAfter(SDL_Renderer* renderer)
         _mainText.value().update(text, getWidth() - (limitX * 2), \
             _wrapping, renderer);
     }
+
+    _lastError.clear();
 }
 
 void    TextField::add(const string& text, SDL_Renderer* renderer)
@@ -112,7 +127,12 @@ void    TextField::add(const string& text, SDL_Renderer* renderer)
         string  newText;
 
         if (oldText.size() >= _maxChar)
+        {
+            _lastError = "Text has reached the limit (" \
+                + std::to_string(_maxChar) + string(").");
+
             return;
+        }
 
         if (_cursorPos < oldText.size())
         {
@@ -153,6 +173,8 @@ void    TextField::add(const string& text, SDL_Renderer* renderer)
     }
 
     updateCursor(renderer);
+
+    _lastError.clear();
 }
 
 string  TextField::getText(void) const
@@ -196,7 +218,10 @@ void    TextField::moveCursorForward(SDL_Renderer* renderer)
 {
     if (!_mainText.has_value() || \
         _cursorPos >= _mainText.value().getTextStr().size())
+    {
+        _lastError.clear();
         return;
+    }
 
     _cursorPos++;
 
@@ -206,7 +231,10 @@ void    TextField::moveCursorForward(SDL_Renderer* renderer)
 void    TextField::moveCursorBackward(SDL_Renderer* renderer)
 {
     if (!_mainText.has_value() || _cursorPos <= 0)
+    {
+        _lastError.clear();
         return;
+    }
 
     _cursorPos--;
 
