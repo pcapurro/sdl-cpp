@@ -16,8 +16,8 @@ TextField::TextField(const Properties& properties, const Color& backColor, \
 
     _cursorPos = 0;
 
-    _cursor.emplace(Properties{properties.x, properties.y, \
-        CURSOR_WIDTH, CURSOR_HEIGHT}, frameColor);
+    _cursor.emplace(Properties{properties.x, properties.y + limit, \
+        CURSOR_WIDTH, properties.height - (limit * 2)}, frameColor);
 
     _background.emplace(properties, backColor, \
         true, limit, frameColor);
@@ -39,8 +39,8 @@ TextField::TextField(const int x, const int y, const int width, const int height
 
     limit = limit * LIMIT_RATIO;
 
-    _cursor.emplace(Properties{properties.x, properties.y, \
-        CURSOR_WIDTH, CURSOR_HEIGHT}, frameColor);
+    _cursor.emplace(Properties{properties.x, properties.y + limit, \
+        CURSOR_WIDTH, properties.height - (limit * 2)}, frameColor);
 
     _background.emplace(properties, backColor, \
         true, limit, frameColor);
@@ -216,8 +216,8 @@ void	TextField::onPropertiesChanged(SDL_Renderer* renderer)
 
     if (_mainText.has_value())
     {
-        _mainText.value().update(_mainText.value().getTextStr(), \
-            properties.width, _wrapping, renderer);
+        // _mainText.value().update(_mainText.value().getTextStr(), \
+            // properties.width, _wrapping, renderer);
 
         _mainText.value().setX(properties.x + cursorX, renderer);
 
@@ -233,9 +233,8 @@ void	TextField::onPropertiesChanged(SDL_Renderer* renderer)
     _background.value().update(properties.x, properties.y, \
         properties.width, properties.height, limit, renderer);
 
-    _cursor.value().update(properties.x + cursorX, properties.y \
-        + (properties.height / 2) - (CURSOR_HEIGHT / 2), \
-        CURSOR_WIDTH, CURSOR_HEIGHT, 0, renderer);
+    _cursor.value().update(properties.x + cursorX, properties.y + limit, \
+        CURSOR_WIDTH, properties.height - (limit * 2), 0, renderer);
 }
 
 void	TextField::onStyleChanged(void)
