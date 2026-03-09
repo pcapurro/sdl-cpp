@@ -12,7 +12,8 @@ class Properties
         int         width = 0;
         int         height = 0;
 
-        bool        isAbove(const int mouseX, const int mouseY) const noexcept;
+        bool        isAbove(const int mouseX, \
+            const int mouseY) const noexcept;
 };
 
 #endif

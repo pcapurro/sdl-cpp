@@ -43,7 +43,8 @@ void	DialogBox::addTitleLimit(const int cursorX, const int cursorY, const int wi
 	limitFrame.width = width;
 	limitFrame.height = LIMIT_HEIGHT;
 
-	auto	shapeElement = std::make_unique<Shape>(limitFrame, getWriteColor());
+	auto	shapeElement = std::make_unique<Shape> \
+		(limitFrame, getWriteColor());
 
 	_elements.emplace_back(std::move(shapeElement));
 }

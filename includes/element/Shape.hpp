@@ -6,8 +6,9 @@
 class Shape final : public Element
 {
     private:
-        bool        _border;
-        int         _borderThickness;
+        bool        _border = false;
+
+        int         _borderThickness = 4;
         Color       _borderColor;
 
     public:

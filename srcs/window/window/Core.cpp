@@ -27,5 +27,6 @@ void	Window::renderBackground()
 
 	SDL_SetRenderDrawColor(_mainRenderer, _backgroundColor.r, \
 		_backgroundColor.g, _backgroundColor.b, _backgroundColor.a);
+
 	SDL_RenderFillRect(_mainRenderer, &obj);
 }

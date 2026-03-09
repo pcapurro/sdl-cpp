@@ -12,11 +12,11 @@
 class Window
 {
 	private:
-		int						_width;
-		int						_height;
+		int						_width = MIN_WINDOW_W;
+		int						_height = MIN_WINDOW_H;
 
-		int						_x;
-		int						_y;
+		int						_x = 0;
+		int						_y = 0;
 
 		const string			_name;
 

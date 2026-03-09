@@ -12,8 +12,8 @@ class Engine
 
     public:
         Engine(const bool video = true, const bool antialiasing = false, \
-            const bool ttf = false, const bool events = true, const bool textInput = false, \
-            const bool audio = false);
+            const bool ttf = false, const bool events = true, \
+            const bool textInput = false, const bool audio = false);
 
         ~Engine(void);
 };

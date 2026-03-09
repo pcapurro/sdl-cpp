@@ -14,7 +14,7 @@ class DialogBox final : public Window
 		vector<unique_ptr<Element>>		_elements;
 		vector<unique_ptr<TextButton>>	_buttons;
 
-		size_t							_tabCursor;
+		size_t							_tabCursor = 0;
 
 		const vector<string>			_textButtons;
 

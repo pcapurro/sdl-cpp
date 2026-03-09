@@ -13,14 +13,15 @@ class Text final : public Element
 
         Font                    _font;
         vector<TextTexture>     _lines;
-        int                     _lineHeight;
+        int                     _lineHeight = 0;
 
         vector<Point>           _charEnds;
 
-        void                    createNormalLine(const string& text, SDL_Renderer* renderer);
-
-        void                    createWrappedLines(const string& text, const int maxWidth, \
+        void                    createNormalLine(const string& text, \
                                     SDL_Renderer* renderer);
+
+        void                    createWrappedLines(const string& text, \
+                                    const int maxWidth, SDL_Renderer* renderer);
 
     public:
         Text(void) = delete;

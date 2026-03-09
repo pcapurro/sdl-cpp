@@ -85,8 +85,8 @@ void    Render::renderSelect(const int value, const int x, const int y, const in
         renderHighlight(x, y, width, height, color, renderer);
 }
 
-void    Render::renderHighlight(const int x, const int y, const int width, const int height, \
-    const Color& color, SDL_Renderer* renderer)
+void    Render::renderHighlight(const int x, const int y, const int width, \
+    const int height, const Color& color, SDL_Renderer* renderer)
 {
     SDL_Rect    highlight = {x, y, width, height};
 

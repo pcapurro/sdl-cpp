@@ -8,7 +8,7 @@
 class TextField : public Element
 {
     private:
-        size_t                  _maxChar;
+        size_t                  _maxChar = 256;
 
         string                  _fontPath;
         Color                   _textColor;
@@ -20,10 +20,10 @@ class TextField : public Element
         optional<Shape>         _textFocus;
         optional<Shape>         _background;
 
-        int                     _originalWidth;
-        int                     _originalHeight;
+        int                     _originalWidth = 0;
+        int                     _originalHeight = 0;
 
-        bool                    _wrapping;
+        bool                    _wrapping = false;
 
         string                  _lastError;
 

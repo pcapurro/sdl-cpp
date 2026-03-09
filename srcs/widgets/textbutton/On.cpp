@@ -38,12 +38,18 @@ void	TextButton::onSettingsChanged(void)
     Shape*      back = &_background.value();
 
     if (isHoverPossible())
-        back->enableHover(), back->setHoverCursor(getHoverCursor());
+    {
+        back->enableHover();
+        back->setHoverCursor(getHoverCursor());
+    }
     else
         back->disableHover();
 
     if (isSelectPossible())
-        back->enableSelect(), back->setSelectColor(getSelectColor());
+    {
+        back->enableSelect();
+        back->setSelectColor(getSelectColor());
+    }
 
     if (isHighlightPossible())
         back->enableHighlight();

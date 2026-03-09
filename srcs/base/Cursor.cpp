@@ -5,7 +5,10 @@ Cursor::Cursor(const SDL_SystemCursor value) : _value(value)
     _cursor = SDL_CreateSystemCursor(_value);
 
     if (_cursor == nullptr)
-        throw std::runtime_error("SDL failed to create a cursor: " + string(SDL_GetError()));
+    {
+        throw std::runtime_error("SDL failed to create a cursor: " \
+            + string(SDL_GetError()));
+    }
 }
 
 Cursor::Cursor(Cursor&& original) noexcept : _value(original._value)

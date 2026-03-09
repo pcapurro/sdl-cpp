@@ -1,6 +1,6 @@
 #include "Color.hpp"
 
-SDL_Color   Color::toSDL(void) const noexcept
+SDL_Color   Color::toSDLColor(void) const noexcept
 {
     SDL_Color   color;
 

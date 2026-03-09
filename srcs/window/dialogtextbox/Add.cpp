@@ -73,8 +73,7 @@ void    DialogTextBox::addTextField(const int cursorX, const string& fontPath, \
 		getBackgroundColor(), getWriteColor(), _fontPath, getWriteColor(), maxText);
 
 	auto mainButton = std::make_unique<TextButton>(Properties{cursorX, 0, globalWidth, \
-		globalHeight}, getBackgroundColor(), "OK", textSize, \
-		getWriteColor(), fontPath, getRenderer());
+		globalHeight}, getBackgroundColor(), "OK", textSize, getWriteColor(), fontPath, getRenderer());
 
 	TextField*	text = textField.get();
 	TextButton*	button = mainButton.get();
@@ -85,8 +84,11 @@ void    DialogTextBox::addTextField(const int cursorX, const string& fontPath, \
 	button->setX(text->getX() + text->getWidth() + limitX, getRenderer());
 	button->setY(getHeight() - limitY - button->getHeight(), getRenderer());
 
-	button->setSettings(false, NONE, true, SDL_SYSTEM_CURSOR_HAND, true, true);
-	text->setSettings(true, HIGHLIGHT_SELECT, true, SDL_SYSTEM_CURSOR_IBEAM, false, false);
+	button->setSettings(false, NONE, true, \
+		SDL_SYSTEM_CURSOR_HAND, true, true);
+
+	text->setSettings(true, HIGHLIGHT_SELECT, true, \
+		SDL_SYSTEM_CURSOR_IBEAM, false, false);
 
 	Color	color = BLUE;
 

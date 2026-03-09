@@ -17,8 +17,8 @@ Text::Text(const int x, const int y, const string& text, const int size, \
 
         int width = 0;
 
-        SDL_QueryTexture(_lines[0].getTexture(), nullptr, nullptr, \
-            &width, nullptr);
+        SDL_QueryTexture(_lines[0].getTexture(), \
+            nullptr, nullptr, &width, nullptr);
 
         setWidth(width);
     }
@@ -38,7 +38,8 @@ Text::Text(const int x, const int y, const string& text, const int size, \
     }
 }
 
-void    Text::createNormalLine(const string& text, SDL_Renderer* renderer)
+void    Text::createNormalLine(const string& text, \
+    SDL_Renderer* renderer)
 {
     int     cursorX = getX();
     int     cursorY = getY();
@@ -70,8 +71,8 @@ void    Text::createNormalLine(const string& text, SDL_Renderer* renderer)
         _font.getFont(), renderer);
 }
 
-void    Text::createWrappedLines(const string& text, const int maxWidth, \
-    SDL_Renderer* renderer)
+void    Text::createWrappedLines(const string& text, \
+    const int maxWidth, SDL_Renderer* renderer)
 {
     vector<string>  lines;
     string          line;

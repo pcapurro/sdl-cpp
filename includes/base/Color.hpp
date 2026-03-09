@@ -12,7 +12,7 @@ class Color
 
 		uint8_t			a = 255;
 
-		SDL_Color		toSDL(void) const noexcept;
+		SDL_Color		toSDLColor(void) const noexcept;
 		int				getAverage(void) const noexcept;
 
 		void			setColor(const int r, const int g, \
