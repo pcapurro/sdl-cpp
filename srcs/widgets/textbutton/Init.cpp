@@ -1,28 +1,5 @@
 #include "TextButton.hpp"
 
-TextButton::TextButton(const Properties& properties, const Color& backColor, \
-    const string& text, const int size, const Color& textColor, \
-    const string& fontPath, SDL_Renderer* renderer) : \
-        Element(properties)
-{
-    _mainText.emplace(properties.x, properties.y, text, size, \
-        textColor, fontPath, renderer, properties.width);
-
-    _mainText->setX(properties.x + \
-        (properties.width / 2 - _mainText->getWidth() / 2), renderer);
-
-    _mainText->setY(properties.y + \
-        (properties.height / 2 - _mainText->getHeight() / 2), renderer);
-
-    int         limit = properties.width < properties.height \
-        ? properties.width : properties.height;
-
-    limit = limit * LIMIT_RATIO;
-
-    _background.emplace(properties, backColor, \
-        true, limit, textColor);
-}
-
 TextButton::TextButton(const int x, const int y, const int width, const int height, \
     const Color& backColor, const string& text, const int size, \
     const Color& textColor, const string& fontPath, SDL_Renderer* renderer) : \
@@ -44,6 +21,6 @@ TextButton::TextButton(const int x, const int y, const int width, const int heig
 
     limit = limit * LIMIT_RATIO;
 
-    _background.emplace(properties, backColor, \
-        true, limit, textColor);
+    _background.emplace(properties.x, properties.y, properties.width, \
+        properties.height, backColor, true, limit, textColor);
 }

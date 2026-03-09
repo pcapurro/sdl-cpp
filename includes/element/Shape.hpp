@@ -18,9 +18,6 @@ class Shape final : public Element
             const Color& color, const bool border = false, \
             const int borderThickness = 4, const Color& borderColor = Color{});
 
-        Shape(const Properties& properties, const Color& color, const bool border = false, \
-            const int borderThickness = 4, const Color& borderColor = Color{});
-
         ~Shape(void) = default;
 
         void        render(SDL_Renderer* renderer);

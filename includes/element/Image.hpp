@@ -13,9 +13,6 @@ class Image final : public Element
     public:
         Image(void) = delete;
 
-        Image(const Properties& properties, const char* path, \
-            SDL_Renderer* renderer);
-
         Image(const int x, const int y, const int w, const int h, \
             const char* path, SDL_Renderer* renderer);
 

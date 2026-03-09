@@ -13,8 +13,8 @@ void	DialogTextBox::addLogo(const int cursorX, const int cursorY, const string& 
 	logoProperties.width = logoWidth;
 	logoProperties.height = logoHeight;
 
-	auto	image = std::make_unique<Image>(logoProperties, \
-		logoPath.c_str(), getRenderer());
+	auto	image = std::make_unique<Image>(logoProperties.x, logoProperties.y, \
+		logoProperties.width, logoProperties.height, logoPath.c_str(), getRenderer());
 
 	if (centered)
 		image.get()->setX(getWidth() / 2 - (image.get()->getWidth() / 2), getRenderer());
@@ -35,15 +35,8 @@ void	DialogTextBox::addTitleText(const int cursorX, const int cursorY, const str
 
 void	DialogTextBox::addTitleLimit(const int cursorX, const int cursorY, const int width)
 {
-	Properties		limitFrame;
-
-	limitFrame.x = cursorX;
-	limitFrame.y = cursorY;
-
-	limitFrame.width = width;
-	limitFrame.height = LIMIT_HEIGHT;
-
-	auto	shapeElement = std::make_unique<Shape>(limitFrame, getWriteColor());
+	auto	shapeElement = std::make_unique<Shape>(cursorX, cursorY, width, \
+		LIMIT_HEIGHT, getWriteColor());
 
 	_elements.emplace_back(std::move(shapeElement));
 }
@@ -69,11 +62,11 @@ void    DialogTextBox::addTextField(const int cursorX, const string& fontPath, \
 	int		globalWidth = ((textSize * 5) / 10) * 10;
 	int		globalHeight = ((textSize * 2) / 10) * 10;
 
-    auto textField = std::make_unique<TextField>(Properties{cursorX, 0, 0, globalHeight}, \
+    auto textField = std::make_unique<TextField>(cursorX, 0, 0, globalHeight, \
 		getBackgroundColor(), getWriteColor(), _fontPath, getWriteColor(), maxText);
 
-	auto mainButton = std::make_unique<TextButton>(Properties{cursorX, 0, globalWidth, \
-		globalHeight}, getBackgroundColor(), "OK", textSize, getWriteColor(), fontPath, getRenderer());
+	auto mainButton = std::make_unique<TextButton>(cursorX, 0, globalWidth, \
+		globalHeight, getBackgroundColor(), "OK", textSize, getWriteColor(), fontPath, getRenderer());
 
 	TextField*	text = textField.get();
 	TextButton*	button = mainButton.get();

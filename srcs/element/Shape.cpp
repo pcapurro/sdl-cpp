@@ -12,23 +12,6 @@ Shape::Shape(const int x, const int y, const int w, const int h, \
 		_borderThickness = borderThickness;
 		_borderColor = borderColor;
 	}
-	else
-		_borderThickness = 0;
-}
-
-Shape::Shape(const Properties& properties, const Color& color, \
-	const bool border, const int borderThickness, const Color& borderColor) : \
-		Element(properties, {color, borderColor})
-{
-	_border = border;
-
-	if (_border)
-	{
-		_borderThickness = borderThickness;
-		_borderColor = borderColor;
-	}
-	else
-		_borderThickness = 0;
 }
 
 void    Shape::render(SDL_Renderer* renderer)

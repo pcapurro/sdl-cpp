@@ -14,7 +14,7 @@ class TextField : public Element
         Color                   _textColor;
         optional<Text>          _mainText;
 
-        size_t                  _cursorPos;
+        size_t                  _cursorPos = 0;
         optional<Shape>         _cursor;
 
         optional<Shape>         _textFocus;
@@ -41,10 +41,6 @@ class TextField : public Element
 
     public:
         TextField(void) = delete;
-
-        TextField(const Properties& properties, const Color& backColor, \
-            const Color& frameColor, const string& fontPath, const Color& textColor, \
-            const int maxChar = 256, const bool wrapping = false);
 
         TextField(const int x, const int y, const int width, const int height, \
             const Color& backColor, const Color& frameColor, const string& fontPath, \

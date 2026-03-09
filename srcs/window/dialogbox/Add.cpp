@@ -13,8 +13,8 @@ void	DialogBox::addLogo(const int cursorX, const int cursorY, const string& logo
 	logoProperties.width = logoWidth;
 	logoProperties.height = logoHeight;
 
-	auto	image = std::make_unique<Image>(logoProperties, \
-		logoPath.c_str(), getRenderer());
+	auto	image = std::make_unique<Image>(logoProperties.x, logoProperties.y, \
+		logoProperties.width, logoProperties.height, logoPath.c_str(), getRenderer());
 
 	if (centered)
 		image.get()->setX(getWidth() / 2 - (image.get()->getWidth() / 2), getRenderer());
@@ -35,16 +35,8 @@ void	DialogBox::addTitleText(const int cursorX, const int cursorY, const string&
 
 void	DialogBox::addTitleLimit(const int cursorX, const int cursorY, const int width)
 {
-	Properties		limitFrame;
-
-	limitFrame.x = cursorX;
-	limitFrame.y = cursorY;
-
-	limitFrame.width = width;
-	limitFrame.height = LIMIT_HEIGHT;
-
-	auto	shapeElement = std::make_unique<Shape> \
-		(limitFrame, getWriteColor());
+	auto	shapeElement = std::make_unique<Shape> (cursorX, cursorY, \
+		width, LIMIT_HEIGHT, getWriteColor());
 
 	_elements.emplace_back(std::move(shapeElement));
 }
@@ -72,8 +64,8 @@ void	DialogBox::addButtons(const string& fontPath, \
 
 	for (size_t i = 0; i < buttonsTexts.size() && i < MAX_BUTTONS; i++)
 	{
-		auto button = std::make_unique<TextButton>(Properties{0, 0, ((textSize * 5) / 10) * 10, \
-			((textSize * 2) / 10) * 10}, getBackgroundColor(), buttonsTexts[i], textSize, \
+		auto button = std::make_unique<TextButton>(0, 0, ((textSize * 5) / 10) * 10, \
+			((textSize * 2) / 10) * 10, getBackgroundColor(), buttonsTexts[i], textSize, \
 			getWriteColor(), fontPath, getRenderer());
 
 		button.get()->setY(getHeight() - limitY - button.get()->getHeight(), getRenderer());

@@ -1,15 +1,5 @@
 #include "Image.hpp"
 
-Image::Image(const Properties& properties, const char* path, \
-    SDL_Renderer* renderer) : \
-        Element(properties)
-{
-    _image.emplace(path, renderer);
-
-    SDL_SetTextureBlendMode(_image->getTexture(),\
-        SDL_BLENDMODE_BLEND);
-}
-
 Image::Image(const int x, const int y, const int w, const int h, \
     const char* path, SDL_Renderer* renderer) : \
         Element({x, y, w, h})
