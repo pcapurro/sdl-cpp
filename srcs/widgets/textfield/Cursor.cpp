@@ -5,11 +5,11 @@ void    TextField::updateCursor(SDL_Renderer* renderer)
     if (!_mainText.has_value())
         return;
         
-    int newX = _mainText.value().getCharX(_cursorPos);
-    int newY = _mainText.value().getCharY(_cursorPos);
+    int newX = _mainText->getCharX(_cursorPos);
+    int newY = _mainText->getCharY(_cursorPos);
 
-    _cursor.value().setX(newX, renderer);
-    _cursor.value().setY(newY, renderer);
+    _cursor->setX(newX, renderer);
+    _cursor->setY(newY, renderer);
 }
 
 void    TextField::updateCursor(const int x, const int y, SDL_Renderer* renderer)
@@ -17,17 +17,17 @@ void    TextField::updateCursor(const int x, const int y, SDL_Renderer* renderer
     if (!_mainText.has_value())
         return;
 
-    int newY = _mainText.value().getLineY(y);
-    int newX = _mainText.value().getClosestCharX(x, newY);
+    int newY = _mainText->getLineY(y);
+    int newX = _mainText->getClosestCharX(x, newY);
 
-    _cursor.value().setX(newX, renderer);
-    _cursor.value().setY(newY, renderer);
+    _cursor->setX(newX, renderer);
+    _cursor->setY(newY, renderer);
 }
 
 void    TextField::moveCursorForward(SDL_Renderer* renderer)
 {
     if (!_mainText.has_value() || \
-        _cursorPos >= _mainText.value().getTextStr().size())
+        _cursorPos >= _mainText->getTextStr().size())
     {
         _lastError.clear();
         return;

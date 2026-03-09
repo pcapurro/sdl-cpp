@@ -20,8 +20,6 @@ class Image final : public Element
             const char* path, SDL_Renderer* renderer);
 
         void                    render(SDL_Renderer* renderer);
-
-        void                    update(const char* path, SDL_Renderer* renderer);
 };
 
 #endif

@@ -4,25 +4,25 @@ void	TextButton::onPropertiesChanged(SDL_Renderer* renderer)
 {
     Properties  properties = {getX(), getY(), getWidth(), getHeight()};
 
-    _mainText.value().update(_mainText.value().getTextStr(), \
+    _mainText->update(_mainText->getTextStr(), \
         properties.width, true, renderer);
 
-    _background.value().setWidth(properties.width);
-    _background.value().setHeight(properties.height);
+    _background->setWidth(properties.width);
+    _background->setHeight(properties.height);
 }
 
 void	TextButton::onPositionChanged(SDL_Renderer* renderer)
 {
     Properties  properties = {getX(), getY(), getWidth(), getHeight()};
 
-    _mainText.value().setX(properties.x + \
-        (properties.width / 2 - _mainText.value().getWidth() / 2), renderer);
+    _mainText->setX(properties.x + \
+        (properties.width / 2 - _mainText->getWidth() / 2), renderer);
 
-    _mainText.value().setY(properties.y + \
-        (properties.height / 2 - _mainText.value().getHeight() / 2), renderer);
+    _mainText->setY(properties.y + \
+        (properties.height / 2 - _mainText->getHeight() / 2), renderer);
 
-    _background.value().setX(properties.x);
-    _background.value().setY(properties.y);
+    _background->setX(properties.x);
+    _background->setY(properties.y);
 }
 
 void	TextButton::onStyleChanged(void)

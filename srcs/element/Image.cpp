@@ -6,7 +6,7 @@ Image::Image(const Properties& properties, const char* path, \
 {
     _image.emplace(path, renderer);
 
-    SDL_SetTextureBlendMode(_image.value().getTexture(),\
+    SDL_SetTextureBlendMode(_image->getTexture(),\
         SDL_BLENDMODE_BLEND);
 }
 
@@ -16,7 +16,7 @@ Image::Image(const int x, const int y, const int w, const int h, \
 {
     _image.emplace(path, renderer);
 
-    SDL_SetTextureBlendMode(_image.value().getTexture(), \
+    SDL_SetTextureBlendMode(_image->getTexture(), \
         SDL_BLENDMODE_BLEND);
 }
 
@@ -30,15 +30,15 @@ void    Image::render(SDL_Renderer* renderer)
     main.x = getX(), main.y = getY();
     main.w = getWidth(), main.h = getHeight();
 
-    SDL_SetTextureAlphaMod(_image.value().getTexture(), getMainColor().a);
+    SDL_SetTextureAlphaMod(_image->getTexture(), getMainColor().a);
 
-    SDL_RenderCopy(renderer, _image.value().getTexture(), \
+    SDL_RenderCopy(renderer, _image->getTexture(), \
         nullptr, &main);
 
     if ((isHighlightPossible() && isHighlighted()) \
         || (isHoverPossible() && isHover()))
     {
-        Color       avgColor = _image.value().getAverageColor();
+        Color       avgColor = _image->getAverageColor();
         Color       highlightColor;
         uint8_t     opacity = HIGHLIGHT_OPACITY;
 
@@ -59,11 +59,4 @@ void    Image::render(SDL_Renderer* renderer)
         Render::renderSelect(getSelectType(), getX(), getY(), \
             getWidth(), getHeight(), getSelectColor(), renderer);
     }
-}
-
-void    Image::update(const char* path, SDL_Renderer* renderer)
-{
-    _image.reset();
-
-    _image.emplace(path, renderer);
 }

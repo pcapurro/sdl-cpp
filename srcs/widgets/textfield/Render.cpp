@@ -14,5 +14,5 @@ void    TextField::render(SDL_Renderer* renderer)
         text->render(renderer);
 
     if (isClicked() && !isHover() && !isSelected())
-        _cursor.value().render(renderer);
+        _cursor->render(renderer);
 }

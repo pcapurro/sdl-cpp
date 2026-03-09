@@ -19,7 +19,7 @@ void    TextField::removeBefore(SDL_Renderer* renderer)
         return;
     }
 
-    string  text = _mainText.value().getTextStr();
+    string  text = _mainText->getTextStr();
 
     _cursorPos--;
     updateCursor(renderer);
@@ -32,7 +32,7 @@ void    TextField::removeBefore(SDL_Renderer* renderer)
     {
         int     limitX = (getWidth() / 2) * LIMIT_RATIO;
 
-        _mainText.value().update(text, getWidth() - (limitX * 2), \
+        _mainText->update(text, getWidth() - (limitX * 2), \
             _wrapping, renderer);
     }
 
@@ -44,7 +44,7 @@ void    TextField::removeAfter(SDL_Renderer* renderer)
     if (!_mainText.has_value())
         return;
 
-    string  text = _mainText.value().getTextStr();
+    string  text = _mainText->getTextStr();
 
     if (_cursorPos >= text.size())
     {
@@ -60,7 +60,7 @@ void    TextField::removeAfter(SDL_Renderer* renderer)
     {
         int     limitX = (getWidth() / 2) * LIMIT_RATIO;
 
-        _mainText.value().update(text, getWidth() - (limitX * 2), \
+        _mainText->update(text, getWidth() - (limitX * 2), \
             _wrapping, renderer);
     }
 
@@ -70,7 +70,7 @@ void    TextField::removeAfter(SDL_Renderer* renderer)
 void    TextField::joinText(const string& text, SDL_Renderer* renderer)
 {
     int     limitX = (getWidth() / 2) * LIMIT_RATIO;
-    string  oldText = _mainText.value().getTextStr();
+    string  oldText = _mainText->getTextStr();
 
     if (oldText.size() >= _maxChar
         || oldText.size() + text.size() > _maxChar)
@@ -91,10 +91,10 @@ void    TextField::joinText(const string& text, SDL_Renderer* renderer)
     else
         newText = oldText + text;
 
-    _mainText.value().update(newText, getWidth() - (limitX * 2), \
+    _mainText->update(newText, getWidth() - (limitX * 2), \
         _wrapping, renderer);
 
-    if (_mainText.value().getTextStr().size() > oldText.size())
+    if (_mainText->getTextStr().size() > oldText.size())
         _cursorPos++;
 
     _lastError.clear();
@@ -133,17 +133,17 @@ void    TextField::createText(const string& text, SDL_Renderer* renderer)
 void    TextField::add(const string& text, SDL_Renderer* renderer)
 {
     int     oldLinesNb = _mainText.has_value() ? \
-        _mainText.value().getLinesNb() : 1;
+        _mainText->getLinesNb() : 1;
 
     if (_mainText.has_value())
         joinText(text, renderer);
     else
         createText(text, renderer);
 
-    if (_wrapping && oldLinesNb < _mainText.value().getLinesNb())
+    if (_wrapping && oldLinesNb < _mainText->getLinesNb())
     {
         setHeight(getHeight() + _originalHeight, renderer, false);
-        _background.value().setHeight(getHeight(), renderer);
+        _background->setHeight(getHeight(), renderer);
     }
 
     updateCursor(renderer);

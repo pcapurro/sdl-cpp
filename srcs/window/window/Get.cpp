@@ -38,19 +38,19 @@ Color	Window::getBackgroundColor(void) const noexcept
 SDL_Cursor*		Window::getCursor(const int value) const noexcept
 {
 	if (value == SDL_SYSTEM_CURSOR_IBEAM)
-		return _textCursor.value().getCursor();
+		return _textCursor->getCursor();
 	else if (value == SDL_SYSTEM_CURSOR_WAIT)
-		return _loadingCursor.value().getCursor();
+		return _loadingCursor->getCursor();
 	else if (value == SDL_SYSTEM_CURSOR_CROSSHAIR)
-		return _crossHairCursor.value().getCursor();
+		return _crossHairCursor->getCursor();
 	else if (value == SDL_SYSTEM_CURSOR_HAND)
-		return _interactCursor.value().getCursor();
+		return _interactCursor->getCursor();
 	else if (value == SDL_SYSTEM_CURSOR_WAITARROW)
-		return _waitCursor.value().getCursor();
+		return _waitCursor->getCursor();
 	else if (value == SDL_SYSTEM_CURSOR_NO)
-		return _noCursor.value().getCursor();
+		return _noCursor->getCursor();
 	else
-		return _normalCursor.value().getCursor();
+		return _normalCursor->getCursor();
 
 	return nullptr;
 }

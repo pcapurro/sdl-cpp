@@ -6,7 +6,7 @@ void	TextField::onPropertiesChanged(SDL_Renderer* renderer)
 
     if (_mainText.has_value())
     {
-        _mainText.value().update(_mainText.value().getTextStr(), \
+        _mainText->update(_mainText->getTextStr(), \
             properties.width, _wrapping, renderer);
     }
 
@@ -15,13 +15,12 @@ void	TextField::onPropertiesChanged(SDL_Renderer* renderer)
 
     limit = limit * LIMIT_RATIO;
 
-    _background.value().update(properties.x, properties.y, \
-        properties.width, properties.height, limit, renderer);
+    _background->setWidth(properties.width, renderer);
+    _background->setHeight(properties.height, renderer);
 
-    _background.value().setWidth(properties.width, renderer);
-    _background.value().setHeight(properties.height, renderer);
+    _background->setBorderThickness(limit);
 
-    _cursor.value().setHeight(properties.height - (limit * 2), renderer);
+    _cursor->setHeight(properties.height - (limit * 2), renderer);
 }
 
 void	TextField::onPositionChanged(SDL_Renderer* renderer)
@@ -31,10 +30,10 @@ void	TextField::onPositionChanged(SDL_Renderer* renderer)
 
     if (_mainText.has_value())
     {
-        _mainText.value().setX(properties.x + cursorX, renderer);
+        _mainText->setX(properties.x + cursorX, renderer);
 
-        _mainText.value().setY(properties.y + \
-            (properties.height / 2 - _mainText.value().getHeight() / 2), renderer);
+        _mainText->setY(properties.y + \
+            (properties.height / 2 - _mainText->getHeight() / 2), renderer);
     }
 
     int         limit = properties.width < properties.height \
@@ -42,11 +41,11 @@ void	TextField::onPositionChanged(SDL_Renderer* renderer)
 
     limit = limit * LIMIT_RATIO;
 
-    _background.value().setX(properties.x);
-    _background.value().setY(properties.y);
+    _background->setX(properties.x);
+    _background->setY(properties.y);
 
-    _cursor.value().setX(properties.x + cursorX);
-    _cursor.value().setY(properties.y + limit);
+    _cursor->setX(properties.x + cursorX);
+    _cursor->setY(properties.y + limit);
 }
 
 void	TextField::onStyleChanged(void)

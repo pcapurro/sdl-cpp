@@ -8,7 +8,12 @@ Shape::Shape(const int x, const int y, const int w, const int h, \
 	_border = border;
 
 	if (_border)
-		_borderThickness = borderThickness, _borderColor = borderColor;
+	{
+		_borderThickness = borderThickness;
+		_borderColor = borderColor;
+	}
+	else
+		_borderThickness = 0;
 }
 
 Shape::Shape(const Properties& properties, const Color& color, \
@@ -18,7 +23,12 @@ Shape::Shape(const Properties& properties, const Color& color, \
 	_border = border;
 
 	if (_border)
-		_borderThickness = borderThickness, _borderColor = borderColor;
+	{
+		_borderThickness = borderThickness;
+		_borderColor = borderColor;
+	}
+	else
+		_borderThickness = 0;
 }
 
 void    Shape::render(SDL_Renderer* renderer)
@@ -34,8 +44,7 @@ void    Shape::render(SDL_Renderer* renderer)
 
 	center = main;
 
-	if (_border && _borderThickness <= getWidth() \
-		&& _borderThickness <= getHeight())
+	if (_border && getWidth() > 0 && getHeight() > 0)
 	{
 		center.x = main.x + _borderThickness;
 		center.y = main.y + _borderThickness;
@@ -84,20 +93,12 @@ void    Shape::render(SDL_Renderer* renderer)
     }
 }
 
+void	Shape::setBorderThickness(const int thickness) noexcept
+{
+	_borderThickness = thickness;
+}
+
 void	Shape::setBorderColor(Color color) noexcept
 {
 	_borderColor = color;
-}
-
-void	Shape::update(const int x, const int y, const int width, const int height, \
-    const int borderThickness, SDL_Renderer* renderer)
-{
-	setX(x, renderer);
-	setY(y, renderer);
-
-	setWidth(width, renderer);
-	setHeight(height, renderer);
-
-	if (_border)
-		_borderThickness = borderThickness;
 }
