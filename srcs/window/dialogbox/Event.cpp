@@ -2,7 +2,6 @@
 
 int     DialogBox::waitForEvent(void)
 {
-	int			value = OK;
 	int			x = 0, y = 0;
 	SDL_Event	event;
 
@@ -16,24 +15,18 @@ int     DialogBox::waitForEvent(void)
 		|| (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE))
 		return END;
 
-	if (event.type == SDL_MOUSEMOTION || event.type == SDL_MOUSEBUTTONDOWN \
+	if (event.type == SDL_MOUSEMOTION)
+		x = event.motion.x, y = event.motion.y;
+	else if (event.type == SDL_MOUSEBUTTONDOWN \
 		|| event.type == SDL_MOUSEBUTTONUP)
-	{
-		if (event.type == SDL_MOUSEMOTION)
-			x = event.motion.x, y = event.motion.y;
-		else if (event.type == SDL_MOUSEBUTTONDOWN \
-			|| event.type == SDL_MOUSEBUTTONUP)
-			x = event.button.x, y = event.button.y;
+		x = event.button.x, y = event.button.y;
 
-		if (x < 0 || x > getWidth() || y < 0 || y > getHeight())
-			return OK;
-		else
-			setX(x), setY(y);
-
-		value = reactEvent(&event, x, y);
-	}
+	if (x < 0 || x > getWidth() || y < 0 || y > getHeight())
+		return OK;
 	else
-		value = reactEvent(&event);
+		setX(x), setY(y);
+
+	int value = reactEvent(&event, x, y);
 
 	return value;
 }

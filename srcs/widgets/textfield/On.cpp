@@ -134,19 +134,6 @@ void    TextField::onMouseDownOutside(void)
     onStateChanged();
 }
 
-void    TextField::onMouseUp(const int x, const int y)
-{
-    (void) x;
-    (void) y;
-
-    // ...
-}
-
-void    TextField::onMouseUpOutside(void)
-{
-    // ...
-}
-
 void    TextField::onMouseHover(const int x, const int y)
 {
     (void) x;
@@ -159,11 +146,4 @@ void    TextField::onMouseHover(const int x, const int y)
 void    TextField::onMouseHoverOutside(void)
 {
     setHover(false);
-}
-
-void    TextField::onButtonDown(const int key)
-{
-    (void) key;
-
-    // ...
 }

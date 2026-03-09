@@ -74,13 +74,8 @@ class TextField : public Element
         virtual void	        onMouseDownDouble(const int x = 0, const int y = 0) override;
 		virtual void	        onMouseDownOutside(void) override;
 
-		virtual void	        onMouseUp(const int x = 0, const int y = 0) override;
-		virtual void	        onMouseUpOutside(void) override;
-
 		virtual void	        onMouseHover(const int x = 0, const int y = 0) override;
 		virtual void	        onMouseHoverOutside(void) override;
-
-        virtual void	        onButtonDown(const int key) override;
 
 };
 

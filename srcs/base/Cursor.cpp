@@ -4,7 +4,7 @@ Cursor::Cursor(const SDL_SystemCursor value) : _value(value)
 {
     _cursor = SDL_CreateSystemCursor(_value);
 
-    if (_cursor == nullptr)
+    if (!_cursor)
     {
         throw std::runtime_error("SDL failed to create a cursor: " \
             + string(SDL_GetError()));

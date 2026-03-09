@@ -13,7 +13,7 @@ Window::Window(const string& name, const int width, const int height) : \
 
 	_mainWindow = SDL_CreateWindow(_name.c_str(), SDL_WINDOWPOS_CENTERED, \
 		SDL_WINDOWPOS_CENTERED, _width, _height, 0);
-	if (_mainWindow == nullptr)
+	if (!_mainWindow)
 	{
 		throw std::runtime_error("SDL failed to create a window: " \
 			+ string(SDL_GetError()));
@@ -21,7 +21,7 @@ Window::Window(const string& name, const int width, const int height) : \
 
 	_mainRenderer = SDL_CreateRenderer(_mainWindow, -1, \
 		SDL_RENDERER_ACCELERATED);
-	if (_mainRenderer == nullptr)
+	if (!_mainRenderer)
 	{
 		throw std::runtime_error("SDL failed to create a renderer: " \
 			+ string(SDL_GetError()));

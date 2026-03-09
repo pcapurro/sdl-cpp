@@ -6,7 +6,7 @@ void	DialogBox::reactMouseMotion(const int x, const int y)
 
 	for (auto& button : _buttons)
 	{
-		if (button.get()->isAbove(x, y) == true)
+		if (button.get()->isAbove(x, y))
 		{
 			isAbove = true;
 

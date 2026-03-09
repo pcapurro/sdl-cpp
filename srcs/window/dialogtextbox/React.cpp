@@ -9,7 +9,7 @@ void	DialogTextBox::reactMouseMotion(const int x, const int y)
 	{
 		element = button.get();
 
-		if (element->isAbove(x, y) == true)
+		if (element->isAbove(x, y))
 		{
 			element->onMouseHover();
 			SDL_SetCursor(getCursor(element->getHoverCursor()));
@@ -32,7 +32,7 @@ int		DialogTextBox::reactMouseButtonUp(const int x, const int y)
 	{
 		element = button.get();
 
-		if (element->isAbove(x, y) == true)
+		if (element->isAbove(x, y))
 		{
 			element->onMouseUp();
 
@@ -60,7 +60,7 @@ void	DialogTextBox::reactMouseButtonDown(const int x, const int y, \
 	{
 		element = button.get();
 
-		if (element->isAbove(x, y) == true)
+		if (element->isAbove(x, y))
 		{
 			if (clicks > 1)
 				element->onMouseDownDouble();
@@ -159,7 +159,7 @@ void	DialogTextBox::reactCharactersDown(const char* text)
 		errorText->update(error, maxWidth, false, getRenderer());
 		_elements.back().get()->setVisibility(true);
 	}
-	else if (_elements.back().get()->isVisible() == true)
+	else if (_elements.back().get()->isVisible())
 		_elements.back().get()->setVisibility(false);
 }
 

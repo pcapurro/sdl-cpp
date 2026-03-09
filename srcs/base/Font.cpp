@@ -4,7 +4,7 @@ Font::Font(const string& path, const int size)
 {
 	_font = TTF_OpenFont(path.c_str(), size);
 
-	if (_font == nullptr)
+	if (!_font)
     {
 		throw std::runtime_error("SDL failed to load a font: " \
             + string(SDL_GetError()));
