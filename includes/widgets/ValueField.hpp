@@ -1,14 +1,17 @@
-#ifndef TEXTFIELD_HPP
-# define TEXTFIELD_HPP
+#ifndef VALUEFIELD_HPP
+# define VALUEFIELD_HPP
 
 # include "Text.hpp"
 # include "Shape.hpp"
 # include "Element.hpp"
 
-class TextField : public Element
+class ValueField : public Element
 {
     private:
         size_t                  _maxChar = 256;
+
+        int                     _minValue = -256;
+        size_t                  _maxValue = 256;
 
         string                  _fontPath;
         Color                   _textColor;
@@ -22,8 +25,6 @@ class TextField : public Element
 
         int                     _originalWidth = 0;
         int                     _originalHeight = 0;
-
-        bool                    _wrapping = false;
 
         string                  _lastError;
 
@@ -40,13 +41,13 @@ class TextField : public Element
 		virtual void	        onStateChanged(void) override;
 
     public:
-        TextField(void) = delete;
+        ValueField(void) = delete;
 
-        TextField(const int x, const int y, const int width, const int height, \
+        ValueField(const int x, const int y, const int width, const int height, \
             const Color& backColor, const Color& frameColor, const string& fontPath, \
             const Color& textColor, const int maxChar = 256, const bool wrapping = false);
 
-        ~TextField(void) = default;
+        ~ValueField(void) = default;
 
         string                  getLastError(void);
 
@@ -57,28 +58,27 @@ class TextField : public Element
 
         void                    add(const string& text, SDL_Renderer* renderer);
 
+        void                    increase(void);
+        void                    decrease(void);
+
         string                  getText(void) const;
 
         void                    updateCursor(SDL_Renderer* renderer);
         void                    updateCursor(const int x, const int y, SDL_Renderer* renderer);
-
-        void                    setWrapping(const bool wrapping) noexcept;
 
         void                    moveCursorForward(SDL_Renderer* renderer);
         void                    moveCursorBackward(SDL_Renderer* renderer);
 
         void                    render(SDL_Renderer* renderer);
 
-		virtual void	        onMouseDown(const int x = 0, const int y = 0, SDL_Renderer* renderer = nullptr) override;
-        virtual void	        onMouseDownDouble(const int x = 0, const int y = 0, SDL_Renderer* renderer = nullptr) override;
+		virtual void	        onMouseDown(const int x = 0, const int y = 0, SDL_Renderer* renderer) override;
+        virtual void	        onMouseDownDouble(const int x = 0, const int y = 0, SDL_Renderer* renderer) override;
 		virtual void	        onMouseDownOutside(SDL_Renderer* renderer) override;
 
-        virtual void	        onMouseUp(const int x = 0, const int y = 0, SDL_Renderer* renderer = nullptr) override;
+		virtual void	        onMouseHover(const int x = 0, const int y = 0, SDL_Renderer* renderer) override;
+		virtual void	        onMouseHoverOutside(SDL_Renderer* renderer) override;
 
-		virtual void	        onMouseHover(const int x = 0, const int y = 0, SDL_Renderer* renderer = nullptr) override;
-		virtual void	        onMouseHoverOutside(SDL_Renderer* renderer = nullptr) override;
-
-        virtual void	        onButtonDown(const int key, SDL_Renderer* renderer = nullptr) override;
+        virtual void	        onButtonDown(const int key, SDL_Renderer* renderer) override;
 };
 
 #endif

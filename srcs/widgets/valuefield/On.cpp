@@ -1,13 +1,13 @@
-#include "TextField.hpp"
+#include "ValueField.hpp"
 
-void	TextField::onPropertiesChanged(SDL_Renderer* renderer)
+void	ValueField::onPropertiesChanged(SDL_Renderer* renderer)
 {
     Properties  properties = {getX(), getY(), getWidth(), getHeight()};
 
     if (_mainText.has_value())
     {
         _mainText->update(_mainText->getTextStr(), \
-            properties.width, _wrapping, renderer);
+            properties.width, false, renderer);
     }
 
     int         limit = properties.width < properties.height \
@@ -23,7 +23,7 @@ void	TextField::onPropertiesChanged(SDL_Renderer* renderer)
     _cursor->setHeight(properties.height - (limit * 2), renderer);
 }
 
-void	TextField::onPositionChanged(SDL_Renderer* renderer)
+void	ValueField::onPositionChanged(SDL_Renderer* renderer)
 {
     Properties  properties = {getX(), getY(), getWidth(), getHeight()};
     int         cursorX = (getWidth() / 2) * LIMIT_RATIO;
@@ -48,7 +48,7 @@ void	TextField::onPositionChanged(SDL_Renderer* renderer)
     _cursor->setY(properties.y + limit);
 }
 
-void	TextField::onStyleChanged(void)
+void	ValueField::onStyleChanged(void)
 {
     Text*       text = _mainText.has_value() ? \
         &_mainText.value() : nullptr;
@@ -57,7 +57,7 @@ void	TextField::onStyleChanged(void)
         text->setSelectColor(getSelectColor());
 }
 
-void	TextField::onSettingsChanged(void)
+void	ValueField::onSettingsChanged(void)
 {
     Shape*      back = &_background.value();
     Text*       text = _mainText.has_value() ? \
@@ -71,10 +71,7 @@ void	TextField::onSettingsChanged(void)
     if (text)
     {
         if (isSelectPossible())
-        {
-            text->enableSelect();
-            text->setSelectType(getSelectType());
-        }
+            text->enableSelect(), text->setSelectType(getSelectType());
         else
             text->disableSelect();
 
@@ -85,7 +82,7 @@ void	TextField::onSettingsChanged(void)
     }
 }
 
-void	TextField::onStateChanged(void)
+void	ValueField::onStateChanged(void)
 {
     Shape*      back = &_background.value();
     Text*       text = _mainText.has_value() ? \
@@ -102,7 +99,7 @@ void	TextField::onStateChanged(void)
         back->setHover(isHover());
 }
 
-void    TextField::onButtonDown(const int key, SDL_Renderer* renderer)
+void    ValueField::onButtonDown(const int key, SDL_Renderer* renderer)
 {
     if (!isClicked())
         return;
@@ -111,22 +108,13 @@ void    TextField::onButtonDown(const int key, SDL_Renderer* renderer)
         moveCursorBackward(renderer);
     else if (key == SDLK_RIGHT)
         moveCursorForward(renderer);
-    else if (key == SDLK_BACKSPACE || key == SDLK_DELETE)
-    {
-        if (isSelected())
-            clear(renderer);
-        else
-        {
-            if (key == SDLK_DELETE)
-                removeAfter(renderer);
-            else
-                removeBefore(renderer);
-        }
-    }
 }
 
-void    TextField::onMouseDown(const int x, const int y, SDL_Renderer* renderer)
+void    ValueField::onMouseDown(const int x, const int y, SDL_Renderer* renderer)
 {
+    (void) x;
+    (void) y;
+
     setClick(true, false);
     setHover(false, false);
 
@@ -134,57 +122,39 @@ void    TextField::onMouseDown(const int x, const int y, SDL_Renderer* renderer)
         setSelected(false, false);
 
     onStateChanged();
+}
 
+void    ValueField::onMouseDownDouble(const int x, const int y, SDL_Renderer* renderer)
+{
     (void) x;
     (void) y;
 
-    (void) renderer;
-}
-
-void    TextField::onMouseDownDouble(const int x, const int y, SDL_Renderer* renderer)
-{
     setClick(true, false);
 
     if (_mainText.has_value())
         setSelected(true, false);
 
     onStateChanged();
-
-    (void) x;
-    (void) y;
-
-    (void) renderer;
 }
 
-void    TextField::onMouseDownOutside(SDL_Renderer* renderer)
+void    ValueField::onMouseDownOutside(SDL_Renderer* renderer)
 {
     setSelected(false, false);
     setClick(false, false);
 
     onStateChanged();
-
-    (void) renderer;
 }
 
-void    TextField::onMouseUp(const int x, const int y, SDL_Renderer* renderer)
+void    ValueField::onMouseHover(const int x, const int y, SDL_Renderer* renderer)
 {
-    updateCursor(x, y, renderer);
-}
-
-void    TextField::onMouseHover(const int x, const int y, SDL_Renderer* renderer)
-{
-    if (!isClicked())
-        setHover(true);
-
     (void) x;
     (void) y;
-
-    (void) renderer;
+    
+    if (!isClicked())
+        setHover(true);
 }
 
-void    TextField::onMouseHoverOutside(SDL_Renderer* renderer)
+void    ValueField::onMouseHoverOutside(SDL_Renderer* renderer)
 {
     setHover(false);
-
-    (void) renderer;
 }

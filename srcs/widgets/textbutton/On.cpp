@@ -73,48 +73,56 @@ void	TextButton::onStateChanged(void)
     back->setFocus(isFocused());
 }
 
-void    TextButton::onMouseDown(const int x, const int y)
+void    TextButton::onMouseDown(const int x, const int y, \
+    SDL_Renderer* renderer)
 {
-    (void) x;
-    (void) y;
-
     setClick(true, false);
     setFocus(true, false);
 
     onStateChanged();
+
+    (void) x;
+    (void) y;
+
+    (void) renderer;
 }
 
-void    TextButton::onMouseDownOutside(void)
+void    TextButton::onMouseDownOutside(SDL_Renderer* renderer)
 {
     setClick(false, false);
     setSelected(false, false);
     setFocus(false, false);
 
     onStateChanged();
+
+    (void) renderer;
 }
 
-void    TextButton::onMouseUp(const int x, const int y)
+void    TextButton::onMouseUp(const int x, const int y, \
+    SDL_Renderer* renderer)
 {
+    setFocus(false);
+
     (void) x;
     (void) y;
 
-    setFocus(false);
+    (void) renderer;
 }
 
-void    TextButton::onMouseUpOutside(void)
+void    TextButton::onMouseHover(const int x, const int y, \
+    SDL_Renderer* renderer)
 {
-    setFocus(false);
-}
-
-void    TextButton::onMouseHover(const int x, const int y)
-{
-    (void) x;
-    (void) y;
-
     setHover(true);
+
+    (void) x;
+    (void) y;
+
+    (void) renderer;
 }
 
-void    TextButton::onMouseHoverOutside(void)
+void    TextButton::onMouseHoverOutside(SDL_Renderer* renderer)
 {
     setHover(false);
+
+    (void) renderer;
 }

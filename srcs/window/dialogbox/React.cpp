@@ -34,7 +34,7 @@ int		DialogBox::reactMouseButtonUp(const int x, const int y)
 			}
 		}
 		else
-			button->onMouseUpOutside();
+			button->onMouseUpOutside(getRenderer());
 	}
 
 	return OK;

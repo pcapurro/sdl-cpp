@@ -17,7 +17,7 @@ void	DialogTextBox::reactMouseMotion(const int x, const int y)
 			isAbove = true;
 		}
 		else
-			element->onMouseHoverOutside();
+			element->onMouseHoverOutside(getRenderer());
 	}
 
     if (!isAbove)
@@ -34,18 +34,16 @@ int		DialogTextBox::reactMouseButtonUp(const int x, const int y)
 
 		if (element->isAbove(x, y))
 		{
-			element->onMouseUp();
+			element->onMouseUp(x, y, getRenderer());
 
 			TextField*	textField = dynamic_cast \
 				<TextField*>(element);
 
 			if (!textField)
 				return RETURN;
-			else
-				textField->updateCursor(x, y, getRenderer());
 		}
 		else
-			element->onMouseUpOutside();
+			element->onMouseUpOutside(getRenderer());
 	}
 
 	return OK;
@@ -68,34 +66,18 @@ void	DialogTextBox::reactMouseButtonDown(const int x, const int y, \
 				element->onMouseDown(x, y);
 		}
 		else
-			element->onMouseDownOutside();
+			element->onMouseDownOutside(getRenderer());
 	}
 }
 
 int		DialogTextBox::reactKeyButtonDown(const int key)
 {
-	if (key == SDLK_BACKSPACE || key  == SDLK_DELETE)
-	{
-		TextField*	textField = dynamic_cast<TextField*> \
-			(_buttons.front().get());
+	TextField*		textField = dynamic_cast<TextField*> \
+		(_buttons.front().get());
 
-		if (!textField->isClicked())
-			return OK;
+	textField->onButtonDown(key, getRenderer());
 
-		SDL_Renderer*	renderer = getRenderer();
-		string			text = textField->getText();
-
-		if (textField->isSelected())
-			textField->clear(renderer);
-		else
-		{
-			if (key == SDLK_DELETE)
-				textField->removeAfter(renderer);
-			else
-				textField->removeBefore(renderer);
-		}
-	}
-	else if (key == SDLK_TAB)
+	if (key == SDLK_TAB)
 	{
 		_buttons[_tabCursor].get()->setHover(false);
 
@@ -116,19 +98,6 @@ int		DialogTextBox::reactKeyButtonDown(const int key)
 		if (textButton)
 			return RETURN;
 	}
-	else if (key == SDLK_LEFT || key == SDLK_RIGHT)
-	{
-		TextField*	textField = dynamic_cast<TextField*> \
-			(_buttons.front().get());
-
-		if (!textField->isClicked())
-			return OK;
-
-		if (key == SDLK_LEFT)
-			textField->moveCursorBackward(getRenderer());
-		else
-			textField->moveCursorForward(getRenderer());
-	}
 
 	return OK;
 }
@@ -142,9 +111,6 @@ void	DialogTextBox::reactCharactersDown(const char* text)
 		return;
 
 	textField->add(text, getRenderer());
-
-	textField->setSelected(false);
-	textField->setHover(false);
 
 	string	error = textField->getLastError();
 

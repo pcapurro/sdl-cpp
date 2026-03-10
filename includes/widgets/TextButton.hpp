@@ -33,14 +33,16 @@ class TextButton : public Element
 
         void                    render(SDL_Renderer* renderer);
 
-		virtual void	        onMouseDown(const int x = 0, const int y = 0) override;
-		virtual void	        onMouseDownOutside(void) override;
+		virtual void	        onMouseDown(const int x = 0, const int y = 0, \
+            SDL_Renderer* renderer = nullptr) override;
+		virtual void	        onMouseDownOutside(SDL_Renderer* renderer) override;
 
-		virtual void	        onMouseUp(const int x = 0, const int y = 0) override;
-		virtual void	        onMouseUpOutside(void) override;
+        virtual void	        onMouseUp(const int x = 0, const int y = 0, \
+            SDL_Renderer* renderer = nullptr) override;
 
-		virtual void	        onMouseHover(const int x = 0, const int y = 0) override;
-		virtual void	        onMouseHoverOutside(void) override;
+		virtual void	        onMouseHover(const int x = 0, const int y = 0, \
+            SDL_Renderer* renderer = nullptr) override;
+		virtual void	        onMouseHoverOutside(SDL_Renderer* renderer = nullptr) override;
 };
 
 #endif
