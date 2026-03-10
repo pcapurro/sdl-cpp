@@ -39,6 +39,7 @@ class DialogValuesBox final : public Window
 		void							addFieldsTitles(const string& fontPath);
 		void							addFields(const string& fontPath, const int maxText);
 		void							addFieldsUnits(const string& fontPath);
+		void							addFieldsErrors(const string& fontPath);
 
 		void							addButton(const string& fontPath);
 

@@ -116,6 +116,29 @@ void	DialogValuesBox::reactCharactersDown(const char* text)
 		upField->add(text, renderer);
 	else if (_downField->isClicked())
 		downField->add(text, renderer);
+
+	vector<Text*>	errorsPtr = {
+		dynamic_cast<Text*>(_elements.back().get()), \
+		dynamic_cast<Text*>(_elements[_elements.size() - 2].get()) \
+	};
+
+	vector<string>	errorsText = { 
+		upField->getLastError(), downField->getLastError()
+	};
+
+	int		limitX = getWidth() * LIMIT_RATIO;
+	int		maxWidth = getWidth() - (limitX * 2);
+
+	for (size_t i = 0; i < errorsPtr.size(); i++)
+	{
+		if (errorsText[i].size() > 0)
+		{
+			errorsPtr[i]->update(errorsText[i], maxWidth, false, renderer);
+			errorsPtr[i]->setVisibility(true);
+		}
+		else
+			errorsPtr[i]->setVisibility(false);
+	}
 }
 
 int		DialogValuesBox::reactEvent(SDL_Event* event, const int x, const int y)

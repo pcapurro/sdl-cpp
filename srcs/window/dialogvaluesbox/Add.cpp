@@ -135,6 +135,40 @@ void	DialogValuesBox::addFieldsUnits(const string& fontPath)
 	_elements.emplace_back(std::move(rightDownText));
 }
 
+void	DialogValuesBox::addFieldsErrors(const string& fontPath)
+{
+    int				textSize = getHeight() * TEXT_RATIO;
+	int				limitX = getWidth() * LIMIT_RATIO;
+
+	SDL_Renderer*	renderer = getRenderer();
+
+	auto	rightUpText = std::make_unique<Text>(0, 0, "Default error", textSize, \
+		fontPath, getWriteColor(), 0, false, renderer);
+
+	auto	rightDownText = std::make_unique<Text>(0, 0, "Default error", textSize, \
+		fontPath, getWriteColor(), 0, false, renderer);
+
+	Text*	upText = dynamic_cast<Text*>(_elements.back().get());
+	Text*	downText = dynamic_cast<Text*>(_elements[_elements.size() - 2].get());
+
+	rightUpText->setX(upText->getX() + upText->getWidth() + (limitX / 2));
+	rightUpText->setY(upText->getY());
+
+	rightDownText->setX(downText->getX() + downText->getWidth() + (limitX / 2));
+	rightDownText->setY(downText->getY());
+
+	Color	color = RED;
+
+	rightUpText->setColor(color);
+	rightUpText->setVisibility(false);
+
+	rightDownText->setColor(color);
+	rightDownText->setVisibility(false);
+
+	_elements.emplace_back(std::move(rightUpText));
+	_elements.emplace_back(std::move(rightDownText));
+}
+
 void	DialogValuesBox::addButton(const string& fontPath)
 {
     int				textSize = getHeight() * TEXT_RATIO;

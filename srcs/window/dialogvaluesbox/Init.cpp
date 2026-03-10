@@ -67,6 +67,7 @@ DialogValuesBox::DialogValuesBox(const string& name, const string& fontPath, con
 	addFieldsTitles(fontPath);
 	addFields(fontPath, maxText);
 	addFieldsUnits(fontPath);
+	addFieldsErrors(fontPath);
 
 	addButton(fontPath);
 }
