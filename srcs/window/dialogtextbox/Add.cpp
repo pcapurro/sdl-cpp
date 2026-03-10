@@ -29,7 +29,7 @@ void	DialogTextBox::addTitleText(const int cursorX, const int cursorY, const str
 	int		titleSize = getHeight() * TITLE_RATIO;
 
 	unique_ptr<Text>	textElement = std::make_unique<Text>(cursorX, cursorY, \
-		text.c_str(), titleSize, fontPath, getWriteColor(), getRenderer(), maxWidth);
+		text.c_str(), titleSize, fontPath, getWriteColor(), maxWidth, true, getRenderer());
 
 	_elements.emplace_back(std::move(textElement));
 }
@@ -48,7 +48,7 @@ void	DialogTextBox::addText(const int cursorX, const int cursorY, const string& 
 	int		textSize = getHeight() * TEXT_RATIO;
 
 	auto	textElement = std::make_unique<Text>(cursorX, cursorY, text.c_str(), \
-		textSize, fontPath, getWriteColor(), getRenderer(), maxWidth);
+		textSize, fontPath, getWriteColor(), maxWidth, true, getRenderer());
 
 	_elements.emplace_back(std::move(textElement));
 }
@@ -104,7 +104,7 @@ void	DialogTextBox::addErrorText(const int cursorX, const string& fontPath)
 	SDL_Renderer*	renderer = getRenderer();
 
 	auto	textElement = std::make_unique<Text>(cursorX, 0, "No error", \
-		textSize, fontPath, errorColor, renderer);
+		textSize, fontPath, errorColor, 0, false, renderer);
 
 	int		y = _buttons.front()->getY() - limitY;
 

@@ -8,7 +8,7 @@ TextButton::TextButton(const int x, const int y, const int width, const int heig
     Properties  properties = {x, y, width, height};
 
     _mainText.emplace(x, y, text, size, \
-        fontPath, textColor, renderer, width);
+        fontPath, textColor, width, false, renderer);
 
     _mainText->setX(properties.x + \
         (properties.width / 2 - _mainText->getWidth() / 2), renderer);

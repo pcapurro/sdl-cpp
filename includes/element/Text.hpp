@@ -28,7 +28,7 @@ class Text final : public Element
 
         Text(const int x, const int y, const string& text, \
             const int size, const string& fontPath, const Color& color, \
-            SDL_Renderer* renderer, const int maxWidth = 0, const bool wrapping = false);
+            const int maxWidth, const bool wrapping, SDL_Renderer* renderer);
 
         void                    render(SDL_Renderer* renderer);
 

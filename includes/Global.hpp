@@ -27,4 +27,7 @@ using std::vector;
 using std::optional;
 using std::unique_ptr;
 
+using std::cout;
+using std::endl;
+
 #endif

@@ -29,7 +29,7 @@ void	DialogValueBox::addTitleText(const int cursorX, const int cursorY, const st
 	int		titleSize = getHeight() * TITLE_RATIO;
 
 	unique_ptr<Text>	textElement = std::make_unique<Text>(cursorX, cursorY, \
-		text.c_str(), titleSize, fontPath, getWriteColor(), getRenderer(), maxWidth);
+		text.c_str(), titleSize, fontPath, getWriteColor(), maxWidth, true, getRenderer());
 
 	_elements.emplace_back(std::move(textElement));
 }
@@ -48,7 +48,7 @@ void	DialogValueBox::addText(const int cursorX, const int cursorY, const string&
 	int		textSize = getHeight() * TEXT_RATIO;
 
 	auto	textElement = std::make_unique<Text>(cursorX, cursorY, text.c_str(), \
-		textSize, fontPath, getWriteColor(), getRenderer(), maxWidth);
+		textSize, fontPath, getWriteColor(), maxWidth, true, getRenderer());
 
 	_elements.emplace_back(std::move(textElement));
 }
@@ -62,10 +62,10 @@ void	DialogValueBox::addFieldsTitles(const string& fontPath)
 	SDL_Renderer*	renderer = getRenderer();
 
 	auto 	upLeftText = std::make_unique<Text>(getX() + limitX, 0, "width:", textSize, \
-		fontPath, getWriteColor(), renderer);
+		fontPath, getWriteColor(), 0, false, renderer);
 
 	auto 	downRightText = std::make_unique<Text>(getX() + limitX, 0, "height:", textSize, \
-		fontPath, getWriteColor(), renderer);
+		fontPath, getWriteColor(), 0, false, renderer);
 
 	downRightText->setY(getHeight() - (limitY * 2) - downRightText->getHeight());
 	upLeftText->setY(downRightText->getY() - (limitY * 2) - upLeftText->getHeight());
@@ -120,10 +120,10 @@ void	DialogValueBox::addFieldsUnits(const string& fontPath)
 	SDL_Renderer*	renderer = getRenderer();
 
 	auto	rightUpText = std::make_unique<Text>(0, 0, "px", textSize, \
-		fontPath, getWriteColor(), renderer);
+		fontPath, getWriteColor(), 0, false, renderer);
 
 	auto	rightDownText = std::make_unique<Text>(0, 0, "px", textSize, \
-		fontPath, getWriteColor(), renderer);
+		fontPath, getWriteColor(), 0, false, renderer);
 
 	rightUpText->setX(_upField->getX() + _upField->getWidth() + (limitX / 2));
 	rightUpText->setY(_upField->getY());

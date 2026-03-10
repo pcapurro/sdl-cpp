@@ -114,7 +114,7 @@ void    ValueField::createText(const string& text, SDL_Renderer* renderer)
     int     limitX = (getWidth() / 2) * LIMIT_RATIO;
 
     _mainText.emplace(getX() + limitX, getY(), text, getHeight() - textRatio, \
-        _fontPath, _textColor, renderer, getWidth() - (limitX * 2));
+        _fontPath, _textColor, getWidth() - (limitX * 2), false, renderer);
 
     _cursorPos += text.size();
 

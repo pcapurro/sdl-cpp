@@ -1,8 +1,8 @@
 #include "Text.hpp"
 
 Text::Text(const int x, const int y, const string& text, const int size, \
-    const string& fontPath, const Color& color, SDL_Renderer* renderer, \
-    const int maxWidth, const bool wrapping) : \
+    const string& fontPath, const Color& color, const int maxWidth, \
+    const bool wrapping, SDL_Renderer* renderer) : \
         Element({x, y, 0, 0}), \
         _textStr(text), \
         _writeColor(color), \
@@ -26,6 +26,8 @@ Text::Text(const int x, const int y, const string& text, const int size, \
     {
         createWrappedLines(text, maxWidth, renderer);
         setWidth(maxWidth);
+
+        cout << "created " << _lines.size() << endl;
     }
 
     _lineHeight = TTF_FontLineSkip(_font.getFont());
