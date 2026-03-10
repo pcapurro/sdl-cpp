@@ -1,6 +1,6 @@
-#include "DialogValueBox.hpp"
+#include "DialogValuesBox.hpp"
 
-void	DialogValueBox::addLogo(const int cursorX, const int cursorY, const string& logoPath, \
+void	DialogValuesBox::addLogo(const int cursorX, const int cursorY, const string& logoPath, \
 	const int logoWidth, const int logoHeight, const bool centered)
 {
 	Properties		logoProperties;
@@ -23,7 +23,7 @@ void	DialogValueBox::addLogo(const int cursorX, const int cursorY, const string&
 	_elements.emplace_back(std::move(image));
 }
 
-void	DialogValueBox::addTitleText(const int cursorX, const int cursorY, const string& text, \
+void	DialogValuesBox::addTitleText(const int cursorX, const int cursorY, const string& text, \
 	const string& fontPath, const int maxWidth)
 {
 	int		titleSize = getHeight() * TITLE_RATIO;
@@ -34,7 +34,7 @@ void	DialogValueBox::addTitleText(const int cursorX, const int cursorY, const st
 	_elements.emplace_back(std::move(textElement));
 }
 
-void	DialogValueBox::addTitleLimit(const int cursorX, const int cursorY, const int width)
+void	DialogValuesBox::addTitleLimit(const int cursorX, const int cursorY, const int width)
 {
 	auto	shapeElement = std::make_unique<Shape>(cursorX, cursorY, width, \
 		LIMIT_HEIGHT, getWriteColor());
@@ -42,7 +42,7 @@ void	DialogValueBox::addTitleLimit(const int cursorX, const int cursorY, const i
 	_elements.emplace_back(std::move(shapeElement));
 }
 
-void	DialogValueBox::addText(const int cursorX, const int cursorY, const string& text, \
+void	DialogValuesBox::addText(const int cursorX, const int cursorY, const string& text, \
 	const string& fontPath, const int maxWidth)
 {
 	int		textSize = getHeight() * TEXT_RATIO;
@@ -53,7 +53,7 @@ void	DialogValueBox::addText(const int cursorX, const int cursorY, const string&
 	_elements.emplace_back(std::move(textElement));
 }
 
-void	DialogValueBox::addFieldsTitles(const string& fontPath)
+void	DialogValuesBox::addFieldsTitles(const string& fontPath)
 {
     int				textSize = getHeight() * TEXT_RATIO;
 	int				limitX = getWidth() * LIMIT_RATIO;
@@ -74,7 +74,7 @@ void	DialogValueBox::addFieldsTitles(const string& fontPath)
 	_elements.emplace_back(std::move(downRightText));
 }
 
-void	DialogValueBox::addFields(const string& fontPath, const int maxText)
+void	DialogValuesBox::addFields(const string& fontPath, const int maxText)
 {
     int				textSize = getHeight() * TEXT_RATIO;
 	int				limitX = getWidth() * LIMIT_RATIO;
@@ -112,7 +112,7 @@ void	DialogValueBox::addFields(const string& fontPath, const int maxText)
 	_downField->setSelectColor(color);
 }
 
-void	DialogValueBox::addFieldsUnits(const string& fontPath)
+void	DialogValuesBox::addFieldsUnits(const string& fontPath)
 {
     int				textSize = getHeight() * TEXT_RATIO;
 	int				limitX = getWidth() * LIMIT_RATIO;
@@ -135,7 +135,7 @@ void	DialogValueBox::addFieldsUnits(const string& fontPath)
 	_elements.emplace_back(std::move(rightDownText));
 }
 
-void	DialogValueBox::addButton(const string& fontPath)
+void	DialogValuesBox::addButton(const string& fontPath)
 {
     int				textSize = getHeight() * TEXT_RATIO;
 	int				limitX = getWidth() * LIMIT_RATIO;

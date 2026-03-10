@@ -1,5 +1,5 @@
-#ifndef DIALOGVALUEBOX_HPP
-# define DIALOGVALUEBOX_HPP
+#ifndef DIALOGVALUESBOX_HPP
+# define DIALOGVALUESBOX_HPP
 
 # include "Window.hpp"
 
@@ -10,7 +10,7 @@
 # include "TextButton.hpp"
 # include "ValueField.hpp"
 
-class DialogValueBox final : public Window
+class DialogValuesBox final : public Window
 {
 	private:
 		vector<unique_ptr<Element>>		_elements;
@@ -43,14 +43,14 @@ class DialogValueBox final : public Window
 		void							addButton(const string& fontPath);
 
 	public:
-		DialogValueBox(void) = delete;
-		DialogValueBox(const string& name, const string& fontPath, const int width = 400, \
-			const int height = 170, const int displayMode = LIGHT_MODE, const string& titleText = "", \
-			const bool titleLimit = LIMIT_ON, const string& text = "", const int maxText = 30, \
+		DialogValuesBox(void) = delete;
+		DialogValuesBox(const string& name, const string& fontPath, const int width = 400, \
+			const int height = 170, const int displayMode = LIGHT_MODE, const string& titleText = "[Title]", \
+			const bool titleLimit = false, const string& text = "[Description]", const int maxText = 6, \
 			const string& logoPath = "", const int logoWidth = 75, const int logoHeight = 75, \
 			const bool logoCentered = false);
 
-		~DialogValueBox(void) = default;
+		~DialogValuesBox(void) = default;
 
 		virtual int						routine(void);
 		virtual int						waitForEvent(void);

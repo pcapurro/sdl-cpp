@@ -80,6 +80,8 @@ int		DialogTextBox::reactKeyButtonDown(const int key)
 
 	if (key == SDLK_TAB)
 	{
+		_buttons[_tabCursor]->setClick(false);
+		_buttons[_tabCursor]->setSelected(false);
 		_buttons[_tabCursor]->setHover(false);
 
 		if (_tabCursor < _buttons.size() - 1)

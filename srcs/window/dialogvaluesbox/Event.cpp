@@ -1,6 +1,6 @@
-#include "DialogValueBox.hpp"
+#include "DialogValuesBox.hpp"
 
-int     DialogValueBox::waitForEvent(void)
+int     DialogValuesBox::waitForEvent(void)
 {
 	int			x = 0, y = 0;
 	SDL_Event	event;

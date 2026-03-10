@@ -1,6 +1,6 @@
-#include "DialogValueBox.hpp"
+#include "DialogValuesBox.hpp"
 
-void	DialogValueBox::render(void)
+void	DialogValuesBox::render(void)
 {
 	SDL_Renderer*	renderer = getRenderer();
 

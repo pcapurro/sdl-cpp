@@ -67,21 +67,14 @@ void    ValueField::removeAfter(SDL_Renderer* renderer)
     _lastError.clear();
 }
 
-void    ValueField::joinText(const string& text, SDL_Renderer* renderer)
+void    ValueField::joinValue(const string& text, SDL_Renderer* renderer)
 {
     int     limitX = (getWidth() / 2) * LIMIT_RATIO;
     string  oldText = _mainText->getTextStr();
-
-    if (oldText.size() >= _maxChar
-        || oldText.size() + text.size() > _maxChar)
-    {
-        _lastError = "Text has reached the limit (" \
-            + std::to_string(_maxChar) + string(").");
-
-        return;
-    }
-
     string  newText;
+
+    if (!validateValue(text))
+        return;
 
     if (_cursorPos < oldText.size())
     {
@@ -100,18 +93,13 @@ void    ValueField::joinText(const string& text, SDL_Renderer* renderer)
     _lastError.clear();
 }
 
-void    ValueField::createText(const string& text, SDL_Renderer* renderer)
+void    ValueField::createValue(const string& text, SDL_Renderer* renderer)
 {
-    if (text.size() > _maxChar)
-    {
-        _lastError = "Text has reached the limit (" \
-            + std::to_string(_maxChar) + string(").");
-
-        return;
-    }
-
     int     textRatio = getHeight() / 4;
     int     limitX = (getWidth() / 2) * LIMIT_RATIO;
+
+    if (!validateValue(text))
+        return;
 
     _mainText.emplace(getX() + limitX, getY(), text, getHeight() - textRatio, \
         _fontPath, _textColor, getWidth() - (limitX * 2), false, renderer);
@@ -133,9 +121,9 @@ void    ValueField::createText(const string& text, SDL_Renderer* renderer)
 void    ValueField::add(const string& text, SDL_Renderer* renderer)
 {
     if (_mainText.has_value())
-        joinText(text, renderer);
+        joinValue(text, renderer);
     else
-        createText(text, renderer);
+        createValue(text, renderer);
 
     updateCursor(renderer);
 }

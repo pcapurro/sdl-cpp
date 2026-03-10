@@ -10,9 +10,6 @@ class ValueField : public Element
     private:
         size_t                  _maxChar = 256;
 
-        int                     _minValue = -256;
-        size_t                  _maxValue = 256;
-
         string                  _fontPath;
         Color                   _textColor;
         optional<Text>          _mainText;
@@ -28,8 +25,10 @@ class ValueField : public Element
 
         string                  _lastError;
 
-        void                    joinText(const string& text, SDL_Renderer* renderer);
-        void                    createText(const string& text, SDL_Renderer* renderer);
+        void                    joinValue(const string& text, SDL_Renderer* renderer);
+        void                    createValue(const string& text, SDL_Renderer* renderer);
+
+        bool                    validateValue(const string& text);
 
     protected:
 		virtual void	        onPropertiesChanged(SDL_Renderer* renderer) override;

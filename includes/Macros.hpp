@@ -16,8 +16,6 @@
 
 /* DialogBox paramaters */
 
-# define LIMIT_ON 1
-# define LIMIT_OFF 0
 # define DARK_MODE 1
 # define LIGHT_MODE 0
 

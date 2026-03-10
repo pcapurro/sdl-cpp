@@ -1,6 +1,6 @@
-#include "DialogValueBox.hpp"
+#include "DialogValuesBox.hpp"
 
-void	DialogValueBox::reactMouseMotion(const int x, const int y)
+void	DialogValuesBox::reactMouseMotion(const int x, const int y)
 {
 	bool				isAbove = false;
 	SDL_Renderer*		renderer = getRenderer();
@@ -24,7 +24,7 @@ void	DialogValueBox::reactMouseMotion(const int x, const int y)
         SDL_SetCursor(getCursor(SDL_SYSTEM_CURSOR_ARROW));
 }
 
-int		DialogValueBox::reactMouseButtonUp(const int x, const int y)
+int		DialogValuesBox::reactMouseButtonUp(const int x, const int y)
 {
 	SDL_Renderer*		renderer = getRenderer();
 	vector<Element*>	buttons = \
@@ -49,7 +49,7 @@ int		DialogValueBox::reactMouseButtonUp(const int x, const int y)
 	return OK;
 }
 
-void	DialogValueBox::reactMouseButtonDown(const int x, const int y, \
+void	DialogValuesBox::reactMouseButtonDown(const int x, const int y, \
 	const int clicks)
 {
 	SDL_Renderer*		renderer = getRenderer();
@@ -70,7 +70,7 @@ void	DialogValueBox::reactMouseButtonDown(const int x, const int y, \
 	}
 }
 
-int		DialogValueBox::reactKeyButtonDown(const int key)
+int		DialogValuesBox::reactKeyButtonDown(const int key)
 {
 	vector<Element*>	buttons = \
 		{ _okButton.get(), _upField.get(), _downField.get() };
@@ -80,6 +80,8 @@ int		DialogValueBox::reactKeyButtonDown(const int key)
 
 	if (key == SDLK_TAB)
 	{
+		buttons[_tabCursor]->setClick(false);
+		buttons[_tabCursor]->setSelected(false);
 		buttons[_tabCursor]->setHover(false);
 
 		if (_tabCursor < buttons.size() - 1)
@@ -103,7 +105,7 @@ int		DialogValueBox::reactKeyButtonDown(const int key)
 	return OK;
 }
 
-void	DialogValueBox::reactCharactersDown(const char* text)
+void	DialogValuesBox::reactCharactersDown(const char* text)
 {
 	SDL_Renderer*		renderer = getRenderer();
 
@@ -116,7 +118,7 @@ void	DialogValueBox::reactCharactersDown(const char* text)
 		downField->add(text, renderer);
 }
 
-int		DialogValueBox::reactEvent(SDL_Event* event, const int x, const int y)
+int		DialogValuesBox::reactEvent(SDL_Event* event, const int x, const int y)
 {
 	int		value = OK;
 

@@ -1,6 +1,6 @@
-#include "DialogValueBox.hpp"
+#include "DialogValuesBox.hpp"
 
-int     DialogValueBox::routine(void)
+int     DialogValuesBox::routine(void)
 {
     int     value = OK;
 

@@ -1,8 +1,6 @@
-#include "DialogValueBox.hpp"
+#include "DialogValuesBox.hpp"
 
-#include "DialogValueBox.hpp"
-
-DialogValueBox::DialogValueBox(const string& name, const string& fontPath, const int width, \
+DialogValuesBox::DialogValuesBox(const string& name, const string& fontPath, const int width, \
 	const int height, const int displayMode, const string& titleText, \
 	const bool titleLimit, const string& text, const int maxText, const string& logoPath, \
 	const int logoWidth, const int logoHeight, const bool logoCentered) : \

@@ -40,8 +40,8 @@ class DialogTextBox final : public Window
 	public:
 		DialogTextBox(void) = delete;
 		DialogTextBox(const string& name, const string& fontPath, const int width = 400, \
-			const int height = 170, const int displayMode = LIGHT_MODE, const string& titleText = "", \
-			const bool titleLimit = LIMIT_ON, const string& text = "", const int maxText = 30, \
+			const int height = 170, const int displayMode = LIGHT_MODE, const string& titleText = "[Title]", \
+			const bool titleLimit = false, const string& text = "[Description]", const int maxText = 30, \
 			const string& logoPath = "", const int logoWidth = 75, const int logoHeight = 75, \
 			const bool logoCentered = false);
 
