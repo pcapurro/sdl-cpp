@@ -104,7 +104,7 @@ void	DialogTextBox::addErrorText(const int cursorX, const string& fontPath)
 	auto	textElement = std::make_unique<Text>(cursorX, 0, "No error", \
 		textSize, errorColor, fontPath, getRenderer());
 
-	int		y = _buttons.front().get()->getY() - (limitY / 2);
+	int		y = _buttons.front().get()->getY() - limitY;
 
 	textElement.get()->setY(y - textElement.get()->getHeight(), getRenderer());
 	textElement.get()->setVisibility(false);
