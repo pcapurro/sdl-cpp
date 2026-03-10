@@ -1,7 +1,7 @@
 #include "Text.hpp"
 
 Text::Text(const int x, const int y, const string& text, const int size, \
-    const Color& color, const string& fontPath, SDL_Renderer* renderer, \
+    const string& fontPath, const Color& color, SDL_Renderer* renderer, \
     const int maxWidth, const bool wrapping) : \
         Element({x, y, 0, 0}), \
         _textStr(text), \

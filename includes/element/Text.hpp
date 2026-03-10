@@ -27,7 +27,7 @@ class Text final : public Element
         Text(void) = delete;
 
         Text(const int x, const int y, const string& text, \
-            const int size, const Color& color, const string& fontPath, \
+            const int size, const string& fontPath, const Color& color, \
             SDL_Renderer* renderer, const int maxWidth = 0, const bool wrapping = false);
 
         void                    render(SDL_Renderer* renderer);

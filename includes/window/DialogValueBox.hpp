@@ -36,7 +36,11 @@ class DialogValueBox final : public Window
 		void							addText(const int cursorX, const int cursorY, const string& text, \
 											const string& fontPath, const int maxWidth);
 
+		void							addFieldsTitles(const string& fontPath);
 		void							addFields(const string& fontPath, const int maxText);
+		void							addFieldsUnits(const string& fontPath);
+
+		void							addButton(const string& fontPath);
 
 	public:
 		DialogValueBox(void) = delete;

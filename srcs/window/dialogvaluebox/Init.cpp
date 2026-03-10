@@ -22,7 +22,7 @@ DialogValueBox::DialogValueBox(const string& name, const string& fontPath, const
 	else
 		setWriteColor(BLACK), setBackgroundColor(WHITE);
 
-	_elements.reserve(4);
+	_elements.reserve(10);
 	_finalValues.reserve(2);
 
 	if (logoPath.size() > 0)
@@ -66,5 +66,9 @@ DialogValueBox::DialogValueBox(const string& name, const string& fontPath, const
 
 	addText(cursorX, cursorY, text, fontPath, maxWidth);
 
+	addFieldsTitles(fontPath);
 	addFields(fontPath, maxText);
+	addFieldsUnits(fontPath);
+
+	addButton(fontPath);
 }
