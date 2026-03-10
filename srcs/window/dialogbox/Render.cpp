@@ -6,12 +6,12 @@ void	DialogBox::render(void)
 
     renderBackground();
 
-	if (renderer)
-	{
-		for (auto& element : _elements)
-			element.get()->render(renderer);
+	if (!renderer)
+		return;
 
-		for (auto& button : _buttons)
-			button.get()->render(renderer);
-	}
+	for (auto& element : _elements)
+		element->render(renderer);
+
+	for (auto& button : _buttons)
+		button->render(renderer);
 }

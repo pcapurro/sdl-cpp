@@ -2,8 +2,7 @@
 
 ValueField::ValueField(const int x, const int y, const int width, const int height, \
     const Color& backColor, const Color& frameColor, const string& fontPath, \
-    const Color& textColor, const int maxChar, \
-    const bool wrapping) : \
+    const Color& textColor, const int maxChar) : \
         Element({x, y, width, height}), \
         _maxChar(maxChar), \
         _fontPath(fontPath), \
@@ -16,7 +15,7 @@ ValueField::ValueField(const int x, const int y, const int width, const int heig
     limit = limit * LIMIT_RATIO;
 
     _cursor.emplace(properties.x, properties.y + limit, \
-        CURSOR_WIDTH, properties.height - (limit * 2), frameColor);
+        CURSOR_WIDTH, properties.height, frameColor);
 
     _background.emplace(properties.x, properties.y, properties.width, \
         properties.height, backColor, true, limit, frameColor);

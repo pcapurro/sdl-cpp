@@ -132,9 +132,6 @@ void    ValueField::createText(const string& text, SDL_Renderer* renderer)
 
 void    ValueField::add(const string& text, SDL_Renderer* renderer)
 {
-    int     oldLinesNb = _mainText.has_value() ? \
-        _mainText->getLinesNb() : 1;
-
     if (_mainText.has_value())
         joinText(text, renderer);
     else

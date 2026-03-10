@@ -1,6 +1,6 @@
-#include "DialogTextBox.hpp"
+#include "DialogValueBox.hpp"
 
-void	DialogTextBox::render(void)
+void	DialogValueBox::render(void)
 {
 	SDL_Renderer*	renderer = getRenderer();
 
@@ -12,6 +12,8 @@ void	DialogTextBox::render(void)
 	for (auto& element : _elements)
 		element->render(renderer);
 
-	for (auto& button : _buttons)
-		button->render(renderer);
+	_okButton->render(renderer);
+
+	_upField->render(renderer);
+	_downField->render(renderer);
 }

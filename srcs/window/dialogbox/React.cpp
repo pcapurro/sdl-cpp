@@ -6,15 +6,15 @@ void	DialogBox::reactMouseMotion(const int x, const int y)
 
 	for (auto& button : _buttons)
 	{
-		if (button.get()->isAbove(x, y))
+		if (button->isAbove(x, y))
 		{
 			isAbove = true;
 
-			button.get()->onMouseHover();
-			SDL_SetCursor(getCursor(button.get()->getHoverCursor()));
+			button->onMouseHover();
+			SDL_SetCursor(getCursor(button->getHoverCursor()));
 		}
 		else
-			button.get()->onMouseHoverOutside();
+			button->onMouseHoverOutside();
 	}
 
 	if (!isAbove)
@@ -50,14 +50,14 @@ int		DialogBox::reactKeyButtonDown(const int key)
 {
 	if (key == SDLK_TAB)
 	{
-		_buttons[_tabCursor].get()->setHighlight(false);
+		_buttons[_tabCursor]->setHighlight(false);
 
 		if (_tabCursor < _buttons.size() - 1)
 			_tabCursor++;
 		else
 			_tabCursor = 0;
 
-		_buttons[_tabCursor].get()->setHighlight(true);
+		_buttons[_tabCursor]->setHighlight(true);
 	}
 	else if (key == SDLK_RETURN || key == SDLK_KP_ENTER)
 		return _tabCursor + 1;

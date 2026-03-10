@@ -1,22 +1,30 @@
-#ifndef DIALOGBOX_HPP
-# define DIALOGBOX_HPP
+#ifndef DIALOGVALUEBOX_HPP
+# define DIALOGVALUEBOX_HPP
 
 # include "Window.hpp"
 
 # include "Text.hpp"
 # include "Shape.hpp"
 # include "Image.hpp"
-# include "TextButton.hpp"
 
-class DialogBox final : public Window
+# include "TextButton.hpp"
+# include "ValueField.hpp"
+
+class DialogValueBox final : public Window
 {
 	private:
 		vector<unique_ptr<Element>>		_elements;
-		vector<unique_ptr<TextButton>>	_buttons;
+
+		unique_ptr<Element>				_okButton;
+
+		unique_ptr<Element>				_upField;
+		unique_ptr<Element>				_downField;
 
 		size_t							_tabCursor = 0;
 
-		const vector<string>			_textButtons;
+		string							_fontPath;
+
+		vector<int>						_finalValues;
 
 		void							addLogo(const int cursorX, const int cursorY, const string& logoPath, \
 											const int logoWidth, const int logoHeight, const bool centered = false);
@@ -28,18 +36,17 @@ class DialogBox final : public Window
 		void							addText(const int cursorX, const int cursorY, const string& text, \
 											const string& fontPath, const int maxWidth);
 
-		void							addButtons(const string& fontPath, const vector<string>& buttonsTexts);
+		void							addFields(const string& fontPath, const int maxText);
 
 	public:
-		DialogBox(void) = delete;
-		DialogBox(const string& name, const string& fontPath, const int width = 400, \
-			const int height = 170, const int displayMode = LIGHT_MODE, \
-			const string& titleText = "[Title]", const bool titleLimit = LIMIT_ON, \
-			const string& text = "[Text]", const vector<string>& buttonsTexts = {"yes", "no"}, \
+		DialogValueBox(void) = delete;
+		DialogValueBox(const string& name, const string& fontPath, const int width = 400, \
+			const int height = 170, const int displayMode = LIGHT_MODE, const string& titleText = "", \
+			const bool titleLimit = LIMIT_ON, const string& text = "", const int maxText = 30, \
 			const string& logoPath = "", const int logoWidth = 75, const int logoHeight = 75, \
 			const bool logoCentered = false);
 
-		~DialogBox(void) = default;
+		~DialogValueBox(void) = default;
 
 		virtual int						routine(void);
 		virtual int						waitForEvent(void);
@@ -48,12 +55,15 @@ class DialogBox final : public Window
 
 		void 							reactMouseMotion(const int x, const int y);
 		int								reactMouseButtonUp(const int x, const int y);
-		void 							reactMouseButtonDown(const int x, const int y);
+		void 							reactMouseButtonDown(const int x, const int y, const int clicks);
 
 		int								reactKeyButtonDown(const int key);
+		void 							reactCharactersDown(const char* text);
 
 		virtual int						reactEvent(SDL_Event* event, \
 											const int x = 0, const int y = 0);
+
+        vector<int>                     getFinalValues(void) const;
 };
 
 #endif

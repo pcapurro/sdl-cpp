@@ -4,7 +4,7 @@ void    ValueField::updateCursor(SDL_Renderer* renderer)
 {
     if (!_mainText.has_value())
         return;
-        
+
     int newX = _mainText->getCharX(_cursorPos);
     int newY = _mainText->getCharY(_cursorPos);
 

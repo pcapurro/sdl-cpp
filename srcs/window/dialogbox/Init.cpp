@@ -1,12 +1,11 @@
 #include "DialogBox.hpp"
 
-DialogBox::DialogBox(const string& name, const int width, const int height, \
-	const string& fontPath, const int displayMode, const string& titleText, \
+DialogBox::DialogBox(const string& name, const string& fontPath, const int width, \
+	const int height, const int displayMode, const string& titleText, \
 	const bool titleLimit, const string& text, const vector<string>& buttonsTexts, \
 	const string& logoPath, const int logoWidth, const int logoHeight, \
 	const bool logoCentered) : \
 		Window(name, width, height), \
-		_tabCursor(0), \
 		_textButtons(buttonsTexts)
 {
 	int		limitX = width * LIMIT_RATIO;
@@ -30,25 +29,25 @@ DialogBox::DialogBox(const string& name, const int width, const int height, \
 			logoHeight, logoCentered);
 
 		if (titleText.size() == 0 || logoCentered)
-			cursorY += _elements.back().get()->getHeight() + limitY;
+			cursorY += _elements.back()->getHeight() + limitY;
 	}
 
 	if (titleText.size() > 0)
 	{
 		if (_elements.size() > 0 && !logoCentered)
-			cursorX += _elements.back().get()->getWidth() + limitX;
+			cursorX += _elements.back()->getWidth() + limitX;
 
 		maxWidth = width - cursorX - limitX;
 
 		addTitleText(cursorX, cursorY, titleText, fontPath, maxWidth);
 
-		cursorY += _elements.back().get()->getHeight() + limitY;
+		cursorY += _elements.back()->getHeight() + limitY;
 	}
 
 	if (titleLimit)
 	{
 		addTitleLimit(cursorX, cursorY, maxWidth);
-		cursorY += _elements.back().get()->getHeight() + limitY;
+		cursorY += _elements.back()->getHeight() + limitY;
 	}
 
 	if (logoPath.size() > 0)

@@ -45,7 +45,7 @@ class ValueField : public Element
 
         ValueField(const int x, const int y, const int width, const int height, \
             const Color& backColor, const Color& frameColor, const string& fontPath, \
-            const Color& textColor, const int maxChar = 256, const bool wrapping = false);
+            const Color& textColor, const int maxChar = 256);
 
         ~ValueField(void) = default;
 
@@ -61,7 +61,7 @@ class ValueField : public Element
         void                    increase(void);
         void                    decrease(void);
 
-        string                  getText(void) const;
+        int                     getValue(void) const;
 
         void                    updateCursor(SDL_Renderer* renderer);
         void                    updateCursor(const int x, const int y, SDL_Renderer* renderer);
@@ -71,14 +71,16 @@ class ValueField : public Element
 
         void                    render(SDL_Renderer* renderer);
 
-		virtual void	        onMouseDown(const int x = 0, const int y = 0, SDL_Renderer* renderer) override;
-        virtual void	        onMouseDownDouble(const int x = 0, const int y = 0, SDL_Renderer* renderer) override;
+		virtual void	        onMouseDown(const int x = 0, const int y = 0, SDL_Renderer* renderer = nullptr) override;
+        virtual void	        onMouseDownDouble(const int x = 0, const int y = 0, SDL_Renderer* renderer = nullptr) override;
 		virtual void	        onMouseDownOutside(SDL_Renderer* renderer) override;
 
-		virtual void	        onMouseHover(const int x = 0, const int y = 0, SDL_Renderer* renderer) override;
-		virtual void	        onMouseHoverOutside(SDL_Renderer* renderer) override;
+        virtual void            onMouseUp(const int x, const int y, SDL_Renderer* renderer) override;
 
-        virtual void	        onButtonDown(const int key, SDL_Renderer* renderer) override;
+		virtual void	        onMouseHover(const int x = 0, const int y = 0, SDL_Renderer* renderer = nullptr) override;
+		virtual void	        onMouseHoverOutside(SDL_Renderer* renderer = nullptr) override;
+
+        virtual void	        onButtonDown(const int key, SDL_Renderer* renderer = nullptr) override;
 };
 
 #endif

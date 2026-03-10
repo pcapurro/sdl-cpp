@@ -1,8 +1,8 @@
-#include "DialogTextBox.hpp"
+#include "DialogValueBox.hpp"
 
-#include "DialogTextBox.hpp"
+#include "DialogValueBox.hpp"
 
-DialogTextBox::DialogTextBox(const string& name, const string& fontPath, const int width, \
+DialogValueBox::DialogValueBox(const string& name, const string& fontPath, const int width, \
 	const int height, const int displayMode, const string& titleText, \
 	const bool titleLimit, const string& text, const int maxText, const string& logoPath, \
 	const int logoWidth, const int logoHeight, const bool logoCentered) : \
@@ -22,7 +22,8 @@ DialogTextBox::DialogTextBox(const string& name, const string& fontPath, const i
 	else
 		setWriteColor(BLACK), setBackgroundColor(WHITE);
 
-	_elements.reserve(7);
+	_elements.reserve(4);
+	_finalValues.reserve(2);
 
 	if (logoPath.size() > 0)
 	{
@@ -65,6 +66,5 @@ DialogTextBox::DialogTextBox(const string& name, const string& fontPath, const i
 
 	addText(cursorX, cursorY, text, fontPath, maxWidth);
 
-    addTextField(cursorX, fontPath, maxText);
-	addErrorText(cursorX, fontPath);
+	addFields(fontPath, maxText);
 }

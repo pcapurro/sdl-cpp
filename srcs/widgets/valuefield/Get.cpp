@@ -5,10 +5,12 @@ string  ValueField::getLastError(void)
     return std::move(_lastError);
 }
 
-string  ValueField::getText(void) const
+int     ValueField::getValue(void) const
 {
-    if (!_mainText.has_value())
-        return "";
+    int value = 0;
 
-    return _mainText->getTextStr();
+    if (_mainText.has_value())
+        value = std::atoi(_mainText->getTextStr().c_str());
+
+    return value;
 }

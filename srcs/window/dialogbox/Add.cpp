@@ -4,6 +4,7 @@ void	DialogBox::addLogo(const int cursorX, const int cursorY, const string& logo
 	const int logoWidth, const int logoHeight, const bool centered)
 {
 	Properties		logoProperties;
+	SDL_Renderer*	renderer = getRenderer();
 
 	if (!centered)
 		logoProperties.x = cursorX;
@@ -14,10 +15,10 @@ void	DialogBox::addLogo(const int cursorX, const int cursorY, const string& logo
 	logoProperties.height = logoHeight;
 
 	auto	image = std::make_unique<Image>(logoProperties.x, logoProperties.y, \
-		logoProperties.width, logoProperties.height, logoPath.c_str(), getRenderer());
+		logoProperties.width, logoProperties.height, logoPath.c_str(), renderer);
 
 	if (centered)
-		image.get()->setX(getWidth() / 2 - (image.get()->getWidth() / 2), getRenderer());
+		image->setX(getWidth() / 2 - (image->getWidth() / 2), renderer);
 
 	_elements.emplace_back(std::move(image));
 }
@@ -55,10 +56,12 @@ void	DialogBox::addText(const int cursorX, const int cursorY, const string& text
 void	DialogBox::addButtons(const string& fontPath, \
 	const vector<string>& buttonsTexts)
 {
-	int		textSize = getHeight() * TEXT_RATIO;
-	int		spaceSize = (getWidth() * LIMIT_RATIO);
-	int		limitY = getHeight() * LIMIT_RATIO;
-	int		totalWidth = 0;
+	int				textSize = getHeight() * TEXT_RATIO;
+	int				spaceSize = (getWidth() * LIMIT_RATIO);
+	int				limitY = getHeight() * LIMIT_RATIO;
+	int				totalWidth = 0;
+
+	SDL_Renderer*	renderer = getRenderer();
 
     _buttons.reserve(4);
 
@@ -66,12 +69,12 @@ void	DialogBox::addButtons(const string& fontPath, \
 	{
 		auto button = std::make_unique<TextButton>(0, 0, ((textSize * 5) / 10) * 10, \
 			((textSize * 2) / 10) * 10, getBackgroundColor(), buttonsTexts[i], textSize, \
-			getWriteColor(), fontPath, getRenderer());
+			getWriteColor(), fontPath, renderer);
 
-		button.get()->setY(getHeight() - limitY - button.get()->getHeight(), getRenderer());
-		button.get()->setSettings(false, NONE, true, SDL_SYSTEM_CURSOR_HAND, true, true);
+		button->setY(getHeight() - limitY - button->getHeight(), renderer);
+		button->setSettings(false, NONE, true, SDL_SYSTEM_CURSOR_HAND, true, true);
 
-		totalWidth += button.get()->getWidth();
+		totalWidth += button->getWidth();
 		if (i + 1 < buttonsTexts.size() && i + 1 < MAX_BUTTONS)
 			totalWidth += spaceSize;
 
@@ -82,8 +85,8 @@ void	DialogBox::addButtons(const string& fontPath, \
 
 	for (const auto& button : _buttons)
 	{
-		button->setX(cursorX, getRenderer());
-		button->setY(getHeight() - limitY - button->getHeight(), getRenderer());
+		button->setX(cursorX, renderer);
+		button->setY(getHeight() - limitY - button->getHeight(), renderer);
 
 		button->setSettings(false, NONE, true, \
 			SDL_SYSTEM_CURSOR_HAND, true, true);

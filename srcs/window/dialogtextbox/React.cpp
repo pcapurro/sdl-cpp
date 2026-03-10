@@ -26,7 +26,8 @@ void	DialogTextBox::reactMouseMotion(const int x, const int y)
 
 int		DialogTextBox::reactMouseButtonUp(const int x, const int y)
 {
-	Element*	element = nullptr;
+	Element*		element = nullptr;
+	SDL_Renderer*	renderer = getRenderer();
 
 	for (auto& button : _buttons)
 	{
@@ -34,7 +35,7 @@ int		DialogTextBox::reactMouseButtonUp(const int x, const int y)
 
 		if (element->isAbove(x, y))
 		{
-			element->onMouseUp(x, y, getRenderer());
+			element->onMouseUp(x, y, renderer);
 
 			TextField*	textField = dynamic_cast \
 				<TextField*>(element);
@@ -43,7 +44,7 @@ int		DialogTextBox::reactMouseButtonUp(const int x, const int y)
 				return RETURN;
 		}
 		else
-			element->onMouseUpOutside(getRenderer());
+			element->onMouseUpOutside(renderer);
 	}
 
 	return OK;
@@ -79,18 +80,18 @@ int		DialogTextBox::reactKeyButtonDown(const int key)
 
 	if (key == SDLK_TAB)
 	{
-		_buttons[_tabCursor].get()->setHover(false);
+		_buttons[_tabCursor]->setHover(false);
 
 		if (_tabCursor < _buttons.size() - 1)
 			_tabCursor++;
 		else
 			_tabCursor = 0;
 
-		_buttons[_tabCursor].get()->setHover(true);
+		_buttons[_tabCursor]->setHover(true);
 	}
 	else if (key == SDLK_RETURN || key == SDLK_KP_ENTER)
 	{
-		_buttons[_tabCursor].get()->onMouseDown();
+		_buttons[_tabCursor]->onMouseDown();
 
 		TextButton*	textButton = dynamic_cast \
 			<TextButton*>(_buttons[_tabCursor].get());
@@ -104,13 +105,14 @@ int		DialogTextBox::reactKeyButtonDown(const int key)
 
 void	DialogTextBox::reactCharactersDown(const char* text)
 {
-	TextField*	textField = dynamic_cast<TextField*> \
+	TextField*		textField = dynamic_cast<TextField*> \
 		(_buttons.front().get());
+	SDL_Renderer*	renderer = getRenderer();
 
 	if (!textField->isClicked())
 		return;
 
-	textField->add(text, getRenderer());
+	textField->add(text, renderer);
 
 	string	error = textField->getLastError();
 
@@ -122,11 +124,11 @@ void	DialogTextBox::reactCharactersDown(const char* text)
 		int		limitX = getWidth() * LIMIT_RATIO;
 		int		maxWidth = getWidth() - (limitX * 2);
 
-		errorText->update(error, maxWidth, false, getRenderer());
-		_elements.back().get()->setVisibility(true);
+		errorText->update(error, maxWidth, false, renderer);
+		_elements.back()->setVisibility(true);
 	}
-	else if (_elements.back().get()->isVisible())
-		_elements.back().get()->setVisibility(false);
+	else if (_elements.back()->isVisible())
+		_elements.back()->setVisibility(false);
 }
 
 int		DialogTextBox::reactEvent(SDL_Event* event, const int x, const int y)
