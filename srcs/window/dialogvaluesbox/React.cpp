@@ -1,11 +1,50 @@
 #include "DialogValuesBox.hpp"
 
+void	DialogValuesBox::reactError(void)
+{
+	ValueField*		downField = dynamic_cast<ValueField*>(_downField.get());
+
+	vector<Text*>	errorsPtr;
+	vector<string>	errorsText;
+
+	errorsPtr.emplace_back(_downError.get());
+	errorsText.emplace_back(downField->getLastError());
+
+	if (_upField)
+	{
+		ValueField*		upField = dynamic_cast<ValueField*>(_upField.get());
+
+		errorsPtr.emplace_back(_upError.get());
+		errorsText.emplace_back(upField->getLastError());
+	}
+
+	int		limitX = getWidth() * LIMIT_RATIO;
+	int		maxWidth = getWidth() - (limitX * 2);
+
+	for (size_t i = 0; i < errorsPtr.size(); i++)
+	{
+		if (!errorsPtr[i])
+			continue;
+
+		if (errorsText[i].size() > 0)
+		{
+			errorsPtr[i]->update(errorsText[i], maxWidth, false, getRenderer());
+			errorsPtr[i]->setVisibility(true);
+		}
+		else
+			errorsPtr[i]->setVisibility(false);
+	}
+}
+
 void	DialogValuesBox::reactMouseMotion(const int x, const int y)
 {
 	bool				isAbove = false;
 	SDL_Renderer*		renderer = getRenderer();
 	vector<Element*>	buttons = \
-		{ _okButton.get(), _upField.get(), _downField.get() };
+		{ _okButton.get(), _downField.get() };
+
+	if (_upField)
+		buttons.push_back(_upField.get());
 
 	for (auto& button : buttons)
 	{
@@ -28,7 +67,10 @@ int		DialogValuesBox::reactMouseButtonUp(const int x, const int y)
 {
 	SDL_Renderer*		renderer = getRenderer();
 	vector<Element*>	buttons = \
-		{ _okButton.get(), _upField.get(), _downField.get() };
+		{ _okButton.get(), _downField.get() };
+
+	if (_upField)
+		buttons.push_back(_upField.get());
 
 	for (auto& button : buttons)
 	{
@@ -54,7 +96,10 @@ void	DialogValuesBox::reactMouseButtonDown(const int x, const int y, \
 {
 	SDL_Renderer*		renderer = getRenderer();
 	vector<Element*>	buttons = \
-		{ _okButton.get(), _upField.get(), _downField.get() };
+		{ _okButton.get(), _downField.get() };
+
+	if (_upField)
+		buttons.push_back(_upField.get());
 
 	for (auto& button : buttons)
 	{
@@ -73,7 +118,10 @@ void	DialogValuesBox::reactMouseButtonDown(const int x, const int y, \
 int		DialogValuesBox::reactKeyButtonDown(const int key)
 {
 	vector<Element*>	buttons = \
-		{ _okButton.get(), _upField.get(), _downField.get() };
+		{ _okButton.get(), _downField.get() };
+
+	if (_upField)
+		buttons.push_back(_upField.get());
 
 	for (const auto& button : buttons)
 		button->onButtonDown(key, getRenderer());
@@ -101,6 +149,8 @@ int		DialogValuesBox::reactKeyButtonDown(const int key)
 		if (textButton)
 			return RETURN;
 	}
+	
+	reactError();
 
 	return OK;
 }
@@ -108,37 +158,20 @@ int		DialogValuesBox::reactKeyButtonDown(const int key)
 void	DialogValuesBox::reactCharactersDown(const char* text)
 {
 	SDL_Renderer*		renderer = getRenderer();
-
-	ValueField*			upField = dynamic_cast<ValueField*>(_upField.get());
 	ValueField*			downField = dynamic_cast<ValueField*>(_downField.get());
 
-	if (_upField->isClicked())
-		upField->add(text, renderer);
-	else if (_downField->isClicked())
+	if (_upField)
+	{
+		ValueField*	upField = dynamic_cast<ValueField*>(_upField.get());
+
+		if (upField && upField->isClicked())
+			upField->add(text, renderer);
+	}
+
+	if (downField && _downField->isClicked())
 		downField->add(text, renderer);
 
-	vector<Text*>	errorsPtr = {
-		dynamic_cast<Text*>(_elements.back().get()), \
-		dynamic_cast<Text*>(_elements[_elements.size() - 2].get()) \
-	};
-
-	vector<string>	errorsText = { 
-		upField->getLastError(), downField->getLastError()
-	};
-
-	int		limitX = getWidth() * LIMIT_RATIO;
-	int		maxWidth = getWidth() - (limitX * 2);
-
-	for (size_t i = 0; i < errorsPtr.size(); i++)
-	{
-		if (errorsText[i].size() > 0)
-		{
-			errorsPtr[i]->update(errorsText[i], maxWidth, false, renderer);
-			errorsPtr[i]->setVisibility(true);
-		}
-		else
-			errorsPtr[i]->setVisibility(false);
-	}
+	reactError();
 }
 
 int		DialogValuesBox::reactEvent(SDL_Event* event, const int x, const int y)

@@ -61,16 +61,21 @@ void	DialogValuesBox::addFieldsTitles(const string& fontPath)
 
 	SDL_Renderer*	renderer = getRenderer();
 
-	auto 	upLeftText = std::make_unique<Text>(getX() + limitX, 0, "width:", textSize, \
-		fontPath, getWriteColor(), 0, false, renderer);
-
-	auto 	downRightText = std::make_unique<Text>(getX() + limitX, 0, "height:", textSize, \
+	auto 	downRightText = std::make_unique<Text>(getX() + limitX, 0, _titles[0], textSize, \
 		fontPath, getWriteColor(), 0, false, renderer);
 
 	downRightText->setY(getHeight() - (limitY * 2) - downRightText->getHeight());
-	upLeftText->setY(downRightText->getY() - (limitY * 2) - upLeftText->getHeight());
 
-	_elements.emplace_back(std::move(upLeftText));
+	if (_titles.size() > 1)
+	{
+		auto 	upLeftText = std::make_unique<Text>(getX() + limitX, 0, _titles[1], textSize, \
+			fontPath, getWriteColor(), 0, false, renderer);
+
+		upLeftText->setY(downRightText->getY() - (limitY * 2) - upLeftText->getHeight());
+
+		_elements.emplace_back(std::move(upLeftText));
+	}
+
 	_elements.emplace_back(std::move(downRightText));
 }
 
@@ -85,31 +90,42 @@ void	DialogValuesBox::addFields(const string& fontPath, const int maxText)
 	Text*			upText = dynamic_cast<Text*>(_elements[_elements.size() - 2].get());
 	Text*			downText = dynamic_cast<Text*>(_elements.back().get());
 
-	int				globalX = upText->getX() + upText->getWidth() ? \
-		upText->getX() + upText->getWidth() : downText->getX() + downText->getWidth();
+	int				globalX = 0;
+
+	if (_titles.size() > 1)
+	{
+		if (downText->getX() + downText->getWidth() > upText->getX() + upText->getWidth())
+			globalX = downText->getX() + downText->getWidth();
+		else
+			globalX = upText->getX() + upText->getWidth();
+	}
+	else
+		globalX = downText->getX() + downText->getWidth();
 
 	SDL_Renderer*	renderer = getRenderer();
 
-	if (upText->getX() > downText->getX())
-		globalX = upText->getX();
-
-	_upField = std::make_unique<ValueField>(globalX + limitX, 0, \
-		globalWidth, globalHeight, getBackgroundColor(), getWriteColor(), fontPath, getWriteColor(), maxText);
-
 	_downField = std::make_unique<ValueField>(globalX + limitX, 0, \
-		globalWidth, globalHeight, getBackgroundColor(), getWriteColor(), fontPath, getWriteColor(), maxText);
+		globalWidth, globalHeight, getBackgroundColor(), getWriteColor(), \
+		fontPath, getWriteColor(), maxText);
 
-	_upField->setY(upText->getY(), renderer);
-	_downField->setY(downText->getY(), renderer);
-
-	_upField->setSettings(true, HIGHLIGHT_SELECT, true, SDL_SYSTEM_CURSOR_IBEAM, false, false);
+	_downField->setY(downText->getY(), renderer);	
 	_downField->setSettings(true, HIGHLIGHT_SELECT, true, SDL_SYSTEM_CURSOR_IBEAM, false, false);
 
 	Color	color = BLUE;
 	color.a = HIGHLIGHT_OPACITY;
 
-	_upField->setSelectColor(color);
 	_downField->setSelectColor(color);
+
+	if (_titles.size() > 1)
+	{
+		_upField = std::make_unique<ValueField>(globalX + limitX, 0, globalWidth, globalHeight, \
+			getBackgroundColor(), getWriteColor(), fontPath, getWriteColor(), maxText);
+
+		_upField->setY(upText->getY(), renderer);
+		_upField->setSettings(true, HIGHLIGHT_SELECT, true, SDL_SYSTEM_CURSOR_IBEAM, false, false);
+
+		_upField->setSelectColor(color);
+	}
 }
 
 void	DialogValuesBox::addFieldsUnits(const string& fontPath)
@@ -119,19 +135,23 @@ void	DialogValuesBox::addFieldsUnits(const string& fontPath)
 
 	SDL_Renderer*	renderer = getRenderer();
 
-	auto	rightUpText = std::make_unique<Text>(0, 0, "px", textSize, \
+	auto	rightDownText = std::make_unique<Text>(0, 0, _units[0], textSize, \
 		fontPath, getWriteColor(), 0, false, renderer);
-
-	auto	rightDownText = std::make_unique<Text>(0, 0, "px", textSize, \
-		fontPath, getWriteColor(), 0, false, renderer);
-
-	rightUpText->setX(_upField->getX() + _upField->getWidth() + (limitX / 2));
-	rightUpText->setY(_upField->getY());
 
 	rightDownText->setX(_downField->getX() + _downField->getWidth() + (limitX / 2));
 	rightDownText->setY(_downField->getY());
 
-	_elements.emplace_back(std::move(rightUpText));
+	if (_upField)
+	{
+		auto	rightUpText = std::make_unique<Text>(0, 0, _units[1], textSize, \
+			fontPath, getWriteColor(), 0, false, renderer);
+		
+		rightUpText->setX(_upField->getX() + _upField->getWidth() + (limitX / 2));
+		rightUpText->setY(_upField->getY());
+
+		_elements.emplace_back(std::move(rightUpText));
+	}
+
 	_elements.emplace_back(std::move(rightDownText));
 }
 
@@ -142,31 +162,31 @@ void	DialogValuesBox::addFieldsErrors(const string& fontPath)
 
 	SDL_Renderer*	renderer = getRenderer();
 
-	auto	rightUpText = std::make_unique<Text>(0, 0, "Default error", textSize, \
+	_downError = std::make_unique<Text>(0, 0, "Default error", textSize, \
 		fontPath, getWriteColor(), 0, false, renderer);
 
-	auto	rightDownText = std::make_unique<Text>(0, 0, "Default error", textSize, \
-		fontPath, getWriteColor(), 0, false, renderer);
+	Text*	downText = dynamic_cast<Text*>(_elements.back().get());
 
-	Text*	upText = dynamic_cast<Text*>(_elements.back().get());
-	Text*	downText = dynamic_cast<Text*>(_elements[_elements.size() - 2].get());
-
-	rightUpText->setX(upText->getX() + upText->getWidth() + (limitX / 2));
-	rightUpText->setY(upText->getY());
-
-	rightDownText->setX(downText->getX() + downText->getWidth() + (limitX / 2));
-	rightDownText->setY(downText->getY());
+	_downError->setX(downText->getX() + downText->getWidth() + (limitX / 2));
+	_downError->setY(downText->getY());
 
 	Color	color = RED;
 
-	rightUpText->setColor(color);
-	rightUpText->setVisibility(false);
+	_downError->setColor(color);
+	_downError->setVisibility(false);
 
-	rightDownText->setColor(color);
-	rightDownText->setVisibility(false);
+	if (_upField)
+	{
+		Text*	upText = dynamic_cast<Text*>(_elements[_elements.size() - 2].get());
+		_upError = std::make_unique<Text>(0, 0, "Default error", textSize, \
+			fontPath, getWriteColor(), 0, false, renderer);
 
-	_elements.emplace_back(std::move(rightUpText));
-	_elements.emplace_back(std::move(rightDownText));
+		_upError->setX(upText->getX() + upText->getWidth() + (limitX / 2));
+		_upError->setY(upText->getY());
+
+		_upError->setColor(color);
+		_upError->setVisibility(false);
+	}
 }
 
 void	DialogValuesBox::addButton(const string& fontPath)

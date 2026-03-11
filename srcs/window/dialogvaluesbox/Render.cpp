@@ -14,6 +14,12 @@ void	DialogValuesBox::render(void)
 
 	_okButton->render(renderer);
 
-	_upField->render(renderer);
+	if (_upField)
+	{
+		_upField->render(renderer);
+		_upError->render(renderer);
+	}
+
 	_downField->render(renderer);
+	_downError->render(renderer);
 }

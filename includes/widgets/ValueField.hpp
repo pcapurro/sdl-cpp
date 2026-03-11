@@ -8,8 +8,6 @@
 class ValueField : public Element
 {
     private:
-        size_t                  _maxChar = 256;
-
         string                  _fontPath;
         Color                   _textColor;
         optional<Text>          _mainText;
@@ -20,6 +18,10 @@ class ValueField : public Element
         optional<Shape>         _textFocus;
         optional<Shape>         _background;
 
+        size_t                  _maxChar = 256;
+        int                     _minValue = 0;
+        int                     _maxValue = 999;
+
         int                     _originalWidth = 0;
         int                     _originalHeight = 0;
 
@@ -28,7 +30,7 @@ class ValueField : public Element
         void                    joinValue(const string& text, SDL_Renderer* renderer);
         void                    createValue(const string& text, SDL_Renderer* renderer);
 
-        bool                    validateValue(const string& text);
+        void                    validateValue(void);
 
     protected:
 		virtual void	        onPropertiesChanged(SDL_Renderer* renderer) override;
@@ -44,7 +46,8 @@ class ValueField : public Element
 
         ValueField(const int x, const int y, const int width, const int height, \
             const Color& backColor, const Color& frameColor, const string& fontPath, \
-            const Color& textColor, const int maxChar = 256);
+            const Color& textColor, const int maxChar = 256, const int minValue = 0, \
+            const int maxValue = 999);
 
         ~ValueField(void) = default;
 

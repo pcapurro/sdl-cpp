@@ -5,6 +5,8 @@ void    ValueField::clear(SDL_Renderer* renderer)
     _cursorPos = 0;
     updateCursor(renderer);
 
+    _lastError.clear();
+
     _mainText.reset();
 
     setWidth(_originalWidth);
@@ -14,10 +16,7 @@ void    ValueField::clear(SDL_Renderer* renderer)
 void    ValueField::removeBefore(SDL_Renderer* renderer)
 {
     if (!_mainText.has_value() || _cursorPos == 0)
-    {
-        _lastError.clear();
         return;
-    }
 
     string  text = _mainText->getTextStr();
 
@@ -27,7 +26,10 @@ void    ValueField::removeBefore(SDL_Renderer* renderer)
     text.erase(_cursorPos, 1);
 
     if (text.empty())
+    {
         _mainText.reset();
+        _lastError.clear();
+    }
     else
     {
         int     limitX = (getWidth() / 2) * LIMIT_RATIO;
@@ -36,7 +38,7 @@ void    ValueField::removeBefore(SDL_Renderer* renderer)
             false, renderer);
     }
 
-    _lastError.clear();
+    validateValue();
 }
 
 void    ValueField::removeAfter(SDL_Renderer* renderer)
@@ -47,15 +49,15 @@ void    ValueField::removeAfter(SDL_Renderer* renderer)
     string  text = _mainText->getTextStr();
 
     if (_cursorPos >= text.size())
-    {
-        _lastError.clear();
         return;
-    }
 
     text.erase(_cursorPos, 1);
 
     if (text.empty())
+    {
         _mainText.reset();
+        _lastError.clear();
+    }
     else
     {
         int     limitX = (getWidth() / 2) * LIMIT_RATIO;
@@ -64,17 +66,19 @@ void    ValueField::removeAfter(SDL_Renderer* renderer)
             false, renderer);
     }
 
-    _lastError.clear();
+    validateValue();
 }
 
 void    ValueField::joinValue(const string& text, SDL_Renderer* renderer)
 {
     int     limitX = (getWidth() / 2) * LIMIT_RATIO;
     string  oldText = _mainText->getTextStr();
-    string  newText;
 
-    if (!validateValue(text))
+    if (oldText.size() >= _maxChar
+        || oldText.size() + text.size() > _maxChar)
         return;
+
+    string  newText;
 
     if (_cursorPos < oldText.size())
     {
@@ -89,8 +93,6 @@ void    ValueField::joinValue(const string& text, SDL_Renderer* renderer)
 
     if (_mainText->getTextStr().size() > oldText.size())
         _cursorPos++;
-
-    _lastError.clear();
 }
 
 void    ValueField::createValue(const string& text, SDL_Renderer* renderer)
@@ -98,7 +100,7 @@ void    ValueField::createValue(const string& text, SDL_Renderer* renderer)
     int     textRatio = getHeight() / 4;
     int     limitX = (getWidth() / 2) * LIMIT_RATIO;
 
-    if (!validateValue(text))
+    if (text.size() > _maxChar)
         return;
 
     _mainText.emplace(getX() + limitX, getY(), text, getHeight() - textRatio, \
@@ -109,13 +111,8 @@ void    ValueField::createValue(const string& text, SDL_Renderer* renderer)
     _originalWidth = getWidth();
     _originalHeight = getHeight();
 
-    onPropertiesChanged(renderer);
-    onStateChanged();
-
     onSettingsChanged();
     onStyleChanged();
-
-    _lastError.clear();
 }
 
 void    ValueField::add(const string& text, SDL_Renderer* renderer)
@@ -124,6 +121,8 @@ void    ValueField::add(const string& text, SDL_Renderer* renderer)
         joinValue(text, renderer);
     else
         createValue(text, renderer);
+
+    validateValue();
 
     updateCursor(renderer);
 }

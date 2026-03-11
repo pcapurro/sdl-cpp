@@ -2,7 +2,7 @@
 
 string  ValueField::getLastError(void)
 {
-    return std::move(_lastError);
+    return _lastError;
 }
 
 int     ValueField::getValue(void) const

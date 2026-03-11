@@ -1,12 +1,26 @@
 #include "DialogValuesBox.hpp"
 
 DialogValuesBox::DialogValuesBox(const string& name, const string& fontPath, const int width, \
-	const int height, const int displayMode, const string& titleText, \
-	const bool titleLimit, const string& text, const int maxText, const string& logoPath, \
+	const int height, const int displayMode, const string& titleText, const bool titleLimit, \
+	const string& text, const int maxText, const vector<string>& titles, const vector<string>& units, \
+	const vector<int>& minValues, const vector<int>& maxValues, const string& logoPath, \
 	const int logoWidth, const int logoHeight, const bool logoCentered) : \
 		Window(name, width, height), \
-		_fontPath(fontPath)
+		_fontPath(fontPath), \
+		_titles(titles), \
+		_units(units), \
+		_minValues(minValues), \
+		_maxValues(maxValues)
 {
+	if (_titles.size() == 0 || _units.size() == 0 || _minValues.size() == 0 || _maxValues.size() == 0)
+		throw std::runtime_error("Invalid fields number (min: 1)");
+
+	if (_titles.size() > 2 || _units.size() > 2 || _minValues.size() > 2 || _maxValues.size() > 2)
+		throw std::runtime_error("Invalid fields number (max: 2)");
+
+	if (_titles.size() != _units.size() || _units.size() != minValues.size() || minValues.size() != maxValues.size())
+		throw std::runtime_error("Paramaters vectors size mismatch");
+
 	int		limitX = width * LIMIT_RATIO;
 	int		limitY = height * LIMIT_RATIO;
 

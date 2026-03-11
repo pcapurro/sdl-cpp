@@ -2,12 +2,11 @@
 
 TextField::TextField(const int x, const int y, const int width, const int height, \
     const Color& backColor, const Color& frameColor, const string& fontPath, \
-    const Color& textColor, const int maxChar, \
-    const bool wrapping) : \
+    const Color& textColor, const int maxChar, const bool wrapping) : \
         Element({x, y, width, height}), \
-        _maxChar(maxChar), \
         _fontPath(fontPath), \
         _textColor(textColor), \
+        _maxChar(maxChar), \
         _wrapping(wrapping)
 {
     Properties  properties = {x, y, width, height};
