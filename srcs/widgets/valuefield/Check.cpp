@@ -11,7 +11,7 @@ void    ValueField::validateValue(void)
     {
         if (text[i] == '-')
         {
-            if (_mainText.has_value() || i > 0)
+            if (i > 0)
             {
                 _lastError = "Invalid value.";
                 return;
