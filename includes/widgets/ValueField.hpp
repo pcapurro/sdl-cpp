@@ -60,8 +60,8 @@ class ValueField : public Element
 
         void                    add(const string& text, SDL_Renderer* renderer);
 
-        void                    increase(void);
-        void                    decrease(void);
+        void                    increase(SDL_Renderer* renderer);
+        void                    decrease(SDL_Renderer* renderer);
 
         int                     getValue(void) const;
 

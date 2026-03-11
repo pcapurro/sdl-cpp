@@ -127,12 +127,34 @@ void    ValueField::add(const string& text, SDL_Renderer* renderer)
     updateCursor(renderer);
 }
 
-void    ValueField::increase(void)
+void    ValueField::increase(SDL_Renderer* renderer)
 {
-    ;
+    if (!_mainText.has_value())
+        return;
+
+    int     value = std::atoi(\
+        _mainText->getTextStr().c_str());
+
+    int     limitX = (getWidth() / 2) * LIMIT_RATIO;
+
+    value++;
+
+    _mainText->update(std::to_string(value), getWidth() - (limitX * 2), \
+        false, renderer);
 }
 
-void    ValueField::decrease(void)
+void    ValueField::decrease(SDL_Renderer* renderer)
 {
-    ;
+    if (!_mainText.has_value())
+        return;
+
+    int     value = std::atoi(\
+        _mainText->getTextStr().c_str());
+
+    int     limitX = (getWidth() / 2) * LIMIT_RATIO;
+
+    value--;
+
+    _mainText->update(std::to_string(value), getWidth() - (limitX * 2), \
+        false, renderer);
 }
