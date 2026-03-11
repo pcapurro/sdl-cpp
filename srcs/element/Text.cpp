@@ -26,8 +26,6 @@ Text::Text(const int x, const int y, const string& text, const int size, \
     {
         createWrappedLines(text, maxWidth, renderer);
         setWidth(maxWidth);
-
-        cout << "created " << _lines.size() << endl;
     }
 
     _lineHeight = TTF_FontLineSkip(_font.getFont());
