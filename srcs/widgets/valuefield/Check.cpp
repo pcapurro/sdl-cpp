@@ -13,13 +13,13 @@ void    ValueField::validateValue(void)
         {
             if (i > 0)
             {
-                _lastError = "Invalid value.";
+                _lastError = "invalid value";
                 return;
             }
         }
         else if (!std::isdigit(text[i]))
         {
-            _lastError = "Invalid value.";
+            _lastError = "invalid value";
             return;
         }
     }
@@ -29,12 +29,12 @@ void    ValueField::validateValue(void)
 
     if (value > _maxValue)
     {
-        _lastError = "Max value (" + std::to_string(_maxValue) + string(").");
+        _lastError = "max value is " + std::to_string(_maxValue);
         return;
     }
     else if (value < _minValue)
     {
-        _lastError = "Min value (" + std::to_string(_minValue) + string(").");
+        _lastError = "min value is " + std::to_string(_minValue);
         return;
     }
 

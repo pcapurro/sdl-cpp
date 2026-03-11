@@ -104,8 +104,8 @@ void    TextField::createText(const string& text, SDL_Renderer* renderer)
 {
     if (text.size() > _maxChar)
     {
-        _lastError = "Limit exceeded (" \
-            + std::to_string(_maxChar) + string(").");
+        _lastError = "Limit is " \
+            + std::to_string(_maxChar) + string(" chars");
 
         return;
     }
