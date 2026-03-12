@@ -21,7 +21,7 @@ The library is built around `4` levels of abstraction:
 
 Note: **Widgets** and **basic types** inheriting from `Element` class support optional state propagation, implemented through protected virtual methods defined in `Element` class.  
 
-The following three sections are dedicated to the presentation of `Engine` class and two windows made from the described levels.  
+The following sections are dedicated to the presentation of `Engine` class and windows made from the described levels.  
 
 ### Engine
 
@@ -131,17 +131,17 @@ DialogValuesBox     window(
 int value = window.routine();
 
 if (value == END)
-    std::cout << "User closed the window." << std::endl;
+    cout << "User closed the window." << endl;
 else
 {   
     vector<int> values = window.getFinalValues();
 
-    std::cout << "User answered:" << std::endl;
+    cout << "User answered:" << endl;
 
     for (const auto& value: values)
-        std::cout << value << " ; ";
+        cout << value << " ; ";
 
-    std::cout << std::endl;
+    cout << endl;
 }
 ```
 
