@@ -30,6 +30,13 @@ SRCS = srcs/base/Color.cpp \
 	srcs/widgets/textbutton/Init.cpp \
 	srcs/widgets/textbutton/On.cpp \
 	srcs/widgets/textbutton/Render.cpp \
+	srcs/widgets/valuefield/Cursor.cpp \
+	srcs/widgets/valuefield/Edit.cpp \
+	srcs/widgets/valuefield/Get.cpp \
+	srcs/widgets/valuefield/Init.cpp \
+	srcs/widgets/valuefield/On.cpp \
+	srcs/widgets/valuefield/Check.cpp \
+	srcs/widgets/valuefield/Render.cpp \
 	srcs/window/dialogbox/Add.cpp \
 	srcs/window/dialogbox/Event.cpp \
 	srcs/window/dialogbox/Init.cpp \
@@ -43,6 +50,13 @@ SRCS = srcs/base/Color.cpp \
 	srcs/window/dialogtextbox/React.cpp \
 	srcs/window/dialogtextbox/Render.cpp \
 	srcs/window/dialogtextbox/Routine.cpp \
+	srcs/window/dialogvaluesbox/Add.cpp \
+	srcs/window/dialogvaluesbox/Event.cpp \
+	srcs/window/dialogvaluesbox/Get.cpp \
+	srcs/window/dialogvaluesbox/Init.cpp \
+	srcs/window/dialogvaluesbox/React.cpp \
+	srcs/window/dialogvaluesbox/Render.cpp \
+	srcs/window/dialogvaluesbox/Routine.cpp \
 	srcs/window/window/Core.cpp \
 	srcs/window/window/Delete.cpp \
 	srcs/window/window/Get.cpp \
