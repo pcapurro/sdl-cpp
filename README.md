@@ -51,13 +51,13 @@ vector<string>      answers = {"OK", "CANCEL"};
 
 DialogBox           window1(
     "Ok/Cancel demo",           // window title
+    "OpenSans.ttf",             // font
     400, 170,                   // window dimensions
-    "Ubuntu.ttf",               // font
     DARK_MODE,                  // global color theme
     "[Title]",                  // title text
-    LIMIT_ON,                   // line limit between the title/logo and the description
+    true,                       // line limit between the title/logo and the description
     "[Description]",            // description text
-    answers,                    // possible answers (buttons)
+    answers                     // possible answers (buttons)
     "logo.bmp", 55, 55, true    // logo path, dimensions and centering
 );
 
@@ -85,12 +85,13 @@ The `routine()` method also manages display and interaction, and `getFinalAnswer
 ```
 DialogTextBox      window(
     "Text field demo",          // window title
+    "OpenSans.ttf",             // main font
     400, 170,                   // window dimensions
-    "Ubuntu.ttf",               // main font
     DARK_MODE,                  // global color theme
     "[Title]",                  // title text
-    LIMIT_ON,                   // line limit between the title/logo and the description
-    "[Description]", 30,        // description text       
+    true,                       // line limit between the title/logo and the description
+    "[Description]",            // description text       
+    30                          // maximum characters
     "logo.bmp", 55, 55, true    // logo path, dimensions and centering
 );
 
@@ -103,3 +104,45 @@ else
 ```
 
 ![preview-2](preview-2.png)
+
+### DialogValuesBox (ValuesField + TextButton)
+
+The `DialogValuesBox` class extends the behavior of `DialogTextBox` by adding interactive numeric input fields for integer values.  
+The window can contain one or two fields, each customizable with a title, a unit label and a minimum/maximum value.  
+
+The `routine()` method also manages display and interaction, and `getFinalValues()` returns the values entered by the user as a `vector<int>` if the window was not closed.  
+
+```
+DialogValuesBox     window(
+    "Values field demo",        // window title
+    "OpenSans.ttf",             // main font
+    400, 170,                   // window dimensions
+    DARK_MODE,                  // global color theme
+    "Window resolution",        // title text
+    true,                       // line limit between the title/logo and the description
+    "Specify width and height", // description text       
+    4,                          // maximum characters
+    {"width:", "height:"},      // fields titles
+    {"px", "px"},               // fields units
+    {0, 0},                     // fields minimum values
+    {1920, 1080}                // fields maximum values
+);
+
+int value = window.routine();
+
+if (value == END)
+    std::cout << "User closed the window." << std::endl;
+else
+{   
+    vector<int> values = window.getFinalValues();
+
+    std::cout << "User answered:" << std::endl;
+
+    for (const auto& value: values)
+        std::cout << value << " ; ";
+
+    std::cout << std::endl;
+}
+```
+
+![preview-3](preview-3.png)
