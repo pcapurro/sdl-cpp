@@ -65,5 +65,8 @@ DialogBox::DialogBox(const string& name, const string& fontPath, const int width
 	addText(cursorX, cursorY, text, fontPath, maxWidth);
 
 	if (buttonsTexts.size() > 0)
+	{
 		addButtons(fontPath, buttonsTexts);
+		_tabCursor = _buttons.size() - 1;
+	}
 }

@@ -17,13 +17,13 @@ class DialogValuesBox final : public Window
 
 		unique_ptr<Element>				_okButton;
 
-		unique_ptr<Element>				_upField;
+		unique_ptr<ValueField>			_upField;
 		unique_ptr<Text>				_upError;
 
-		unique_ptr<Element>				_downField;
+		unique_ptr<ValueField>			_downField;
 		unique_ptr<Text>				_downError;
 
-		size_t							_tabCursor = 0;
+		size_t							_tabCursor = 1;
 
 		string							_fontPath;
 
@@ -32,6 +32,7 @@ class DialogValuesBox final : public Window
 		vector<int>						_minValues;
 		vector<int>						_maxValues;
 
+		bool							_error = false;
 		vector<int>						_finalValues;
 
 		void							addLogo(const int cursorX, const int cursorY, const string& logoPath, \

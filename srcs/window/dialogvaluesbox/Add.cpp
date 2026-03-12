@@ -106,7 +106,7 @@ void	DialogValuesBox::addFields(const string& fontPath, const int maxText)
 
 	_downField = std::make_unique<ValueField>(globalX + limitX, 0, \
 		globalWidth, globalHeight, getBackgroundColor(), getWriteColor(), \
-		fontPath, getWriteColor(), maxText);
+		fontPath, getWriteColor(), maxText, _minValues[0], _maxValues[0]);
 
 	_downField->setY(downText->getY(), renderer);	
 	_downField->setSettings(true, HIGHLIGHT_SELECT, true, SDL_SYSTEM_CURSOR_IBEAM, false, false);
@@ -119,7 +119,7 @@ void	DialogValuesBox::addFields(const string& fontPath, const int maxText)
 	if (_titles.size() > 1)
 	{
 		_upField = std::make_unique<ValueField>(globalX + limitX, 0, globalWidth, globalHeight, \
-			getBackgroundColor(), getWriteColor(), fontPath, getWriteColor(), maxText);
+			getBackgroundColor(), getWriteColor(), fontPath, getWriteColor(), maxText, _minValues[1], _maxValues[1]);
 
 		_upField->setY(upText->getY(), renderer);
 		_upField->setSettings(true, HIGHLIGHT_SELECT, true, SDL_SYSTEM_CURSOR_IBEAM, false, false);

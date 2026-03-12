@@ -11,19 +11,14 @@ int     DialogValuesBox::routine(void)
     {
         value = waitForEvent();
 
-        if (value != OK)
-		{
-			ValueField*	upField = dynamic_cast<ValueField*> \
-				(_upField.get());
+        if (value == OK \
+            || (value == RETURN && _error))
+            continue;
 
-            ValueField*	downField = dynamic_cast<ValueField*> \
-				(_downField.get());
+        _finalValues.push_back(_upField ? _upField->getValue() : 0);
+        _finalValues.push_back(_downField ? _downField->getValue() : 0);
 
-            _finalValues.push_back(upField ? upField->getValue() : 0);
-            _finalValues.push_back(downField ? downField->getValue() : 0);
-
-            return value;
-		}
+        return value;
     }
 
     return OK;

@@ -12,14 +12,26 @@ DialogValuesBox::DialogValuesBox(const string& name, const string& fontPath, con
 		_minValues(minValues), \
 		_maxValues(maxValues)
 {
-	if (_titles.size() == 0 || _units.size() == 0 || _minValues.size() == 0 || _maxValues.size() == 0)
+	if (_titles.size() == 0 || _units.size() == 0 \
+		|| _minValues.size() == 0 || _maxValues.size() == 0)
 		throw std::runtime_error("Invalid fields number (min: 1)");
 
-	if (_titles.size() > 2 || _units.size() > 2 || _minValues.size() > 2 || _maxValues.size() > 2)
+	if (_titles.size() > 2 || _units.size() > 2 \
+		|| _minValues.size() > 2 || _maxValues.size() > 2)
 		throw std::runtime_error("Invalid fields number (max: 2)");
 
-	if (_titles.size() != _units.size() || _units.size() != minValues.size() || minValues.size() != maxValues.size())
+	if (_titles.size() != _units.size() || _units.size() != _minValues.size() \
+		|| _minValues.size() != _maxValues.size())
 		throw std::runtime_error("Paramaters vectors size mismatch");
+
+	if (_titles.size() > 1)
+	{
+		std::reverse(_titles.begin(), _titles.end());
+		std::reverse(_units.begin(), _units.end());
+
+		std::reverse(_minValues.begin(), _minValues.end());
+		std::reverse(_maxValues.begin(), _maxValues.end());
+	}
 
 	int		limitX = width * LIMIT_RATIO;
 	int		limitY = height * LIMIT_RATIO;
@@ -84,4 +96,7 @@ DialogValuesBox::DialogValuesBox(const string& name, const string& fontPath, con
 	addFieldsErrors(fontPath);
 
 	addButton(fontPath);
+
+	if (_upField)
+		_tabCursor++;
 }

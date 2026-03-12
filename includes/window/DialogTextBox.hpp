@@ -16,7 +16,7 @@ class DialogTextBox final : public Window
 		vector<unique_ptr<Element>>		_elements;
 		vector<unique_ptr<Element>>		_buttons;
 
-		size_t							_tabCursor = 0;
+		size_t							_tabCursor = 1;
 
 		string							_fontPath;
 
@@ -34,7 +34,6 @@ class DialogTextBox final : public Window
 
 		void							addTextField(const int cursorX, const string& fontPath, \
 											const int maxText);
-
 		void							addErrorText(const int cursorX, const string& fontPath);
 
 	public:
