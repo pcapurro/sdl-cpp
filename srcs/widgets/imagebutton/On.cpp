@@ -1,31 +1,37 @@
-#include "TextButton.hpp"
+#include "ImageButton.hpp"
 
-void	TextButton::onPropertiesChanged(SDL_Renderer* renderer)
+void	ImageButton::onPropertiesChanged(SDL_Renderer* /*renderer*/)
 {
     Properties  properties = {getX(), getY(), getWidth(), getHeight()};
 
-    _mainText->update(_mainText->getTextStr(), \
-        properties.width, true, renderer);
+    _mainImage->setWidth(properties.width);
+    _mainImage->setHeight(properties.height);
 
     _background->setWidth(properties.width);
     _background->setHeight(properties.height);
+
+    _border->setWidth(properties.width);
+    _border->setHeight(properties.height);
 }
 
-void	TextButton::onPositionChanged(SDL_Renderer* renderer)
+void	ImageButton::onPositionChanged(SDL_Renderer* renderer)
 {
     Properties  properties = {getX(), getY(), getWidth(), getHeight()};
 
-    _mainText->setX(properties.x + \
-        (properties.width / 2 - _mainText->getWidth() / 2), renderer);
+    _mainImage->setX(properties.x + \
+        (properties.width / 2 - _mainImage->getWidth() / 2), renderer);
 
-    _mainText->setY(properties.y + \
-        (properties.height / 2 - _mainText->getHeight() / 2), renderer);
+    _mainImage->setY(properties.y + \
+        (properties.height / 2 - _mainImage->getHeight() / 2), renderer);
 
     _background->setX(properties.x);
     _background->setY(properties.y);
+
+    _border->setX(properties.x);
+    _border->setY(properties.y);
 }
 
-void	TextButton::onStyleChanged(void)
+void	ImageButton::onStyleChanged(void)
 {
     Shape*      back = &_background.value();
 
@@ -33,7 +39,7 @@ void	TextButton::onStyleChanged(void)
     back->setSelectColor(getSelectColor());
 }
 
-void	TextButton::onSettingsChanged(void)
+void	ImageButton::onSettingsChanged(void)
 {
     Shape*      back = &_background.value();
 
@@ -62,7 +68,7 @@ void	TextButton::onSettingsChanged(void)
         back->disableFocus();
 }
 
-void	TextButton::onStateChanged(void)
+void	ImageButton::onStateChanged(void)
 {
     Shape*      back = &_background.value();
 
@@ -73,7 +79,7 @@ void	TextButton::onStateChanged(void)
     back->setFocus(isFocused());
 }
 
-void    TextButton::onMouseDown(const int /*x*/, const int /*y*/, \
+void    ImageButton::onMouseDown(const int /*x*/, const int /*y*/, \
     SDL_Renderer* /*renderer*/)
 {
     setClick(true, false);
@@ -82,7 +88,7 @@ void    TextButton::onMouseDown(const int /*x*/, const int /*y*/, \
     onStateChanged();
 }
 
-void    TextButton::onMouseDownOutside(SDL_Renderer* /*renderer*/)
+void    ImageButton::onMouseDownOutside(SDL_Renderer* /*renderer*/)
 {
     setClick(false, false);
     setSelected(false, false);
@@ -91,19 +97,19 @@ void    TextButton::onMouseDownOutside(SDL_Renderer* /*renderer*/)
     onStateChanged();
 }
 
-void    TextButton::onMouseUp(const int /*x*/, const int /*y*/, \
+void    ImageButton::onMouseUp(const int /*x*/, const int /*y*/, \
     SDL_Renderer* /*renderer*/)
 {
     setFocus(false);
 }
 
-void    TextButton::onMouseHover(const int /*x*/, const int /*y*/, \
+void    ImageButton::onMouseHover(const int /*x*/, const int /*y*/, \
     SDL_Renderer* /*renderer*/)
 {
     setHover(true);
 }
 
-void    TextButton::onMouseHoverOutside(SDL_Renderer* /*renderer*/)
+void    ImageButton::onMouseHoverOutside(SDL_Renderer* /*renderer*/)
 {
     setHover(false);
 }

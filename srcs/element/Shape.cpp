@@ -27,28 +27,27 @@ void    Shape::render(SDL_Renderer* renderer)
 
 	center = main;
 
+	SDL_SetRenderDrawColor(renderer, mainColor.r, mainColor.g, \
+		mainColor.b, mainColor.a);
+
+	SDL_RenderFillRect(renderer, &main);
+
 	if (_border && getWidth() > 0 && getHeight() > 0)
 	{
-		center.x = main.x + _borderThickness;
-		center.y = main.y + _borderThickness;
+		SDL_Rect    shapes[4];
 
-		center.w = main.w - 2 * _borderThickness;
-		center.h = main.h - 2 * _borderThickness;
+		SDL_SetRenderDrawColor(renderer, _borderColor.r, _borderColor.g, \
+	    	_borderColor.b, _borderColor.a);
 
-		SDL_SetRenderDrawColor(renderer, _borderColor.r, \
-			_borderColor.g, _borderColor.b, _borderColor.a);
-		SDL_RenderFillRect(renderer, &main);
+		shapes[0] = {main.x, main.y, _borderThickness, main.h};
+		shapes[1] = {main.x + main.w - _borderThickness, main.y, _borderThickness, main.h};
 
-		SDL_SetRenderDrawColor(renderer, mainColor.r, mainColor.g, \
-			mainColor.b, mainColor.a);
-		SDL_RenderFillRect(renderer, &center);
-	}
-	else
-	{
-		SDL_SetRenderDrawColor(renderer, mainColor.r, mainColor.g, \
-			mainColor.b, mainColor.a);
+		shapes[2] = {main.x + _borderThickness, main.y, main.w - 2 * _borderThickness, _borderThickness};
+		shapes[3] = {main.x + _borderThickness, main.y + main.h - _borderThickness, \
+			main.w - 2 * _borderThickness, _borderThickness};
 
-		SDL_RenderFillRect(renderer, &main);
+		for (const auto& shape : shapes)
+			SDL_RenderFillRect(renderer, &shape);
 	}
 
 	if ((isHighlightPossible() && isHighlighted()) \

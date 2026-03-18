@@ -52,6 +52,8 @@
 # define BLUE {0, 0, 255, 255}
 # define YELLOW {255, 255, 0, 255}
 
+# define INVISIBLE {0, 0, 0, 0}
+
 /* Text colors */
 
 # define RED_TXT "\033[31m"

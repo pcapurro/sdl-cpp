@@ -22,10 +22,8 @@ class Element
 		State			_state;
 
 	protected:
-		virtual void	onPropertiesChanged(SDL_Renderer* renderer)
-							{ (void) renderer; }
-		virtual void	onPositionChanged(SDL_Renderer* renderer)
-							{ (void) renderer; }
+		virtual void	onPropertiesChanged([[maybe_unused]] SDL_Renderer* renderer) {}
+		virtual void	onPositionChanged([[maybe_unused]] SDL_Renderer* renderer) {}
 
 		virtual void	onStyleChanged(void) {}
 
@@ -41,25 +39,22 @@ class Element
 
 		virtual void	render(SDL_Renderer* renderer) = 0;
 
-		virtual void	onMouseDown(const int x = 0, const int y = 0, SDL_Renderer* renderer = nullptr)
-			{ (void) x; (void) y; (void) renderer; }
-		virtual void	onMouseDownDouble(const int x = 0, const int y = 0, SDL_Renderer* renderer = nullptr)
-			{ (void) x; (void) y; (void) renderer; }
-		virtual void	onMouseDownOutside(SDL_Renderer* renderer)
-			{ (void) renderer; }
+		virtual void	onMouseDown([[maybe_unused]] const int x = 0, [[maybe_unused]] const int y = 0, \
+			[[maybe_unused]] SDL_Renderer* renderer = nullptr) {}
+		virtual void	onMouseDownDouble([[maybe_unused]] const int x = 0, [[maybe_unused]] const int y = 0, \
+			[[maybe_unused]] SDL_Renderer* renderer = nullptr) {}
+		virtual void	onMouseDownOutside([[maybe_unused]] SDL_Renderer* renderer = nullptr) {}
 
-		virtual void	onMouseUp(const int x = 0, const int y = 0, SDL_Renderer* renderer = nullptr)
-			{ (void) x; (void) y; (void) renderer; }
-		virtual void	onMouseUpOutside(SDL_Renderer* renderer)
-			{ (void) renderer; }
+		virtual void	onMouseUp([[maybe_unused]] const int x = 0, [[maybe_unused]] const int y = 0, \
+			[[maybe_unused]] SDL_Renderer* renderer = nullptr) {}
+		virtual void	onMouseUpOutside([[maybe_unused]] SDL_Renderer* renderer = nullptr) {}
 
-		virtual void	onMouseHover(const int x = 0, const int y = 0, SDL_Renderer* renderer = nullptr)
-			{ (void) x; (void) y; (void) renderer; }
-		virtual void	onMouseHoverOutside(SDL_Renderer* renderer = nullptr)
-			{ (void) renderer; }
+		virtual void	onMouseHover([[maybe_unused]] const int x = 0, [[maybe_unused]] const int y = 0, \
+			[[maybe_unused]] SDL_Renderer* renderer = nullptr) {}
+		virtual void	onMouseHoverOutside([[maybe_unused]] SDL_Renderer* renderer = nullptr) {}
 
-		virtual void	onButtonDown(const int key, SDL_Renderer* renderer = nullptr)
-			{ (void) key; (void) renderer; }
+		virtual void	onButtonDown([[maybe_unused]] const int key = 0, \
+			[[maybe_unused]] SDL_Renderer* renderer = nullptr) {}
 
 		void			setSettings(const bool select, const int selectType, const bool hover, \
 			const int hoverCursor, const bool highlight, const bool focus) noexcept;

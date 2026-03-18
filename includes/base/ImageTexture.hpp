@@ -12,6 +12,8 @@ class ImageTexture
 
 		Color			_averageColor;
 
+		void			calculateAverageColor(SDL_Surface* surface) noexcept;
+
 	public:
 		ImageTexture(const ImageTexture& original) = delete;
 		ImageTexture(ImageTexture&& original) noexcept;
@@ -22,8 +24,6 @@ class ImageTexture
 		ImageTexture&		operator=(ImageTexture&& original) noexcept;
 
 		~ImageTexture(void) noexcept;
-
-		void			calculateAverageColor(SDL_Surface* surface) noexcept;
 
 		SDL_Texture*	getTexture(void) const noexcept;
 		Color			getAverageColor(void) const noexcept;

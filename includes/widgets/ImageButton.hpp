@@ -1,15 +1,16 @@
-#ifndef TEXTBUTTON_HPP
-# define TEXTBUTTON_HPP
+#ifndef IMAGEBUTTON_HPP
+# define IMAGEBUTTON_HPP
 
-# include "Text.hpp"
+# include "Image.hpp"
 # include "Shape.hpp"
 # include "Element.hpp"
 
-class TextButton : public Element
+class ImageButton : public Element
 {
     private:
-        optional<Text>          _mainText;
         optional<Shape>         _background;
+        optional<Image>         _mainImage;
+        optional<Shape>         _border;
 
     protected:
 		virtual void	        onPropertiesChanged([[maybe_unused]] SDL_Renderer* renderer) override;
@@ -21,15 +22,13 @@ class TextButton : public Element
 		virtual void	        onStateChanged(void) override;
 
     public:
-        TextButton(void) = delete;
+        ImageButton(void) = delete;
 
-        TextButton(const int x, const int y, const int width, const int height, \
-            const Color& backColor, const string& text, const int size, \
-            const Color& textColor, const string& fontPath, SDL_Renderer* renderer);
+        ImageButton(const int x, const int y, const int width, const int height, \
+            const string& path, const Color& backColor, const int borderThickness, \
+            const Color& borderColor, SDL_Renderer* renderer);
 
-        ~TextButton(void) = default;
-
-        string                  getText(void) const;
+        ~ImageButton(void) = default;
 
         void                    render(SDL_Renderer* renderer);
 

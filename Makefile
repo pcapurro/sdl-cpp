@@ -26,6 +26,9 @@ SRCS = srcs/base/Color.cpp \
 	srcs/widgets/textfield/On.cpp \
 	srcs/widgets/textfield/Set.cpp \
 	srcs/widgets/textfield/Render.cpp \
+	srcs/widgets/imagebutton/Init.cpp \
+	srcs/widgets/imagebutton/On.cpp \
+	srcs/widgets/imagebutton/Render.cpp \
 	srcs/widgets/textbutton/Get.cpp \
 	srcs/widgets/textbutton/Init.cpp \
 	srcs/widgets/textbutton/On.cpp \

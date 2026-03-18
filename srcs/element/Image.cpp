@@ -50,3 +50,8 @@ void    Image::render(SDL_Renderer* renderer)
             getWidth(), getHeight(), getSelectColor(), renderer);
     }
 }
+
+Color   Image::getAverageColor(void) const noexcept
+{
+    return _image->getAverageColor();
+}
