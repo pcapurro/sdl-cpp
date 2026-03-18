@@ -21,7 +21,7 @@ The library is built around `4` levels of abstraction:
 
 Note: **Widgets** and **basic types** inheriting from `Element` class support optional state propagation, implemented through protected virtual methods defined in `Element` class.  
 
-The following three sections are dedicated to the presentation of `Engine` class and two windows made from the described levels.  
+The following sections are dedicated to the presentation of `Engine` class and windows made from the described levels.  
 
 ### Engine
 
@@ -57,7 +57,7 @@ DialogBox           window1(
     "[Title]",                  // title text
     true,                       // line limit between the title/logo and the description
     "[Description]",            // description text
-    answers                     // possible answers (buttons)
+    answers,                    // possible answers (buttons)
     "logo.bmp", 55, 55, true    // logo path, dimensions and centering
 );
 
@@ -90,9 +90,9 @@ DialogTextBox      window(
     DARK_MODE,                  // global color theme
     "[Title]",                  // title text
     true,                       // line limit between the title/logo and the description
-    "[Description]",            // description text       
-    30                          // maximum characters
-    "logo.bmp", 55, 55, true    // logo path, dimensions and centering
+    "[Description]",            // description text
+    30,                         // maximum characters
+    "logo.bmp", 55, 55, false   // logo path, dimensions and centering
 );
 
 int value = window.routine();
@@ -120,7 +120,7 @@ DialogValuesBox     window(
     DARK_MODE,                  // global color theme
     "Window resolution",        // title text
     true,                       // line limit between the title/logo and the description
-    "Specify width and height", // description text       
+    "Specify width and height", // description text
     4,                          // maximum characters
     {"width:", "height:"},      // fields titles
     {"px", "px"},               // fields units
@@ -131,17 +131,17 @@ DialogValuesBox     window(
 int value = window.routine();
 
 if (value == END)
-    std::cout << "User closed the window." << std::endl;
+    cout << "User closed the window." << endl;
 else
 {   
     vector<int> values = window.getFinalValues();
 
-    std::cout << "User answered:" << std::endl;
+    cout << "User answered:" << endl;
 
     for (const auto& value: values)
-        std::cout << value << " ; ";
+        cout << value << " ; ";
 
-    std::cout << std::endl;
+    cout << endl;
 }
 ```
 
