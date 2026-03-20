@@ -33,10 +33,10 @@ void	ImageButton::onPositionChanged(SDL_Renderer* renderer)
 
 void	ImageButton::onStyleChanged(void)
 {
-    Shape*  back = &_background.value();
+    Image*  image = &_mainImage.value();
 
-    back->setMainColor(getMainColor());
-    back->setSelectColor(getSelectColor());
+    image->setMainColor(getMainColor());
+    image->setSelectColor(getSelectColor());
 }
 
 void	ImageButton::onSettingsChanged(void)
@@ -54,6 +54,7 @@ void	ImageButton::onSettingsChanged(void)
     if (isSelectPossible())
     {
         image->enableSelect();
+        image->setSelectType(getSelectType());
         image->setSelectColor(getSelectColor());
     }
 

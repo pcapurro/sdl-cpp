@@ -22,7 +22,7 @@
 /* State */
 
 # define NONE 0
-# define DEFAULT 21
+# define DEFAULT 1
 # define OK 42
 # define END 84
 # define RETURN 168
@@ -31,8 +31,9 @@
 
 # define BORDER_SELECT 21
 # define CORNER_SELECT 22
-# define CENTER_SELECT_X 23
-# define HIGHLIGHT_SELECT 24
+# define CENTER_SELECT 23
+# define CENTER_SELECT_X 24
+# define HIGHLIGHT_SELECT 25
 
 /* UI Ratios */
 
