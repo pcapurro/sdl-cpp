@@ -33,7 +33,7 @@ void	ImageButton::onPositionChanged(SDL_Renderer* renderer)
 
 void	ImageButton::onStyleChanged(void)
 {
-    Shape*      back = &_background.value();
+    Shape*  back = &_background.value();
 
     back->setMainColor(getMainColor());
     back->setSelectColor(getSelectColor());
@@ -41,42 +41,42 @@ void	ImageButton::onStyleChanged(void)
 
 void	ImageButton::onSettingsChanged(void)
 {
-    Shape*      back = &_background.value();
+    Image*  image = &_mainImage.value();
 
     if (isHoverPossible())
     {
-        back->enableHover();
-        back->setHoverCursor(getHoverCursor());
+        image->enableHover();
+        image->setHoverCursor(getHoverCursor());
     }
     else
-        back->disableHover();
+        image->disableHover();
 
     if (isSelectPossible())
     {
-        back->enableSelect();
-        back->setSelectColor(getSelectColor());
+        image->enableSelect();
+        image->setSelectColor(getSelectColor());
     }
 
     if (isHighlightPossible())
-        back->enableHighlight();
+        image->enableHighlight();
     else
-        back->disableHighlight();
+        image->disableHighlight();
 
     if (isFocusPossible())
-        back->enableFocus();
+        image->enableFocus();
     else
-        back->disableFocus();
+        image->disableFocus();
 }
 
 void	ImageButton::onStateChanged(void)
 {
-    Shape*      back = &_background.value();
+    Image*  image = &_mainImage.value();
 
-    back->setHover(isHover());
-    back->setSelected(isSelected());
+    image->setHover(isHover());
+    image->setSelected(isSelected());
 
-    back->setHighlight(isHighlighted());
-    back->setFocus(isFocused());
+    image->setHighlight(isHighlighted());
+    image->setFocus(isFocused());
 }
 
 void    ImageButton::onMouseDown(const int /*x*/, const int /*y*/, \
