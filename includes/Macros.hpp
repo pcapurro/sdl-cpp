@@ -22,7 +22,6 @@
 /* State */
 
 # define NONE 0
-# define DEFAULT 1
 # define OK 42
 # define END 84
 # define RETURN 168
