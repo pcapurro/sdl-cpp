@@ -1,5 +1,21 @@
 #include "Color.hpp"
 
+bool    Color::operator==(const Color& other) const
+{
+    if (r == other.r && g == other.g && b == other.b && a == other.a)
+        return true;
+
+    return false;
+}
+
+bool    Color::operator!=(const Color& other) const
+{
+    if (r != other.r || g != other.g || b != other.b || a != other.a)
+        return true;
+
+    return false;
+}
+
 SDL_Color   Color::toSDLColor(void) const noexcept
 {
     SDL_Color   color;

@@ -12,6 +12,9 @@ class Color
 
 		uint8_t			a = 255;
 
+		bool			operator==(const Color& other) const;
+		bool			operator!=(const Color& other) const;
+
 		SDL_Color		toSDLColor(void) const noexcept;
 		int				getAverage(void) const noexcept;
 
