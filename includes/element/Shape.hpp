@@ -22,6 +22,9 @@ class Shape final : public Element
 
         void        render(SDL_Renderer* renderer);
 
+        int         getBorderThickness(void) const noexcept;
+        Color       getBorderColor(void) const noexcept;
+
         void	    setBorderThickness(const int thickness) noexcept;
         void	    setBorderColor(Color color) noexcept;
 };

@@ -75,6 +75,16 @@ void    Shape::render(SDL_Renderer* renderer)
     }
 }
 
+int		Shape::getBorderThickness(void) const noexcept
+{
+	return _borderThickness;
+}
+
+Color	Shape::getBorderColor(void) const noexcept
+{
+	return _borderColor;
+}
+
 void	Shape::setBorderThickness(const int thickness) noexcept
 {
 	_borderThickness = thickness;
