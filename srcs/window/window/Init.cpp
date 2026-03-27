@@ -19,6 +19,8 @@ Window::Window(const string& name, const int width, const int height) : \
 			+ string(SDL_GetError()) + ").");
 	}
 
+	_windowId = SDL_GetWindowID(_mainWindow);
+
 	_mainRenderer = SDL_CreateRenderer(_mainWindow, -1, \
 		SDL_RENDERER_ACCELERATED);
 	if (!_mainRenderer)

@@ -1,5 +1,10 @@
 #include "Window.hpp"
 
+int	Window::getWindowId(void) const noexcept
+{
+	return _windowId;
+}
+
 SDL_Renderer*	Window::getRenderer(void) const noexcept
 {
 	return _mainRenderer;

@@ -45,9 +45,6 @@ class DialogTextBox final : public Window
 			const bool logoCentered = false);
 
 		~DialogTextBox(void) = default;
-
-		virtual int						routine(void);
-		virtual int						waitForEvent(void);
 		
 		virtual void					render(void);
 
@@ -58,10 +55,9 @@ class DialogTextBox final : public Window
 		int								reactKeyButtonDown(const int key);
 		void 							reactCharactersDown(const char* text);
 
-		virtual int						reactEvent(SDL_Event* event, \
-											const int x = 0, const int y = 0);
+		virtual int						reactEvent(SDL_Event* event);
 
-		string							getFinalAnswer(void) const;
+		string							getFinalAnswer(void);
 };
 
 #endif

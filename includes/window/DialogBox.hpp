@@ -41,9 +41,6 @@ class DialogBox final : public Window
 
 		~DialogBox(void) = default;
 
-		virtual int						routine(void);
-		virtual int						waitForEvent(void);
-		
 		virtual void					render(void);
 
 		void 							reactMouseMotion(const int x, const int y);
@@ -52,8 +49,7 @@ class DialogBox final : public Window
 
 		int								reactKeyButtonDown(const int key);
 
-		virtual int						reactEvent(SDL_Event* event, \
-											const int x = 0, const int y = 0);
+		virtual int						reactEvent(SDL_Event* event);
 };
 
 #endif

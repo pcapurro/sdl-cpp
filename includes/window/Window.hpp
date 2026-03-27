@@ -12,6 +12,8 @@
 class Window
 {
 	private:
+		int						_windowId = 0;
+
 		int						_width = MIN_WINDOW_W;
 		int						_height = MIN_WINDOW_H;
 
@@ -38,12 +40,8 @@ class Window
 		Window(const string& name, const int width, const int height);
 		virtual					~Window(void);
 
-		virtual int				routine(void) = 0;
-		virtual int				waitForEvent(void) = 0;
-
 		virtual void			render(void) = 0;
-		virtual int				reactEvent(SDL_Event* event, \
-									const int x = 0, const int y = 0) = 0;
+		virtual int				reactEvent(SDL_Event* event) = 0;
 
 		void					refreshDisplay(void);
 
@@ -59,6 +57,8 @@ class Window
 
 		Color					getWriteColor(void) const noexcept;
 		Color					getBackgroundColor(void) const noexcept;
+
+		int						getWindowId(void) const noexcept;
 
 		SDL_Cursor*				getCursor(const int value) const noexcept;
 		SDL_Renderer*			getRenderer(void) const noexcept;

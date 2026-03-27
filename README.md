@@ -61,7 +61,7 @@ DialogBox           window1(
     "logo.bmp", 55, 55, true    // logo path, dimensions and centering
 );
 
-int value = window1.routine();
+int value = routine();
 
 if (value == END)
     cout << "User closed the window." << endl;
@@ -95,7 +95,7 @@ DialogTextBox      window(
     "logo.bmp", 55, 55, false   // logo path, dimensions and centering
 );
 
-int value = window.routine();
+int value = routine();
 
 if (value == END)
     cout << "User closed the window." << endl;
@@ -128,7 +128,7 @@ DialogValuesBox     window(
     {1920, 1080}                // fields maximum values
 );
 
-int value = window.routine();
+int value = routine();
 
 if (value == END)
     cout << "User closed the window." << endl;

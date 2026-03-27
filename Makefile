@@ -41,25 +41,19 @@ SRCS = srcs/base/Color.cpp \
 	srcs/widgets/valuefield/Check.cpp \
 	srcs/widgets/valuefield/Render.cpp \
 	srcs/window/dialogbox/Add.cpp \
-	srcs/window/dialogbox/Event.cpp \
 	srcs/window/dialogbox/Init.cpp \
 	srcs/window/dialogbox/React.cpp \
 	srcs/window/dialogbox/Render.cpp \
-	srcs/window/dialogbox/Routine.cpp \
 	srcs/window/dialogtextbox/Add.cpp \
-	srcs/window/dialogtextbox/Event.cpp \
 	srcs/window/dialogtextbox/Get.cpp \
 	srcs/window/dialogtextbox/Init.cpp \
 	srcs/window/dialogtextbox/React.cpp \
 	srcs/window/dialogtextbox/Render.cpp \
-	srcs/window/dialogtextbox/Routine.cpp \
 	srcs/window/dialogvaluesbox/Add.cpp \
-	srcs/window/dialogvaluesbox/Event.cpp \
 	srcs/window/dialogvaluesbox/Get.cpp \
 	srcs/window/dialogvaluesbox/Init.cpp \
 	srcs/window/dialogvaluesbox/React.cpp \
 	srcs/window/dialogvaluesbox/Render.cpp \
-	srcs/window/dialogvaluesbox/Routine.cpp \
 	srcs/window/window/Core.cpp \
 	srcs/window/window/Delete.cpp \
 	srcs/window/window/Get.cpp \

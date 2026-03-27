@@ -62,9 +62,6 @@ class DialogValuesBox final : public Window
 			const int logoWidth = 75, const int logoHeight = 75, const bool logoCentered = false);
 
 		~DialogValuesBox(void) = default;
-
-		virtual int						routine(void);
-		virtual int						waitForEvent(void);
 		
 		virtual void					render(void);
 
@@ -77,10 +74,9 @@ class DialogValuesBox final : public Window
 		int								reactKeyButtonDown(const int key);
 		void 							reactCharactersDown(const char* text);
 
-		virtual int						reactEvent(SDL_Event* event, \
-											const int x = 0, const int y = 0);
+		virtual int						reactEvent(SDL_Event* event);
 
-        vector<int>                     getFinalValues(void) const;
+        vector<int>                     getFinalValues(void);
 };
 
 #endif
