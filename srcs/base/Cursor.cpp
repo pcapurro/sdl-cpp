@@ -6,8 +6,8 @@ Cursor::Cursor(const SDL_SystemCursor value) : _value(value)
 
     if (!_cursor)
     {
-        throw std::runtime_error("SDL failed to create a cursor: " \
-            + string(SDL_GetError()));
+        throw std::runtime_error("SDL failed to create a cursor (" \
+            + string(SDL_GetError()) + ").");
     }
 }
 

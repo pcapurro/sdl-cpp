@@ -29,8 +29,8 @@ ImageTexture::ImageTexture(const char* path, SDL_Renderer* renderer)
 
 	if (!surface)
 	{
-		throw std::runtime_error("SDL failed to load a BMP path: " \
-			+ string(SDL_GetError()));
+		throw std::runtime_error("SDL failed to load a BMP path (" \
+			+ string(SDL_GetError()) + ").\nPath: '" + path + "'");
 	}
 
 	calculateAverageColor(surface);
@@ -40,8 +40,8 @@ ImageTexture::ImageTexture(const char* path, SDL_Renderer* renderer)
 
 	if (!_texture)
 	{
-		throw std::runtime_error("SDL failed to create a texture from a surface: " \
-			+ string(SDL_GetError()));
+		throw std::runtime_error("SDL failed to create a texture from a surface (" \
+			+ string(SDL_GetError()) + ").");
 	}
 }
 

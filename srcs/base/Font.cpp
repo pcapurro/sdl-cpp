@@ -6,8 +6,8 @@ Font::Font(const string& path, const int size)
 
 	if (!_font)
     {
-		throw std::runtime_error("SDL failed to load a font: " \
-            + string(SDL_GetError()));
+		throw std::runtime_error("SDL failed to load a font (" \
+            + string(SDL_GetError()) + ").");
     }
 }
 

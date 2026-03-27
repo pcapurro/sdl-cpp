@@ -15,16 +15,16 @@ Window::Window(const string& name, const int width, const int height) : \
 		SDL_WINDOWPOS_CENTERED, _width, _height, 0);
 	if (!_mainWindow)
 	{
-		throw std::runtime_error("SDL failed to create a window: " \
-			+ string(SDL_GetError()));
+		throw std::runtime_error("SDL failed to create a window (" \
+			+ string(SDL_GetError()) + ").");
 	}
 
 	_mainRenderer = SDL_CreateRenderer(_mainWindow, -1, \
 		SDL_RENDERER_ACCELERATED);
 	if (!_mainRenderer)
 	{
-		throw std::runtime_error("SDL failed to create a renderer: " \
-			+ string(SDL_GetError()));
+		throw std::runtime_error("SDL failed to create a renderer (" \
+			+ string(SDL_GetError()) + ").");
 	}
 
 	SDL_SetRenderDrawBlendMode(_mainRenderer, SDL_BLENDMODE_BLEND);

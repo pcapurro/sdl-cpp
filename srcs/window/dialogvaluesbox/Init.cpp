@@ -14,15 +14,15 @@ DialogValuesBox::DialogValuesBox(const string& name, const string& fontPath, con
 {
 	if (_titles.size() == 0 || _units.size() == 0 \
 		|| _minValues.size() == 0 || _maxValues.size() == 0)
-		throw std::runtime_error("Invalid fields number (min: 1)");
+		throw std::runtime_error("Error! Invalid DialogValuesBox paramaters (fields number (min: 1)).");
 
 	if (_titles.size() > 2 || _units.size() > 2 \
 		|| _minValues.size() > 2 || _maxValues.size() > 2)
-		throw std::runtime_error("Invalid fields number (max: 2)");
+		throw std::runtime_error("Error! Invalid DialogValuesBox paramaters (fields number (max: 2)).");
 
 	if (_titles.size() != _units.size() || _units.size() != _minValues.size() \
 		|| _minValues.size() != _maxValues.size())
-		throw std::runtime_error("Paramaters vectors size mismatch");
+		throw std::runtime_error("Error! Invalid DialogValuesBox paramaters (paramaters vectors size mismatch).");
 
 	if (_titles.size() > 1)
 	{

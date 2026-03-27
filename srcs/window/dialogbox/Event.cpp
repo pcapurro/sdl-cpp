@@ -7,8 +7,8 @@ int     DialogBox::waitForEvent(void)
 
 	if (SDL_WaitEvent(&event) == 0)
 	{
-		throw std::runtime_error("SDL failed listening to events: " + \
-			string(SDL_GetError()));
+		throw std::runtime_error("SDL failed listening to events (" + \
+			string(SDL_GetError()) + ").");
 	}
 
 	if (event.type == SDL_QUIT \

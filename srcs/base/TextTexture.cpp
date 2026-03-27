@@ -32,8 +32,8 @@ TextTexture::TextTexture(const char* text, TTF_Font* font, \
 
 	if (!surface)
 	{
-		throw std::runtime_error("SDL failed to create a text from a surface: " \
-			+ string(SDL_GetError()));
+		throw std::runtime_error("SDL failed to create a text from a surface (" \
+			+ string(SDL_GetError()) + ").");
 	}
 
 	calculateAverageColor(surface);
@@ -43,8 +43,8 @@ TextTexture::TextTexture(const char* text, TTF_Font* font, \
 
 	if (!_texture)
 	{
-		throw std::runtime_error("SDL failed to create a texture from a surface: " \
-			+ string(SDL_GetError()));
+		throw std::runtime_error("SDL failed to create a texture from a surface (" \
+			+ string(SDL_GetError()) + ").");
 	}
 }
 
