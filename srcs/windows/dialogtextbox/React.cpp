@@ -128,9 +128,17 @@ void	DialogTextBox::reactCharactersDown(const char* text)
 
 		errorText->update(error, maxWidth, false, renderer);
 		_elements.back()->setVisibility(true);
+
+		if (!_error)
+			_error = true;
 	}
 	else if (_elements.back()->isVisible())
+	{
 		_elements.back()->setVisibility(false);
+
+		if (_error)
+			_error = false;
+	}
 }
 
 int		DialogTextBox::reactEvent(SDL_Event* event)

@@ -6,19 +6,19 @@
 
 NAME = sdl-cpp.a
 
-SRCS = srcs/base/Color.cpp \
-	srcs/base/Cursor.cpp \
-	srcs/base/Engine.cpp \
-	srcs/base/Font.cpp \
-	srcs/base/Properties.cpp \
-	srcs/base/ImageTexture.cpp \
-	srcs/base/TextTexture.cpp \
-	srcs/base/TTF.cpp \
-	srcs/element/Element.cpp \
-	srcs/element/Image.cpp \
-	srcs/element/Render.cpp \
-	srcs/element/Shape.cpp \
-	srcs/element/Text.cpp \
+SRCS = srcs/bases/Color.cpp \
+	srcs/bases/Cursor.cpp \
+	srcs/bases/Engine.cpp \
+	srcs/bases/Font.cpp \
+	srcs/bases/Properties.cpp \
+	srcs/bases/ImageTexture.cpp \
+	srcs/bases/TextTexture.cpp \
+	srcs/bases/TTF.cpp \
+	srcs/elements/Element.cpp \
+	srcs/elements/Image.cpp \
+	srcs/elements/Render.cpp \
+	srcs/elements/Shape.cpp \
+	srcs/elements/Text.cpp \
 	srcs/widgets/textfield/Cursor.cpp \
 	srcs/widgets/textfield/Edit.cpp \
 	srcs/widgets/textfield/Get.cpp \
@@ -40,34 +40,38 @@ SRCS = srcs/base/Color.cpp \
 	srcs/widgets/valuefield/On.cpp \
 	srcs/widgets/valuefield/Check.cpp \
 	srcs/widgets/valuefield/Render.cpp \
-	srcs/window/dialogbox/Add.cpp \
-	srcs/window/dialogbox/Init.cpp \
-	srcs/window/dialogbox/React.cpp \
-	srcs/window/dialogbox/Render.cpp \
-	srcs/window/dialogtextbox/Add.cpp \
-	srcs/window/dialogtextbox/Get.cpp \
-	srcs/window/dialogtextbox/Init.cpp \
-	srcs/window/dialogtextbox/React.cpp \
-	srcs/window/dialogtextbox/Render.cpp \
-	srcs/window/dialogvaluesbox/Add.cpp \
-	srcs/window/dialogvaluesbox/Get.cpp \
-	srcs/window/dialogvaluesbox/Init.cpp \
-	srcs/window/dialogvaluesbox/React.cpp \
-	srcs/window/dialogvaluesbox/Render.cpp \
-	srcs/window/window/Core.cpp \
-	srcs/window/window/Delete.cpp \
-	srcs/window/window/Get.cpp \
-	srcs/window/window/Init.cpp \
-	srcs/window/window/Set.cpp \
+	srcs/windows/dialogbox/Add.cpp \
+	srcs/windows/dialogbox/Init.cpp \
+	srcs/windows/dialogbox/React.cpp \
+	srcs/windows/dialogbox/Render.cpp \
+	srcs/windows/dialogtextbox/Add.cpp \
+	srcs/windows/dialogtextbox/Get.cpp \
+	srcs/windows/dialogtextbox/Init.cpp \
+	srcs/windows/dialogtextbox/React.cpp \
+	srcs/windows/dialogtextbox/Render.cpp \
+	srcs/windows/dialogvaluesbox/Add.cpp \
+	srcs/windows/dialogvaluesbox/Get.cpp \
+	srcs/windows/dialogvaluesbox/Init.cpp \
+	srcs/windows/dialogvaluesbox/React.cpp \
+	srcs/windows/dialogvaluesbox/Render.cpp \
+	srcs/windows/window/Core.cpp \
+	srcs/windows/window/Delete.cpp \
+	srcs/windows/window/Get.cpp \
+	srcs/windows/window/Init.cpp \
+	srcs/windows/window/Set.cpp \
+	srcs/softwares/DialogBoxPreview.cpp \
+	srcs/softwares/DialogTextBoxPreview.cpp \
+	srcs/softwares/DialogValuesBoxPreview.cpp \
 
 CXX = c++
 
 CXXFLAGS = -std=c++17 -Wall -Wextra -Werror \
 	-I includes/ \
-	-I includes/base \
-	-I includes/element \
+	-I includes/bases \
+	-I includes/elements \
 	-I includes/widgets \
-	-I includes/window
+	-I includes/windows \
+	-I includes/softwares
 
 AR = ar
 

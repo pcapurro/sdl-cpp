@@ -6,7 +6,7 @@
 This is a `C++` library that encapsulates the `SDL2` software library and offers various widgets, tools and utility classes to develop complex `UI` environments.  
 It was initially designed to simplify the development of my future graphics projects (see `github.com/pcapurro/paint-software`).  
 
-The library is built around `4` levels of abstraction:  
+The library is built around `5` levels of abstraction:  
 1. A **primitive type**: encapsulates an `SDL` ressource (`SDL_Cursor*`, `TTF_Font*`, `SDL_Texture*`, etc) or simple properties (2D position, 2D dimensions, etc),  
 \> Ex: `Cursor`, `TextTexture`, `ImageTexture`, `Properties` or `Point` classes.  
 
@@ -16,23 +16,24 @@ The library is built around `4` levels of abstraction:
 3. A **widget**: encapsulates one or multiple **basic types**,  
 \> Ex: `TextButton` and `TextField` classes.  
 
-4. A **window**: encapsulates one or multiple **widgets** and **basic types** and defines a **general behavior** (routine, events, inputs, etc).  
+4. A **window**: encapsulates one or multiple **widgets** and **basic types** and defines a **reaction behavior** (events and inputs).  
 \> Ex: `DialogBox` and `DialogTextBox` classes.  
+
+5. A **software**: encapsulates one or multiple **windows** and defines a **general behavior** (routine and events).  
+\> Ex: `DialogBoxPreview` and `DialogValuesBoxPreview` classes.  
 
 Note: **Widgets** and **basic types** inheriting from `Element` class support optional state propagation, implemented through protected virtual methods defined in `Element` class.  
 
-The following sections are dedicated to the presentation of `Engine` class and windows made from the described levels.  
-
 ### Engine
 
-The `Engine` class provides a flexible initialization of `SDL` subsystems, allowing optional activation of many parameters, such as video, antialisaing or audio.  
+The `Engine` class provides a flexible initialization of `SDL` subsystems, allowing optional activation of many parameters, such as video, antialiasing or audio.  
 
 It will throw exceptions on initialization failure and ensure proper cleanup of `SDL` upon destruction.  
 
 ```
 Engine  engine(
     true,           // video
-    true,           // antialisaing
+    true,           // antialiasing
     true,           // TTF (fonts)
     true,           // events
     true,           // text input
@@ -44,24 +45,24 @@ Engine  engine(
 
 The `DialogBox` class is a simple dialog window with a title, description, optional logo and multiple buttons representing predefined answers.  
 
-The `routine()` method displays the window, manages user interaction and returns the index of the chosen button, or `END` if the window was closed.  
+The `routine()` method of `DialogBoxPreview` displays the window, manages user interaction and returns the index of the chosen button, or `END` if the window was closed.  
 
 ```
-vector<string>      answers = {"OK", "CANCEL"};
+vector<string>		answers = {"OK", "CANCEL"};
 
-DialogBox           window1(
-    "Ok/Cancel demo",           // window title
-    "OpenSans.ttf",             // font
-    400, 170,                   // window dimensions
-    DARK_MODE,                  // global color theme
-    "[Title]",                  // title text
-    true,                       // line limit between the title/logo and the description
-    "[Description]",            // description text
-    answers,                    // possible answers (buttons)
-    "logo.bmp", 55, 55, true    // logo path, dimensions and centering
+DialogBoxPreview	preview(
+    "Ok/Cancel demo",               // window title
+    "OpenSans.ttf",                 // font
+    400, 170,                       // window dimensions
+    DARK_MODE,                      // global color theme
+    "[Title]",                      // title text
+    true,                           // line limit between the title/logo and the description
+    "[Description]",                // description text
+    answers,                        // possible answers (buttons)
+    "logo.bmp", 55, 55, true		// logo path, dimensions and centering
 );
 
-int value = routine();
+int value = preview.routine();
 
 if (value == END)
     cout << "User closed the window." << endl;
@@ -80,27 +81,27 @@ for (size_t i = 0; i < answers.size(); i++)
 The `DialogTextBox` class is similar to `DialogBox` class, but includes an interactive text field.  
 It also features a dynamic text cursor that can be moved and used to edit text via arrow keys or the mouse.  
 
-The `routine()` method also manages display and interaction, and `getFinalAnswer()` returns the string typed by the user if the window was not closed.  
+The `routine()` method of `DialogTextBoxPreview` also manages display and interaction, and `getText()` returns the string typed by the user if the window was not closed.  
 
 ```
-DialogTextBox      window(
-    "Text field demo",          // window title
-    "OpenSans.ttf",             // main font
-    400, 170,                   // window dimensions
-    DARK_MODE,                  // global color theme
-    "[Title]",                  // title text
-    true,                       // line limit between the title/logo and the description
-    "[Description]",            // description text
-    30,                         // maximum characters
-    "logo.bmp", 55, 55, false   // logo path, dimensions and centering
+DialogTextBoxPreview	preview(
+    "Text field demo",                  // window title
+    "OpenSans.ttf",                     // main font
+    400, 170,                           // window dimensions
+    DARK_MODE,                          // global color theme
+    "[Title]",                          // title text
+    true,                               // line limit between the title/logo and the description
+    "[Description]",                    // description text
+    30,                                 // maximum characters
+    "logo.bmp", 55, 55, false           // logo path, dimensions and centering
 );
 
-int value = routine();
+int value = preview.routine();
 
 if (value == END)
     cout << "User closed the window." << endl;
 else
-    cout << "User answered: '" << window.getFinalAnswer() << "'" << endl;
+    cout << "User answered: '" << preview.getText() << "'" << endl;
 ```
 
 ![preview-2](preview-2.png)
@@ -110,31 +111,31 @@ else
 The `DialogValuesBox` class extends the behavior of `DialogTextBox` by adding interactive numeric input fields for integer values.  
 The window can contain one or two fields, each customizable with a title, a unit label and a minimum/maximum value.  
 
-The `routine()` method also manages display and interaction, and `getFinalValues()` returns the values entered by the user as a `vector<int>` if the window was not closed.  
+The `routine()` of `DialogValuesBoxPreview` method also manages display and interaction, and `getValues()` returns the values entered by the user as a `vector<int>` if the window was not closed.  
 
 ```
-DialogValuesBox     window(
-    "Values field demo",        // window title
-    "OpenSans.ttf",             // main font
-    400, 170,                   // window dimensions
-    DARK_MODE,                  // global color theme
-    "Window resolution",        // title text
-    true,                       // line limit between the title/logo and the description
-    "Specify width and height", // description text
-    4,                          // maximum characters
-    {"width:", "height:"},      // fields titles
-    {"px", "px"},               // fields units
-    {0, 0},                     // fields minimum values
-    {1920, 1080}                // fields maximum values
+DialogValuesBoxPreview		preview(
+    "Values field demo",                // window title
+    "OpenSans.ttf",                     // main font
+    400, 170,                           // window dimensions
+    DARK_MODE,                          // global color theme
+    "Window resolution",                // title text
+    true,                               // line limit between the title/logo and the description
+    "Specify width and height",         // description text
+    4,                                  // maximum characters
+    {"width:", "height:"},              // fields titles
+    {"px", "px"},                       // fields units
+    {0, 0},                             // fields minimum values
+    {1920, 1080}                        // fields maximum values
 );
 
-int value = routine();
+int value = preview.routine();
 
 if (value == END)
     cout << "User closed the window." << endl;
 else
 {   
-    vector<int> values = window.getFinalValues();
+    vector<int> values = preview.getValues();
 
     cout << "User answered:" << endl;
 

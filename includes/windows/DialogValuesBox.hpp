@@ -56,7 +56,7 @@ class DialogValuesBox final : public Window
 		DialogValuesBox(void) = delete;
 		DialogValuesBox(const string& name, const string& fontPath, const int width = 400, \
 			const int height = 170, const int displayMode = LIGHT_MODE, const string& titleText = "[Title]", \
-			const bool titleLimit = false, const string& text = "[Description]", const int maxText = 6, \
+			const bool titleLimit = false, const string& text = "[Text]", const int maxText = 6, \
 			const vector<string>& titles = {"length"}, const vector<string>& units = {"px"}, \
 			const vector<int>& minValues = {0}, const vector<int>& maxValues = {999}, const string& logoPath = "", \
 			const int logoWidth = 75, const int logoHeight = 75, const bool logoCentered = false);
@@ -76,6 +76,7 @@ class DialogValuesBox final : public Window
 
 		virtual int						reactEvent(SDL_Event* event);
 
+		bool							error(void) const noexcept;
         vector<int>                     getFinalValues(void);
 };
 

@@ -20,6 +20,7 @@ class DialogTextBox final : public Window
 
 		string							_fontPath;
 
+		bool							_error = false;
 		string							_finalAnswer;
 
 		void							addLogo(const int cursorX, const int cursorY, const string& logoPath, \
@@ -40,7 +41,7 @@ class DialogTextBox final : public Window
 		DialogTextBox(void) = delete;
 		DialogTextBox(const string& name, const string& fontPath, const int width = 400, \
 			const int height = 170, const int displayMode = LIGHT_MODE, const string& titleText = "[Title]", \
-			const bool titleLimit = false, const string& text = "[Description]", const int maxText = 30, \
+			const bool titleLimit = false, const string& text = "[Text]", const int maxText = 30, \
 			const string& logoPath = "", const int logoWidth = 75, const int logoHeight = 75, \
 			const bool logoCentered = false);
 
@@ -57,6 +58,7 @@ class DialogTextBox final : public Window
 
 		virtual int						reactEvent(SDL_Event* event);
 
+		bool							error(void) const noexcept;
 		string							getFinalAnswer(void);
 };
 
