@@ -163,11 +163,11 @@ void	DialogValuesBox::reactCharactersDown(const char* text)
 
 	if (_upField)
 	{
-		if (_upField && _upField->isClicked())
+		if (_upField && (_upField->isClicked() || _upField->isSelected()))
 			_upField->add(text, renderer);
 	}
 
-	if (_downField && _downField->isClicked())
+	if (_downField && (_downField->isClicked() || _downField->isSelected()))
 		_downField->add(text, renderer);
 
 	reactError();

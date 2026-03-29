@@ -2,7 +2,7 @@
 
 void    TextField::updateCursor(SDL_Renderer* renderer)
 {
-    if (!_mainText.has_value())
+    if (!_mainText)
         return;
         
     int newX = _mainText->getCharX(_cursorPos);
@@ -14,7 +14,7 @@ void    TextField::updateCursor(SDL_Renderer* renderer)
 
 void    TextField::updateCursor(const int x, const int y, SDL_Renderer* renderer)
 {
-    if (!_mainText.has_value())
+    if (!_mainText)
         return;
 
     int newY = _mainText->getLineY(y);
@@ -26,7 +26,7 @@ void    TextField::updateCursor(const int x, const int y, SDL_Renderer* renderer
 
 void    TextField::moveCursorForward(SDL_Renderer* renderer)
 {
-    if (!_mainText.has_value() || \
+    if (!_mainText || \
         _cursorPos >= _mainText->getTextStr().size())
     {
         _lastError.clear();
@@ -40,7 +40,7 @@ void    TextField::moveCursorForward(SDL_Renderer* renderer)
 
 void    TextField::moveCursorBackward(SDL_Renderer* renderer)
 {
-    if (!_mainText.has_value() || _cursorPos <= 0)
+    if (!_mainText || _cursorPos <= 0)
     {
         _lastError.clear();
         return;

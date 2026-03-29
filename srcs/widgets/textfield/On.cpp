@@ -4,7 +4,7 @@ void	TextField::onPropertiesChanged(SDL_Renderer* renderer)
 {
     Properties  properties = {getX(), getY(), getWidth(), getHeight()};
 
-    if (_mainText.has_value())
+    if (_mainText)
     {
         _mainText->update(_mainText->getTextStr(), \
             properties.width, _wrapping, renderer);
@@ -28,7 +28,7 @@ void	TextField::onPositionChanged(SDL_Renderer* renderer)
     Properties  properties = {getX(), getY(), getWidth(), getHeight()};
     int         cursorX = (getWidth() / 2) * Render::LimitRatio;
 
-    if (_mainText.has_value())
+    if (_mainText)
     {
         _mainText->setX(properties.x + cursorX, renderer);
 
@@ -50,7 +50,7 @@ void	TextField::onPositionChanged(SDL_Renderer* renderer)
 
 void	TextField::onStyleChanged(void)
 {
-    Text*       text = _mainText.has_value() ? \
+    Text*       text = _mainText ? \
         &_mainText.value() : nullptr;
 
     if (text)
@@ -60,7 +60,7 @@ void	TextField::onStyleChanged(void)
 void	TextField::onSettingsChanged(void)
 {
     Shape*      back = &_background.value();
-    Text*       text = _mainText.has_value() ? \
+    Text*       text = _mainText ? \
         &_mainText.value() : nullptr;
 
     if (isHoverPossible())
@@ -88,7 +88,7 @@ void	TextField::onSettingsChanged(void)
 void	TextField::onStateChanged(void)
 {
     Shape*      back = &_background.value();
-    Text*       text = _mainText.has_value() ? \
+    Text*       text = _mainText ? \
         &_mainText.value() : nullptr;
 
     if (text)
@@ -140,7 +140,7 @@ void    TextField::onMouseDownDouble(const int /*x*/, const int /*y*/, SDL_Rende
 {
     setClick(true, false);
 
-    if (_mainText.has_value())
+    if (_mainText)
         setSelected(true, false);
 
     onStateChanged();

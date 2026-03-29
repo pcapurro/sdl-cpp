@@ -2,7 +2,7 @@
 
 void    ValueField::updateCursor(SDL_Renderer* renderer)
 {
-    if (!_mainText.has_value())
+    if (!_mainText)
         return;
 
     int newX = _mainText->getCharX(_cursorPos);
@@ -14,7 +14,7 @@ void    ValueField::updateCursor(SDL_Renderer* renderer)
 
 void    ValueField::updateCursor(const int x, const int y, SDL_Renderer* renderer)
 {
-    if (!_mainText.has_value())
+    if (!_mainText)
         return;
 
     int newY = _mainText->getLineY(y);
@@ -26,7 +26,7 @@ void    ValueField::updateCursor(const int x, const int y, SDL_Renderer* rendere
 
 void    ValueField::moveCursorForward(SDL_Renderer* renderer)
 {
-    if (!_mainText.has_value() || \
+    if (!_mainText || \
         _cursorPos >= _mainText->getTextStr().size())
     {
         _lastError.clear();
@@ -40,7 +40,7 @@ void    ValueField::moveCursorForward(SDL_Renderer* renderer)
 
 void    ValueField::moveCursorBackward(SDL_Renderer* renderer)
 {
-    if (!_mainText.has_value() || _cursorPos <= 0)
+    if (!_mainText || _cursorPos <= 0)
     {
         _lastError.clear();
         return;

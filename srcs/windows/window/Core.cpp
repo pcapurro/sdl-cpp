@@ -10,6 +10,16 @@ void	Window::clear(void)
 	SDL_RenderClear(_mainRenderer);
 }
 
+void	Window::hide(void)
+{
+	SDL_HideWindow(_mainWindow);
+}
+
+void	Window::show(void)
+{
+	SDL_ShowWindow(_mainWindow);
+}
+
 void	Window::refreshDisplay(void)
 {
 	clear();

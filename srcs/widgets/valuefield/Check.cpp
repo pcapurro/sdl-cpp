@@ -2,7 +2,7 @@
 
 void    ValueField::validateValue(void)
 {
-    if (!_mainText.has_value())
+    if (!_mainText)
         return;
 
     string  text = _mainText->getTextStr();

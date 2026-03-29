@@ -1,12 +1,14 @@
 #include "Window.hpp"
 
-Window::Window(const string& name, const size_t width, const size_t height) : \
-	_width(width), \
-	_height(height), \
-	_name(name)
+Window::Window(const string& name, const size_t width, const size_t height, \
+	const bool visible) : \
+		_width(width), \
+		_height(height), \
+		_name(name)
 {
 	_mainWindow = SDL_CreateWindow(_name.c_str(), SDL_WINDOWPOS_CENTERED, \
-		SDL_WINDOWPOS_CENTERED, _width, _height, 0);
+		SDL_WINDOWPOS_CENTERED, _width, _height, visible ? SDL_WINDOW_SHOWN : SDL_WINDOW_HIDDEN);
+
 	if (!_mainWindow)
 	{
 		throw std::runtime_error("SDL failed to create a window (" \

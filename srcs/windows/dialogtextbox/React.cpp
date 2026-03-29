@@ -111,7 +111,7 @@ void	DialogTextBox::reactCharactersDown(const char* text)
 		(_buttons.front().get());
 	SDL_Renderer*	renderer = getRenderer();
 
-	if (!textField->isClicked())
+	if (!textField->isClicked() && !textField->isSelected())
 		return;
 
 	textField->add(text, renderer);

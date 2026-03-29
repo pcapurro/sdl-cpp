@@ -65,6 +65,9 @@ class DialogValuesBox final : public Window
 
 		~DialogValuesBox(void) = default;
 		
+		bool							error(void) const noexcept;
+        vector<int>                     getFinalValues(void);
+
 		virtual void					render(void);
 
 		void							reactError(void);
@@ -77,9 +80,6 @@ class DialogValuesBox final : public Window
 		void 							reactCharactersDown(const char* text);
 
 		virtual int						reactEvent(SDL_Event* event);
-
-		bool							error(void) const noexcept;
-        vector<int>                     getFinalValues(void);
 };
 
 #endif

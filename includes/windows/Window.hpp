@@ -37,7 +37,8 @@ class Window
 		optional<Cursor>		_noCursor;
 
 	public:
-		Window(const string& name, const size_t width, const size_t height);
+		Window(const string& name, const size_t width, const size_t height, \
+			const bool visible = true);
 		virtual					~Window(void);
 
 		virtual void			render(void) = 0;
@@ -50,6 +51,9 @@ class Window
 		void					display(void);
 		void					clear(void);
 
+		void					hide(void);
+		void					show(void);
+
 		void					setTitle(const std::string& title);
 
 		void					setWriteColor(const Color& color) noexcept;
@@ -59,6 +63,9 @@ class Window
 		Color					getBackgroundColor(void) const noexcept;
 
 		int						getWindowId(void) const noexcept;
+
+		bool					isHidden(void) const noexcept;
+		bool					isShown(void) const noexcept;
 
 		SDL_Cursor*				getCursor(const int value) const noexcept;
 		SDL_Renderer*			getRenderer(void) const noexcept;

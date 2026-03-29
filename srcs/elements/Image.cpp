@@ -12,7 +12,7 @@ Image::Image(const int x, const int y, const int w, const int h, \
 
 void    Image::render(SDL_Renderer* renderer)
 {
-    if (!isVisible() || !_image.has_value())
+    if (!isVisible() || !_image)
         return;
 
     SDL_Rect    main;

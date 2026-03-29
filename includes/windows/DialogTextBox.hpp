@@ -48,7 +48,10 @@ class DialogTextBox final : public Window
 			const bool logoCentered = false);
 
 		~DialogTextBox(void) = default;
-		
+
+		bool							error(void) const noexcept;
+		string							getFinalAnswer(void);
+
 		virtual void					render(void);
 
 		void 							reactMouseMotion(const int x, const int y);
@@ -59,9 +62,6 @@ class DialogTextBox final : public Window
 		void 							reactCharactersDown(const char* text);
 
 		virtual int						reactEvent(SDL_Event* event);
-
-		bool							error(void) const noexcept;
-		string							getFinalAnswer(void);
 };
 
 #endif

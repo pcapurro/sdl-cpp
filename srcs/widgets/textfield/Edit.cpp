@@ -132,6 +132,9 @@ void    TextField::createText(const string& text, SDL_Renderer* renderer)
 
 void    TextField::add(const string& text, SDL_Renderer* renderer)
 {
+    if (_mainText && isSelected())
+        clear(renderer), setSelected(false);
+
     int     oldLinesNb = _mainText.has_value() ? \
         _mainText->getLinesNb() : 1;
 

@@ -15,7 +15,7 @@ void    ValueField::clear(SDL_Renderer* renderer)
 
 void    ValueField::removeBefore(SDL_Renderer* renderer)
 {
-    if (!_mainText.has_value() || _cursorPos == 0)
+    if (!_mainText || _cursorPos == 0)
         return;
 
     string  text = _mainText->getTextStr();
@@ -43,7 +43,7 @@ void    ValueField::removeBefore(SDL_Renderer* renderer)
 
 void    ValueField::removeAfter(SDL_Renderer* renderer)
 {
-    if (!_mainText.has_value())
+    if (!_mainText)
         return;
 
     string  text = _mainText->getTextStr();
@@ -117,7 +117,10 @@ void    ValueField::createValue(const string& text, SDL_Renderer* renderer)
 
 void    ValueField::add(const string& text, SDL_Renderer* renderer)
 {
-    if (_mainText.has_value())
+    if (_mainText && isSelected())
+        clear(renderer), setSelected(false);
+    
+    if (_mainText)
         joinValue(text, renderer);
     else
         createValue(text, renderer);
@@ -129,7 +132,7 @@ void    ValueField::add(const string& text, SDL_Renderer* renderer)
 
 void    ValueField::increase(SDL_Renderer* renderer)
 {
-    if (!_mainText.has_value())
+    if (!_mainText)
         return;
 
     int     value = std::atoi(\
@@ -145,7 +148,7 @@ void    ValueField::increase(SDL_Renderer* renderer)
 
 void    ValueField::decrease(SDL_Renderer* renderer)
 {
-    if (!_mainText.has_value())
+    if (!_mainText)
         return;
 
     int     value = std::atoi(\

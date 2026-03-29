@@ -53,6 +53,8 @@ class ValueField : public Element
 
         ~ValueField(void) = default;
 
+        bool                    empty(void) const;
+        int                     getValue(void) const;
         string                  getLastError(void);
 
         void                    clear(SDL_Renderer* renderer);
@@ -64,8 +66,6 @@ class ValueField : public Element
 
         void                    increase(SDL_Renderer* renderer);
         void                    decrease(SDL_Renderer* renderer);
-
-        int                     getValue(void) const;
 
         void                    updateCursor(SDL_Renderer* renderer);
         void                    updateCursor(const int x, const int y, SDL_Renderer* renderer);

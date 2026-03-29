@@ -5,6 +5,22 @@ int	Window::getWindowId(void) const noexcept
 	return _windowId;
 }
 
+bool	Window::isHidden(void) const noexcept
+{
+	if (SDL_GetWindowFlags(_mainWindow) & SDL_WINDOW_HIDDEN)
+		return true;
+
+	return false;
+}
+
+bool	Window::isShown(void) const noexcept
+{
+	if (SDL_GetWindowFlags(_mainWindow) & SDL_WINDOW_SHOWN)
+		return true;
+
+	return false;
+}
+
 SDL_Renderer*	Window::getRenderer(void) const noexcept
 {
 	return _mainRenderer;

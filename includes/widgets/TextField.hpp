@@ -49,6 +49,8 @@ class TextField : public Element
 
         ~TextField(void) = default;
 
+        bool                    empty(void) const;
+        string                  getText(void) const;
         string                  getLastError(void);
 
         void                    clear(SDL_Renderer* renderer);
@@ -57,8 +59,6 @@ class TextField : public Element
         void                    removeAfter(SDL_Renderer* renderer);
 
         void                    add(const string& text, SDL_Renderer* renderer);
-
-        string                  getText(void) const;
 
         void                    updateCursor(SDL_Renderer* renderer);
         void                    updateCursor(const int x, const int y, SDL_Renderer* renderer);
