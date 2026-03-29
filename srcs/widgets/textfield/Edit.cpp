@@ -30,7 +30,7 @@ void    TextField::removeBefore(SDL_Renderer* renderer)
         _mainText.reset();
     else
     {
-        int     limitX = (getWidth() / 2) * LIMIT_RATIO;
+        int     limitX = (getWidth() / 2) * Render::LimitRatio;
 
         _mainText->update(text, getWidth() - (limitX * 2), \
             _wrapping, renderer);
@@ -58,7 +58,7 @@ void    TextField::removeAfter(SDL_Renderer* renderer)
         _mainText.reset();
     else
     {
-        int     limitX = (getWidth() / 2) * LIMIT_RATIO;
+        int     limitX = (getWidth() / 2) * Render::LimitRatio;
 
         _mainText->update(text, getWidth() - (limitX * 2), \
             _wrapping, renderer);
@@ -69,7 +69,7 @@ void    TextField::removeAfter(SDL_Renderer* renderer)
 
 void    TextField::joinText(const string& text, SDL_Renderer* renderer)
 {
-    int     limitX = (getWidth() / 2) * LIMIT_RATIO;
+    int     limitX = (getWidth() / 2) * Render::LimitRatio;
     string  oldText = _mainText->getTextStr();
 
     if (oldText.size() >= _maxChar
@@ -111,7 +111,7 @@ void    TextField::createText(const string& text, SDL_Renderer* renderer)
     }
 
     int     textRatio = getHeight() / 4;
-    int     limitX = (getWidth() / 2) * LIMIT_RATIO;
+    int     limitX = (getWidth() / 2) * Render::LimitRatio;
 
     _mainText.emplace(getX() + limitX, getY(), text, getHeight() - textRatio, \
         _fontPath, _textColor, getWidth() - (limitX * 2), _wrapping, renderer);

@@ -41,13 +41,13 @@ int		DialogTextBox::reactMouseButtonUp(const int x, const int y)
 				<TextField*>(element);
 
 			if (!textField)
-				return RETURN;
+				return State::Return;
 		}
 		else
 			element->onMouseUpOutside(renderer);
 	}
 
-	return OK;
+	return State::Ok;
 }
 
 void	DialogTextBox::reactMouseButtonDown(const int x, const int y, \
@@ -99,10 +99,10 @@ int		DialogTextBox::reactKeyButtonDown(const int key)
 			<TextButton*>(_buttons[_tabCursor].get());
 
 		if (textButton)
-			return RETURN;
+			return State::Return;
 	}
 
-	return OK;
+	return State::Ok;
 }
 
 void	DialogTextBox::reactCharactersDown(const char* text)
@@ -123,7 +123,7 @@ void	DialogTextBox::reactCharactersDown(const char* text)
 		Text*	errorText = dynamic_cast<Text*> \
 			(_elements.back().get());
 
-		int		limitX = getWidth() * LIMIT_RATIO;
+		int		limitX = getWidth() * Render::LimitRatio;
 		int		maxWidth = getWidth() - (limitX * 2);
 
 		errorText->update(error, maxWidth, false, renderer);
@@ -143,14 +143,14 @@ void	DialogTextBox::reactCharactersDown(const char* text)
 
 int		DialogTextBox::reactEvent(SDL_Event* event)
 {
-	int		value = OK;
+	int		value = State::Ok;
 
 	int		x = 0;
 	int		y = 0;
 
 	if (event->type == SDL_QUIT \
 		|| (event->type == SDL_KEYDOWN && event->key.keysym.sym == SDLK_ESCAPE))
-		return END;
+		return State::End;
 
 	if (event->type == SDL_MOUSEMOTION)
 		x = event->motion.x, y = event->motion.y;
@@ -159,7 +159,7 @@ int		DialogTextBox::reactEvent(SDL_Event* event)
 		x = event->button.x, y = event->button.y;
 
 	if (x < 0 || x > getWidth() || y < 0 || y > getHeight())
-		return OK;
+		return State::Ok;
 	else
 		setX(x), setY(y);
 

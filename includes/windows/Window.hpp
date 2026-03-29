@@ -14,8 +14,8 @@ class Window
 	private:
 		int						_windowId = 0;
 
-		int						_width = MIN_WINDOW_W;
-		int						_height = MIN_WINDOW_H;
+		int						_width = 300;
+		int						_height = 50;
 
 		int						_x = 0;
 		int						_y = 0;
@@ -37,7 +37,7 @@ class Window
 		optional<Cursor>		_noCursor;
 
 	public:
-		Window(const string& name, const int width, const int height);
+		Window(const string& name, const size_t width, const size_t height);
 		virtual					~Window(void);
 
 		virtual void			render(void) = 0;
@@ -71,6 +71,9 @@ class Window
 
 		void					setX(const int x) noexcept;
 		void					setY(const int y) noexcept;
+
+		static constexpr int    LightMode = 0;
+        static constexpr int    DarkMode = 1;
 };
 
 #endif

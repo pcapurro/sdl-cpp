@@ -7,7 +7,7 @@ class Settings
 {
     public:
         bool    select = false;
-        int     selectType = NONE;
+        int     selectType = State::None;
 
         bool    hover = false;
         int     hoverCursor = SDL_SYSTEM_CURSOR_ARROW;

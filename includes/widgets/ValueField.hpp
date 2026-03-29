@@ -27,6 +27,8 @@ class ValueField : public Element
 
         string                  _lastError;
 
+        static constexpr int    CursorWidth = 1;
+
         void                    joinValue(const string& text, SDL_Renderer* renderer);
         void                    createValue(const string& text, SDL_Renderer* renderer);
 

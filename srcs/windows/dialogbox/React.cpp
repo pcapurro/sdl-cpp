@@ -37,7 +37,7 @@ int		DialogBox::reactMouseButtonUp(const int x, const int y)
 			button->onMouseUpOutside(getRenderer());
 	}
 
-	return OK;
+	return State::Ok;
 }
 
 void	DialogBox::reactMouseButtonDown(const int x, const int y)
@@ -62,19 +62,19 @@ int		DialogBox::reactKeyButtonDown(const int key)
 	else if (key == SDLK_RETURN || key == SDLK_KP_ENTER)
 		return _tabCursor + 1;
 
-	return OK;
+	return State::Ok;
 }
 
 int		DialogBox::reactEvent(SDL_Event* event)
 {
-	int		value = OK;
+	int		value = State::Ok;
 
 	int		x = 0;
 	int		y = 0;
 
 	if (event->type == SDL_QUIT \
 		|| (event->type == SDL_KEYDOWN && event->key.keysym.sym == SDLK_ESCAPE))
-		return END;
+		return State::End;
 
 	if (event->type == SDL_MOUSEMOTION)
 		x = event->motion.x, y = event->motion.y;
@@ -83,7 +83,7 @@ int		DialogBox::reactEvent(SDL_Event* event)
 		x = event->button.x, y = event->button.y;
 
 	if (x < 0 || x > getWidth() || y < 0 || y > getHeight())
-		return OK;
+		return State::Ok;
 	else
 		setX(x), setY(y);
 

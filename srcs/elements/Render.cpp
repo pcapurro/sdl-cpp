@@ -6,7 +6,7 @@ void    Render::renderBorderSelect(const int x, const int y, const int width, \
     SDL_Rect    shapes[4];
     int         limit = width < height ? width : height;
 
-    limit = limit * LIMIT_RATIO;
+    limit = limit * Render::LimitRatio;
 
     SDL_SetRenderDrawColor(renderer, color.r, color.g, \
 	    color.b, color.a);
@@ -27,7 +27,7 @@ void    Render::renderCornerSelect(const int x, const int y, const int width, \
     SDL_Rect    shapes[8];
     int         limit = width < height ? width : height;
 
-    limit = limit * LIMIT_RATIO;
+    limit = limit * Render::LimitRatio;
 
     SDL_SetRenderDrawColor(renderer, color.r, color.g, \
 	    color.b, color.a);
@@ -63,7 +63,7 @@ void    Render::renderCenterSelectCross(const int x, const int y, const int widt
     const int height, const Color& color, SDL_Renderer* renderer)
 {
     int     size = width < height ? width : height;
-    int     thickness = size * LIMIT_RATIO;
+    int     thickness = size * Render::LimitRatio;
 
     float   centerX = x + (width - size) / 2.0f;
     float   centerY = y + (height - size) / 2.0f;
@@ -83,19 +83,19 @@ void    Render::renderCenterSelectCross(const int x, const int y, const int widt
 void    Render::renderSelect(const int value, const int x, const int y, const int width, \
     const int height, const Color& color, SDL_Renderer* renderer)
 {
-    if (value == BORDER_SELECT)
+    if (value == Render::BorderSelect)
         renderBorderSelect(x, y, width, height, color, renderer);
 
-    else if (value == CORNER_SELECT)
+    else if (value == Render::CornerSelect)
         renderCornerSelect(x, y, width, height, color, renderer);
 
-    else if (value == CENTER_SELECT)
+    else if (value == Render::CenterSelect)
         renderCenterSelect(x, y, width, height, color, renderer);
 
-    else if (value == CENTER_SELECT_X)
+    else if (value == Render::CenterSelectX)
         renderCenterSelectCross(x, y, width, height, color, renderer);
 
-    else if (value == HIGHLIGHT_SELECT)
+    else if (value == Render::HighlightSelect)
         renderHighlight(x, y, width, height, color, renderer);
 }
 

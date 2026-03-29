@@ -18,6 +18,8 @@ class DialogBox final : public Window
 
 		const vector<string>			_textButtons;
 
+		static constexpr int			limitHeight = 1;
+
 		void							addLogo(const int cursorX, const int cursorY, const string& logoPath, \
 											const int logoWidth, const int logoHeight, const bool centered = false);
 
@@ -33,7 +35,7 @@ class DialogBox final : public Window
 	public:
 		DialogBox(void) = delete;
 		DialogBox(const string& name, const string& fontPath, const int width = 400, \
-			const int height = 170, const int displayMode = LIGHT_MODE, \
+			const int height = 170, const int displayMode = Window::LightMode, \
 			const string& titleText = "[Title]", const bool titleLimit = false, \
 			const string& text = "[Text]", const vector<string>& buttonsTexts = {"yes", "no"}, \
 			const string& logoPath = "", const int logoWidth = 75, const int logoHeight = 75, \

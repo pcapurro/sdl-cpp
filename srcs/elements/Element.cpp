@@ -14,11 +14,11 @@ void	Element::setSettings(const bool select, const int selectType, \
     const bool hover, const int hoverCursor, const bool highlight, const bool focus) noexcept
 {
     select ? enableSelect() : disableSelect();
-    if (select && selectType != NONE)
+    if (select && selectType != State::None)
         setSelectType(selectType);
 
     hover ? enableHover() : disableHover();
-    if (hover && hoverCursor != NONE)
+    if (hover && hoverCursor != State::None)
         setHoverCursor(hoverCursor);
 
     highlight ? enableHighlight() : disableHighlight();

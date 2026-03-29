@@ -33,18 +33,18 @@ DialogValuesBox::DialogValuesBox(const string& name, const string& fontPath, con
 		std::reverse(_maxValues.begin(), _maxValues.end());
 	}
 
-	int		limitX = width * LIMIT_RATIO;
-	int		limitY = height * LIMIT_RATIO;
+	int		limitX = width * Render::LimitRatio;
+	int		limitY = height * Render::LimitRatio;
 
 	int		cursorX = limitX;
 	int		cursorY = limitY;
 
 	int		maxWidth = width - (limitX * 2);
 
-	if (displayMode == DARK_MODE)
-		setWriteColor(WHITE), setBackgroundColor(BLACK);
+	if (displayMode == Window::DarkMode)
+		setWriteColor(Color::White), setBackgroundColor(Color::Black);
 	else
-		setWriteColor(BLACK), setBackgroundColor(WHITE);
+		setWriteColor(Color::Black), setBackgroundColor(Color::White);
 
 	_elements.reserve(10);
 	_finalValues.reserve(2);

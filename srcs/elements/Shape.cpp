@@ -54,10 +54,10 @@ void    Shape::render(SDL_Renderer* renderer)
         || (isHoverPossible() && isHover()))
 	{
 		Color		highlightColor;
-		uint8_t		opacity = HIGHLIGHT_OPACITY;
+		uint8_t		opacity = Render::HiglihtOpacity;
 
         if (isFocusPossible() && isFocused())
-            opacity = FOCUS_OPACITY;
+            opacity = Render::FocusOpacity;
 
 		if (mainColor.getAverage() < 128)
 			highlightColor.setColor(255, 255, 255, opacity);
@@ -68,7 +68,7 @@ void    Shape::render(SDL_Renderer* renderer)
 			getHeight(), highlightColor, renderer);
 	}
 
-    if (isSelectPossible() && isSelected() && getSelectType() != NONE)
+    if (isSelectPossible() && isSelected() && getSelectType() != State::None)
     {
         Render::renderSelect(getSelectType(), getX(), getY(), \
             getWidth(), getHeight(), getSelectColor(), renderer);

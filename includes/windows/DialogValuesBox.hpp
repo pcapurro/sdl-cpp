@@ -35,6 +35,8 @@ class DialogValuesBox final : public Window
 		bool							_error = false;
 		vector<int>						_finalValues;
 
+		static constexpr int			limitHeight = 1;
+
 		void							addLogo(const int cursorX, const int cursorY, const string& logoPath, \
 											const int logoWidth, const int logoHeight, const bool centered = false);
 
@@ -55,7 +57,7 @@ class DialogValuesBox final : public Window
 	public:
 		DialogValuesBox(void) = delete;
 		DialogValuesBox(const string& name, const string& fontPath, const int width = 400, \
-			const int height = 170, const int displayMode = LIGHT_MODE, const string& titleText = "[Title]", \
+			const int height = 170, const int displayMode = Window::LightMode, const string& titleText = "[Title]", \
 			const bool titleLimit = false, const string& text = "[Text]", const int maxText = 6, \
 			const vector<string>& titles = {"length"}, const vector<string>& units = {"px"}, \
 			const vector<int>& minValues = {0}, const vector<int>& maxValues = {999}, const string& logoPath = "", \

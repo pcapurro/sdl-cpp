@@ -19,7 +19,7 @@ TextButton::TextButton(const int x, const int y, const int width, const int heig
     int         limit = properties.width < properties.height \
         ? properties.width : properties.height;
 
-    limit = limit * LIMIT_RATIO;
+    limit = limit * Render::LimitRatio;
 
     _background.emplace(properties.x, properties.y, properties.width, \
         properties.height, backColor, true, limit, textColor);

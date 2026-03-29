@@ -26,7 +26,7 @@ void	DialogBox::addLogo(const int cursorX, const int cursorY, const string& logo
 void	DialogBox::addTitleText(const int cursorX, const int cursorY, const string& text, \
 	const string& fontPath, const int maxWidth)
 {
-	int		titleSize = getHeight() * TITLE_RATIO;
+	int		titleSize = getHeight() * Render::TitleRatio;
 
 	unique_ptr<Text>	textElement = std::make_unique<Text>(cursorX, cursorY, \
 		text.c_str(), titleSize, fontPath, getWriteColor(), maxWidth, true, getRenderer());
@@ -37,7 +37,7 @@ void	DialogBox::addTitleText(const int cursorX, const int cursorY, const string&
 void	DialogBox::addTitleLimit(const int cursorX, const int cursorY, const int width)
 {
 	auto	shapeElement = std::make_unique<Shape> (cursorX, cursorY, \
-		width, LIMIT_HEIGHT, getWriteColor());
+		width, limitHeight, getWriteColor());
 
 	_elements.emplace_back(std::move(shapeElement));
 }
@@ -45,7 +45,7 @@ void	DialogBox::addTitleLimit(const int cursorX, const int cursorY, const int wi
 void	DialogBox::addText(const int cursorX, const int cursorY, const string& text, \
 	const string& fontPath, const int maxWidth)
 {
-	int		textSize = getHeight() * TEXT_RATIO;
+	int		textSize = getHeight() * Render::TextRatio;
 
 	auto	textElement = std::make_unique<Text>(cursorX, cursorY, text.c_str(), \
 		textSize, fontPath, getWriteColor(), maxWidth, true, getRenderer());
@@ -56,26 +56,26 @@ void	DialogBox::addText(const int cursorX, const int cursorY, const string& text
 void	DialogBox::addButtons(const string& fontPath, \
 	const vector<string>& buttonsTexts)
 {
-	int				textSize = getHeight() * TEXT_RATIO;
-	int				spaceSize = (getWidth() * LIMIT_RATIO);
-	int				limitY = getHeight() * LIMIT_RATIO;
+	int				textSize = getHeight() * Render::TextRatio;
+	int				spaceSize = (getWidth() * Render::LimitRatio);
+	int				limitY = getHeight() * Render::LimitRatio;
 	int				totalWidth = 0;
 
 	SDL_Renderer*	renderer = getRenderer();
 
     _buttons.reserve(4);
 
-	for (size_t i = 0; i < buttonsTexts.size() && i < MAX_BUTTONS; i++)
+	for (size_t i = 0; i < buttonsTexts.size() && i < 4; i++)
 	{
 		auto button = std::make_unique<TextButton>(0, 0, ((textSize * 5) / 10) * 10, \
 			((textSize * 2) / 10) * 10, getBackgroundColor(), buttonsTexts[i], textSize, \
 			getWriteColor(), fontPath, renderer);
 
 		button->setY(getHeight() - limitY - button->getHeight(), renderer);
-		button->setSettings(false, NONE, true, SDL_SYSTEM_CURSOR_HAND, true, true);
+		button->setSettings(false, State::None, true, SDL_SYSTEM_CURSOR_HAND, true, true);
 
 		totalWidth += button->getWidth();
-		if (i + 1 < buttonsTexts.size() && i + 1 < MAX_BUTTONS)
+		if (i + 1 < buttonsTexts.size() && i + 1 < 4)
 			totalWidth += spaceSize;
 
 		_buttons.emplace_back(std::move(button));
@@ -88,7 +88,7 @@ void	DialogBox::addButtons(const string& fontPath, \
 		button->setX(cursorX, renderer);
 		button->setY(getHeight() - limitY - button->getHeight(), renderer);
 
-		button->setSettings(false, NONE, true, \
+		button->setSettings(false, State::None, true, \
 			SDL_SYSTEM_CURSOR_HAND, true, true);
 
 		cursorX += button->getWidth() + spaceSize;

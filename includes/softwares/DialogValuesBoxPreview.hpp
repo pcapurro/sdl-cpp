@@ -14,7 +14,7 @@ class DialogValuesBoxPreview : public Software
 
     public:
         DialogValuesBoxPreview(const string& windowTitle, const string& font, \
-            const int windowWidth = 400, const int windowHeight = 170, const int colorTheme = DARK_MODE, \
+            const int windowWidth = 400, const int windowHeight = 170, const int colorTheme = Window::DarkMode, \
             const string& title = "[Title]", const bool limit = true, const string& text = "[Text]", \
             const int maxChars = 4, const vector<string>& fieldsTitles = {"[title]"}, \
             const vector<string>& fieldsUnits = {"[unit]"}, const vector<int>& fieldsMinimums = {0}, \

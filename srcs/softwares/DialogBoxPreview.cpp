@@ -11,10 +11,10 @@ DialogBoxPreview::DialogBoxPreview(const string& windowTitle, const string& font
 
 int     DialogBoxPreview::routine(void)
 {
-	int			        value = OK;
+	int			        value = State::Ok;
 	SDL_Event	        lastEvent;
 
-	while (value == OK)
+	while (value == State::Ok)
 	{
 		while (SDL_PollEvent(&lastEvent))
 			value = _window->reactEvent(&lastEvent);

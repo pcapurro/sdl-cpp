@@ -28,7 +28,7 @@ TextTexture::TextTexture(const char* text, TTF_Font* font, \
 {
 	SDL_Surface*	surface = nullptr;
 	
-	surface = TTF_RenderText_Blended(font, text, WHITE);
+	surface = TTF_RenderText_Blended(font, text, Color::White.toSDLColor());
 
 	if (!surface)
 	{

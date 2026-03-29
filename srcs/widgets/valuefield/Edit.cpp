@@ -32,7 +32,7 @@ void    ValueField::removeBefore(SDL_Renderer* renderer)
     }
     else
     {
-        int     limitX = (getWidth() / 2) * LIMIT_RATIO;
+        int     limitX = (getWidth() / 2) * Render::LimitRatio;
 
         _mainText->update(text, getWidth() - (limitX * 2), \
             false, renderer);
@@ -60,7 +60,7 @@ void    ValueField::removeAfter(SDL_Renderer* renderer)
     }
     else
     {
-        int     limitX = (getWidth() / 2) * LIMIT_RATIO;
+        int     limitX = (getWidth() / 2) * Render::LimitRatio;
 
         _mainText->update(text, getWidth() - (limitX * 2), \
             false, renderer);
@@ -71,7 +71,7 @@ void    ValueField::removeAfter(SDL_Renderer* renderer)
 
 void    ValueField::joinValue(const string& text, SDL_Renderer* renderer)
 {
-    int     limitX = (getWidth() / 2) * LIMIT_RATIO;
+    int     limitX = (getWidth() / 2) * Render::LimitRatio;
     string  oldText = _mainText->getTextStr();
 
     if (oldText.size() >= _maxChar
@@ -98,7 +98,7 @@ void    ValueField::joinValue(const string& text, SDL_Renderer* renderer)
 void    ValueField::createValue(const string& text, SDL_Renderer* renderer)
 {
     int     textRatio = getHeight() / 4;
-    int     limitX = (getWidth() / 2) * LIMIT_RATIO;
+    int     limitX = (getWidth() / 2) * Render::LimitRatio;
 
     if (text.size() > _maxChar)
         return;
@@ -135,7 +135,7 @@ void    ValueField::increase(SDL_Renderer* renderer)
     int     value = std::atoi(\
         _mainText->getTextStr().c_str());
 
-    int     limitX = (getWidth() / 2) * LIMIT_RATIO;
+    int     limitX = (getWidth() / 2) * Render::LimitRatio;
 
     value++;
 
@@ -151,7 +151,7 @@ void    ValueField::decrease(SDL_Renderer* renderer)
     int     value = std::atoi(\
         _mainText->getTextStr().c_str());
 
-    int     limitX = (getWidth() / 2) * LIMIT_RATIO;
+    int     limitX = (getWidth() / 2) * Render::LimitRatio;
 
     value--;
 

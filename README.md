@@ -45,7 +45,7 @@ Engine  engine(
 
 The `DialogBox` class is a simple dialog window with a title, description, optional logo and multiple buttons representing predefined answers.  
 
-The `routine()` method of `DialogBoxPreview` displays the window, manages user interaction and returns the index of the chosen button, or `END` if the window was closed.  
+The `routine()` method of `DialogBoxPreview` displays the window, manages user interaction and returns the index of the chosen button, or `State::End` if the window was closed.  
 
 ```
 vector<string>		answers = {"OK", "CANCEL"};
@@ -54,7 +54,7 @@ DialogBoxPreview	preview(
     "Ok/Cancel demo",               // window title
     "OpenSans.ttf",                 // font
     400, 170,                       // window dimensions
-    DARK_MODE,                      // global color theme
+    Window::DarkMode,               // global color theme
     "[Title]",                      // title text
     true,                           // line limit between the title/logo and the description
     "[Description]",                // description text
@@ -64,13 +64,13 @@ DialogBoxPreview	preview(
 
 int value = preview.routine();
 
-if (value == END)
+if (value == State::End)
     cout << "User closed the window." << endl;
 
 for (size_t i = 0; i < answers.size(); i++)
 {
     if (i == (size_t) value - 1)
-        cout << "User chose " << GREEN_TXT << answers[i] << END_COLOR "." << endl;
+        cout << "User chose " << answers[i] << "." << endl;
 }
 ```
 
@@ -88,7 +88,7 @@ DialogTextBoxPreview	preview(
     "Text field demo",                  // window title
     "OpenSans.ttf",                     // main font
     400, 170,                           // window dimensions
-    DARK_MODE,                          // global color theme
+    Window::DarkMode                    // global color theme
     "[Title]",                          // title text
     true,                               // line limit between the title/logo and the description
     "[Description]",                    // description text
@@ -98,7 +98,7 @@ DialogTextBoxPreview	preview(
 
 int value = preview.routine();
 
-if (value == END)
+if (value == State::End)
     cout << "User closed the window." << endl;
 else
     cout << "User answered: '" << preview.getText() << "'" << endl;
@@ -118,7 +118,7 @@ DialogValuesBoxPreview		preview(
     "Values field demo",                // window title
     "OpenSans.ttf",                     // main font
     400, 170,                           // window dimensions
-    DARK_MODE,                          // global color theme
+    Window::DarkMode                    // global color theme
     "Window resolution",                // title text
     true,                               // line limit between the title/logo and the description
     "Specify width and height",         // description text
@@ -131,7 +131,7 @@ DialogValuesBoxPreview		preview(
 
 int value = preview.routine();
 
-if (value == END)
+if (value == State::End)
     cout << "User closed the window." << endl;
 else
 {   

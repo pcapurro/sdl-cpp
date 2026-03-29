@@ -16,21 +16,21 @@ string	DialogTextBoxPreview::getText(void) const
 
 int     DialogTextBoxPreview::routine(void)
 {
-	int			        value = OK;
+	int			        value = State::Ok;
 	SDL_Event	        lastEvent;
 
-	while (value == OK)
+	while (value == State::Ok)
 	{
 		while (SDL_PollEvent(&lastEvent))
 		{
 			value = _window->reactEvent(&lastEvent);
 
-			if (value == RETURN)
+			if (value == State::Return)
 			{
 				if (!_window->error())
 					_text = _window->getFinalAnswer();
 				else
-					value = OK;
+					value = State::Ok;
 			}
 		}
 

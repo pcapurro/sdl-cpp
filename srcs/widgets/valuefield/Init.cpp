@@ -14,10 +14,10 @@ ValueField::ValueField(const int x, const int y, const int width, const int heig
     int         limit = properties.width < properties.height \
         ? properties.width : properties.height;
 
-    limit = limit * LIMIT_RATIO;
+    limit = limit * Render::LimitRatio;
 
     _cursor.emplace(properties.x, properties.y + limit, \
-        CURSOR_WIDTH, properties.height, frameColor);
+        CursorWidth, properties.height, frameColor);
 
     _background.emplace(properties.x, properties.y, properties.width, \
         properties.height, backColor, true, limit, frameColor);

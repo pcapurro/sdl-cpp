@@ -26,7 +26,7 @@ void	DialogValuesBox::addLogo(const int cursorX, const int cursorY, const string
 void	DialogValuesBox::addTitleText(const int cursorX, const int cursorY, const string& text, \
 	const string& fontPath, const int maxWidth)
 {
-	int		titleSize = getHeight() * TITLE_RATIO;
+	int		titleSize = getHeight() * Render::TitleRatio;
 
 	unique_ptr<Text>	textElement = std::make_unique<Text>(cursorX, cursorY, \
 		text.c_str(), titleSize, fontPath, getWriteColor(), maxWidth, true, getRenderer());
@@ -37,7 +37,7 @@ void	DialogValuesBox::addTitleText(const int cursorX, const int cursorY, const s
 void	DialogValuesBox::addTitleLimit(const int cursorX, const int cursorY, const int width)
 {
 	auto	shapeElement = std::make_unique<Shape>(cursorX, cursorY, width, \
-		LIMIT_HEIGHT, getWriteColor());
+		limitHeight, getWriteColor());
 
 	_elements.emplace_back(std::move(shapeElement));
 }
@@ -45,7 +45,7 @@ void	DialogValuesBox::addTitleLimit(const int cursorX, const int cursorY, const 
 void	DialogValuesBox::addText(const int cursorX, const int cursorY, const string& text, \
 	const string& fontPath, const int maxWidth)
 {
-	int		textSize = getHeight() * TEXT_RATIO;
+	int		textSize = getHeight() * Render::TextRatio;
 
 	auto	textElement = std::make_unique<Text>(cursorX, cursorY, text.c_str(), \
 		textSize, fontPath, getWriteColor(), maxWidth, true, getRenderer());
@@ -55,9 +55,9 @@ void	DialogValuesBox::addText(const int cursorX, const int cursorY, const string
 
 void	DialogValuesBox::addFieldsTitles(const string& fontPath)
 {
-    int				textSize = getHeight() * TEXT_RATIO;
-	int				limitX = getWidth() * LIMIT_RATIO;
-	int				limitY = getHeight() * LIMIT_RATIO;
+    int				textSize = getHeight() * Render::TextRatio;
+	int				limitX = getWidth() * Render::LimitRatio;
+	int				limitY = getHeight() * Render::LimitRatio;
 
 	SDL_Renderer*	renderer = getRenderer();
 
@@ -81,8 +81,8 @@ void	DialogValuesBox::addFieldsTitles(const string& fontPath)
 
 void	DialogValuesBox::addFields(const string& fontPath, const int maxText)
 {
-    int				textSize = getHeight() * TEXT_RATIO;
-	int				limitX = getWidth() * LIMIT_RATIO;
+    int				textSize = getHeight() * Render::TextRatio;
+	int				limitX = getWidth() * Render::LimitRatio;
 
 	int				globalWidth = ((textSize * 5) / 10) * 10;
 	int				globalHeight = ((textSize * 2) / 10) * 10;
@@ -109,10 +109,10 @@ void	DialogValuesBox::addFields(const string& fontPath, const int maxText)
 		fontPath, getWriteColor(), maxText, _minValues[0], _maxValues[0]);
 
 	_downField->setY(downText->getY(), renderer);	
-	_downField->setSettings(true, HIGHLIGHT_SELECT, true, SDL_SYSTEM_CURSOR_IBEAM, false, false);
+	_downField->setSettings(true, Render::HighlightSelect, true, SDL_SYSTEM_CURSOR_IBEAM, false, false);
 
-	Color	color = BLUE;
-	color.a = HIGHLIGHT_OPACITY;
+	Color	color = Color::Blue;
+	color.a = Render::HiglihtOpacity;
 
 	_downField->setSelectColor(color);
 
@@ -122,7 +122,7 @@ void	DialogValuesBox::addFields(const string& fontPath, const int maxText)
 			getBackgroundColor(), getWriteColor(), fontPath, getWriteColor(), maxText, _minValues[1], _maxValues[1]);
 
 		_upField->setY(upText->getY(), renderer);
-		_upField->setSettings(true, HIGHLIGHT_SELECT, true, SDL_SYSTEM_CURSOR_IBEAM, false, false);
+		_upField->setSettings(true, Render::HighlightSelect, true, SDL_SYSTEM_CURSOR_IBEAM, false, false);
 
 		_upField->setSelectColor(color);
 	}
@@ -130,8 +130,8 @@ void	DialogValuesBox::addFields(const string& fontPath, const int maxText)
 
 void	DialogValuesBox::addFieldsUnits(const string& fontPath)
 {
-    int				textSize = getHeight() * TEXT_RATIO;
-	int				limitX = getWidth() * LIMIT_RATIO;
+    int				textSize = getHeight() * Render::TextRatio;
+	int				limitX = getWidth() * Render::LimitRatio;
 
 	SDL_Renderer*	renderer = getRenderer();
 
@@ -157,8 +157,8 @@ void	DialogValuesBox::addFieldsUnits(const string& fontPath)
 
 void	DialogValuesBox::addFieldsErrors(const string& fontPath)
 {
-    int				textSize = getHeight() * TEXT_RATIO;
-	int				limitX = getWidth() * LIMIT_RATIO;
+    int				textSize = getHeight() * Render::TextRatio;
+	int				limitX = getWidth() * Render::LimitRatio;
 
 	SDL_Renderer*	renderer = getRenderer();
 
@@ -170,7 +170,7 @@ void	DialogValuesBox::addFieldsErrors(const string& fontPath)
 	_downError->setX(downText->getX() + downText->getWidth() + (limitX / 2));
 	_downError->setY(downText->getY());
 
-	Color	color = RED;
+	Color	color = Color::Red;
 
 	_downError->setColor(color);
 	_downError->setVisibility(false);
@@ -191,9 +191,9 @@ void	DialogValuesBox::addFieldsErrors(const string& fontPath)
 
 void	DialogValuesBox::addButton(const string& fontPath)
 {
-    int				textSize = getHeight() * TEXT_RATIO;
-	int				limitX = getWidth() * LIMIT_RATIO;
-	int				limitY = getHeight() * LIMIT_RATIO;
+    int				textSize = getHeight() * Render::TextRatio;
+	int				limitX = getWidth() * Render::LimitRatio;
+	int				limitY = getHeight() * Render::LimitRatio;
 
 	int				globalWidth = ((textSize * 5) / 10) * 10;
 	int				globalHeight = ((textSize * 2) / 10) * 10;
@@ -206,5 +206,5 @@ void	DialogValuesBox::addButton(const string& fontPath)
 	_okButton->setX(getWidth() - limitX - _okButton->getWidth(), renderer);
 	_okButton->setY(getHeight() - limitY - _okButton->getHeight(), renderer);
 
-	_okButton->setSettings(false, NONE, true, SDL_SYSTEM_CURSOR_HAND, true, true);
+	_okButton->setSettings(false, State::None, true, SDL_SYSTEM_CURSOR_HAND, true, true);
 }

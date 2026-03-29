@@ -13,7 +13,7 @@ void	ValueField::onPropertiesChanged(SDL_Renderer* renderer)
     int         limit = properties.width < properties.height \
         ? properties.width : properties.height;
 
-    limit = limit * LIMIT_RATIO;
+    limit = limit * Render::LimitRatio;
 
     _background->setWidth(properties.width, renderer);
     _background->setHeight(properties.height, renderer);
@@ -26,7 +26,7 @@ void	ValueField::onPropertiesChanged(SDL_Renderer* renderer)
 void	ValueField::onPositionChanged(SDL_Renderer* renderer)
 {
     Properties  properties = {getX(), getY(), getWidth(), getHeight()};
-    int         cursorX = (getWidth() / 2) * LIMIT_RATIO;
+    int         cursorX = (getWidth() / 2) * Render::LimitRatio;
 
     if (_mainText.has_value())
     {
@@ -39,7 +39,7 @@ void	ValueField::onPositionChanged(SDL_Renderer* renderer)
     int         limit = properties.width < properties.height \
         ? properties.width : properties.height;
 
-    limit = limit * LIMIT_RATIO;
+    limit = limit * Render::LimitRatio;
 
     _cursor->setX(properties.x + cursorX);
     _cursor->setY(properties.y);

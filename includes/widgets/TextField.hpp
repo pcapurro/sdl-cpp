@@ -26,6 +26,8 @@ class TextField : public Element
 
         string                  _lastError;
 
+        static constexpr int    CursorWidth = 1;
+
         void                    joinText(const string& text, SDL_Renderer* renderer);
         void                    createText(const string& text, SDL_Renderer* renderer);
 

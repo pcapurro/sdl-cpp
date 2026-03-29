@@ -36,8 +36,8 @@ int     Color::getAverage(void) const noexcept
     return value;
 }
 
-void    Color::setColor(const int r, const int g, \
-    const int b, const int a) noexcept
+void    Color::setColor(const uint8_t r, const uint8_t g, \
+    const uint8_t b, const uint8_t a) noexcept
 {
     this->r = r;
     this->g = g;
