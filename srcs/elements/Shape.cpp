@@ -90,7 +90,7 @@ void	Shape::setBorderThickness(const int thickness) noexcept
 	_borderThickness = thickness;
 }
 
-void	Shape::setBorderColor(Color color) noexcept
+void	Shape::setBorderColor(Color& color) noexcept
 {
 	_borderColor = color;
 }

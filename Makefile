@@ -63,9 +63,9 @@ SRCS = srcs/bases/Color.cpp \
 	srcs/softwares/DialogTextBoxPreview.cpp \
 	srcs/softwares/DialogValuesBoxPreview.cpp \
 
-CXX = c++
+CXX = c++ -std=c++17
 
-CXXFLAGS = -std=c++17 -Wall -Wextra -Werror \
+CXXFLAGS = -Wall -Wextra -Werror \
 	-I includes/ \
 	-I includes/bases \
 	-I includes/elements \

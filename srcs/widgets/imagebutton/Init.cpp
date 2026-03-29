@@ -23,9 +23,7 @@ ImageButton::ImageButton(const int x, const int y, const int width, const int he
 
     if (borderThickness > 0)
     {
-        Color   centerColor = Color::Invisible;
-
         _border.emplace(properties.x, properties.y, properties.width, properties.height, \
-            centerColor, true, borderThickness, borderColor);
+            Color::Invisible, true, borderThickness, borderColor);
     }
 }

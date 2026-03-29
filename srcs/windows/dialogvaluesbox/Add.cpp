@@ -170,9 +170,7 @@ void	DialogValuesBox::addFieldsErrors(const string& fontPath)
 	_downError->setX(downText->getX() + downText->getWidth() + (limitX / 2));
 	_downError->setY(downText->getY());
 
-	Color	color = Color::Red;
-
-	_downError->setColor(color);
+	_downError->setColor(Color::Red);
 	_downError->setVisibility(false);
 
 	if (_upField)
@@ -184,7 +182,7 @@ void	DialogValuesBox::addFieldsErrors(const string& fontPath)
 		_upError->setX(upText->getX() + upText->getWidth() + (limitX / 2));
 		_upError->setY(upText->getY());
 
-		_upError->setColor(color);
+		_upError->setColor(Color::Red);
 		_upError->setVisibility(false);
 	}
 }

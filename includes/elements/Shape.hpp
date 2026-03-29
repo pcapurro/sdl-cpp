@@ -26,7 +26,7 @@ class Shape final : public Element
         Color       getBorderColor(void) const noexcept;
 
         void	    setBorderThickness(const int thickness) noexcept;
-        void	    setBorderColor(Color color) noexcept;
+        void	    setBorderColor(Color& color) noexcept;
 };
 
 #endif
