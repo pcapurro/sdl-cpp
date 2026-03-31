@@ -1,33 +1,11 @@
 #include "TextTexture.hpp"
 
-TextTexture::TextTexture(TextTexture&& original) noexcept : \
-	_texture(original._texture)
-{
-	_averageColor = original._averageColor;
-
-	original._texture = nullptr;
-}
-
-TextTexture&	TextTexture::operator=(TextTexture&& original) noexcept
-{
-	if (this == &original)
-		return *this;
-
-	SDL_DestroyTexture(_texture);
-	_texture = original._texture;
-
-	_averageColor = original._averageColor;
-
-	original._texture = nullptr;
-
-	return *this;
-}
-
 TextTexture::TextTexture(const char* text, TTF_Font* font, \
 	SDL_Renderer* renderer)
 {
+	SDL_Texture*	texture = nullptr;
 	SDL_Surface*	surface = nullptr;
-	
+
 	surface = TTF_RenderText_Blended(font, text, Color::White.toSDLColor());
 
 	if (!surface)
@@ -38,20 +16,19 @@ TextTexture::TextTexture(const char* text, TTF_Font* font, \
 
 	calculateAverageColor(surface);
 
-	_texture = SDL_CreateTextureFromSurface(renderer, surface);
+	texture = SDL_CreateTextureFromSurface(renderer, surface);
 	SDL_FreeSurface(surface);
 
-	if (!_texture)
+	if (!texture)
 	{
 		throw std::runtime_error("SDL failed to create a texture from a surface (" \
 			+ string(SDL_GetError()) + ").");
 	}
-}
 
-TextTexture::~TextTexture(void) noexcept
-{
-	SDL_DestroyTexture(_texture);
-	_texture = nullptr;
+	SDL_QueryTexture(texture, nullptr, nullptr, \
+        &_width, &_height);
+
+	_texture.emplace(texture);
 }
 
 void	TextTexture::calculateAverageColor(SDL_Surface* surface) noexcept
@@ -88,9 +65,19 @@ void	TextTexture::calculateAverageColor(SDL_Surface* surface) noexcept
 	}
 }
 
+int		TextTexture::getWidth(void) const noexcept
+{
+	return _width;
+}
+
+int		TextTexture::getHeight(void) const noexcept
+{
+	return _height;
+}
+
 SDL_Texture*	TextTexture::getTexture(void) const noexcept
 {
-	return _texture;
+	return _texture->getTexture();
 }
 
 Color		TextTexture::getAverageColor(void) const noexcept

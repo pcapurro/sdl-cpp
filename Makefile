@@ -11,6 +11,7 @@ SRCS = srcs/bases/Color.cpp \
 	srcs/bases/Engine.cpp \
 	srcs/bases/Font.cpp \
 	srcs/bases/Properties.cpp \
+	srcs/bases/Texture.cpp \
 	srcs/bases/ImageTexture.cpp \
 	srcs/bases/TextTexture.cpp \
 	srcs/bases/TTF.cpp \

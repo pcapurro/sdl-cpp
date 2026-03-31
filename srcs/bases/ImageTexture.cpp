@@ -1,30 +1,8 @@
 #include "ImageTexture.hpp"
 
-ImageTexture::ImageTexture(ImageTexture&& original) noexcept : \
-	_texture(original._texture)
-{
-	_averageColor = original._averageColor;
-
-	original._texture = nullptr;
-}
-
-ImageTexture&	ImageTexture::operator=(ImageTexture&& original) noexcept
-{
-	if (this == &original)
-		return *this;
-
-	SDL_DestroyTexture(_texture);
-	_texture = original._texture;
-
-	_averageColor = original._averageColor;
-
-	original._texture = nullptr;
-
-	return *this;
-}
-
 ImageTexture::ImageTexture(const char* path, SDL_Renderer* renderer)
 {
+	SDL_Texture*	texture = nullptr;
 	SDL_Surface*	surface = SDL_LoadBMP(path);
 
 	if (!surface)
@@ -35,20 +13,16 @@ ImageTexture::ImageTexture(const char* path, SDL_Renderer* renderer)
 
 	calculateAverageColor(surface);
 
-	_texture = SDL_CreateTextureFromSurface(renderer, surface);
+	texture = SDL_CreateTextureFromSurface(renderer, surface);
 	SDL_FreeSurface(surface);
 
-	if (!_texture)
+	if (!texture)
 	{
 		throw std::runtime_error("SDL failed to create a texture from a surface (" \
 			+ string(SDL_GetError()) + ").");
 	}
-}
 
-ImageTexture::~ImageTexture(void) noexcept
-{
-	SDL_DestroyTexture(_texture);
-	_texture = nullptr;
+	_texture.emplace(texture);
 }
 
 void	ImageTexture::calculateAverageColor(SDL_Surface* surface) noexcept
@@ -87,7 +61,7 @@ void	ImageTexture::calculateAverageColor(SDL_Surface* surface) noexcept
 
 SDL_Texture*	ImageTexture::getTexture(void) const noexcept
 {
-	return _texture;
+	return _texture->getTexture();
 }
 
 Color		ImageTexture::getAverageColor(void) const noexcept

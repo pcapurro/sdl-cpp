@@ -3,30 +3,30 @@
 
 # include "Global.hpp"
 
+# include "Texture.hpp"
 # include "Color.hpp"
 
 class ImageTexture
 {
 	private:
-		SDL_Texture*	_texture = nullptr;
+		optional<Texture>	_texture;
 
-		Color			_averageColor;
+		Color				_averageColor;
 
-		void			calculateAverageColor(SDL_Surface* surface) noexcept;
+		void				calculateAverageColor(SDL_Surface* surface) noexcept;
 
 	public:
-		ImageTexture(const ImageTexture& original) = delete;
-		ImageTexture(ImageTexture&& original) noexcept;
-
 		ImageTexture(const char* path, SDL_Renderer* renderer);
+		ImageTexture(ImageTexture&& original) = default;
+		ImageTexture(const ImageTexture& original) = delete;
 
+		ImageTexture&		operator=(ImageTexture&& original) = default;
 		ImageTexture&		operator=(const ImageTexture& original) = delete;
-		ImageTexture&		operator=(ImageTexture&& original) noexcept;
 
-		~ImageTexture(void) noexcept;
+		~ImageTexture(void) = default;
 
-		SDL_Texture*	getTexture(void) const noexcept;
-		Color			getAverageColor(void) const noexcept;
+		SDL_Texture*		getTexture(void) const noexcept;
+		Color				getAverageColor(void) const noexcept;
 };
 
 #endif

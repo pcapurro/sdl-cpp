@@ -3,29 +3,35 @@
 
 # include "Global.hpp"
 
+# include "Texture.hpp"
 # include "Color.hpp"
 
 class TextTexture
 {
 	private:
-		SDL_Texture*	_texture = nullptr;
-		Color			_averageColor;
+		int					_width = 0;
+		int					_height = 0;
+
+		optional<Texture>	_texture;
+		Color				_averageColor;
 
 	public:
-		TextTexture(const TextTexture& original) = delete;
-		TextTexture(TextTexture&& original) noexcept;
-
 		TextTexture(const char* text, TTF_Font* font, SDL_Renderer* renderer);
+		TextTexture(TextTexture&& original) = default;
+		TextTexture(const TextTexture& original) = delete;
 
+		TextTexture&		operator=(TextTexture&& original) = default;
 		TextTexture&		operator=(const TextTexture& original) = delete;
-		TextTexture&		operator=(TextTexture&& original) noexcept;
 
-		~TextTexture(void) noexcept;
+		~TextTexture(void) = default;
 
-		void			calculateAverageColor(SDL_Surface* surface) noexcept;
+		void				calculateAverageColor(SDL_Surface* surface) noexcept;
 
-		SDL_Texture*	getTexture(void) const noexcept;
-		Color			getAverageColor(void) const noexcept;
+		int					getWidth(void) const noexcept;
+		int					getHeight(void) const noexcept;
+
+		SDL_Texture*		getTexture(void) const noexcept;
+		Color				getAverageColor(void) const noexcept;
 };
 
 #endif

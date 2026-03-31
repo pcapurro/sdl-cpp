@@ -136,8 +136,8 @@ void    Text::render(SDL_Renderer* renderer)
 
     for (auto& line : _lines)
     {
-        SDL_QueryTexture(line.getTexture(), nullptr, nullptr, \
-            &main.w, &main.h);
+        main.w = line.getWidth();
+        main.h = line.getHeight();
 
         if (main.w > highestX)
             highestX = main.w;
