@@ -10,15 +10,22 @@ class Image final : public Element
     private:
         optional<ImageTexture>  _image;
 
-    public:
-        Image(void) = delete;
+        bool                    _horizontalFlip = false;
+        bool                    _verticalFlip = false;
 
+    public:
         Image(const int x, const int y, const int w, const int h, \
             const char* path, SDL_Renderer* renderer);
+
+        Image(const int x, const int y, const int w, const int h, \
+            const char* path, const Color& color, SDL_Renderer* renderer);
 
         void                    render(SDL_Renderer* renderer);
 
         Color			        getAverageColor(void) const noexcept;
+
+        void                    setHorizontalFlip(const bool value);
+        void                    setVerticalFlip(const bool value);
 };
 
 #endif

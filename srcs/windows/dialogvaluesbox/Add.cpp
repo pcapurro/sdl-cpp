@@ -61,14 +61,14 @@ void	DialogValuesBox::addFieldsTitles(const string& fontPath)
 
 	SDL_Renderer*	renderer = getRenderer();
 
-	auto 	downRightText = std::make_unique<Text>(getX() + limitX, 0, _titles[0], textSize, \
+	auto 	downRightText = std::make_unique<Text>(limitX, 0, _titles[0], textSize, \
 		fontPath, getWriteColor(), 0, false, renderer);
 
 	downRightText->setY(getHeight() - (limitY * 2) - downRightText->getHeight());
 
 	if (_titles.size() > 1)
 	{
-		auto 	upLeftText = std::make_unique<Text>(getX() + limitX, 0, _titles[1], textSize, \
+		auto 	upLeftText = std::make_unique<Text>(limitX, 0, _titles[1], textSize, \
 			fontPath, getWriteColor(), 0, false, renderer);
 
 		upLeftText->setY(downRightText->getY() - (limitY * 2) - upLeftText->getHeight());

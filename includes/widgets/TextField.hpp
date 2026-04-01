@@ -41,8 +41,6 @@ class TextField : public Element
 		virtual void	        onStateChanged(void) override;
 
     public:
-        TextField(void) = delete;
-
         TextField(const int x, const int y, const int width, const int height, \
             const Color& backColor, const Color& frameColor, const string& fontPath, \
             const Color& textColor, const int maxChar = 256, const bool wrapping = false);

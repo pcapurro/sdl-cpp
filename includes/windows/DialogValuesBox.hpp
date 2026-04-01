@@ -55,7 +55,6 @@ class DialogValuesBox final : public Window
 		void							addButton(const string& fontPath);
 
 	public:
-		DialogValuesBox(void) = delete;
 		DialogValuesBox(const string& name, const string& fontPath, const int width = 400, \
 			const int height = 170, const int displayMode = Window::LightMode, const string& titleText = "[Title]", \
 			const bool titleLimit = false, const string& text = "[Text]", const int maxText = 6, \

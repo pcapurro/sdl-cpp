@@ -161,7 +161,7 @@ int		DialogTextBox::reactEvent(SDL_Event* event)
 	if (x < 0 || x > getWidth() || y < 0 || y > getHeight())
 		return State::Ok;
 	else
-		setX(x), setY(y);
+		setCursorX(x), setCursorY(y);
 
 	if (event->type == SDL_MOUSEMOTION)
 		reactMouseMotion(x, y);
@@ -179,8 +179,6 @@ int		DialogTextBox::reactEvent(SDL_Event* event)
 
 	else if (event->type == SDL_TEXTINPUT)
 		reactCharactersDown(event->text.text);
-
-	refreshDisplay();
 
 	return value;
 }

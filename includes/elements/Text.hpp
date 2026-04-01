@@ -24,8 +24,6 @@ class Text final : public Element
                                     const int maxWidth, SDL_Renderer* renderer);
 
     public:
-        Text(void) = delete;
-
         Text(const int x, const int y, const string& text, \
             const int size, const string& fontPath, const Color& color, \
             const int maxWidth, const bool wrapping, SDL_Renderer* renderer);

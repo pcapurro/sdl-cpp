@@ -22,8 +22,6 @@ class ImageButton : public Element
 		virtual void	        onStateChanged(void) override;
 
     public:
-        ImageButton(void) = delete;
-
         ImageButton(const int x, const int y, const int width, const int height, \
             const string& path, const Color& backColor, const int borderThickness, \
             const Color& borderColor, SDL_Renderer* renderer);

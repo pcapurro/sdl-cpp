@@ -1,13 +1,13 @@
 #include "Window.hpp"
 
-void	Window::setX(const int x) noexcept
+void	Window::setCursorX(const int x) noexcept
 {
-	_x = x;
+	_cursorX = x;
 }
 
-void	Window::setY(const int y) noexcept
+void	Window::setCursorY(const int y) noexcept
 {
-	_y = y;
+	_cursorY = y;
 }
 
 void	Window::setWriteColor(const Color& color) noexcept

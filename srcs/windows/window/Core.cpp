@@ -22,7 +22,7 @@ void	Window::show(void)
 
 void	Window::refreshDisplay(void)
 {
-	clear();
+	// clear();
 	render();
 
 	display();

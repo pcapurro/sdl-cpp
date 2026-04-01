@@ -1,6 +1,7 @@
 #include "Cursor.hpp"
 
-Cursor::Cursor(const SDL_SystemCursor value) : _value(value)
+Cursor::Cursor(const SDL_SystemCursor value) : \
+    _value(value)
 {
     _cursor = SDL_CreateSystemCursor(_value);
 
@@ -35,6 +36,11 @@ Cursor::~Cursor(void) noexcept
 {
     if (_cursor)
         SDL_FreeCursor(_cursor);
+}
+
+SDL_SystemCursor    Cursor::getCursorValue(void) const noexcept
+{
+    return _value;
 }
 
 SDL_Cursor*    Cursor::getCursor(void) const noexcept

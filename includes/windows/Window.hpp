@@ -17,8 +17,8 @@ class Window
 		int						_width = 300;
 		int						_height = 50;
 
-		int						_x = 0;
-		int						_y = 0;
+		int						_cursorX = 0;
+		int						_cursorY = 0;
 
 		const string			_name;
 
@@ -73,11 +73,11 @@ class Window
 		int						getWidth(void) const noexcept;
 		int						getHeight(void) const noexcept;
 
-		int						getX(void) const noexcept;
-		int						getY(void) const noexcept;
+		int						getCursorX(void) const noexcept;
+		int						getCursorY(void) const noexcept;
 
-		void					setX(const int x) noexcept;
-		void					setY(const int y) noexcept;
+		void					setCursorX(const int x) noexcept;
+		void					setCursorY(const int y) noexcept;
 
 		static constexpr int    LightMode = 0;
         static constexpr int    DarkMode = 1;

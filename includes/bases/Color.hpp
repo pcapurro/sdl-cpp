@@ -25,6 +25,11 @@ class Color
 		void						setColor(const uint8_t r, const uint8_t g, \
 			const uint8_t b, const uint8_t a = 255) noexcept;
 
+		static SDL_Color			toSDLColor(const Color& color) noexcept;
+		static int					getAverage(const Color& color) noexcept;
+
+		static void					colorSurface(const Color& color, SDL_Surface* surface);
+
 		static const Color	White;
 		static const Color	Black;
 

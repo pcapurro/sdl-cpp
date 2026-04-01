@@ -68,7 +68,7 @@ void    Text::createNormalLine(const string& text, \
     }
 
     _lines.emplace_back(text.c_str(), \
-        _font.getFont(), renderer);
+        _font, renderer);
 }
 
 void    Text::createWrappedLines(const string& text, \
@@ -120,7 +120,7 @@ void    Text::createWrappedLines(const string& text, \
     for (const auto& line : lines)
     {
         _lines.emplace_back(line.c_str(), \
-            _font.getFont(), renderer);
+            _font, renderer);
     }
 }
 

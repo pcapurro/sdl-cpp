@@ -1,23 +1,14 @@
 #include "TextTexture.hpp"
 
-TextTexture::TextTexture(const char* text, TTF_Font* font, \
+TextTexture::TextTexture(const char* text, Font& font, \
 	SDL_Renderer* renderer)
 {
 	SDL_Texture*	texture = nullptr;
-	SDL_Surface*	surface = nullptr;
+	Surface			surface(font, text, Color::White);
 
-	surface = TTF_RenderText_Blended(font, text, Color::White.toSDLColor());
+	calculateAverageColor(surface.getSurface());
 
-	if (!surface)
-	{
-		throw std::runtime_error("SDL failed to create a text from a surface (" \
-			+ string(SDL_GetError()) + ").");
-	}
-
-	calculateAverageColor(surface);
-
-	texture = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
+	texture = SDL_CreateTextureFromSurface(renderer, surface.getSurface());
 
 	if (!texture)
 	{

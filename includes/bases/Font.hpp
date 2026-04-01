@@ -9,7 +9,6 @@ class Font
         TTF_Font*       _font = nullptr;
 
     public:
-        Font(void) = delete;
         Font(const string& path, const int size);
 
         Font(const Font& original) = delete;

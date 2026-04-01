@@ -3,18 +3,31 @@
 ImageTexture::ImageTexture(const char* path, SDL_Renderer* renderer)
 {
 	SDL_Texture*	texture = nullptr;
-	SDL_Surface*	surface = SDL_LoadBMP(path);
+	Surface			surface(path);
 
-	if (!surface)
+	calculateAverageColor(surface.getSurface());
+
+	texture = SDL_CreateTextureFromSurface(renderer, surface.getSurface());
+
+	if (!texture)
 	{
-		throw std::runtime_error("SDL failed to load a BMP path (" \
-			+ string(SDL_GetError()) + ").\nPath: '" + path + "'");
+		throw std::runtime_error("SDL failed to create a texture from a surface (" \
+			+ string(SDL_GetError()) + ").");
 	}
 
-	calculateAverageColor(surface);
+	_texture.emplace(texture);
+}
 
-	texture = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
+ImageTexture::ImageTexture(const char* path, const Color& color, SDL_Renderer* renderer)
+{
+	SDL_Texture*	texture = nullptr;
+	Surface			surface(path);
+
+	Color::colorSurface(color, surface.getSurface());
+
+	calculateAverageColor(surface.getSurface());
+
+	texture = SDL_CreateTextureFromSurface(renderer, surface.getSurface());
 
 	if (!texture)
 	{

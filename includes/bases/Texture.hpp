@@ -3,6 +3,8 @@
 
 # include "Global.hpp"
 
+# include "Surface.hpp"
+
 class Texture
 {
     private:

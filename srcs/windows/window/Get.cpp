@@ -36,14 +36,14 @@ int	Window::getHeight(void) const noexcept
 	return _height;
 }
 
-int	Window::getX(void) const noexcept
+int	Window::getCursorX(void) const noexcept
 {
-	return _x;
+	return _cursorX;
 }
 
-int	Window::getY(void) const noexcept
+int	Window::getCursorY(void) const noexcept
 {
-	return _y;
+	return _cursorY;
 }
 
 Color	Window::getWriteColor(void) const noexcept

@@ -31,7 +31,6 @@ class Element
 		virtual void	onStateChanged(void) {}
 
 	public:
-		Element(void) = delete;
 		Element(const Properties& properties, const Style& style = Style{}, \
 			const Settings& settings = Settings{}, const State& state = State{}) noexcept;
 

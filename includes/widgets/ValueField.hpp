@@ -44,8 +44,6 @@ class ValueField : public Element
 		virtual void	        onStateChanged(void) override;
 
     public:
-        ValueField(void) = delete;
-
         ValueField(const int x, const int y, const int width, const int height, \
             const Color& backColor, const Color& frameColor, const string& fontPath, \
             const Color& textColor, const int maxChar = 256, const int minValue = 0, \

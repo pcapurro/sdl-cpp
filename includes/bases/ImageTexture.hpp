@@ -17,6 +17,8 @@ class ImageTexture
 
 	public:
 		ImageTexture(const char* path, SDL_Renderer* renderer);
+		ImageTexture(const char* path, const Color& color, SDL_Renderer* renderer);
+
 		ImageTexture(ImageTexture&& original) = default;
 		ImageTexture(const ImageTexture& original) = delete;
 

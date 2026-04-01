@@ -21,8 +21,6 @@ class TextButton : public Element
 		virtual void	        onStateChanged(void) override;
 
     public:
-        TextButton(void) = delete;
-
         TextButton(const int x, const int y, const int width, const int height, \
             const Color& backColor, const string& text, const int size, \
             const Color& textColor, const string& fontPath, SDL_Renderer* renderer);

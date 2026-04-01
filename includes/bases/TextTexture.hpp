@@ -4,6 +4,7 @@
 # include "Global.hpp"
 
 # include "Texture.hpp"
+# include "Font.hpp"
 # include "Color.hpp"
 
 class TextTexture
@@ -16,7 +17,7 @@ class TextTexture
 		Color				_averageColor;
 
 	public:
-		TextTexture(const char* text, TTF_Font* font, SDL_Renderer* renderer);
+		TextTexture(const char* text, Font& font, SDL_Renderer* renderer);
 		TextTexture(TextTexture&& original) = default;
 		TextTexture(const TextTexture& original) = delete;
 

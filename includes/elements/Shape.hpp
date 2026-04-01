@@ -12,8 +12,6 @@ class Shape final : public Element
         Color       _borderColor;
 
     public:
-        Shape(void) = delete;
-
         Shape(const int x, const int y, const int width, const int height, \
             const Color& color, const bool border = false, \
             const int borderThickness = 4, const Color& borderColor = Color{});

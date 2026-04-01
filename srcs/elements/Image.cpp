@@ -10,6 +10,16 @@ Image::Image(const int x, const int y, const int w, const int h, \
         SDL_BLENDMODE_BLEND);
 }
 
+Image::Image(const int x, const int y, const int w, const int h, \
+    const char* path, const Color& color, SDL_Renderer* renderer) : \
+        Element({x, y, w, h})
+{
+    _image.emplace(path, color, renderer);
+
+    SDL_SetTextureBlendMode(_image->getTexture(), \
+        SDL_BLENDMODE_BLEND);
+}
+
 void    Image::render(SDL_Renderer* renderer)
 {
     if (!isVisible() || !_image)
@@ -22,8 +32,17 @@ void    Image::render(SDL_Renderer* renderer)
 
     SDL_SetTextureAlphaMod(_image->getTexture(), getMainColor().a);
 
-    SDL_RenderCopy(renderer, _image->getTexture(), \
-        nullptr, &main);
+    SDL_RendererFlip    flip = SDL_FLIP_NONE;
+
+    if (_horizontalFlip && _verticalFlip)
+        flip = static_cast<SDL_RendererFlip>(SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL);
+    else if (_horizontalFlip)
+        flip = SDL_FLIP_HORIZONTAL;
+    else if (_verticalFlip)
+        flip = SDL_FLIP_VERTICAL;
+
+    SDL_RenderCopyEx(renderer, _image->getTexture(), \
+        nullptr, &main, 0.0, nullptr, flip);
 
     if ((isHighlightPossible() && isHighlighted()) \
         || (isHoverPossible() && isHover()))
@@ -54,4 +73,14 @@ void    Image::render(SDL_Renderer* renderer)
 Color   Image::getAverageColor(void) const noexcept
 {
     return _image->getAverageColor();
+}
+
+void    Image::setHorizontalFlip(const bool value)
+{
+    _horizontalFlip = value;
+}
+
+void    Image::setVerticalFlip(const bool value)
+{
+    _verticalFlip = value;
 }

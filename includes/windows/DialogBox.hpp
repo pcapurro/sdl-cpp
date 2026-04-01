@@ -33,7 +33,6 @@ class DialogBox final : public Window
 		void							addButtons(const string& fontPath, const vector<string>& buttonsTexts);
 
 	public:
-		DialogBox(void) = delete;
 		DialogBox(const string& name, const string& fontPath, const int width = 400, \
 			const int height = 170, const int displayMode = Window::LightMode, \
 			const string& titleText = "[Title]", const bool titleLimit = false, \
