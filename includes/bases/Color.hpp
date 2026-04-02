@@ -19,12 +19,15 @@ class Color
 		bool						operator==(const Color& other) const;
 		bool						operator!=(const Color& other) const;
 
+		Uint32						toUint32t(const SDL_PixelFormat* format) const noexcept;
 		SDL_Color					toSDLColor(void) const noexcept;
 		int							getAverage(void) const noexcept;
 
 		void						setColor(const uint8_t r, const uint8_t g, \
 			const uint8_t b, const uint8_t a = 255) noexcept;
 
+		static Uint32				toUint32t(const Color& color, \
+										const SDL_PixelFormat* format) noexcept;
 		static SDL_Color			toSDLColor(const Color& color) noexcept;
 		static int					getAverage(const Color& color) noexcept;
 

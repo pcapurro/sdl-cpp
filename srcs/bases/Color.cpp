@@ -16,6 +16,11 @@ bool    Color::operator!=(const Color& other) const
     return false;
 }
 
+Uint32  Color::toUint32t(const SDL_PixelFormat* format) const noexcept
+{
+    return SDL_MapRGBA(format, r, g, b, a);
+}
+
 SDL_Color   Color::toSDLColor(void) const noexcept
 {
     SDL_Color   color;
@@ -44,6 +49,11 @@ void    Color::setColor(const uint8_t r, const uint8_t g, \
     this->b = b;
 
     this->a = a;
+}
+
+Uint32  Color::toUint32t(const Color& color, const SDL_PixelFormat* format) noexcept
+{
+    return SDL_MapRGBA(format, color.r, color.g, color.b, color.a);
 }
 
 SDL_Color    Color::toSDLColor(const Color& color) noexcept
