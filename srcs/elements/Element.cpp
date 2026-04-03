@@ -33,6 +33,9 @@ bool	Element::isAbove(const int mouseX, const int mouseY) const noexcept
 void	Element::setX(const int x, SDL_Renderer* renderer, \
 	const bool propagation) noexcept
 {
+	if (_properties.x == x)
+		return;
+
 	_properties.x = x;
 
 	if (propagation && renderer)
@@ -42,6 +45,9 @@ void	Element::setX(const int x, SDL_Renderer* renderer, \
 void	Element::setY(const int y, SDL_Renderer* renderer, \
 	const bool propagation) noexcept
 {
+	if (_properties.y == y)
+		return;
+
 	_properties.y = y;
 
 	if (propagation && renderer)
@@ -51,6 +57,9 @@ void	Element::setY(const int y, SDL_Renderer* renderer, \
 void	Element::setWidth(const int width, SDL_Renderer* renderer, \
 	const bool propagation) noexcept
 {
+	if (_properties.width == width)
+		return;
+
 	_properties.width = width;
 
 	if (propagation && renderer)
@@ -60,6 +69,9 @@ void	Element::setWidth(const int width, SDL_Renderer* renderer, \
 void	Element::setHeight(const int height, SDL_Renderer* renderer, \
 	const bool propagation) noexcept
 {
+	if (_properties.height == height)
+		return;
+
 	_properties.height = height;
 
 	if (propagation && renderer)
@@ -69,6 +81,9 @@ void	Element::setHeight(const int height, SDL_Renderer* renderer, \
 void	Element::setMainColor(const Color& color, \
 	const bool propagation) noexcept
 {
+	if (_style.mainColor == color)
+		return;
+
 	_style.mainColor = color;
 
 	if (propagation)
@@ -81,6 +96,9 @@ void	Element::setSelectColor(const Color& color, \
 	if (!isSelectPossible())
 		return;
 
+	if (_style.selectColor == color)
+		return;
+
 	_style.selectColor = color;
 
 	if (propagation)
@@ -90,6 +108,9 @@ void	Element::setSelectColor(const Color& color, \
 void	Element::setClick(const bool click, \
 	const bool propagation) noexcept
 {
+	if (_state.click == click)
+		return;
+
 	_state.click = click;
 
 	if (propagation)
@@ -100,6 +121,9 @@ void	Element::setSelected(const bool select, \
 	const bool propagation) noexcept
 {
 	if (!isSelectPossible())
+		return;
+
+	if (_state.select == select)
 		return;
 
 	_state.select = select;
@@ -114,6 +138,9 @@ void	Element::setSelectType(const int selectType, \
 	if (!isSelectPossible())
 		return;
 
+	if (_settings.selectType == selectType)
+		return;
+
 	_settings.selectType = selectType;
 
 	if (propagation)
@@ -124,6 +151,9 @@ void	Element::setHighlight(const bool highlight, \
 	const bool propagation) noexcept
 {
 	if (!isHighlightPossible())
+		return;
+
+	if (_state.highlight == highlight)
 		return;
 
 	_state.highlight = highlight;
@@ -138,6 +168,9 @@ void	Element::setFocus(const bool focus, \
 	if (!isFocusPossible())
 		return;
 
+	if (_state.focus == focus)
+		return;
+
 	_state.focus = focus;
 
 	if (propagation)
@@ -148,6 +181,9 @@ void	Element::setHover(const bool hover, \
 	const bool propagation) noexcept
 {
 	if (!isHoverPossible())
+		return;
+
+	if (_state.hover == hover)
 		return;
 
 	_state.hover = hover;
@@ -162,6 +198,9 @@ void	Element::setHoverCursor(const int cursor, \
 	if (!isHoverPossible())
 		return;
 
+	if (_settings.hoverCursor == cursor)
+		return;
+
 	_settings.hoverCursor = cursor;
 
 	if (propagation)
@@ -171,6 +210,9 @@ void	Element::setHoverCursor(const int cursor, \
 void	Element::setVisibility(const bool visibility, \
 	const bool propagation) noexcept
 {
+	if (_state.visibility == visibility)
+		return;
+
 	_state.visibility = visibility;
 
 	if (propagation)
@@ -179,6 +221,9 @@ void	Element::setVisibility(const bool visibility, \
 
 void	Element::enableSelect(const bool propagation) noexcept
 {
+	if (_settings.select)
+		return;
+
 	_settings.select = true;
 
 	if (propagation)
@@ -187,6 +232,9 @@ void	Element::enableSelect(const bool propagation) noexcept
 
 void	Element::disableSelect(const bool propagation) noexcept
 {
+	if (!_settings.select)
+		return;
+
 	_settings.select = false;
 
 	if (propagation)
@@ -195,6 +243,9 @@ void	Element::disableSelect(const bool propagation) noexcept
 
 void	Element::enableHover(const bool propagation) noexcept
 {
+	if (_settings.hover)
+		return;
+
 	_settings.hover = true;
 
 	if (propagation)
@@ -203,6 +254,9 @@ void	Element::enableHover(const bool propagation) noexcept
 
 void	Element::disableHover(const bool propagation) noexcept
 {
+	if (!_settings.hover)
+		return;
+
 	_settings.hover = false;
 
 	if (propagation)
@@ -211,6 +265,9 @@ void	Element::disableHover(const bool propagation) noexcept
 
 void	Element::enableHighlight(const bool propagation) noexcept
 {
+	if (_settings.highlight)
+		return;
+
 	_settings.highlight = true;
 
 	if (propagation)
@@ -219,6 +276,9 @@ void	Element::enableHighlight(const bool propagation) noexcept
 
 void	Element::disableHighlight(const bool propagation) noexcept
 {
+	if (!_settings.highlight)
+		return;
+
 	_settings.highlight = false;
 
 	if (propagation)
@@ -227,6 +287,9 @@ void	Element::disableHighlight(const bool propagation) noexcept
 
 void	Element::enableFocus(const bool propagation) noexcept
 {
+	if (_settings.focus)
+		return;
+
 	_settings.focus = true;
 
 	if (propagation)
@@ -235,6 +298,9 @@ void	Element::enableFocus(const bool propagation) noexcept
 
 void	Element::disableFocus(const bool propagation) noexcept
 {
+	if (!_settings.focus)
+		return;
+
 	_settings.focus = false;
 
 	if (propagation)
