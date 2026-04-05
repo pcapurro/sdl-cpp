@@ -43,7 +43,7 @@ int		DialogBox::reactMouseButtonUp(const int x, const int y)
 void	DialogBox::reactMouseButtonDown(const int x, const int y)
 {
 	for (auto& button : _buttons)
-		button->onMouseDown(x, y);
+		button->onMouseDown(false, x, y);
 }
 
 int		DialogBox::reactKeyButtonDown(const int key)

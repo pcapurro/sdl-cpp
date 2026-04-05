@@ -38,8 +38,8 @@ class Element
 
 		virtual void	render(SDL_Renderer* renderer) = 0;
 
-		virtual void	onMouseDown([[maybe_unused]] const int x = 0, [[maybe_unused]] const int y = 0, \
-			[[maybe_unused]] SDL_Renderer* renderer = nullptr) {}
+		virtual void	onMouseDown([[maybe_unused]] const bool held = false, [[maybe_unused]] const int x = 0, \
+			[[maybe_unused]] const int y = 0, [[maybe_unused]] SDL_Renderer* renderer = nullptr) {}
 		virtual void	onMouseDownDouble([[maybe_unused]] const int x = 0, [[maybe_unused]] const int y = 0, \
 			[[maybe_unused]] SDL_Renderer* renderer = nullptr) {}
 		virtual void	onMouseDownOutside([[maybe_unused]] SDL_Renderer* renderer = nullptr) {}
@@ -52,7 +52,7 @@ class Element
 			[[maybe_unused]] SDL_Renderer* renderer = nullptr) {}
 		virtual void	onMouseHoverOutside([[maybe_unused]] SDL_Renderer* renderer = nullptr) {}
 
-		virtual void	onButtonDown([[maybe_unused]] const int key = 0, \
+		virtual void	onButtonDown([[maybe_unused]] const bool held = false, [[maybe_unused]] const int key = 0, \
 			[[maybe_unused]] SDL_Renderer* renderer = nullptr) {}
 
 		void			setSettings(const bool select, const int selectType, const bool hover, \

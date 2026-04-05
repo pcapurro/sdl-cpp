@@ -68,7 +68,8 @@ class TextField : public Element
 
         void                    render(SDL_Renderer* renderer);
 
-		virtual void	        onMouseDown([[maybe_unused]] const int x = 0, [[maybe_unused]] const int y = 0, \
+		virtual void	        onMouseDown([[maybe_unused]] const bool held = false, \
+            [[maybe_unused]] const int x = 0, [[maybe_unused]] const int y = 0, \
             [[maybe_unused]] SDL_Renderer* renderer = nullptr) override;
         virtual void	        onMouseDownDouble([[maybe_unused]] const int x = 0, [[maybe_unused]] const int y = 0, \
             [[maybe_unused]] SDL_Renderer* renderer = nullptr) override;
@@ -81,8 +82,8 @@ class TextField : public Element
             [[maybe_unused]] SDL_Renderer* renderer = nullptr) override;
 		virtual void	        onMouseHoverOutside([[maybe_unused]] SDL_Renderer* renderer = nullptr) override;
 
-        virtual void	        onButtonDown([[maybe_unused]] const int key = 0, \
-            [[maybe_unused]] SDL_Renderer* renderer = nullptr) override;
+        virtual void	        onButtonDown([[maybe_unused]] const bool held = false, \
+            [[maybe_unused]] const int key = 0, [[maybe_unused]] SDL_Renderer* renderer = nullptr) override;
 };
 
 #endif

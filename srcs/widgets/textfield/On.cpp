@@ -102,7 +102,8 @@ void	TextField::onStateChanged(void)
         back->setHover(isHover());
 }
 
-void    TextField::onButtonDown(const int key, SDL_Renderer* renderer)
+void    TextField::onButtonDown(const bool /*held*/, const int key, \
+    SDL_Renderer* renderer)
 {
     if (!isClicked())
         return;
@@ -125,7 +126,8 @@ void    TextField::onButtonDown(const int key, SDL_Renderer* renderer)
     }
 }
 
-void    TextField::onMouseDown(const int /*x*/, const int /*y*/, SDL_Renderer* /*renderer*/)
+void    TextField::onMouseDown(const bool /*held*/, const int /*x*/, \
+    const int /*y*/, SDL_Renderer* /*renderer*/)
 {
     setClick(true, false);
     setHover(false, false);

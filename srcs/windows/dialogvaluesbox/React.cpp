@@ -108,7 +108,7 @@ void	DialogValuesBox::reactMouseButtonDown(const int x, const int y, \
 			if (clicks > 1)
 				button->onMouseDownDouble(x, y, renderer);
 			else
-				button->onMouseDown(x, y, renderer);
+				button->onMouseDown(false, x, y, renderer);
 		}
 		else
 			button->onMouseDownOutside(renderer);
@@ -126,7 +126,7 @@ int		DialogValuesBox::reactKeyButtonDown(const int key)
 	std::reverse(buttons.begin(), buttons.end());
 
 	for (const auto& button : buttons)
-		button->onButtonDown(key, getRenderer());
+		button->onButtonDown(false, key, getRenderer());
 
 	if (key == SDLK_TAB)
 	{

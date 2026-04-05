@@ -73,8 +73,8 @@ void	TextButton::onStateChanged(void)
     back->setFocus(isFocused());
 }
 
-void    TextButton::onMouseDown(const int /*x*/, const int /*y*/, \
-    SDL_Renderer* /*renderer*/)
+void    TextButton::onMouseDown(const bool /*held*/, const int /*x*/, \
+    const int /*y*/, SDL_Renderer* /*renderer*/)
 {
     setClick(true, false);
     setFocus(true, false);

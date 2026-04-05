@@ -80,7 +80,7 @@ void	ImageButton::onStateChanged(void)
     image->setFocus(isFocused());
 }
 
-void    ImageButton::onMouseDown(const int /*x*/, const int /*y*/, \
+void    ImageButton::onMouseDown(const bool /*held*/, const int /*x*/, const int /*y*/, \
     SDL_Renderer* /*renderer*/)
 {
     setClick(true, false);

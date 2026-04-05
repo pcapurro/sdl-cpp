@@ -64,7 +64,7 @@ void	DialogTextBox::reactMouseButtonDown(const int x, const int y, \
 			if (clicks > 1)
 				element->onMouseDownDouble();
 			else
-				element->onMouseDown(x, y);
+				element->onMouseDown(false, x, y);
 		}
 		else
 			element->onMouseDownOutside(getRenderer());
@@ -76,7 +76,7 @@ int		DialogTextBox::reactKeyButtonDown(const int key)
 	TextField*		textField = dynamic_cast<TextField*> \
 		(_buttons.front().get());
 
-	textField->onButtonDown(key, getRenderer());
+	textField->onButtonDown(false, key, getRenderer());
 
 	if (key == SDLK_TAB)
 	{

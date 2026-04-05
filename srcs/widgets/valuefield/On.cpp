@@ -102,7 +102,8 @@ void	ValueField::onStateChanged(void)
         back->setHover(isHover());
 }
 
-void    ValueField::onButtonDown(const int key, SDL_Renderer* renderer)
+void    ValueField::onButtonDown(const bool /*held*/, const int key, \
+    SDL_Renderer* renderer)
 {
     if (!isClicked())
         return;
@@ -125,7 +126,8 @@ void    ValueField::onButtonDown(const int key, SDL_Renderer* renderer)
     }
 }
 
-void    ValueField::onMouseDown(const int /*x*/, const int /*y*/, SDL_Renderer* /*renderer*/)
+void    ValueField::onMouseDown(const bool /*held*/, const int /*x*/, \
+    const int /*y*/, SDL_Renderer* /*renderer*/)
 {
     setClick(true, false);
     setHover(false, false);
@@ -136,7 +138,8 @@ void    ValueField::onMouseDown(const int /*x*/, const int /*y*/, SDL_Renderer* 
     onStateChanged();
 }
 
-void    ValueField::onMouseDownDouble(const int /*x*/, const int /*y*/, SDL_Renderer* /*renderer*/)
+void    ValueField::onMouseDownDouble(const int /*x*/, const int /*y*/, \
+    SDL_Renderer* /*renderer*/)
 {
     setClick(true, false);
 
