@@ -21,6 +21,7 @@ class Color
 
 		Uint32						toUint32t(const SDL_PixelFormat* format) const noexcept;
 		SDL_Color					toSDLColor(void) const noexcept;
+		Color 						toNewOpacity(const uint8_t opacity) const noexcept;
 		int							getAverage(void) const noexcept;
 
 		void						setColor(const uint8_t r, const uint8_t g, \

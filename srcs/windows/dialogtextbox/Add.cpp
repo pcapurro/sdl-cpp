@@ -83,10 +83,7 @@ void    DialogTextBox::addTextField(const int cursorX, const string& fontPath, \
 	textField->setSettings(true, Render::HighlightSelect, true, \
 		SDL_SYSTEM_CURSOR_IBEAM, false, false);
 
-	Color	color = Color::Blue;
-	color.a = Render::HiglihtOpacity;
-
-	textField->setSelectColor(color);
+	textField->setSelectColor(Color::Blue.toNewOpacity(Render::HiglihtOpacity));
 
     _buttons.reserve(2);
 

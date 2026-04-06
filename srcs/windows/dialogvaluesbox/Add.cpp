@@ -111,10 +111,7 @@ void	DialogValuesBox::addFields(const string& fontPath, const int maxText)
 	_downField->setY(downText->getY(), renderer);	
 	_downField->setSettings(true, Render::HighlightSelect, true, SDL_SYSTEM_CURSOR_IBEAM, false, false);
 
-	Color	color = Color::Blue;
-	color.a = Render::HiglihtOpacity;
-
-	_downField->setSelectColor(color);
+	_downField->setSelectColor(Color::Blue.toNewOpacity(Render::HiglihtOpacity));
 
 	if (_titles.size() > 1)
 	{
@@ -124,7 +121,7 @@ void	DialogValuesBox::addFields(const string& fontPath, const int maxText)
 		_upField->setY(upText->getY(), renderer);
 		_upField->setSettings(true, Render::HighlightSelect, true, SDL_SYSTEM_CURSOR_IBEAM, false, false);
 
-		_upField->setSelectColor(color);
+		_upField->setSelectColor(Color::Blue.toNewOpacity(Render::HiglihtOpacity));
 	}
 }
 

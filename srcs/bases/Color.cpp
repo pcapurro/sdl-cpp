@@ -34,6 +34,19 @@ SDL_Color   Color::toSDLColor(void) const noexcept
     return color;
 }
 
+Color   Color::toNewOpacity(const uint8_t opacity) const noexcept
+{
+    Color   newColor;
+
+    newColor.r = r;
+    newColor.g = g;
+    newColor.b = b;
+
+    newColor.a = opacity;
+
+    return newColor;
+}
+
 int     Color::getAverage(void) const noexcept
 {
     int     value = (r + g + b) / 3;
