@@ -23,8 +23,8 @@ class ImageButton : public Element
 
     public:
         ImageButton(const int x, const int y, const int width, const int height, \
-            const string& path, const Color& backColor, const int borderThickness, \
-            const Color& borderColor, SDL_Renderer* renderer);
+            const string& path, const Color& mainColor, const Color& backColor, \
+            const int borderThickness, const Color& borderColor, SDL_Renderer* renderer);
 
         ~ImageButton(void) = default;
 

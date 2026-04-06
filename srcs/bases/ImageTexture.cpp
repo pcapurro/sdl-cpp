@@ -23,7 +23,8 @@ ImageTexture::ImageTexture(const char* path, const Color& color, SDL_Renderer* r
 	SDL_Texture*	texture = nullptr;
 	Surface			surface(path);
 
-	Color::colorSurface(color, surface.getSurface());
+	if (color != Color::Invisible)
+		Color::colorSurface(color, surface.getSurface());
 
 	calculateAverageColor(surface.getSurface());
 
