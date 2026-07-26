@@ -30,12 +30,6 @@ Engine::Engine(const bool video, const bool antialiasing, \
             SDL_StartTextInput();
     }
 
-    if (events && SDL_Init(SDL_INIT_EVENTS) != 0)
-    {
-        throw std::runtime_error("SDL failed to init events (" \
-            + string(SDL_GetError()) + ").");
-    }
-
     if (audio && SDL_Init(SDL_INIT_AUDIO) != 0)
     {
         throw std::runtime_error("SDL failed to init audio (" \
